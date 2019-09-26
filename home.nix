@@ -66,6 +66,12 @@ in
   # == Nextcloud
   services.nextcloud-client.enable = true;
 
+  # == Gnome keyring (Nextcloud uses it)
+  services.gnome-keyring = {
+    enable = true;
+    components = [ "secrets" ];
+  };
+
   # == Rofi menu
   programs.rofi = {
     enable = true;
