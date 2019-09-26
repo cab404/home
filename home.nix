@@ -18,7 +18,8 @@ in
     # Window manager and looks stuff
     arandr rofi xsecurelock 
     redshift compton
-    
+    source-code-pro noto-fonts
+
     # Utilities
     st zsh zathura
     pulsemixer
