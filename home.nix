@@ -153,6 +153,10 @@ in
           "Mod4+p" = "exec arandr";
           #"XF86Display" = "exec arandr";
 
+          # Floating
+          "${mod}+space" = "focus mode_toggle";
+          "${mod}+Shift+space" = "floating toggle";
+
           # Focus windows
           "${mod}+h" = "focus left";
           "${mod}+j" = "focus down";
