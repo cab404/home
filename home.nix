@@ -25,7 +25,7 @@ in
     
     # Personal data and sync
     pass browserpass 
-    nextcloud
+    gnupg nextcloud-client
   ];
 
   # == GPG
@@ -54,6 +54,7 @@ in
     enable = true;
     userName = "Vladimir Serov";
     userEmail = "me@cab404.ru";
+    signing.key = "1BB96810926F4E715DEF567E6BA7C26C3FDF7BB3";
   };
 
   # == Pass and stuff
@@ -61,6 +62,9 @@ in
     enable = true;
     browsers = [ "firefox" ];
   };
+
+  # == Nextcloud
+  services.nextcloud-client.enable = true;
 
   # == Rofi menu
   programs.rofi = {
