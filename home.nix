@@ -134,7 +134,8 @@ in
       i3.config =
       rec {
         modifier = "Mod4";
-        
+        modes = {};
+
         keybindings =
         let  
           mod = modifier;
