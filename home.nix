@@ -55,7 +55,10 @@ in
     enable = true;
     userName = "Vladimir Serov";
     userEmail = "me@cab404.ru";
-    signing.key = "1BB96810926F4E715DEF567E6BA7C26C3FDF7BB3";
+    signing = {
+      key = "1BB96810926F4E715DEF567E6BA7C26C3FDF7BB3";
+      signByDefault = true;
+    };
   };
 
   # == Pass and stuff
