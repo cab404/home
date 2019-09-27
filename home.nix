@@ -93,7 +93,7 @@ in
     enable = true;
     oh-my-zsh = {
       enable = true;
-      plugins = [ "git" "nix" ];
+      plugins = [ "git" "nix" "systemd" ];
       theme = "ys";
     };
   };
