@@ -17,7 +17,7 @@ in
     
     # Window manager and looks stuff
     arandr rofi xsecurelock 
-    redshift compton
+    redshift compton xautolock
     source-code-pro noto-fonts
 
     # Utilities
@@ -113,6 +113,17 @@ in
     inactiveOpacity = "0.8";
   };
 
+  # == Screen lock
+
+  services.screen-locker = {
+    enable = true;
+    lockCmd = "xsecurelock";
+    xautolockExtraOptions = [
+      "-lockaftersleep"
+      "-detectsleep"
+    ];
+  };
+
   # == Gtk and Qt
   gtk = {
     enable = true;
@@ -149,7 +160,7 @@ in
           "${mod}+Shift+q" = "kill";
           "${mod}+Return" = "exec st";
           "${mod}+d" = "exec rofi -show drun";
-          "${mod}+Escape" = "exec xsecurelock";
+          "${mod}+Escape" = "exec xautolock -locknow";
           "${mod}+Shift+e" = "exec i3-nagbar -t warning -m 'Do you want to exit i3?' -b 'Yes' 'i3-msg exit'";
 
           "XF86AudioRaiseVolume" = "exec --no-startup-id pactl set-sink-volume 0 +5%";
