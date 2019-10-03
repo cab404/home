@@ -36,7 +36,9 @@ in
       kwalletmanager
     ];
 
-    file = {};
+    file = {
+      ".spacemacs".source = ./spacemacs.el;
+    };
     
     # == Keyboard config
     keyboard = {
@@ -102,7 +104,7 @@ in
     emacs = {
       enable = true;
       # Some packages for Spacemacs it fails to install
-      extraPackages = s: with s; [ spinner undo-tree adaptive-wrap ];
+      extraPackages = s: with s; [ spinner undo-tree adaptive-wrap mmm-mode ];
     };
 
     git.enable = true;
