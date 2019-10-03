@@ -115,7 +115,10 @@ in
     enable = true;
     oh-my-zsh = {
       enable = true;
-      plugins = [ "git" "nix" "systemd" ];
+      plugins = [ 
+        "git" "nix" "systemd"
+        "adb" "rsync" "flutter"
+      ];
       theme = "ys";
     };
   };
