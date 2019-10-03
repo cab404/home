@@ -12,7 +12,11 @@
   time.timeZone = "Europe/Moscow";
   services.ntp.enable = true;
 
-  nix.autoOptimiseStore = true;
+  nix = {
+    autoOptimiseStore = true;
+    trustedUsers = [ "root" "cab" ];
+  };
+
   nixpkgs.config = {
     # allowUnfree = true;
     android_sdk.accept_license = true;
