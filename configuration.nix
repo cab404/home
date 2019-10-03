@@ -61,6 +61,12 @@
     bluetooth.enable = true;
   };
 
+  environment.systemPackages = (with pkgs; [
+    curl vim htop
+    # and suddenly
+    android-udev-rules
+  ]);
+
   programs.light.enable = true;
   services.actkbd = {
     enable = true;
