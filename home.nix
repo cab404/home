@@ -149,6 +149,11 @@ in
     ];
   };
 
+  # == Emacs daemon
+  services.emacs = {
+    enable = true;
+  };
+
   # == Gtk and Qt
   gtk = {
     enable = true;
