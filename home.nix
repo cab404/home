@@ -134,6 +134,7 @@ in
     enable = true;
     blur = true;
     fade = true;
+    shadow = true;
     fadeDelta = 5;
     inactiveOpacity = "0.8";
   };
