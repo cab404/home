@@ -108,6 +108,12 @@ in
       };
     };
 
+    # == Emacs
+    emacs = {
+      enable = true;
+      # Some packages for Spacemacs it fails to install
+      extraPackages = s: with s; [ spinner undo-tree adaptive-wrap ];
+    };
     home-manager.enable = true;
   };
 
