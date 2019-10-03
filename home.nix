@@ -13,7 +13,10 @@ in
     firefox tdesktop
 
     # Coding stuff
-    vscodium
+    vscodium emacs
+
+    # Editing
+    libreoffice inkscape gimp krita
     
     # Window manager and looks stuff
     arandr rofi xsecurelock 
@@ -21,11 +24,11 @@ in
     source-code-pro noto-fonts
 
     # Utilities
-    st zsh zathura
-    pulsemixer
+    alacritty zsh zathura
+    pulsemixer docker-compose
     
     # Personal data and sync
-    pass browserpass 
+    pass browserpass
     gnupg nextcloud-client
     kdeFrameworks.kwallet
     kwalletmanager
