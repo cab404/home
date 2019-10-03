@@ -27,6 +27,8 @@ in
     # Personal data and sync
     pass browserpass 
     gnupg nextcloud-client
+    kdeFrameworks.kwallet
+    kwalletmanager
   ];
 
   # == GPG
@@ -69,12 +71,6 @@ in
 
   # == Nextcloud
   services.nextcloud-client.enable = true;
-
-  # == Gnome keyring (Nextcloud uses it)
-  services.gnome-keyring = {
-    enable = true;
-    components = [ "secrets" ];
-  };
 
   # == Rofi menu
   programs.rofi = {
