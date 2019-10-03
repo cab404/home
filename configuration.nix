@@ -1,7 +1,12 @@
 { config, pkgs, options, ... }:
 
 {
-  imports = [ ./hardware-configuration.nix ];
+  imports = [
+    ./hardware-configuration.nix
+    (import (builtins.fetchGit {
+      url = "https://github.com/rycee/home-manager.git";
+      ref = "master";}) {}).nixos
+  ];
 
   i18n = { consoleFont = "Lat2-Terminus16"; consoleKeyMap = "us"; defaultLocale = "en_US.UTF-8"; };
   time.timeZone = "Europe/Moscow";
