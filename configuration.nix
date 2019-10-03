@@ -44,9 +44,13 @@
 
   services.openssh.enable = true;
   sound.enable = true;
-  hardware.pulseaudio.enable = true;
 
-  environment.systemPackages = (with pkgs; [ curl vim htop ]);
+  hardware = {
+    pulseaudio = { enable = true;
+      package = pkgs.pulseaudioFull;
+    };
+    bluetooth.enable = true;
+  };
 
   programs.light.enable = true;
   services.actkbd = {
