@@ -202,6 +202,16 @@ in
           "${mod}+space" = "focus mode_toggle";
           "${mod}+Shift+space" = "floating toggle";
 
+          # Gaps
+          "${mod}+Shift+plus" = "gaps inner current plus 6";
+          "${mod}+Shift+minus" = "gaps inner current minus 6";
+
+          # Tiling modes
+          "${mod}+s" = "layout stacking";
+          "${mod}+w" = "layout tabbed";
+          "${mod}+e" = "layout toggle split";
+          "${mod}+v" = "split v";
+
           # Focus windows
           "${mod}+h" = "focus left";
           "${mod}+j" = "focus down";
