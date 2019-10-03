@@ -82,6 +82,25 @@ in
     theme = "sidebar";
   };
 
+  # == Alacritty terminal
+  programs.alacritty = {
+    enable = true;
+    settings =
+      {
+        "window" = {
+          "gtk-theme-variant" = "dark";
+          "decorations" = "None";
+        };
+        "font" = let family = "Source Code Pro"; in {
+          "normal" = { "family" = family; };
+          "italic" = { "family" = family; };
+          "bold" = { "family" = family; };
+          "bold_italic" = { "family" = family; };
+          "size" = 6;
+        };
+      };
+  };
+
   # == Redshift
   services.redshift = {
     enable = true;
@@ -161,7 +180,7 @@ in
 	  
           "${mod}+Tab" = "workspace back_and_forth";
           "${mod}+Shift+q" = "kill";
-          "${mod}+Return" = "exec st";
+          "${mod}+Return" = "exec alacritty";
           "${mod}+d" = "exec rofi -show drun";
           "${mod}+Escape" = "exec xautolock -locknow";
           "${mod}+Shift+e" = "exec i3-nagbar -t warning -m 'Do you want to exit i3?' -b 'Yes' 'i3-msg exit'";
