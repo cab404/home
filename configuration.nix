@@ -85,6 +85,8 @@
 
   virtualisation.docker.enable = true;
 
+  powerManagement.powertop.enable = true;
+
   services.xserver = {
 
     enable = true;
