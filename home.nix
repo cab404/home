@@ -95,6 +95,7 @@ in
         plugins = [
           "git" "nix" "systemd"
           "adb" "rsync" "flutter"
+          "docker"
         ];
         theme = "ys";
       };
