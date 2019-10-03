@@ -4,7 +4,9 @@ let
   nur-no-pkgs = import (builtins.fetchTarball "https://github.com/nix-community/NUR/archive/master.tar.gz") { };
 in
 {
-  
+
+  imports = [ ./userconf.nix ];
+
   home = {
 
     packages = with pkgs; [
@@ -48,20 +50,8 @@ in
 
     # == SSH
     ssh = {
-
       compression = true;
       enable = true;
-    };
-
-    # == Git
-    git = {
-      enable = true;
-      userName = "Vladimir Serov";
-      userEmail = "me@cab404.ru";
-      signing = {
-        key = "1BB96810926F4E715DEF567E6BA7C26C3FDF7BB3";
-        signByDefault = true;
-      };
     };
 
     # == Pass and stuff
@@ -114,6 +104,8 @@ in
       # Some packages for Spacemacs it fails to install
       extraPackages = s: with s; [ spinner undo-tree adaptive-wrap ];
     };
+
+    git.enable = true;
     home-manager.enable = true;
   };
 
