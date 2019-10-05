@@ -1,1 +1,2 @@
-./userconf.nix
+userconf.nix
+!temlplates/*
