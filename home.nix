@@ -73,6 +73,9 @@ in
       enable = true;
       settings =
         {
+          "env" = {
+            "TERM" = "xterm-256color";
+          };
           "window" = {
             "gtk-theme-variant" = "dark";
             "decorations" = "None";
