@@ -30,7 +30,7 @@ in
       feh fzf
 
       # Personal data and sync
-      pass browserpass
+      pass browserpass keybase
       gnupg nextcloud-client
       kdeFrameworks.kwallet
       kwalletmanager
@@ -155,6 +155,8 @@ in
     gpg-agent.enable = true;
     emacs.enable = true;
     nextcloud-client.enable = true;
+    keybase.enable = true;
+    kbfs.enable = true;
 
   };
 
