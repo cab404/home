@@ -27,7 +27,7 @@ in
       # Utilities
       alacritty zsh zathura
       pulsemixer docker-compose
-      feh
+      feh fzf
 
       # Personal data and sync
       pass browserpass
@@ -88,6 +88,12 @@ in
             "size" = 6;
           };
         };
+    };
+
+    # Fuzzy file search (Ctrl-T for files; Alt-C for dirs)
+    fzf = {
+      enable = true;
+      enableZshIntegration = true;
     };
 
     # == Oh My Zsh!
