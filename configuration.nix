@@ -10,7 +10,6 @@
 
   i18n = { consoleFont = "Lat2-Terminus16"; consoleKeyMap = "us"; defaultLocale = "en_US.UTF-8"; };
   time.timeZone = "Europe/Moscow";
-  services.ntp.enable = true;
 
   nix = {
     autoOptimiseStore = true;
@@ -37,75 +36,73 @@
     loader.efi.canTouchEfiVariables = true;
   };
 
-  networking.hostName = "yuna";
-  networking.firewall.enable = true;
-  networking.networkmanager.enable = true;
+  networking = {
+    hostName = "yuna";
+    networkmanager.enable = true;
+  };
 
-  boot.kernelPackages = pkgs.linuxPackages_latest;
-  boot.kernelParams = [
-    "i915.alpha_support=1"
-    "i915.fastboot=1"
-    "i915.enable_fbc=1"
-    "i915.enable_psr=1"
-  ];
+  security = {
+    allowUserNamespaces = true;
+    sudo.extraRules = [
+      { groups = [ "wheel" ]; runAs="ALL"; commands = [ { command="ALL"; options=["NOPASSWD" "SETENV" ]; } ]; }
+    ];
+  };
 
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
+  services = {
+    ntp.enable = true;
+    locate.enable = true;
+    openssh.enable = true;
+    gnome3.core-os-services.enable = true;
 
-  security.sudo.extraRules = [
-    { groups = [ "wheel" ]; runAs="ALL"; commands = [ { command="ALL"; options=["NOPASSWD" "SETENV" ]; } ]; }
-  ];
+    actkbd = {
+      enable = true;
+      bindings = [
+        {keys = [ 224 ]; events = [ "key" ]; command = "/run/current-system/sw/bin/light -U 10"; }
+        {keys = [ 225 ]; events = [ "key" ]; command = "/run/current-system/sw/bin/light -A 10"; }
+      ];
+    };
 
-  services.openssh.enable = true;
+    xserver = {
+
+      enable = true;
+      libinput.enable = true;
+      libinput.tapping = false;
+      wacom.enable = true;
+
+      layout = "us,ru";
+      xkbOptions = "ctrl:nocaps, grp:switch, compose:prsc";
+
+      displayManager.lightdm.enable = true;
+      displayManager.lightdm.greeter.enable = true;
+
+    };
+  };
+
+  # == Sound
   sound.enable = true;
-
   hardware = {
-    pulseaudio = { enable = true;
+    pulseaudio = {
+      enable = true;
       package = pkgs.pulseaudioFull;
+      daemon.config = {
+        flat-volumes = "no";
+      };
     };
     bluetooth.enable = true;
   };
 
   environment.systemPackages = (with pkgs; [
-    curl vim htop
+    curl vim htop git
+    usbutils pciutils
+    ntfsprogs
     # and suddenly
     android-udev-rules
   ]);
 
   programs.light.enable = true;
-  services.actkbd = {
-    enable = true;
-    bindings = [
-      {keys = [ 224 ]; events = [ "key" ]; command = "/run/current-system/sw/bin/light -U 10"; }
-      {keys = [ 225 ]; events = [ "key" ]; command = "/run/current-system/sw/bin/light -A 10"; }
-    ];
-  };
-
-  services.dbus.packages = with pkgs; [ gnome3.dconf ];
-  security.pam.services.gdm.enableGnomeKeyring = true;
-  services.gnome3 = {
-      gnome-keyring.enable = true;
-      gnome-online-accounts.enable = true;
-  };
-
   virtualisation.docker.enable = true;
 
   powerManagement.powertop.enable = true;
-
-  services.xserver = {
-
-    enable = true;
-    libinput.enable = true;
-    libinput.tapping = false;
-    wacom.enable = true;
-
-    layout = "us,ru";
-    xkbOptions = "ctrl:nocaps, grp:switch, compose:prsc";
-    
-    displayManager.lightdm.enable = true;
-    displayManager.lightdm.greeter.enable = true;
-
-  };
 
   users.users.cab = {
     isNormalUser = true;
