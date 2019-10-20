@@ -22,14 +22,19 @@
     android_sdk.accept_license = true;
   };
 
-  # Disk configuration cause hw configuration generator can't.
-  boot.initrd.luks.cryptoModules = [ "aes" "xts" "plain64" ];
-  boot.initrd.luks.devices = {
-    rootfs = {
-      device = "/dev/sda2";
-      preLVM = true;
-      allowDiscards = true;
+  boot = {
+    # Disk configuration cause hw configuration generator can't.
+    initrd.luks.devices = {
+      rootfs = {
+        device = "/dev/sda2";
+        preLVM = true;
+        allowDiscards = true;
+      };
     };
+
+    kernelPackages = pkgs.linuxPackages_latest;
+    loader.systemd-boot.enable = true;
+    loader.efi.canTouchEfiVariables = true;
   };
 
   networking.hostName = "yuna";
