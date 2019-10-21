@@ -161,6 +161,19 @@ in
     keybase.enable = true;
     kbfs.enable = true;
 
+  systemd.user = {
+    services.home-locatedb = {
+      Service.Environment = "PATH=$PATH:${pkgs.gnused}/bin:${pkgs.coreutils}/bin";
+        Unit.Description = "Local locatedb update for fzf";
+        Service.ExecStart = "${pkgs.findutils}/bin/updatedb --localpaths='/home/cab' --output=.locate.db";
+      };
+    timers.home-locatedb = {
+      Unit.Description = "Local file DB updates";
+      Unit.PartOf="home-locatedb.service";
+      Timer.OnUnitActiveSec = "1d";
+      Timer.OnBootSec = "15min";
+      Install.WantedBy = [ "timers.target" ];
+    };
   };
 
   # == Gnome hates when there's no dconf -.-
