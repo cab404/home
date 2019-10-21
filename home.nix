@@ -18,6 +18,7 @@ in
 
       # Editing
       libreoffice inkscape gimp krita
+      cura blender
 
       # Window manager and looks stuff
       arandr rofi xsecurelock
@@ -27,7 +28,7 @@ in
       # Utilities
       alacritty zsh zathura
       pulsemixer docker-compose
-      feh fzf
+      feh fzf findutils
 
       # Personal data and sync
       pass browserpass keybase
