@@ -79,7 +79,7 @@ in
           };
           "window" = {
             "gtk-theme-variant" = "dark";
-            "decorations" = "None";
+            "decorations" = "none";
           };
           "font" = let family = "Source Code Pro"; in {
             "normal" = { "family" = family; };
