@@ -93,17 +93,19 @@ in
     # Fuzzy file search (Ctrl-T for files; Alt-C for dirs)
     fzf = {
       enable = true;
+      fileWidgetCommand = "locate -d ~/.locate. .";
       enableZshIntegration = true;
     };
 
     # == Oh My Zsh!
     zsh = {
       enable = true;
+      enableAutosuggestions = true;
       oh-my-zsh = {
         enable = true;
         plugins = [
-          "git" "nix" "systemd"
-          "adb" "rsync" "flutter"
+          "git" "systemd"
+          "adb" "rsync"
           "docker"
         ];
         theme = "ys";
