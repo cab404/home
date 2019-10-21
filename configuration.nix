@@ -100,6 +100,7 @@
   ]);
 
   programs.light.enable = true;
+  programs.seahorse.enable = true;
   virtualisation.docker.enable = true;
 
   powerManagement.powertop.enable = true;
