@@ -1,7 +1,7 @@
 args @ { config, pkgs, lib, ... }:
 
 let
-  nur-no-pkgs = import (builtins.fetchTarball "https://github.com/nix-community/NUR/archive/master.tar.gz") { };
+  nur = import (builtins.fetchTarball "https://github.com/nix-community/NUR/archive/master.tar.gz") { inherit pkgs; };
 in
 {
 
@@ -61,6 +61,13 @@ in
     browserpass = {
       enable = true;
       browsers = [ "firefox" ];
+    };
+
+    firefox = {
+      enable = true;
+      extensions = with nur.repos.rycee.firefox-addons; [
+        vim-vixen
+      ];
     };
 
     # == Rofi menu
