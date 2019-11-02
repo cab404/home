@@ -1,69 +1,78 @@
-{ lib, ... }:
-rec {
-    modifier = "Mod4";
-    modes = {};
+{ pkgs, lib, ... }:
+{
+    xsession.enable = true;
+    xsession.windowManager.i3 = {
+        enable = true;
+        package = pkgs.i3-gaps;
+        config = rec {
+            modifier = "Mod4";
+            modes = {};
+            window.border = 1;
 
-    keybindings =
-    let  
-        mod = modifier;
-        workspaces = with lib; listToAttrs (
-        (map (i: nameValuePair "${mod}+${i}" "workspace number ${i}") (map toString (range 0 9))) ++
-        (map (i: nameValuePair "${mod}+Shift+${i}" "move container to workspace number ${i}") (map toString (range 0 9)))
-        );
-    in lib.mkDefault ({
-    
-        "${mod}+Tab" = "workspace back_and_forth";
-        "${mod}+Shift+q" = "kill";
-        "${mod}+Return" = "exec alacritty";
-        "${mod}+d" = "exec rofi -show drun";
-        "${mod}+Escape" = "exec xautolock -locknow";
-        "${mod}+Shift+e" = "exec i3-nagbar -t warning -m 'Do you want to exit i3?' -b 'Yes' 'i3-msg exit'";
+            keybindings =
+            let
+                mod = modifier;
+                workspaces = with lib; listToAttrs (
+                (map (i: nameValuePair "${mod}+${i}" "workspace number ${i}") (map toString (range 0 9))) ++
+                (map (i: nameValuePair "${mod}+Shift+${i}" "move container to workspace number ${i}") (map toString (range 0 9)))
+                );
+            in lib.mkDefault ({
 
-        "XF86AudioRaiseVolume" = "exec --no-startup-id pactl set-sink-volume 0 +5%";
-        "XF86AudioLowerVolume" = "exec --no-startup-id pactl set-sink-volume 0 -5%";
-        "XF86AudioMute" = "exec --no-startup-id pactl set-sink-mute 0 toggle";
-        "XF86AudioMicMute" = "exec --no-startup-id pactl set-source-mute 1 toggle";
+                "${mod}+Tab" = "workspace back_and_forth";
+                "${mod}+Shift+q" = "kill";
+                "${mod}+Return" = "exec alacritty";
+                "${mod}+d" = "exec rofi -show drun";
+                "${mod}+Escape" = "exec xautolock -locknow";
+                "${mod}+Shift+e" = "exec i3-nagbar -t warning -m 'Do you want to exit i3?' -b 'Yes' 'i3-msg exit'";
 
-        # Display key is bound to Win+P in Dell 5400
-        "Mod4+p" = "exec arandr";
-        #"XF86Display" = "exec arandr";
+                "XF86AudioRaiseVolume" = "exec --no-startup-id pactl set-sink-volume 0 +5%";
+                "XF86AudioLowerVolume" = "exec --no-startup-id pactl set-sink-volume 0 -5%";
+                "XF86AudioMute" = "exec --no-startup-id pactl set-sink-mute 0 toggle";
+                "XF86AudioMicMute" = "exec --no-startup-id pactl set-source-mute 1 toggle";
 
-        # Floating
-        "${mod}+space" = "focus mode_toggle";
-        "${mod}+Shift+space" = "floating toggle";
-        
-        # Gaps
-        "${mod}+Shift+plus" = "gaps inner current plus 6";
-        "${mod}+Shift+minus" = "gaps inner current minus 6";
+                # Display key is bound to Win+P in Dell 5400
+                "Mod4+p" = "exec arandr";
+                #"XF86Display" = "exec arandr";
 
-        # Tiling modes
-        "${mod}+s" = "layout stacking";
-        "${mod}+w" = "layout tabbed";
-        "${mod}+e" = "layout toggle split";
-        "${mod}+v" = "split v";
+                # Floating
+                "${mod}+space" = "focus mode_toggle";
+                "${mod}+Shift+space" = "floating toggle";
 
-        # Focus windows
-        "${mod}+h" = "focus left";
-        "${mod}+j" = "focus down";
-        "${mod}+k" = "focus up";
-        "${mod}+l" = "focus right";
-        "${mod}+u" = "focus parent";
-        "${mod}+n" = "focus child";
+                # Gaps
+                "${mod}+Shift+plus" = "gaps inner current plus 6";
+                "${mod}+Shift+minus" = "gaps inner current minus 6";
 
-        # Move windows
-        "${mod}+Shift+h" = "move left";
-        "${mod}+Shift+j" = "move down";
-        "${mod}+Shift+k" = "move up";
-        "${mod}+Shift+l" = "move right";
+                # Tiling modes
+                "${mod}+s" = "layout stacking";
+                "${mod}+w" = "layout tabbed";
+                "${mod}+e" = "layout toggle split";
+                "${mod}+v" = "split v";
 
-        # Resize windows
-        "${mod}+Ctrl+Shift+h" = "resize shrink width 8 px or 8 ppt";
-        "${mod}+Ctrl+Shift+j" = "resize grow height 8 px or 8 ppt";
-        "${mod}+Ctrl+Shift+k" = "resize shrink height 8 px or 8 ppt";
-        "${mod}+Ctrl+Shift+l" = "resize grow width 8 px or 8 ppt";
+                # Focus windows
+                "${mod}+h" = "focus left";
+                "${mod}+j" = "focus down";
+                "${mod}+k" = "focus up";
+                "${mod}+l" = "focus right";
+                "${mod}+u" = "focus parent";
+                "${mod}+n" = "focus child";
 
-        # Window states
-        "${mod}+f" = "fullscreen toggle";
+                # Move windows
+                "${mod}+Shift+h" = "move left";
+                "${mod}+Shift+j" = "move down";
+                "${mod}+Shift+k" = "move up";
+                "${mod}+Shift+l" = "move right";
 
-    } // workspaces);
+                # Resize windows
+                "${mod}+Ctrl+Shift+h" = "resize shrink width 8 px or 8 ppt";
+                "${mod}+Ctrl+Shift+j" = "resize grow height 8 px or 8 ppt";
+                "${mod}+Ctrl+Shift+k" = "resize shrink height 8 px or 8 ppt";
+                "${mod}+Ctrl+Shift+l" = "resize grow width 8 px or 8 ppt";
+
+                # Window states
+                "${mod}+f" = "fullscreen toggle";
+
+            } // workspaces);
+
+        };
+    };
 }

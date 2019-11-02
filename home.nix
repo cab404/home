@@ -5,7 +5,7 @@ let
 in
 {
 
-  imports = [ ./userconf.nix ];
+  imports = [ ./userconf.nix ./i3-config.nix ];
 
   home = {
 
@@ -194,16 +194,7 @@ in
     theme.package = pkgs.adapta-gtk-theme;
     theme.name = "Adapta-Nokto-Eta";
   };
-  qt = { enable = true; platformTheme = "gtk"; };
 
-  # == Xsession
-  xsession = {
-    enable = true;
-    windowManager = {
-      i3.enable = true;
-      i3.package = pkgs.i3-gaps;
-      i3.config = import ./i3-config.nix args;
-    };
-  };
+  qt = { enable = true; platformTheme = "gtk"; };
 
 }
