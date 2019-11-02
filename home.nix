@@ -119,7 +119,7 @@ in
     # Fuzzy file search (Ctrl-T for files; Alt-C for dirs)
     fzf = {
       enable = true;
-      fileWidgetCommand = "locate -d ~/.locate. .";
+      fileWidgetCommand = "locate -d ~/.locate.db .";
       enableZshIntegration = true;
     };
 
