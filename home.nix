@@ -33,6 +33,9 @@ in
       pulsemixer docker-compose
       feh fzf findutils
 
+      # Funny utilities
+      aircrack-ng hashcat
+
       # Personal data and sync
       pass browserpass keybase
       gnupg nextcloud-client
