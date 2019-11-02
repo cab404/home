@@ -194,6 +194,10 @@ in
     nextcloud-client.enable = true;
     keybase.enable = true;
     kbfs.enable = true;
+    flameshot.enable = true;
+    blueman-applet.enable = true;
+    network-manager-applet.enable = true;
+  };
 
   systemd.user = {
     services.home-locatedb = {
