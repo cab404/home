@@ -7,6 +7,8 @@ in
 
   imports = [ ./userconf.nix ./i3-config.nix ];
 
+  manual.json.enable = true;
+
   home = {
 
     packages = with pkgs; [
