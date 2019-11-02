@@ -54,13 +54,17 @@ in
     ];
 
     file = {
-      ".spacemacs".source = ./spacemacs.el;
+#      ".spacemacs".source = ./spacemacs.el;
     };
-    
+
     # == Keyboard config
     keyboard = {
       layout = "us,ru";
       options = [ "ctrl:nocaps" "grp:switch" "compose:prsc" ];
+    };
+
+    sessionVariables = {
+      EDITOR = "emacsclient -t";
     };
 
   };
