@@ -24,6 +24,7 @@ in
       arandr rofi xsecurelock
       redshift compton xautolock
       source-code-pro noto-fonts
+      fira-code
 
       # Utilities
       alacritty zsh zathura
@@ -48,6 +49,9 @@ in
     };
 
   };
+
+  # don't know where to put it
+  fonts.fontconfig.enable = true;
 
   programs = {
 
@@ -86,14 +90,13 @@ in
           };
           "window" = {
             "gtk-theme-variant" = "dark";
-            "decorations" = "none";
           };
-          "font" = let family = "Source Code Pro"; in {
+          "font" = let family = "Fira Code"; in {
             "normal" = { "family" = family; };
             "italic" = { "family" = family; };
             "bold" = { "family" = family; };
             "bold_italic" = { "family" = family; };
-            "size" = 6;
+            "size" = 5;
           };
         };
     };
@@ -103,6 +106,12 @@ in
       enable = true;
       fileWidgetCommand = "locate -d ~/.locate. .";
       enableZshIntegration = true;
+    };
+
+    starship = {
+      enable = true;
+      enableZshIntegration = true;
+      settings.character.symbol = "λ";
     };
 
     # == Oh My Zsh!
@@ -116,7 +125,6 @@ in
           "adb" "rsync"
           "docker"
         ];
-        theme = "ys";
       };
     };
 
