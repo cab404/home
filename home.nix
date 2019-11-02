@@ -36,6 +36,19 @@ in
       gnupg nextcloud-client
       kdeFrameworks.kwallet
       kwalletmanager
+
+      # Desktop entries
+      (makeDesktopItem {
+        name = "emacsclient";
+        desktopName = "Emacs client";
+        exec = "emacsclient -c";
+        comment = "Text editor";
+        icon = builtins.fetchurl {
+          url = "http://spacemacs.org/img/logo.svg";
+          sha256 = "85700ee004fac81c58fdea353b1fd7c2b3ead2ee630f2988b94eba068e3ec072";
+        };
+      })
+
     ];
 
     file = {
