@@ -31,7 +31,7 @@ in
       # Utilities
       alacritty zsh zathura
       pulsemixer docker-compose
-      feh fzf findutils
+      feh fzf findutils vlc
 
       # Funny utilities
       aircrack-ng hashcat
