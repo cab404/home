@@ -93,7 +93,7 @@
 
   environment.systemPackages = (with pkgs; [
     curl vim htop git tmux
-    usbutils pciutils
+    usbutils pciutils unzip
     ntfsprogs btrfs-progs
     nmap arp-scan
     # and suddenly
