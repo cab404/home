@@ -108,10 +108,22 @@
 
   powerManagement.powertop.enable = true;
 
-  users.users.cab = {
-    isNormalUser = true;
-    extraGroups = [ "docker" "wheel" "containers" "networkmanager" ];
-    shell = pkgs.zsh;
+  users = {
+
+    groups = {
+      plugdev = {};
+    };
+
+    users.cab = {
+      isNormalUser = true;
+      extraGroups = [
+        "plugdev" "docker"
+        "wheel" "containers"
+        "networkmanager"
+      ];
+      shell = pkgs.zsh;
+    };
+
   };
 
   # This value determines the NixOS release with which your system is to be
