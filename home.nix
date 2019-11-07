@@ -198,6 +198,7 @@ in
     keybase.enable = true;
     kbfs.enable = true;
     flameshot.enable = true;
+    pasystray.enable = true;
     blueman-applet.enable = true;
     network-manager-applet.enable = true;
   };
