@@ -29,9 +29,12 @@ in
       fira-code
 
       # Utilities
-      alacritty zsh zathura
+      alacritty zsh findutils
       pulsemixer docker-compose
-      feh fzf findutils vlc
+      xclip
+
+      # Viewing
+      feh fzf vlc zathura
 
       # Funny utilities
       aircrack-ng hashcat
