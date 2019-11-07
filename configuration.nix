@@ -62,6 +62,10 @@
       ];
     };
 
+    udev.packages = [
+      pkgs.android-udev-rules
+    ];
+
     xserver = {
 
       enable = true;
@@ -96,8 +100,6 @@
     usbutils pciutils unzip
     ntfsprogs btrfs-progs
     nmap arp-scan
-    # and suddenly
-    android-udev-rules
   ]);
 
   programs.light.enable = true;
