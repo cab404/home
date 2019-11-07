@@ -16,7 +16,7 @@ in
       firefox tdesktop
 
       # Coding stuff
-      vscodium
+      vscodium jetbrains.idea-community
 
       # Editing
       libreoffice inkscape gimp krita
