@@ -87,7 +87,14 @@
       displayManager.lightdm.enable = true;
       displayManager.lightdm.greeter.enable = true;
 
+    tor = {
+      enable = true;
+      controlSocket.enable = true;
+      client = {
+        enable = true;
+      };
     };
+
   };
 
   # == Sound
@@ -145,7 +152,7 @@
       extraGroups = [
         "plugdev" "docker"
         "wheel" "containers"
-        "networkmanager"
+        "networkmanager" "tor"
       ];
       shell = pkgs.zsh;
     };
