@@ -159,12 +159,17 @@ in
     zsh = {
       enable = true;
       enableAutosuggestions = true;
-      enableCompletion = true;
       history = {
         size = 100000;
         save = 100000;
         share = true;
       };
+
+      # Home manager assumes ohmyzsh loads
+      # compinit by itself, but it does not
+      enableCompletion = false;
+      initExtra = "compinit";
+
       oh-my-zsh = {
         enable = true;
         plugins = [
