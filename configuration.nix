@@ -92,6 +92,8 @@
         };
       };
 
+    };
+
     tor = {
       enable = true;
       controlSocket.enable = true;
