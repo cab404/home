@@ -14,6 +14,12 @@
   nix = {
     autoOptimiseStore = true;
     trustedUsers = [ "root" "cab" ];
+    useSandbox = true;
+    gc = {
+      automatic = true;
+      dates = "daily";
+      options = "--delete-older-than 30d";
+    };
   };
 
   nixpkgs.config = {
