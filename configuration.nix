@@ -84,8 +84,13 @@
       layout = "us,ru";
       xkbOptions = "ctrl:nocaps, grp:switch";
 
-      displayManager.lightdm.enable = true;
-      displayManager.lightdm.greeter.enable = true;
+      displayManager.sddm = {
+        enable = true;
+        autoLogin = {
+          enable = true;
+          user = "cab";
+        };
+      };
 
     tor = {
       enable = true;
