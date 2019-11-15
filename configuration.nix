@@ -82,7 +82,7 @@
       wacom.enable = true;
 
       layout = "us,ru";
-      xkbOptions = "ctrl:nocaps, grp:switch, compose:prsc";
+      xkbOptions = "ctrl:nocaps, grp:switch";
 
       displayManager.lightdm.enable = true;
       displayManager.lightdm.greeter.enable = true;
