@@ -21,7 +21,7 @@
                 "${mod}+Tab" = "workspace back_and_forth";
                 "${mod}+Shift+q" = "kill";
                 "${mod}+Return" = "exec alacritty";
-                "${mod}+d" = "exec rofi -show drun";
+                "${mod}+d" = "exec rofi -matching fuzzy -show drun";
                 "${mod}+Escape" = "exec xautolock -locknow";
                 "${mod}+Ctrl+Return" = "exec emacsclient -c";
                 "${mod}+Shift+e" = "exec i3-nagbar -t warning -m 'Do you want to exit i3?' -b 'Yes' 'i3-msg exit'";
