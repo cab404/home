@@ -12,7 +12,6 @@
   time.timeZone = "Europe/Moscow";
 
   nix = {
-    autoOptimiseStore = true;
     trustedUsers = [ "root" "cab" ];
     useSandbox = true;
     gc = {
