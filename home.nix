@@ -18,6 +18,13 @@ in
       # Coding stuff
       vscodium jetbrains.idea-community
 
+      # Building stuff
+      stack
+      jdk8
+      elmPackages.elm
+      elmPackages.elm-format
+      elmPackages.elm-test
+
       # Editing
       libreoffice inkscape gimp krita
       cura blender
@@ -28,12 +35,16 @@ in
       source-code-pro noto-fonts
       fira-code
 
+      # Display manager stuff
+      xfce.xfce4-power-manager
+      xfce.thunar
+
       # Utilities
       alacritty zsh findutils
       pulsemixer docker-compose
-      xclip
+      xclip nyx
 
-      # Viewing
+      # Viewers
       feh fzf vlc zathura
 
       # Funny utilities
@@ -124,6 +135,11 @@ in
             "size" = 5;
           };
         };
+    };
+
+    direnv = {
+      enable = true;
+      enableZshIntegration = true;
     };
 
     # Fuzzy file search (Ctrl-T for files; Alt-C for dirs)
