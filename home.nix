@@ -160,6 +160,11 @@ in
       enable = true;
       enableAutosuggestions = true;
       enableCompletion = true;
+      history = {
+        size = 100000;
+        save = 100000;
+        share = true;
+      };
       oh-my-zsh = {
         enable = true;
         plugins = [
