@@ -58,7 +58,9 @@
     ntp.enable = true;
     locate.enable = true;
     openssh.enable = true;
-    gnome3.core-os-services.enable = true;
+    upower.enable = true;
+    printing.enable = true;
+    fwupd.enable = true;
 
     actkbd = {
       enable = true;
@@ -91,6 +93,10 @@
   # == Sound
   sound.enable = true;
   hardware = {
+    cpu.intel.updateMicrocode = true;
+    opengl = {
+      enable = true;
+    };
     pulseaudio = {
       enable = true;
       package = pkgs.pulseaudioFull;
@@ -102,10 +108,24 @@
   };
 
   environment.systemPackages = (with pkgs; [
-    curl vim htop git tmux
-    usbutils pciutils unzip
-    ntfsprogs btrfs-progs
-    nmap arp-scan
+    # this section is a tribute to my PEP-8 hatred
+
+    curl vim htop git tmux  # find one which does not fit
+
+    usbutils pciutils unzip  # WHY AREN'T THOSE THERE BY DEFAULT?
+
+    ntfsprogs btrfs-progs  # why aren't those there by default?
+
+    nmap arp-scan  # cause there's nothing to do at airports
+
+    acpi  # easier to type that
+
+    nix-index  # woo, search in nix packages files!
+
+    gnome3.dconf xfce.xfconf  # programs <3 configs
+
+    nix-zsh-completions zsh-completions  # systemctl ena<TAB>... AAAAGH
+
   ]);
 
   programs.light.enable = true;
