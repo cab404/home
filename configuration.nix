@@ -1,5 +1,4 @@
 { config, pkgs, options, ... }:
-
 {
   imports = [
     ./hardware-configuration.nix
@@ -9,6 +8,7 @@
       ref = "master";}) {}).nixos
   ];
 
+  # Time
   i18n = { consoleFont = "Lat2-Terminus16"; consoleKeyMap = "us"; defaultLocale = "en_US.UTF-8"; };
   time.timeZone = "Europe/Moscow";
 
