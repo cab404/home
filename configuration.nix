@@ -121,6 +121,7 @@
     bluetooth.enable = true;
   };
 
+  environment.pathsToLink = [ "/share/zsh" ];
   environment.systemPackages = (with pkgs; [
     # this section is a tribute to my PEP-8 hatred
 
