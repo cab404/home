@@ -33,7 +33,7 @@ in
       arandr rofi xsecurelock
       redshift compton xautolock
       source-code-pro noto-fonts
-      fira-code
+      fira-code rofi-pass
 
       # Display manager stuff
       xfce.xfce4-power-manager
@@ -71,7 +71,7 @@ in
     ];
 
     file = {
-#      ".spacemacs".source = ./spacemacs.el;
+      ".config/rofi-menu/config".source = ./rofi-menu-config.sh;
     };
 
     # == Keyboard config
