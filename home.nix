@@ -168,7 +168,7 @@ in
       # Home manager assumes ohmyzsh loads
       # compinit by itself, but it does not
       enableCompletion = false;
-      initExtra = "compinit";
+      initExtra = "compinit -C";
 
       oh-my-zsh = {
         enable = true;
