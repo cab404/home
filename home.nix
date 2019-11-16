@@ -49,7 +49,7 @@ in
       # Utilities
       alacritty zsh findutils
       pulsemixer docker-compose
-      xclip nyx
+      xclip nyx ag
 
       # Viewers
       feh fzf vlc zathura
@@ -58,7 +58,10 @@ in
       aircrack-ng hashcat
 
       # Personal data and sync
-      pass browserpass keybase
+      (pass.withExtensions (e: with e; [
+        pass-otp pass-update pass-genphrase pass-audit
+      ]))
+      browserpass keybase
       gnupg nextcloud-client
       kdeFrameworks.kwallet
       kwalletmanager
