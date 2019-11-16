@@ -1,6 +1,13 @@
 args @ { config, pkgs, lib, ... }:
 
 let
+  enableThings = with builtins;
+    things: overrides:
+    if length things == 0
+    then overrides
+    else pkgs.lib.recursiveUpdate (enableThings (tail things) overrides) {
+      "${head things}".enable = true;
+    };
   nur = import (builtins.fetchTarball "https://github.com/nix-community/NUR/archive/master.tar.gz") { inherit pkgs; };
 in
 {
@@ -199,11 +206,20 @@ in
     home-manager.enable = true;
   };
 
-  services = {
+  services = enableThings [
+    "flameshot"              "gpg-agent"
+    "pasystray"              "emacs"
+    "blueman-applet"         "nextcloud-client"
+    "network-manager-applet" "kbfs"
+    "compton"                "redshift"
+    "screen-locker"
+    # eats too much
+    # "keybase"
+  ]
+    {
 
     # == Compton window compositor
     compton = {
-      enable = true;
       blur = true;
       fade = true;
       shadow = true;
@@ -213,7 +229,6 @@ in
 
     # == Redshift
     redshift = {
-      enable = true;
       tray = true;
       provider = "manual";
       latitude = "55";
@@ -222,7 +237,6 @@ in
 
     # == Screen lock
     screen-locker = {
-      enable = true;
       lockCmd = "xsecurelock";
       xautolockExtraOptions = [
         "-lockaftersleep"
@@ -230,15 +244,6 @@ in
       ];
     };
 
-    gpg-agent.enable = true;
-    emacs.enable = true;
-    nextcloud-client.enable = true;
-    keybase.enable = true;
-    kbfs.enable = true;
-    flameshot.enable = true;
-    pasystray.enable = true;
-    blueman-applet.enable = true;
-    network-manager-applet.enable = true;
   };
 
   systemd.user = {

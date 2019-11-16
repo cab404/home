@@ -1,4 +1,13 @@
 { config, pkgs, options, ... }:
+let
+  enableThings = with builtins;
+    things: overrides:
+    if length things == 0
+    then overrides
+    else pkgs.lib.recursiveUpdate (enableThings (tail things) overrides) {
+      "${head things}".enable = true;
+    };
+in
 {
   imports = [
     ./hardware-configuration.nix
@@ -54,13 +63,9 @@
     ];
   };
 
-  services = {
-    ntp.enable = true;
-    locate.enable = true;
-    openssh.enable = true;
-    upower.enable = true;
-    printing.enable = true;
-    fwupd.enable = true;
+  services = enableThings [
+    "ntp" "locate" "openssh" "upower" "printing" "fwupd"
+  ] {
 
     actkbd = {
       enable = true;
