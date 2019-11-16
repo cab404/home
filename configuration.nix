@@ -1,10 +1,10 @@
-{ config, pkgs, options, ... }:
+{ config, pkgs, options, lib, ... }:
 let
   enableThings = with builtins;
     things: overrides:
     if length things == 0
     then overrides
-    else pkgs.lib.recursiveUpdate (enableThings (tail things) overrides) {
+    else lib.recursiveUpdate (enableThings (tail things) overrides) {
       "${head things}".enable = true;
     };
 in
@@ -65,10 +65,15 @@ in
 
   services = enableThings [
     "ntp" "locate" "openssh" "upower" "printing" "fwupd"
+    "tor" "actkbd" "xserver"
   ] {
 
+    logind = {
+      lidSwitch = "suspend-then-hibernate";
+      lidSwitchExternalPower = "suspend";
+    };
+
     actkbd = {
-      enable = true;
       bindings = [
         {keys = [ 224 ]; events = [ "key" ]; command = "/run/current-system/sw/bin/light -U 10"; }
         {keys = [ 225 ]; events = [ "key" ]; command = "/run/current-system/sw/bin/light -A 10"; }
@@ -81,7 +86,6 @@ in
 
     xserver = {
 
-      enable = true;
       libinput.enable = true;
       libinput.tapping = false;
       wacom.enable = true;
@@ -105,11 +109,8 @@ in
     };
 
     tor = {
-      enable = true;
       controlSocket.enable = true;
-      client = {
-        enable = true;
-      };
+      client.enable = true;
     };
 
   };
@@ -156,7 +157,6 @@ in
   programs.light.enable = true;
   programs.seahorse.enable = true;
   virtualisation.docker.enable = true;
-
   powerManagement.powertop.enable = true;
 
   users = {
