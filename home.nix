@@ -56,6 +56,14 @@ in
       kdeFrameworks.kwallet
       kwalletmanager
 
+      # Editor sometimes do not work if contains options.
+      (runCommand "emacs-client-t" { inherit emacs; } ''
+      mkdir -p $out/bin
+      echo '#!/bin/sh' >> $out/bin/emacsclient-t
+      echo '${emacs}/bin/emacsclient -t' >> $out/bin/emacsclient-t
+      chmod +x $out/bin/emacsclient-t
+      '')
+
       # Desktop entries
       (makeDesktopItem {
         name = "emacsclient";
@@ -71,7 +79,7 @@ in
     ];
 
     file = {
-      ".config/rofi-menu/config".source = ./rofi-menu-config.sh;
+      ".config/rofi-pass/config".source = ./rofi-menu-config.sh;
     };
 
     # == Keyboard config
@@ -81,7 +89,7 @@ in
     };
 
     sessionVariables = {
-      EDITOR = "emacsclient -t";
+      EDITOR = "emacsclient-t";
     };
 
   };
