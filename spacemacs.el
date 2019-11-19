@@ -31,7 +31,8 @@ values."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
-     haskell
+     javascript
+     ;; haskell
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
@@ -313,6 +314,21 @@ layers configuration.
 This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
+
+  (defvar org-refile-allow-creating-parent-nodes t)
+  (defvar org-refile-targets
+        '(
+          (nil              :maxlevel . 9)
+          (org-agenda-files :maxlevel . 9)
+          ("log.org"        :maxlevel . 9)
+          ("archive.org"    :maxlevel . 1)
+          ("inbox.org"      :maxlevel . 1)
+          ("todo.org"       :maxlevel . 1)
+          )
+        )
+  (defvar org-outline-path-complete-in-steps nil)     ; Refile in a single go
+  (defvar org-refile-use-outline-path 'file)          ; Show full paths for refiling
+  (defvar org-default-notes-file (concat org-directory "/inbox.org"))
   )
 
 ;; Do not write anything past this comment. This is where Emacs will

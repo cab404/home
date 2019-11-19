@@ -202,7 +202,10 @@ in
     emacs = {
       enable = true;
       # Some packages for Spacemacs it fails to install
-      extraPackages = s: with s; [ spinner undo-tree adaptive-wrap mmm-mode ];
+      extraPackages = s: with s; [
+        spinner undo-tree adaptive-wrap mmm-mode
+        tern
+      ];
     };
 
     git.enable = true;
