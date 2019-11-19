@@ -42,14 +42,10 @@ in
       source-code-pro noto-fonts
       fira-code rofi-pass
 
-      # Display manager stuff
-      xfce.xfce4-power-manager
-      xfce.thunar
-
       # Utilities
       alacritty zsh findutils
       pulsemixer docker-compose
-      xclip nyx ag
+      xclip nyx ag fff
 
       # Viewers
       feh fzf vlc zathura
