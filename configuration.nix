@@ -125,6 +125,7 @@ in
     pulseaudio = {
       enable = true;
       package = pkgs.pulseaudioFull;
+      zeroconf.discovery.enable = true;
       daemon.config = {
         flat-volumes = "no";
       };
@@ -171,6 +172,7 @@ in
         "plugdev" "docker"
         "wheel" "containers"
         "networkmanager" "tor"
+        "avahi"
       ];
       shell = pkgs.zsh;
     };
