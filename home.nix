@@ -41,6 +41,7 @@ in
       redshift compton xautolock
       source-code-pro noto-fonts
       fira-code rofi-pass
+      nitrogen
 
       # Utilities
       alacritty zsh findutils
