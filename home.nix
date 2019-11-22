@@ -32,6 +32,11 @@ in
       elmPackages.elm-format
       elmPackages.elm-test
 
+      # Emacs is a whiny banana
+      #TODO: move into emacs path
+      nodePackages.tern # please stop whining spacemacs i'll get you a pony
+      ispell
+
       # Editing
       libreoffice inkscape gimp krita
       cura blender
@@ -201,7 +206,6 @@ in
       # Some packages for Spacemacs it fails to install
       extraPackages = s: with s; [
         spinner undo-tree adaptive-wrap mmm-mode
-        tern
       ];
     };
 

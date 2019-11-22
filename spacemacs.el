@@ -31,6 +31,7 @@ values."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
+     rust
      javascript
      ;; haskell
      ;; ----------------------------------------------------------------
@@ -48,7 +49,8 @@ values."
      (shell :variables
             shell-default-height 30
             shell-default-position 'bottom)
-     spell-checking
+     (spell-checking :variables
+            spell-checking-enable-by-default nil)
      syntax-checking
      version-control
      nixos
@@ -314,9 +316,14 @@ layers configuration.
 This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
+  (require 'projectile-direnv)
 
-  (defvar org-refile-allow-creating-parent-nodes t)
-  (defvar org-refile-targets
+  (setq flycheck-executable-find
+        (lambda (cmd) (direnv-update-environment default-directory)(executable-find cmd)))
+
+  (setq org-directory "/home/cab/Nextcloud/Org")
+  (setq org-refile-allow-creating-parent-nodes t)
+  (setq org-refile-targets
         '(
           (nil              :maxlevel . 9)
           (org-agenda-files :maxlevel . 9)
@@ -326,9 +333,9 @@ you should place your code here."
           ("todo.org"       :maxlevel . 1)
           )
         )
-  (defvar org-outline-path-complete-in-steps nil)     ; Refile in a single go
-  (defvar org-refile-use-outline-path 'file)          ; Show full paths for refiling
-  (defvar org-default-notes-file (concat org-directory "/inbox.org"))
+  (setq org-outline-path-complete-in-steps nil)     ; Refile in a single go
+  (setq org-refile-use-outline-path 'file)          ; Show full paths for refiling
+  (setq org-default-notes-file (concat org-directory "/inbox.org"))
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
