@@ -102,11 +102,6 @@ in
         };
       };
 
-      desktopManager.xfce = {
-        enable = true;
-        noDesktop = true;
-        enableXfwm = false;
-      };
     };
 
     tor = {
@@ -157,15 +152,12 @@ in
   ]);
 
   programs.light.enable = true;
-  programs.seahorse.enable = true;
+  programs.plotinus.enable = true;
   virtualisation.docker.enable = true;
   powerManagement.powertop.enable = true;
 
   users = {
-
-    groups = {
-      plugdev = {};
-    };
+    mutableUsers = false;
 
     users.cab = {
       isNormalUser = true;
