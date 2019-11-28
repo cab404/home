@@ -109,36 +109,39 @@ in
   # don't know where to put it
   fonts.fontconfig.enable = true;
 
-  programs = {
+  programs = enableThings [
+    "ssh"
+    "browserpass"
+    "firefox"
+    "rofi"
+    "alacritty"
+    "direnv"
+    "fzf"
+    "starship"
+    "zsh"
+    "emacs"
+    "git"
+    "home-manager"
+  ] {
 
     # == SSH
     ssh = {
       compression = true;
-      enable = true;
+      serverAliveInterval = 5;
     };
 
     # == Pass and stuff
-    browserpass = {
-      enable = true;
-      browsers = [ "firefox" ];
-    };
+    browserpass.browsers = [ "firefox" ];
 
-    firefox = {
-      enable = true;
-      extensions = with nur.repos.rycee.firefox-addons; [
-        vim-vixen
-      ];
-    };
+    firefox.extensions = with nur.repos.rycee.firefox-addons; [
+      vim-vixen
+    ];
 
     # == Rofi menu
-    rofi = {
-      enable = true;
-      theme = "sidebar";
-    };
+    rofi.theme = "sidebar";
 
     # == Alacritty terminal
     alacritty = {
-      enable = true;
       settings =
         {
           "env" = {
@@ -157,60 +160,50 @@ in
         };
     };
 
-    direnv = {
-      enable = true;
-      enableZshIntegration = true;
-    };
+    direnv.enableZshIntegration = true;
 
     # Fuzzy file search (Ctrl-T for files; Alt-C for dirs)
     fzf = {
-      enable = true;
-      fileWidgetCommand = "locate -d ~/.locate.db .";
       enableZshIntegration = true;
+      fileWidgetCommand = "locate -d ~/.locate.db .";
     };
 
     starship = {
-      enable = true;
       enableZshIntegration = true;
-      settings.character.symbol = "λ";
+      settings = {
+        character.symbol = "λ";
+        battery = {
+          display = [
+            {style = "dim green"; threshold = 101;}
+          ];
+        };
+      };
     };
 
     # == Oh My Zsh!
     zsh = {
-      enable = true;
+      enableCompletion = true;
       enableAutosuggestions = true;
+
       history = {
         size = 100000;
         save = 100000;
         share = true;
       };
 
-      # Home manager assumes ohmyzsh loads
-      # compinit by itself, but it does not
-      enableCompletion = false;
-      initExtra = "compinit -C";
-
-      oh-my-zsh = {
-        enable = true;
-        plugins = [
-          "git" "systemd"
-          "adb" "rsync"
-          "docker"
-        ];
-      };
     };
 
     # == Emacs
     emacs = {
-      enable = true;
+      # package = pkgs.emacs;
       # Some packages for Spacemacs it fails to install
       extraPackages = s: with s; [
         spinner undo-tree adaptive-wrap mmm-mode
+        tern lsp-mode lsp-haskell
+        direnv projectile-direnv
       ];
     };
 
-    git.enable = true;
-    home-manager.enable = true;
   };
 
   services = enableThings [
