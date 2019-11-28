@@ -12,7 +12,7 @@ let
 in
 {
 
-  imports = [ ./userconf.nix ./i3-config.nix ];
+  imports = [ ./secret/home.nix ./i3-config.nix ];
 
   manual.json.enable = true;
 

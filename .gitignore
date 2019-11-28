@@ -1,2 +1,2 @@
-userconf.nix
+secret/
 !temlplates/*

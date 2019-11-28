@@ -11,6 +11,7 @@ in
 {
   imports = [
     ./hardware-configuration.nix
+    ./secret/system.nix
     ./hw/dell-latitude-5400.nix
     (import (builtins.fetchGit {
       url = "https://github.com/rycee/home-manager.git";
