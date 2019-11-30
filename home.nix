@@ -91,6 +91,9 @@ in
     ];
 
     file = {
+      # Just making sure they don't get collected
+      ".cache/direnv_deps".source = (import ~/.direnv-packages.nix);
+
       ".config/rofi-pass/config".source = ./rofi-menu-config.sh;
     };
 
