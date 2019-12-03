@@ -1,6 +1,11 @@
 { pkgs, lib, ... }:
 {
     xsession.enable = true;
+    xsession.pointerCursor = {
+      package = pkgs.paper-icon-theme;
+      name = "Paper";
+      size = 16;
+    };
     xsession.windowManager.i3 = {
         enable = true;
         package = pkgs.i3-gaps;
