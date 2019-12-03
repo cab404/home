@@ -8,6 +8,14 @@ let
     else pkgs.lib.recursiveUpdate (enableThings (tail things) overrides) {
       "${head things}".enable = true;
     };
+  firefoxProfileIcon = { name }: with pkgs;
+    # Desktop entries
+    makeDesktopItem {
+      name = "firefox-${name}";
+      desktopName = "Firefox: ${name}";
+      exec = "firefox -p ${name}";
+      comment = "Opens '${name}' Firefox profile";
+    };
   nur = import (builtins.fetchTarball "https://github.com/nix-community/NUR/archive/master.tar.gz") { inherit pkgs; };
 in
 {
@@ -87,6 +95,7 @@ in
           sha256 = "85700ee004fac81c58fdea353b1fd7c2b3ead2ee630f2988b94eba068e3ec072";
         };
       })
+      (firefoxProfileIcon { name = "Work"; })
 
     ];
 
