@@ -57,9 +57,9 @@ values."
           org-capture-templates
             '(
               ("i" "Inbox" entry (file "inbox.org")
-               "* TODO %?\n  %T\n  %i\n")
+               "* TODO %?\n%T\n%i\n")
               ("j" "Journal" entry (file+olp "log.org" "Journal")
-               "* %T\n  %?\n")
+               "* %T\n%?\n")
               )
           org-outline-path-complete-in-steps nil     ; Refile in a single go
           org-refile-use-outline-path 'file          ; Show full paths for refiling
