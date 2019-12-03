@@ -148,8 +148,12 @@ in
 
   ]);
 
-  programs.light.enable = true;
-  programs.plotinus.enable = true;
+  programs = enableThings [
+    "light" # brightness control
+    "plotinus" # command pallet that doesn't work yet for some reason
+    "wireshark" # should create some missing groups
+  ] {};
+
   virtualisation.docker.enable = true;
   powerManagement.powertop.enable = true;
 
@@ -162,7 +166,7 @@ in
         "plugdev" "docker"
         "wheel" "containers"
         "networkmanager" "tor"
-        "avahi"
+        "avahi" "wireshark"
       ];
       shell = pkgs.zsh;
     };
