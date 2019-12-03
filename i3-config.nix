@@ -7,8 +7,10 @@
         config = rec {
             modifier = "Mod4";
             modes = {};
+            startup = [
+              { command = "nitrogen --restore"; notification = false; }
+            ];
             window.border = 1;
-
             keybindings =
             let
                 mod = modifier;
