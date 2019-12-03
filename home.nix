@@ -196,7 +196,17 @@ in
     zsh = {
       enableCompletion = true;
       enableAutosuggestions = true;
-
+      defaultKeymap = "emacs";
+      initExtra = ''
+      ec(){
+        emacsclient -c $1 >/dev/null 2>&1 & disown
+      }
+      '';
+      shellAliases = {
+        ls = "ls --color=auto";
+        ll = "ls -hal";
+        l = "ll";
+      };
       history = {
         size = 100000;
         save = 100000;
