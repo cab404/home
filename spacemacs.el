@@ -31,21 +31,39 @@ values."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
+     html
+     elm
+     haskell
      rust
      javascript
-     ;; haskell
-     ;; ----------------------------------------------------------------
-     ;; Example of useful layers you may want to use right away.
-     ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
-     ;; <M-m f e R> (Emacs style) to install them.
-     ;; ----------------------------------------------------------------
      helm
+     hie-nix
      auto-completion
      better-defaults
      emacs-lisp
      git
      markdown
-     org
+     (org :variables
+          org-directory "~/Nextcloud/Org"
+          org-refile-allow-creating-parent-nodes t
+          org-refile-targets '(
+                  (nil              :maxlevel . 9)
+                  (org-agenda-files :maxlevel . 9)
+                  ("log.org"        :maxlevel . 9)
+                  ("archive.org"    :maxlevel . 1)
+                  ("inbox.org"      :maxlevel . 1)
+                  ("todo.org"       :maxlevel . 1)
+                  )
+          org-capture-templates
+            '(
+              ("i" "Inbox" entry (file "inbox.org")
+               "* TODO %?\n  %T\n  %i\n")
+              ("j" "Journal" entry (file+olp "log.org" "Journal")
+               "* %T\n  %?\n")
+              )
+          org-outline-path-complete-in-steps nil     ; Refile in a single go
+          org-refile-use-outline-path 'file          ; Show full paths for refiling
+          )
      (shell :variables
             shell-default-height 30
             shell-default-position 'bottom)
@@ -319,23 +337,10 @@ you should place your code here."
   (require 'projectile-direnv)
 
   (setq flycheck-executable-find
-        (lambda (cmd) (direnv-update-environment default-directory)(executable-find cmd)))
-
-  (setq org-directory "/home/cab/Nextcloud/Org")
-  (setq org-refile-allow-creating-parent-nodes t)
-  (setq org-refile-targets
-        '(
-          (nil              :maxlevel . 9)
-          (org-agenda-files :maxlevel . 9)
-          ("log.org"        :maxlevel . 9)
-          ("archive.org"    :maxlevel . 1)
-          ("inbox.org"      :maxlevel . 1)
-          ("todo.org"       :maxlevel . 1)
-          )
+        (lambda (cmd) (direnv-update-environment default-directory)(executable-find cmd))
         )
-  (setq org-outline-path-complete-in-steps nil)     ; Refile in a single go
-  (setq org-refile-use-outline-path 'file)          ; Show full paths for refiling
-  (setq org-default-notes-file (concat org-directory "/inbox.org"))
+
+  (with-eval-after-load 'org (setq org-default-notes-file (concat org-directory "/inbox.org")))
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
