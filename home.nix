@@ -198,11 +198,10 @@ in
       enableAutosuggestions = true;
       defaultKeymap = "emacs";
       initExtra = ''
-      ec(){
-        emacsclient -c $1 >/dev/null 2>&1 & disown
-      }
+      zstyle ':completion:*' menu select
       '';
       shellAliases = {
+        ec = "emacsclient -nc";
         ls = "ls --color=auto";
         ll = "ls -hal";
         l = "ll";
