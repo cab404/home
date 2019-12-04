@@ -80,7 +80,7 @@ in
       (runCommand "emacs-client-t" { inherit emacs; } ''
       mkdir -p $out/bin
       echo '#!/bin/sh' >> $out/bin/emacsclient-t
-      echo '${emacs}/bin/emacsclient -t $@' >> $out/bin/emacsclient-t
+      echo '$emacs/bin/emacsclient -s /tmp/emacs1000/server -t $@' >> $out/bin/emacsclient-t
       chmod +x $out/bin/emacsclient-t
       '')
 
