@@ -201,7 +201,7 @@ in
       zstyle ':completion:*' menu select
       '';
       shellAliases = {
-        ec = "emacsclient -nc";
+        ec = "emacsclient -s /tmp/emacs1000/server -nc";
         ls = "ls --color=auto";
         ll = "ls -hal";
         l = "ll";
