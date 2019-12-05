@@ -28,7 +28,7 @@ in
 
     packages = with pkgs; [
       # Interweebs
-      firefox tdesktop
+      firefox tdesktop transmission-gtk
 
       # Coding stuff
       vscodium jetbrains.idea-community
