@@ -142,8 +142,6 @@ in
 
     nmap arp-scan  # cause there's nothing to do at airports
 
-    acpi  # easier to type that
-
     nix-index  # woo, search in nix packages files!
 
     gnome3.dconf xfce.xfconf  # programs <3 configs
