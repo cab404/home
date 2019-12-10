@@ -66,6 +66,10 @@ in
     "tor" "actkbd" "xserver" "throttled"
   ] {
 
+    openssh = {
+      passwordAuthentication = false;
+    };
+
     logind = {
       lidSwitch = "suspend-then-hibernate";
       lidSwitchExternalPower = "suspend";
