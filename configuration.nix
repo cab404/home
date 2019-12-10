@@ -63,7 +63,7 @@ in
 
   services = enableThings [
     "ntp" "locate" "openssh" "upower" "printing" "fwupd"
-    "tor" "actkbd" "xserver" "throttled"
+    "tor" "actkbd" "xserver" "throttled" "gnunet"
   ] {
 
     openssh = {
