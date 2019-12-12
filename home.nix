@@ -76,12 +76,22 @@ in
       kdeFrameworks.kwallet
       kwalletmanager
 
-      # Editor sometimes do not work if contains options.
-      (runCommand "emacs-client-t" { inherit emacs; } ''
+      # Blocking emacs.
+      (runCommand "emacs-client-c" { inherit emacs; } ''
+      export pname=ee
       mkdir -p $out/bin
-      echo '#!/bin/sh' >> $out/bin/emacsclient-t
-      echo '$emacs/bin/emacsclient -s /tmp/emacs1000/server -t $@' >> $out/bin/emacsclient-t
-      chmod +x $out/bin/emacsclient-t
+      echo '#!/bin/sh' >> $out/bin/$pname
+      echo '${emacs}/bin/emacsclient -s /tmp/emacs1000/server -c $@' >> $out/bin/$pname
+      chmod +x $out/bin/$pname
+      '')
+
+      # Non-blocking emacs
+      (runCommand "emacs-client-nc" { inherit emacs; } ''
+      export pname=ec
+      mkdir -p $out/bin
+      echo '#!/bin/sh' >> $out/bin/$pname
+      echo '${emacs}/bin/emacsclient -s /tmp/emacs1000/server -nc $@' >> $out/bin/$pname
+      chmod +x $out/bin/$pname
       '')
 
       # Desktop entries
@@ -113,7 +123,7 @@ in
     };
 
     sessionVariables = {
-      EDITOR = "emacsclient-t";
+      EDITOR = "ee";
     };
 
   };
