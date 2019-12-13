@@ -6,10 +6,4 @@
       emulateWheel = true;
     };
   };
-  boot.kernelParams = [
-    "i915.alpha_support=1"
-    "i915.fastboot=1"
-    "i915.enable_fbc=1"
-    "i915.enable_psr=1"
-  ];
 }
