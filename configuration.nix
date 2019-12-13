@@ -86,12 +86,10 @@ in
       layout = "us,ru";
       xkbOptions = "ctrl:nocaps, grp:switch";
 
-      displayManager.sddm = {
+      displayManager.slim = {
         enable = true;
-        autoLogin = {
-          enable = true;
-          user = "cab";
-        };
+        autoLogin = true;
+        defaultUser = "cab";
       };
 
     };
