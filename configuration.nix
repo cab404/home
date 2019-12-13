@@ -96,6 +96,9 @@ in
 
     };
 
+    # blueman-applet screams at me without it
+    dbus.packages = [ pkgs.blueman ];
+
     tor = {
       controlSocket.enable = true;
       client.enable = true;
