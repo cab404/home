@@ -294,6 +294,22 @@ in
       Timer.OnBootSec = "15min";
       Install.WantedBy = [ "timers.target" ];
     };
+
+    # Caffeine-NG
+    services.caffeine = {
+      Install = {
+        WantedBy = [ "graphical-session.target" ];
+      };
+      Unit = {
+        Description = "Caffeine-NG screensaver interceptor";
+        PartOf = [ "graphical-session.target" ];
+      };
+      Service = {
+        ExecStart = "${pkgs.caffeine-ng}/bin/caffeine";
+        Restart = "on-abort";
+      };
+    };
+
   };
 
   # == Gnome hates when there's no dconf -.-
