@@ -278,11 +278,15 @@ in
   };
 
   systemd.user = {
+
+    # Locatedb for faster fzf completion
+    # TODO: try making tracker work
+
     services.home-locatedb = {
       Service.Environment = "PATH=$PATH:${pkgs.gnused}/bin:${pkgs.coreutils}/bin";
-        Unit.Description = "Local locatedb update for fzf";
-        Service.ExecStart = "${pkgs.findutils}/bin/updatedb --localpaths='/home/cab' --output=.locate.db";
-      };
+      Unit.Description = "Local locatedb update for fzf";
+      Service.ExecStart = "${pkgs.findutils}/bin/updatedb --localpaths='/home/cab' --output=.locate.db";
+    };
     timers.home-locatedb = {
       Unit.Description = "Local file DB updates";
       Unit.PartOf="home-locatedb.service";
