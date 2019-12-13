@@ -79,8 +79,12 @@ in
 
     xserver = {
 
-      libinput.enable = true;
-      libinput.tapping = false;
+      libinput = {
+        enable = true;
+        naturalScrolling = true;
+        tapping = false;
+      };
+
       wacom.enable = true;
 
       layout = "us,ru";
