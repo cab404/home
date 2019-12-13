@@ -47,7 +47,7 @@ in
 
       # Editing
       libreoffice inkscape gimp krita
-      cura blender
+      cura blender freecad
 
       # Window manager and looks stuff
       arandr rofi xsecurelock
