@@ -33,6 +33,7 @@
                 "${mod}+Escape" = "exec xautolock -locknow";
                 "${mod}+Ctrl+Return" = "exec emacsclient -c";
                 "${mod}+Shift+e" = "exec i3-nagbar -t warning -m 'Do you want to exit i3?' -b 'Yes' 'i3-msg exit'";
+                "Print" = "exec flameshot gui";
 
                 "XF86AudioRaiseVolume" = "exec --no-startup-id pactl set-sink-volume 0 +5%";
                 "XF86AudioLowerVolume" = "exec --no-startup-id pactl set-sink-volume 0 -5%";

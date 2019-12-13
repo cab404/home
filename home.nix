@@ -119,7 +119,7 @@ in
     # == Keyboard config
     keyboard = {
       layout = "us,ru";
-      options = [ "ctrl:nocaps" "grp:switch" "compose:prsc" ];
+      options = [ "ctrl:nocaps" "grp:switch" ];
     };
 
     sessionVariables = {
