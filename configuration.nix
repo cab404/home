@@ -132,7 +132,7 @@ in
 
     curl vim htop git tmux  # find one which does not fit
 
-    usbutils pciutils unzip  # WHY AREN'T THOSE THERE BY DEFAULT?
+    killall usbutils pciutils unzip  # WHY AREN'T THOSE THERE BY DEFAULT?
 
     ntfsprogs btrfs-progs  # why aren't those there by default?
 
