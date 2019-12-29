@@ -1,13 +1,7 @@
 args @ { config, pkgs, lib, ... }:
 
+with import ./lib.nix { inherit pkgs; };
 let
-  enableThings = with builtins;
-    things: overrides:
-    if length things == 0
-    then overrides
-    else pkgs.lib.recursiveUpdate (enableThings (tail things) overrides) {
-      "${head things}".enable = true;
-    };
   firefoxProfileIcon = { name }: with pkgs;
     # Desktop entries
     makeDesktopItem {
