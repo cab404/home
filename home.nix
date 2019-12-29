@@ -71,21 +71,14 @@ in
       kwalletmanager
 
       # Blocking emacs.
-      (runCommand "emacs-client-c" { inherit emacs; } ''
-      export pname=ee
-      mkdir -p $out/bin
-      echo '#!/bin/sh' >> $out/bin/$pname
-      echo '${emacs}/bin/emacsclient -s /tmp/emacs1000/server -c $@' >> $out/bin/$pname
-      chmod +x $out/bin/$pname
+      (writeShellScriptBin "ee" ''
+      ${emacs}/bin/emacsclient -s /tmp/emacs1000/server -c $@
       '')
 
       # Non-blocking emacs
-      (runCommand "emacs-client-nc" { inherit emacs; } ''
-      export pname=ec
-      mkdir -p $out/bin
-      echo '#!/bin/sh' >> $out/bin/$pname
-      echo '${emacs}/bin/emacsclient -s /tmp/emacs1000/server -nc $@' >> $out/bin/$pname
-      chmod +x $out/bin/$pname
+      (writeShellScriptBin "ec" ''
+      ${emacs}/bin/emacsclient -s /tmp/emacs1000/server -nc $@
+      '')
       '')
 
       # Desktop entries
