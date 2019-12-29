@@ -48,6 +48,7 @@ in
   networking = {
     hostName = "yuna";
     networkmanager.enable = true;
+    firewall.enable = false;
   };
 
   security = {
