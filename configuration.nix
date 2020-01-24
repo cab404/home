@@ -13,6 +13,8 @@ in
     ./hardware-configuration.nix
     ./secret/system.nix
     ./hw/dell-latitude-5400.nix
+    ./sway/system.nix
+    ./home-manager.nix
   ];
 
   # Time

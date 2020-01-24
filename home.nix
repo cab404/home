@@ -14,7 +14,12 @@ let
 in
 {
 
-  imports = [ ./secret/home.nix ./i3-config.nix ];
+  imports = [
+    ./sway/config.nix
+    # ./i3/config.nix
+    ./secret/home.nix
+  ];
+
   nixpkgs.config = {
     checkMeta = true;
   };
@@ -47,11 +52,8 @@ in
       cura blender freecad
 
       # Window manager and looks stuff
-      arandr rofi xsecurelock
-      redshift compton xautolock
       source-code-pro noto-fonts
       fira-code rofi-pass
-      nitrogen
 
       # Utilities
       alacritty zsh findutils
@@ -229,44 +231,11 @@ in
   };
 
   services = enableThings [
-    "flameshot"              "gpg-agent"
-    "pasystray"              "emacs"
-    "blueman-applet"         "nextcloud-client"
-    "network-manager-applet" "kbfs"
-    "compton"                "redshift"
-    "screen-locker"
-    # eats too much
-    # "keybase"
-  ]
-    {
-
-    # == Compton window compositor
-    compton = {
-      blur = true;
-      fade = true;
-      shadow = true;
-      fadeDelta = 5;
-      inactiveOpacity = "0.8";
-    };
-
-    # == Redshift
-    redshift = {
-      tray = true;
-      provider = "manual";
-      latitude = "55";
-      longitude = "34";
-    };
-
-    # == Screen lock
-    screen-locker = {
-      lockCmd = "xsecurelock";
-      xautolockExtraOptions = [
-        "-lockaftersleep"
-        "-detectsleep"
-      ];
-    };
-
-  };
+    "emacs"
+    "gpg-agent"
+    "kbfs"
+    "keybase"
+  ] { };
 
   systemd.user = {
 
@@ -284,21 +253,6 @@ in
       Timer.OnUnitActiveSec = "1d";
       Timer.OnBootSec = "15min";
       Install.WantedBy = [ "timers.target" ];
-    };
-
-    # Caffeine-NG
-    services.caffeine = {
-      Install = {
-        WantedBy = [ "graphical-session.target" ];
-      };
-      Unit = {
-        Description = "Caffeine-NG screensaver interceptor";
-        PartOf = [ "graphical-session.target" ];
-      };
-      Service = {
-        ExecStart = "${pkgs.caffeine-ng}/bin/caffeine";
-        Restart = "on-abort";
-      };
     };
 
   };
