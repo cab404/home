@@ -15,6 +15,9 @@ in
 {
 
   imports = [ ./secret/home.nix ./i3-config.nix ];
+  nixpkgs.config = {
+    checkMeta = true;
+  };
 
   manual.json.enable = true;
 
