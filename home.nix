@@ -62,7 +62,8 @@ in
       feh fzf vlc zathura
 
       # Funny utilities
-      aircrack-ng hashcat wireshark
+      aircrack-ng netsniff-ng hashcat wireshark
+      metasploit mtr
 
       # Personal data and sync
       (pass.withExtensions (e: with e; [
