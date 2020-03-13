@@ -1,4 +1,4 @@
-{ pkgs }: let
+{ pkgs, ... }: let
   enableThings = with builtins;
     things: overrides:
     if length things == 0

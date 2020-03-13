@@ -10,4 +10,17 @@ Section "InputClass"
   Option "ScrollMethod" "button"
   Option "ScrollButton" "2"
   '';
+
+  boot.kernelParams = [
+    #"amdgpu.runpm=0" # disable power manager
+    "amdgpu.gpu_recovery=1" # mowmow, hang in there
+    "amdgpu.job_hang_limit=100" # trying to get it not to hang
+    "amdgpu.deep_color=1" # y not?
+    "amdgpu.exp_hw_support=1" # mow
+
+    "i915.enable_gvt=1" # virtal graphics
+    "i915.error_capture=1" # they dies sometimes
+
+    #"iwlwifi.power_level=5" # ITS OVER 4!
+  ];
 }

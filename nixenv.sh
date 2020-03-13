@@ -13,9 +13,10 @@ for a in ~/.config/direnv/allow/*; do
 done;
 
 {
-    echo -n '__concatStringsSep ":" (__concatLists (map (a: (map (d: "${d} ") (import a {}).buildInputs)) ['
+    echo '__concatStringsSep ":" (__concatLists (map (a: (map (d: "${d} ") (import a {}).buildInputs)) ['
     for shell in "${shells[@]}"; do
-        echo -n " \"${shell}\""
+        # nix-shell "${shell}" --run "echo $shell"
+        echo " \"${shell}\""
     done
     echo ' ]))'
 } > ~/.direnv-packages.nix

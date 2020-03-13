@@ -10,13 +10,24 @@ let
       exec = "firefox -p ${name}";
       comment = "Opens '${name}' Firefox profile";
     };
-  nur = import (builtins.fetchTarball "https://github.com/nix-community/NUR/archive/master.tar.gz") { inherit pkgs; };
+  tgVoipPkgs = import (pkgs.fetchFromGitHub {
+    owner = "NixOS";
+    repo = "nixpkgs";
+    rev = "f59d835e5bb412a55165f392eeb1ad236b6a09b6";
+    sha256 = "12q3s12rzjdi1h215akd6fp15zwy056spx5mmipbmw9wd2ac4fcq";
+  }) {};
+  nur = import (pkgs.fetchFromGitHub {
+    owner = "nix-community";
+    repo = "NUR";
+    rev = "77f0756137a53951a8039218331218a7d1b06d7e";
+    sha256 = "164hrvkf8y9yl9z64dkzs273h5n4j3s6mgqahg8szdyr8z2qfk45";
+  }) { inherit pkgs; };
 in
 {
 
   imports = [
-    ./sway/config.nix
-    # ./i3/config.nix
+    # ./sway/home.nix
+    # ./i3/home.nix
     ./secret/home.nix
   ];
 
@@ -30,38 +41,49 @@ in
 
     packages = with pkgs; [
       # Interweebs
-      firefox tdesktop transmission-gtk
+      firefox tdesktop transmission-gtk riot-desktop
+      thunderbird
 
       # Coding stuff
       vscodium jetbrains.idea-community
 
       # Building stuff
       stack
-      jdk8
+      jdk8 nim
       elmPackages.elm
+      elmPackages.elm-analyse
       elmPackages.elm-format
       elmPackages.elm-test
 
       # Emacs is a whiny banana
       #TODO: move into emacs path
       nodePackages.tern # please stop whining spacemacs i'll get you a pony
+      tgVoipPkgs.emacsPackages.telega
       ispell
 
       # Editing
       libreoffice inkscape gimp krita
       cura blender freecad
+      joplin-desktop
 
       # Window manager and looks stuff
       source-code-pro noto-fonts
-      fira-code rofi-pass
+      roboto fira-code fira
+
+      font-awesome-ttf
+      ripgrep
+      ripgrep-all
+      xfce.thunar
+      rofi rofi-pass
 
       # Utilities
       alacritty zsh findutils
       pulsemixer docker-compose
       xclip nyx ag fff
+      androidenv.androidPkgs_9_0.platform-tools
 
       # Viewers
-      feh fzf vlc zathura
+      feh fzf vlc zathura ark clementine
 
       # Funny utilities
       aircrack-ng netsniff-ng hashcat wireshark
@@ -85,6 +107,13 @@ in
       (writeShellScriptBin "ec" ''
       ${emacs}/bin/emacsclient -s /tmp/emacs1000/server -nc $@
       '')
+
+      # TODO: Make cab-home switch both system and local config from any folder.
+      # System reload
+      (writeShellScriptBin "cab-home" ''
+      #!/usr/bin/env bash
+      sudo cp -r ~/data/cab-home/* /etc/nixos
+      sudo nixos-rebuild $@
       '')
 
       # Desktop entries
@@ -104,8 +133,7 @@ in
 
     file = {
       # Just making sure they don't get collected
-      ".cache/direnv_deps".source = (import ~/.direnv-packages.nix);
-
+      # ".cache/direnv_deps".source = (import ~/.direnv-packages.nix);
       ".config/rofi-pass/config".source = ./rofi-menu-config.sh;
     };
 
@@ -117,6 +145,8 @@ in
 
     sessionVariables = {
       EDITOR = "ee";
+      XKB_DEFAULT_LAYOUT = "us,ru";
+      XKB_DEFAULT_OPTIONS = "ctrl:nocaps,grp:switch";
     };
 
   };
@@ -170,7 +200,7 @@ in
             "italic" = { "family" = family; };
             "bold" = { "family" = family; };
             "bold_italic" = { "family" = family; };
-            "size" = 5;
+            "size" = 8;
           };
         };
     };
@@ -219,12 +249,15 @@ in
 
     # == Emacs
     emacs = {
-      # package = pkgs.emacs;
+      package = pkgs.emacs.override {
+        imagemagick = pkgs.imagemagickBig;
+      };
       # Some packages for Spacemacs it fails to install
       extraPackages = s: with s; [
         spinner undo-tree adaptive-wrap mmm-mode
         tern lsp-mode lsp-haskell
         direnv
+        tgVoipPkgs.emacsPackages.telega
       ];
     };
 
@@ -247,6 +280,7 @@ in
       Unit.Description = "Local locatedb update for fzf";
       Service.ExecStart = "${pkgs.findutils}/bin/updatedb --localpaths='/home/cab' --output=.locate.db";
     };
+
     timers.home-locatedb = {
       Unit.Description = "Local file DB updates";
       Unit.PartOf="home-locatedb.service";
@@ -260,7 +294,6 @@ in
   # == Gnome hates when there's no dconf -.-
   dconf.enable = true;
 
-  # == Gtk and Qt
   gtk = {
     enable = true;
     iconTheme.package = pkgs.paper-icon-theme;
@@ -270,5 +303,4 @@ in
   };
 
   qt = { enable = true; platformTheme = "gtk"; };
-
 }
