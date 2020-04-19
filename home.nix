@@ -28,7 +28,7 @@ in
 
     packages = with pkgs; [
       # Interweebs
-      firefox tdesktop transmission-gtk riot-desktop
+      firefox transmission-gtk
       thunderbird
 
       # Coding stuff
@@ -66,7 +66,7 @@ in
       # Utilities
       alacritty zsh findutils
       pulsemixer docker-compose
-      xclip nyx ag fff
+      xclip nyx ag fff insomnia
       androidenv.androidPkgs_9_0.platform-tools
 
       # Viewers
