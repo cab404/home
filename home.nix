@@ -218,6 +218,7 @@ in
       defaultKeymap = "emacs";
       initExtra = ''
       zstyle ':completion:*' menu select
+      export PATH=$PATH:~/.cargo/bin
       '';
       shellAliases = {
         ec = "emacsclient -s /tmp/emacs1000/server -nc";
