@@ -255,6 +255,7 @@ in
     "gpg-agent"
     "kbfs"
     "keybase"
+    "flameshot"
   ] { };
 
   systemd.user = {
