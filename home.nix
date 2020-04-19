@@ -2,20 +2,7 @@ args @ { config, pkgs, lib, ... }:
 
 with import ./lib.nix { inherit pkgs; };
 let
-  firefoxProfileIcon = { name }: with pkgs;
-    # Desktop entries
-    makeDesktopItem {
-      name = "firefox-${name}";
-      desktopName = "Firefox: ${name}";
-      exec = "firefox -p ${name}";
-      comment = "Opens '${name}' Firefox profile";
-    };
-  tgVoipPkgs = import (pkgs.fetchFromGitHub {
-    owner = "NixOS";
-    repo = "nixpkgs";
-    rev = "f59d835e5bb412a55165f392eeb1ad236b6a09b6";
-    sha256 = "12q3s12rzjdi1h215akd6fp15zwy056spx5mmipbmw9wd2ac4fcq";
-  }) {};
+  nix_master = import ~/data/cab/nixpkgs {}; 
   nur = import (pkgs.fetchFromGitHub {
     owner = "nix-community";
     repo = "NUR";
@@ -58,7 +45,7 @@ in
       # Emacs is a whiny banana
       #TODO: move into emacs path
       nodePackages.tern # please stop whining spacemacs i'll get you a pony
-      tgVoipPkgs.emacsPackages.telega
+      emacsPackages.telega
       ispell
 
       # Editing
@@ -127,7 +114,6 @@ in
           sha256 = "85700ee004fac81c58fdea353b1fd7c2b3ead2ee630f2988b94eba068e3ec072";
         };
       })
-      (firefoxProfileIcon { name = "Work"; })
 
     ];
 
@@ -257,7 +243,7 @@ in
         spinner undo-tree adaptive-wrap mmm-mode
         tern lsp-mode lsp-haskell
         direnv
-        tgVoipPkgs.emacsPackages.telega
+        telega
       ];
     };
 
