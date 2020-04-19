@@ -227,6 +227,8 @@ in
         l = "ll";
       };
       history = {
+        extended = true;
+        ignoreDups = true;
         size = 100000;
         save = 100000;
         share = true;
