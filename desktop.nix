@@ -49,6 +49,12 @@ in
 
     udev.packages = [
       pkgs.android-udev-rules
+      (pkgs.writeTextDir "/etc/udev/rules.d/42-user-devices.rules" ''
+      # Saleae Logic thing
+      ATTR{idVendor}=="0925", ATTR{idProduct}=="3881", GROUP+="dialout"
+      # USBTiny
+      ATTR{idVendor}=="1781", ATTR{idProduct}=="0c9f", GROUP+="dialout"
+      '')
     ];
 
     xserver = {
