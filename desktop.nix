@@ -17,7 +17,8 @@ in
 {
 
   imports  = [
-    ./kde/system.nix
+    # ./kde/system.nix
+    ./i3/system.nix
     # ./sway/system.nix
   ];
 

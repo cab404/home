@@ -7,7 +7,7 @@ in
 
   imports = [
     # ./sway/home.nix
-    # ./i3/home.nix
+    ./i3/home.nix
     ./secret/home.nix
     ./user-shell.nix
   ];
