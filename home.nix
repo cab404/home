@@ -2,13 +2,6 @@ args @ { config, pkgs, lib, ... }:
 
 with import ./lib.nix { inherit pkgs; };
 let
-  nix_master = import ~/data/cab/nixpkgs {}; 
-  nur = import (pkgs.fetchFromGitHub {
-    owner = "nix-community";
-    repo = "NUR";
-    rev = "77f0756137a53951a8039218331218a7d1b06d7e";
-    sha256 = "164hrvkf8y9yl9z64dkzs273h5n4j3s6mgqahg8szdyr8z2qfk45";
-  }) { inherit pkgs; };
 in
 {
 
@@ -163,10 +156,6 @@ in
 
     # == Pass and stuff
     browserpass.browsers = [ "firefox" ];
-
-    firefox.extensions = with nur.repos.rycee.firefox-addons; [
-      vim-vixen
-    ];
 
     # == Rofi menu
     rofi.theme = "sidebar";
