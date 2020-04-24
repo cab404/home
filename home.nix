@@ -186,7 +186,7 @@ in
       extraPackages = s: with s; [
         spinner undo-tree adaptive-wrap mmm-mode
         tern lsp-mode lsp-haskell
-        direnv
+        direnv ag
         telega
       ];
     };
