@@ -9,6 +9,7 @@ in
     # ./sway/home.nix
     # ./i3/home.nix
     ./secret/home.nix
+    ./user-shell.nix
   ];
 
   nixpkgs.config = {
@@ -140,12 +141,7 @@ in
     "firefox"
     "rofi"
     "alacritty"
-    "direnv"
-    "fzf"
-    "starship"
-    "zsh"
     "emacs"
-    "git"
     "home-manager"
   ] {
 
@@ -179,51 +175,6 @@ in
             "size" = 8;
           };
         };
-    };
-
-    direnv.enableZshIntegration = true;
-
-    # Fuzzy file search (Ctrl-T for files; Alt-C for dirs)
-    fzf = {
-      enableZshIntegration = true;
-      fileWidgetCommand = "locate -d ~/.locate.db .";
-    };
-
-    starship = {
-      enableZshIntegration = true;
-      settings = {
-        character.symbol = "λ";
-        battery = {
-          display = [
-            {style = "dim green"; threshold = 101;}
-          ];
-        };
-      };
-    };
-
-    # == Oh My Zsh!
-    zsh = {
-      enableCompletion = true;
-      enableAutosuggestions = true;
-      defaultKeymap = "emacs";
-      initExtra = ''
-      zstyle ':completion:*' menu select
-      export PATH=$PATH:~/.cargo/bin
-      '';
-      shellAliases = {
-        ec = "emacsclient -s /tmp/emacs1000/server -nc";
-        ls = "ls --color=auto";
-        ll = "ls -hal";
-        l = "ll";
-      };
-      history = {
-        extended = true;
-        ignoreDups = true;
-        size = 100000;
-        save = 100000;
-        share = true;
-      };
-
     };
 
     # == Emacs
