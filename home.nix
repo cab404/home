@@ -1,6 +1,6 @@
 args @ { config, pkgs, lib, ... }:
 
-with import ./lib.nix { inherit pkgs; };
+with import ./lib.nix args;
 let
 in
 {
