@@ -11,15 +11,18 @@ let
 in
 {
 
-  i18n = {
-    # Dimmed Monokai
-    consoleColors = [
+  console = {
+    colors = [
         "3A3C43" "BE3E48" "869A3A" "C4A535" "4E76A1" "855B8D" "568EA3" "B8BCB9"
         "888987" "FB001E" "0E712E" "C37033" "176CE3" "FB0067" "2D6F6C" "FCFFB8"
     ];
-    consoleFont = "Lat2-Terminus16";
+    font = "Lat2-Terminus16";
+    useXkbConfig = true; # ctrl:nocaps at last
+  };
+
+  i18n = {
+    # Dimmed Monokai
     defaultLocale = "en_US.UTF-8";
-    consoleUseXkbConfig = true; # ctrl:nocaps at last
   };
 
   time.timeZone = _env.timeZone;

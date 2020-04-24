@@ -44,7 +44,7 @@ in
 
       # Editing
       libreoffice inkscape gimp krita
-      cura blender freecad
+      cura blender
       joplin-desktop
 
       # Window manager and looks stuff
@@ -60,7 +60,7 @@ in
       # Utilities
       alacritty zsh findutils
       pulsemixer docker-compose
-      xclip nyx ag fff insomnia
+      xclip ag fff insomnia
       androidenv.androidPkgs_9_0.platform-tools
       appimage-run
 

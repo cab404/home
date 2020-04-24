@@ -10,17 +10,18 @@ with import ../lib.nix { inherit pkgs; }; {
     "pasystray"
     "blueman-applet"
     "network-manager-applet"
-    "compton"
+    "picom"
     "redshift"
     "screen-locker"
   ]
     {
 
     # == Compton window compositor
-    compton = {
+    picom = {
       blur = true;
       fade = true;
       shadow = true;
+      vSync = true;
       fadeDelta = 5;
       inactiveOpacity = "0.8";
     };
