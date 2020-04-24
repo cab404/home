@@ -25,7 +25,7 @@ in
       thunderbird
 
       # Coding stuff
-      vscodium jetbrains.idea-community
+      vscodium
 
       # Building stuff
       stack
@@ -61,6 +61,7 @@ in
       pulsemixer docker-compose
       xclip nyx ag fff insomnia
       androidenv.androidPkgs_9_0.platform-tools
+      appimage-run
 
       # Viewers
       feh fzf vlc zathura ark clementine
