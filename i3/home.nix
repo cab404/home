@@ -2,21 +2,16 @@
 with import ../lib.nix { inherit pkgs; }; {
 
   home.packages = with pkgs; [
-    nitrogen arandr xsecurelock redshift xautolock
+    nitrogen arandr redshift
   ];
 
   services = enableThings [
     "flameshot"
-    "pasystray"
-    "blueman-applet"
-    "network-manager-applet"
     "picom"
-    "redshift"
-    "screen-locker"
   ]
-    {
+{
 
-    # == Compton window compositor
+    # == Compositor
     picom = {
       blur = true;
       fade = true;
@@ -26,44 +21,8 @@ with import ../lib.nix { inherit pkgs; }; {
       inactiveOpacity = "0.8";
     };
 
-    # == Redshift
-    redshift = {
-      tray = true;
-      provider = "manual";
-      latitude = "55";
-      longitude = "34";
-    };
-
-    # == Screen lock
-    screen-locker = {
-      lockCmd = "xsecurelock";
-      xautolockExtraOptions = [
-        "-lockaftersleep"
-        "-detectsleep"
-      ];
-    };
-
-    };
-
-
-  systemd.user = {
-
-    # Caffeine-NG
-    services.caffeine = {
-      Install = {
-        WantedBy = [ "graphical-session.target" ];
-      };
-      Unit = {
-        Description = "Caffeine-NG screensaver interceptor";
-        PartOf = [ "graphical-session.target" ];
-      };
-      Service = {
-        ExecStart = "${pkgs.caffeine-ng}/bin/caffeine";
-        Restart = "on-abort";
-      };
-    };
-
   };
+
 
   xsession.enable = true;
   xsession.pointerCursor = {
@@ -88,7 +47,7 @@ with import ../lib.nix { inherit pkgs; }; {
         border = 1;
         commands = [
           { criteria = { class = "plasmashell"; }; command = "floating enable"; }
-          { criteria = { class = "Desktop — Plasma"; }; command = "kill, floating enable, border none"; }
+          { criteria = { title = "Desktop — Plasma"; }; command = "kill, floating enable, border none"; }
         ];
       };
       keybindings =
@@ -105,7 +64,6 @@ with import ../lib.nix { inherit pkgs; }; {
           "${mod}+Return" = "exec DRI_PRIME=1 alacritty";
           "${mod}+d" = "exec rofi -matching fuzzy -show drun";
           "${mod}+Ctrl+p" = "exec rofi-pass";
-          "${mod}+Escape" = "exec xautolock -locknow";
           "${mod}+Ctrl+Return" = "exec emacsclient -c";
           "${mod}+Shift+e" = "exec i3-nagbar -t warning -m 'Do you want to exit i3?' -b 'Yes' 'i3-msg exit'";
           "Print" = "exec flameshot gui";
