@@ -2,7 +2,7 @@
 with import ../lib.nix { inherit pkgs; }; {
 
   home.packages = with pkgs; [
-    nitrogen arandr xsecurelock redshift compton xautolock
+    nitrogen arandr xsecurelock redshift xautolock
   ];
 
   services = enableThings [
