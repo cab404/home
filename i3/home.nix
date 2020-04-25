@@ -76,12 +76,21 @@ with import ../lib.nix { inherit pkgs; }; {
     enable = true;
     package = pkgs.i3-gaps;
     config = rec {
+      bars = [];
       modifier = "Mod4";
       modes = {};
+      terminal = "alacritty";
       startup = [
         { command = "nitrogen --restore"; notification = false; }
+        { command = "startplasma-x11"; notification = false; }
       ];
-      window.border = 1;
+      window = {
+        border = 1;
+        commands = [
+          { criteria = { class = "plasmashell"; }; command = "floating enable"; }
+          { criteria = { class = "Desktop — Plasma"; }; command = "kill, floating enable, border none"; }
+        ];
+      };
       keybindings =
         let
           mod = modifier;
@@ -150,6 +159,13 @@ with import ../lib.nix { inherit pkgs; }; {
         } // workspaces);
 
     };
+
+    extraConfig = ''
+    # For unfocusing notifications
+    no_focus [class="plasmashell" window_type="notification"]
+    no_focus [class="plasmashell" window_type="on_screen_display"]
+    '';
+
   };
 }
 
