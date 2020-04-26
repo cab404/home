@@ -2,7 +2,9 @@
 with import ../lib.nix { inherit pkgs; }; {
 
   home.packages = with pkgs; [
-    nitrogen arandr redshift
+    nitrogen arandr
+    redshift redshift-plasma-applet
+    plasma-desktop
   ];
 
   services = enableThings [
