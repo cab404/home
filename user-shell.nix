@@ -16,13 +16,15 @@ with import ./lib.nix args;
       enableZshIntegration = true;
       fileWidgetCommand =
         let
-          ultimacate = pkgs.writeScriptBin "ultimacate" ''
+          # locate doesn't search at home, and that would be insecure.
+          # so yeah
+          ultimacate = pkgs.writeScriptBin "l" ''
             #!/usr/bin/env bash
-            locate . $@
-            locate -d ~/.locate.db . $@
+            locate $@
+            locate -d ~/.locate.db $@
           '';
         in
-          "${ultimacate}";
+          "${ultimacate}/bin/l .";
     };
 
     starship = {
