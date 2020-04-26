@@ -148,7 +148,6 @@ in
     # == SSH
     ssh = {
       compression = true;
-      serverAliveInterval = 5;
     };
 
     # == Pass and stuff
