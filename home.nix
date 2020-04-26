@@ -199,6 +199,7 @@ in
     "kbfs"
     "keybase"
     "flameshot"
+    "lorri"
   ] { };
 
   systemd.user = {
