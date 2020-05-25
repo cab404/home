@@ -1,8 +1,5 @@
 args @ { config, pkgs, lib, ... }:
-
 with import ./lib.nix args;
-let
-in
 {
 
   imports = [
@@ -21,6 +18,7 @@ in
   home = {
 
     packages = with pkgs; [
+
       # Interweebs
       firefox transmission-gtk
       thunderbird
@@ -47,25 +45,31 @@ in
       cura blender
       joplin-desktop
 
-      # Window manager and looks stuff
+      # Fonts
       source-code-pro noto-fonts
       roboto fira-code fira
-
       font-awesome-ttf
-      ripgrep
-      ripgrep-all
-      xfce.thunar
+
+      # Window manager and looks stuff
       rofi rofi-pass
 
-      # Utilities
+      # Command line comfort
       alacritty zsh findutils
-      pulsemixer docker-compose
-      xclip ag fff insomnia
+      pulsemixer ag fff xclip
+      fzf
+
+      # Runners
+      appimage-run lutris-free
+
+      # Development
+      docker-compose insomnia
+
+      # Hardware stuff
       androidenv.androidPkgs_9_0.platform-tools
-      appimage-run
+      minicom pulseview
 
       # Viewers
-      feh fzf vlc zathura ark clementine
+      feh vlc zathura ark clementine
 
       # Funny utilities
       aircrack-ng netsniff-ng hashcat wireshark
@@ -78,7 +82,7 @@ in
       browserpass keybase
       gnupg nextcloud-client
       kdeFrameworks.kwallet
-      kwalletmanager
+      kwalletmanager python3Packages.snapperGUI
 
       # Blocking emacs.
       (writeShellScriptBin "ee" ''

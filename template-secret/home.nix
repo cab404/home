@@ -11,7 +11,7 @@
     };
   };
 
-  programs.ssh.matchBlocks = let 
+  programs.ssh.matchBlocks = let
     is = (user: identityFile: { inherit user identityFile; });
   in
   {

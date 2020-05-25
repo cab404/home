@@ -12,19 +12,17 @@ with import ./lib.nix args;
     direnv.enableZshIntegration = true;
 
     # Fuzzy file search (Ctrl-T for files; Alt-C for dirs)
-    fzf = {
-      enableZshIntegration = true;
-      fileWidgetCommand =
-        let
-          # locate doesn't search at home, and that would be insecure.
-          # so yeah
-          ultimacate = pkgs.writeScriptBin "l" ''
+    fzf = let
+      # locate doesn't search at home, and that would be insecure.
+      # so yeah
+      ultimacate = pkgs.writeScriptBin "l" ''
             #!/usr/bin/env bash
             locate $@
             locate -d ~/.locate.db $@
           '';
-        in
-          "${ultimacate}/bin/l .";
+    in {
+      enableZshIntegration = true;
+      fileWidgetCommand = "${ultimacate}/bin/l .";
     };
 
     starship = {
@@ -33,9 +31,15 @@ with import ./lib.nix args;
         character.symbol = "λ";
         battery = {
           display = [
-            {style = "dim green"; threshold = 101;}
+            {style = "red"; threshold = 15;}
+            {style = "dimmed red"; threshold = 50;}
+            {style = "dimmed green"; threshold = 99;}
+            {style = "bold green"; threshold = 100;}
           ];
         };
+        # slow af
+        haskell.disabled = true;
+
       };
     };
 

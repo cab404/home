@@ -11,8 +11,10 @@ let
     else lib.recursiveUpdate (enableThings (tail things) overrides) {
       "${head things}".enable = true;
     };
-  _env = import ./secret/env.nix;
 
+  # I want warnings on unfree software, but I won't stay completely free, if
+  # that shatters my productivity
+  forgiveMeStallman = package: package.overrideAttrs(a: { meta = {}; });
 in
 {
 
@@ -29,11 +31,21 @@ in
 
   xdg = enableThings [ "portal" "mime" "sounds" "menus" "icons" "autostart" ] {};
 
+  boot.extraModulePackages = with config.boot.kernelPackages; [
+    # It doesn't build :| (forgiveMeStallman amdgpu-pro)
+  ];
+
+  nixpkgs.config = {
+    checkMeta = true;
+    android_sdk.accept_license = true;
+  };
+
+  nixpkgs.overlays = [];
+
   services = enableThings [
     "ntp" "locate" "upower" "xserver"
     "actkbd" "throttled" "blueman" "flatpak"
-    "tor"
-#    "gnunet"
+    "tor" "gnunet" "earlyoom"
   ] {
 
     logind = {
@@ -58,6 +70,20 @@ in
       '')
     ];
 
+    snapper = {
+      filters = "/home/*/.cache";
+      configs = {
+        root = {
+          subvolume = "/";
+        };
+        home = {
+          subvolume = "/home";
+        };
+      };
+    };
+
+    earlyoom.freeMemThreshold = 5;
+
     xserver = {
       libinput = {
         enable = true;
@@ -78,7 +104,12 @@ in
   sound.enable = true;
   hardware = {
     cpu.intel.updateMicrocode = true;
-    opengl.enable = true;
+    opengl = {
+      enable = true;
+      extraPackages = with pkgs; [
+        vaapiIntel clblas beignet
+      ];
+    };
     pulseaudio = {
       enable = true;
       package = pkgs.pulseaudioFull;
@@ -90,12 +121,12 @@ in
     bluetooth.enable = true;
   };
 
-  virtualisation.anbox.enable = true;
+  # virtualisation.anbox.enable = true;
   virtualisation.docker.enable = true;
 
   programs = enableThings [
     "light" # brightness control
-    "plotinus" # command pallet that doesn't work yet for some reason
+    # "plotinus" # command pallet that doesn't work yet for some reason
     "wireshark" # should create some missing groups
   ] {};
 
@@ -105,7 +136,7 @@ in
     gnome3.dconf xfce.xfconf  # programs <3 configs
   ];
 
-  users.users."${_env.username}".extraGroups = [
+  users.users."${config._.user}".extraGroups = [
     "docker" "containers" "plugdev"
     "tor" "wireshark" "libvirtd"
   ];

@@ -7,26 +7,15 @@ let
     else lib.recursiveUpdate (enableThings (tail things) overrides) {
       "${head things}".enable = true;
     };
+  _ = config._;
 in
 {
 
   require = [ ./env.nix ];
 
-  console = {
-    colors = [
-        "3A3C43" "BE3E48" "869A3A" "C4A535" "4E76A1" "855B8D" "568EA3" "B8BCB9"
-        "888987" "FB001E" "0E712E" "C37033" "176CE3" "FB0067" "2D6F6C" "FCFFB8"
-    ];
-    font = "Lat2-Terminus16";
-    useXkbConfig = true; # ctrl:nocaps at last
-  };
-
   i18n.defaultLocale = "en_US.UTF-8";
 
-  nix = {
-    trustedUsers = [ "root" config._.user ];
-  };
-
+  nix.trustedUsers = [ "root" _.user ];
 
   boot = {
     kernelPackages = pkgs.linuxPackages_latest;
@@ -39,34 +28,21 @@ in
     firewall.enable = false;
   };
 
-  hardware.nitrokey.enable = true;
-
   services = enableThings [
-    "openssh" "fwupd" "upower"
+    "openssh"
   ] {
-
-    udev.extraRules = ''
-    GROUPS=="wheel", ATTR{idVendor}=="234b", ATTR{idProduct}=="0000", ENV{ID_SMARTCARD_READER}="1", ENV{ID_SMARTCARD_READER_DRIVER}="gnupg"
-    '';
     openssh = {
       passwordAuthentication = false;
     };
-
-    xserver = {
-      layout = "us,ru";
-      xkbOptions = "ctrl:nocaps, grp:switch";
-    };
-
   };
 
   users = {
     mutableUsers = false;
-    users."${config._.user}" = {
+    users."${_.user}" = {
       isNormalUser = true;
       extraGroups = [
-        "plugdev" "wheel" "nitrokey"
-        "containers" "networkmanager"
-        "dialout"
+        "plugdev" "wheel" "containers"
+        "networkmanager" "dialout"
       ];
       shell = pkgs.zsh;
     };

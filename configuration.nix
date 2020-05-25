@@ -1,25 +1,21 @@
-params@ { ... }:
-let
-  evalCfg = import <nixpkgs/nixos/lib/eval-config.nix>;
+{ pkgs, lib, ... }:
+with lib;
+{
+
   imports = [
     ./hardware-configuration.nix
-    ./hw/dell-latitude-5400.nix
-    ./secret/system.nix
-    ./home-manager.nix
-    ./desktop.nix
-    ./core.nix
+    ./notebook.nix
   ];
-    result = builtins.trace "Should not be executed" (evalCfg {
-    modules = map (import) imports;
-  });
-in
-{
-  inherit imports;
+
+  networking.hostName = "yuna";
+  _.user = "cab";
+  time.timeZone = "Europe/Moscow";
+  i18n.defaultLocale = "en_US.UTF-8";
 
   # This value determines the NixOS release with which your system is to be
   # compatible, in order to avoid breaking some software such as database
   # servers. You should change this only after NixOS release notes say you
   # should.
-  system.stateVersion = "19.09"; # Did you read the comment?
+  system.stateVersion = "20.03"; # Did you read the comment?
 
 }
