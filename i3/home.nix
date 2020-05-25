@@ -24,6 +24,11 @@ with import ../lib.nix { inherit pkgs; }; {
 
   };
 
+  # == That fixes qtkeychain
+  home.sessionVariables = {
+    DESKTOP_SESSION = "kde";
+    KDE_SESSION_VERSION = "5";
+  };
 
   xsession.enable = true;
   xsession.pointerCursor = {
