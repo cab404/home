@@ -113,8 +113,8 @@ with import ../lib.nix { inherit pkgs; }; {
 
           # Resize windows
           "${mod}+Ctrl+Shift+h" = "resize shrink width 8 px or 8 ppt";
-          "${mod}+Ctrl+Shift+j" = "resize grow height 8 px or 8 ppt";
-          "${mod}+Ctrl+Shift+k" = "resize shrink height 8 px or 8 ppt";
+          "${mod}+Ctrl+Shift+j" = "resize shrink height 8 px or 8 ppt";
+          "${mod}+Ctrl+Shift+k" = "resize grow height 8 px or 8 ppt";
           "${mod}+Ctrl+Shift+l" = "resize grow width 8 px or 8 ppt";
 
           # Window states
