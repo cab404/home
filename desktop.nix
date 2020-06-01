@@ -112,6 +112,9 @@ in
     };
     pulseaudio = {
       enable = true;
+      extraModules = with pkgs; [
+        pulseaudio-modules-bt
+      ];
       package = pkgs.pulseaudioFull;
       zeroconf.discovery.enable = true;
       daemon.config = {
