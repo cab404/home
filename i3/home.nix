@@ -19,7 +19,7 @@ with import ../lib.nix { inherit pkgs; }; {
       shadow = true;
       vSync = true;
       fadeDelta = 5;
-      inactiveOpacity = "0.8";
+      inactiveOpacity = "0.96";
     };
 
   };
@@ -51,10 +51,23 @@ with import ../lib.nix { inherit pkgs; }; {
       ];
       window = {
         border = 1;
+        hideEdgeBorders = "both";
         commands = [
           { criteria = { class = "plasmashell"; }; command = "floating enable"; }
           { criteria = { title = "Desktop — Plasma"; }; command = "kill, floating enable, border none"; }
         ];
+      };
+      focus = {
+        newWindow = "focus";
+      };
+      colors = {
+        focused = {
+          border = "#4cff99";
+          background = "#285577";
+          childBorder = "#28aa77";
+          indicator = "#2e9ef4";
+          text = "#ffffff";
+        };
       };
       keybindings =
         let
