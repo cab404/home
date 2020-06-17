@@ -103,13 +103,6 @@ in
   # == Sound
   sound.enable = true;
   hardware = {
-    cpu.intel.updateMicrocode = true;
-    opengl = {
-      enable = true;
-      extraPackages = with pkgs; [
-        vaapiIntel clblas beignet
-      ];
-    };
     pulseaudio = {
       enable = true;
       extraModules = with pkgs; [
