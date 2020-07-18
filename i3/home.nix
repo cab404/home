@@ -72,10 +72,14 @@ with import ../lib.nix { inherit pkgs; }; {
       keybindings =
         let
           mod = modifier;
-          workspaces = with lib; listToAttrs (
-            (map (i: nameValuePair "${mod}+${i}" "workspace number ${i}") (map toString (range 0 9))) ++
-            (map (i: nameValuePair "${mod}+Shift+${i}" "move container to workspace number ${i}") (map toString (range 0 9)))
-          );
+          intMod = a: b: a - (a / b) * b;
+          numkey = i: toString (intMod i 10);
+          workspaceList = (lib.range 1 10);
+          workspaces = with lib;
+            listToAttrs (
+              (map (i: nameValuePair "${mod}+${numkey i}" "workspace number ${toString i}") workspaceList) ++
+              (map (i: nameValuePair "${mod}+Shift+${numkey i}" "move container to workspace number ${toString i}") workspaceList)
+            );
         in lib.mkDefault ({
 
           "${mod}+Tab" = "workspace back_and_forth";
