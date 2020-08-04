@@ -70,18 +70,6 @@ in
       '')
     ];
 
-    snapper = {
-      filters = "/home/*/.cache";
-      configs = {
-        root = {
-          subvolume = "/";
-        };
-        home = {
-          subvolume = "/home";
-        };
-      };
-    };
-
     earlyoom.freeMemThreshold = 5;
 
     xserver = {
