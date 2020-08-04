@@ -15,14 +15,14 @@ with import ./lib.nix args;
     fzf = let
       # locate doesn't search at home, and that would be insecure.
       # so yeah
-      ultimacate = pkgs.writeScriptBin "l" ''
+      ultimacate = pkgs.writeScript "l" ''
             #!/usr/bin/env bash
             locate $@
             locate -d ~/.locate.db $@
           '';
     in {
       enableZshIntegration = true;
-      fileWidgetCommand = "${ultimacate}/bin/l .";
+      fileWidgetCommand = "${ultimacate} .";
     };
 
     starship = {
