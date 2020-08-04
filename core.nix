@@ -48,6 +48,7 @@ in
     udev.extraRules = ''
     GROUPS=="wheel", ATTR{idVendor}=="234b", ATTR{idProduct}=="0000", ENV{ID_SMARTCARD_READER}="1", ENV{ID_SMARTCARD_READER_DRIVER}="gnupg"
     '';
+
     openssh = {
       passwordAuthentication = false;
     };
