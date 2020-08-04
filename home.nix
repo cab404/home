@@ -29,10 +29,6 @@ with import ./lib.nix args;
       # Building stuff
       stack
       jdk8 nim
-      elmPackages.elm
-      elmPackages.elm-analyse
-      elmPackages.elm-format
-      elmPackages.elm-test
 
       # Emacs is a whiny banana
       #TODO: move into emacs path
