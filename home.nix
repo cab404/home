@@ -69,7 +69,7 @@ with import ./lib.nix args;
 
       # Funny utilities
       aircrack-ng netsniff-ng hashcat wireshark
-      metasploit mtr
+      metasploit mtr btfs
 
       # Personal data and sync
       (pass.withExtensions (e: with e; [
