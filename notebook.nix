@@ -8,4 +8,6 @@ _: {
     # ./home-manager.nix
   ];
 
+  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
+
 }
