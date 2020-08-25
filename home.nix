@@ -47,12 +47,12 @@ with import ./lib.nix args;
       font-awesome-ttf
 
       # Window manager and looks stuff
-      rofi rofi-pass
+      rofi rofi-pass qrencode
 
       # Command line comfort
       alacritty zsh findutils
       pulsemixer ag fff xclip
-      fzf
+      fzf file
 
       # Runners
       appimage-run lutris-free
