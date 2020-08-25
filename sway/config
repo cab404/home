@@ -53,7 +53,7 @@ seat seat0 xcursor_theme Paper 24
 default_border pixel 2
 default_floating_border pixel 2
 
-client.focused              #4c7899 #285577 #ffffff #2e9ef4 #285577
+client.focused              #4cff99 #285577 #ffffff #2e9ef4 #285577
 client.focused_inactive     #333333 #5f676a #ffffff #484e50 #5f676a
 client.unfocused            #333333 #222222 #888888 #292d2e #222222
 client.urgent               #2f343a #900000 #ffffff #900000 #900000
