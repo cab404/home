@@ -18,15 +18,11 @@ let
 in
 {
 
-  imports  = [
-    # ./kde/system.nix
-    ./i3/system.nix
-    # ./sway/system.nix
-  ];
+  require = [ ./. ];
 
   documentation = {
     dev.enable = true;
-    nixos.includeAllModules = true;
+    # makes all the external modules break builds :/ # nixos.includeAllModules = true;
   };
 
   xdg = enableThings [ "portal" "mime" "sounds" "menus" "icons" "autostart" ] {};
@@ -59,7 +55,6 @@ in
         {keys = [ 225 ]; events = [ "key" ]; command = "/run/current-system/sw/bin/light -A 2"; }
       ];
     };
-
     udev.packages = [
       pkgs.android-udev-rules
       (pkgs.writeTextDir "/etc/udev/rules.d/42-user-devices.rules" ''
@@ -73,6 +68,10 @@ in
     earlyoom.freeMemThreshold = 5;
 
     xserver = {
+      displayManager.autoLogin = {
+        enable = true;
+        user = "${config._.user}";
+      };
       libinput = {
         enable = true;
         naturalScrolling = true;
@@ -91,6 +90,7 @@ in
   # == Sound
   sound.enable = true;
   hardware = {
+    opengl.enable = true;
     pulseaudio = {
       enable = true;
       extraModules = with pkgs; [

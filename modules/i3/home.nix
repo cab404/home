@@ -1,11 +1,15 @@
 { pkgs, lib, ... }:
-with import ../lib.nix { inherit pkgs; }; {
+with import ../../lib.nix { inherit pkgs; }; {
 
   home.packages = with pkgs; [
     nitrogen arandr
     redshift redshift-plasma-applet
     plasma-desktop
   ];
+
+  home.file = {
+      ".bg.png".source = ../../bg.png;
+  };
 
   services = enableThings [
     "flameshot"

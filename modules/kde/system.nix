@@ -1,20 +1,12 @@
-{ pkgs, ... } :
-let
-  env = import ../secret/env.nix;
-in
-{
+{ pkgs, config, ... }: {
 
   services.xserver = {
     # enabled = true;
     desktopManager.plasma5.enable = true;
 
-    displayManager.sddm = {
-      enable = true;
-      autoLogin = {
-        enable = true;
-        user = env.username;
-      };
-    };
+    # displayManager.sddm = {
+    #   enable = true;
+    # };
 
   };
 

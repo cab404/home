@@ -1,4 +1,4 @@
-params @ { config, pkgs, lib, ... }:
+args @ { config, pkgs, lib, ... }:
 let
   enableThings = with builtins;
     things: overrides:
@@ -24,7 +24,11 @@ in
   i18n.defaultLocale = "en_US.UTF-8";
 
   nix = {
+    package = pkgs.nixUnstable;
     trustedUsers = [ "root" config._.user ];
+    extraOptions = ''
+    experimental-features = nix-command flakes
+    '';
   };
 
 
@@ -71,6 +75,7 @@ in
       ];
       shell = pkgs.zsh;
     };
+    users.root.shell = pkgs.zsh;
   };
 
   environment.pathsToLink = [ "/share/zsh" ];
@@ -82,7 +87,6 @@ in
     nmap arp-scan
     nix-index  # woo, search in nix packages files!
     nix-zsh-completions zsh-completions  # systemctl ena<TAB>... AAAAGH
-    cachix # cause I need hie in finite amount of time
   ]);
 
 }

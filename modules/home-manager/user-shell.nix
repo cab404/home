@@ -1,6 +1,7 @@
 args @ { config, pkgs, lib, ... }:
-with import ./lib.nix args;
+with import ../../lib.nix args;
 {
+
   programs = enableThings [
     "git"
     "direnv"

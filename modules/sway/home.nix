@@ -32,6 +32,7 @@
     ];
 
     file = {
+      ".bg.png".source = ../../bg.png;
       ".config/kanshi/config".text = "";
       ".config/sway/config" = {
 	      source = ./config;

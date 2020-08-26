@@ -3,10 +3,9 @@ with import ./lib.nix args;
 {
 
   imports = [
-    # ./sway/home.nix
-    ./i3/home.nix
     ./secret/home.nix
-    ./user-shell.nix
+    ./modules/home-manager/user-shell.nix
+    ./modules/i3/home.nix
   ];
 
   nixpkgs.config = {

@@ -1,14 +1,28 @@
 { pkgs, lib, ... }:
-with lib;
-{
+with lib; {
 
   imports = [
+    ./modules/core.nix
+    ./modules
+
     ./hardware-configuration.nix
-    ./notebook.nix
+    ./hw/dell-latitude-5400.nix
+
+    ./modules/desktop.nix
+    ./modules/i3/system.nix
+    ./secret/system.nix
+
+    # ./modules/home-manager
+
   ];
 
+  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
+
   networking.hostName = "yuna";
+
   _.user = "cab";
+  _.desktop = "i3";
+
   time.timeZone = "Europe/Moscow";
   i18n.defaultLocale = "en_US.UTF-8";
 
