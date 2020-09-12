@@ -37,7 +37,6 @@ with import ./lib.nix args;
 
       # Editing
       libreoffice inkscape gimp krita
-      cura blender
       joplin-desktop
 
       # Fonts
