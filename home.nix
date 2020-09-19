@@ -37,7 +37,7 @@ with import ./lib.nix args;
 
       # Editing
       libreoffice inkscape gimp krita
-      joplin-desktop
+      joplin-desktop ffmpeg
 
       # Fonts
       source-code-pro noto-fonts
