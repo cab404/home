@@ -96,6 +96,10 @@ with import ./lib.nix args;
       sudo nixos-rebuild $@
       '')
 
+      (writeShellScriptBin "nix-search" ''
+      nix search ${<nixpkgs>} --no-update-lock-file --no-registries $@
+      '')
+
       # Desktop entries
       (makeDesktopItem {
         name = "emacsclient";
