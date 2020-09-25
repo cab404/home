@@ -36,8 +36,6 @@ in
     android_sdk.accept_license = true;
   };
 
-  nixpkgs.overlays = [];
-
   services = enableThings [
     "ntp" "locate" "upower" "xserver"
     "actkbd" "throttled" "blueman" "flatpak"
