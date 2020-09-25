@@ -53,7 +53,6 @@ with import ../../lib.nix args;
       export PATH=$PATH:~/.cargo/bin
       '';
       shellAliases = {
-        ec = "emacsclient -s /tmp/emacs1000/server -nc";
         ls = "ls --color=auto";
         ll = "ls -hal";
         l = "ll";
