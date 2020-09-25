@@ -76,12 +76,12 @@ with import ./lib.nix args;
 
       # Blocking emacs.
       (writeShellScriptBin "ee" ''
-      ${emacs}/bin/emacsclient -s /tmp/emacs1000/server -c $@
+      ${emacs}/bin/emacsclient -c $@
       '')
 
       # Non-blocking emacs
       (writeShellScriptBin "ec" ''
-      ${emacs}/bin/emacsclient -s /tmp/emacs1000/server -nc $@
+      ${emacs}/bin/emacsclient -nc $@
       '')
 
       # TODO: Make cab-home switch both system and local config from any folder.
