@@ -140,7 +140,6 @@ with import ./lib.nix args;
     "rofi"
     "alacritty"
     "emacs"
-    "home-manager"
   ] {
 
     # == SSH
