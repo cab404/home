@@ -71,7 +71,7 @@ in
       extraGroups = [
         "plugdev" "wheel" "nitrokey"
         "containers" "networkmanager"
-        "dialout"
+        "dialout" "video"
       ];
       shell = pkgs.zsh;
     };
