@@ -79,7 +79,7 @@ in
   };
 
   environment.pathsToLink = [ "/share/zsh" ];
-  environment.systemPackages = (with pkgs; [
+  environment.defaultPackages = (with pkgs; [
     # this section is a tribute to my PEP-8 hatred
     curl vim htop git tmux hexedit # find one which does not fit
     ntfsprogs btrfs-progs  # why aren't those there by default?
