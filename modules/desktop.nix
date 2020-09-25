@@ -65,19 +65,6 @@ in
 
     earlyoom.freeMemThreshold = 5;
 
-    xserver = {
-      displayManager.autoLogin = {
-        enable = true;
-        user = "${config._.user}";
-      };
-      libinput = {
-        enable = true;
-        naturalScrolling = true;
-        tapping = false;
-      };
-      wacom.enable = true;
-    };
-
     tor = {
       controlSocket.enable = true;
       client.enable = true;

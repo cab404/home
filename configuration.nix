@@ -2,18 +2,12 @@
 with lib; {
 
   imports = [
-    ./modules/core.nix
-    ./modules
-
-    ./secret/hardware-configuration.nix
     ./hw/dell-latitude-5400.nix
-
-    ./modules/desktop.nix
     ./modules/i3/system.nix
-    ./secret/system.nix
-
     ./modules/home-manager
 
+    ./secret/system.nix
+    ./secret/hardware-configuration.nix
   ];
 
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
