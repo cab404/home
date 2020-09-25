@@ -46,7 +46,7 @@ with import ./lib.nix args;
       # Command line comfort
       alacritty zsh findutils
       pulsemixer ag fff xclip
-      fzf file
+      fzf file tree
 
       # Runners
       appimage-run lutris-free
