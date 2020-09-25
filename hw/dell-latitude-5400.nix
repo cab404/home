@@ -24,13 +24,25 @@ Section "InputClass"
     #"iwlwifi.power_level=5" # ITS OVER 4!
   ];
 
-  hardware.opengl = {
+  hardware.opengl = with pkgs; {
     enable = true;
+    driSupport = true;
     driSupport32Bit = true;
-    extraPackages = with pkgs; [
-      beignet
+    extraPackages = [
+      rocm-opencl-icd
+      intel-compute-runtime
       clblas
+      amdvlk
+    ];
+    extraPackages32 = [
+      driversi686Linux.amdvlk
     ];
   };
+
+
+  # For amdvlk
+  environment.variables.VK_ICD_FILENAMES = "/run/opengl-driver/share/vulkan/icd.d/amd_icd64.json";
+
+  environment.systemPackages = with pkgs; [ clinfo ];
 
 }
