@@ -93,7 +93,7 @@ with import ./lib.nix args;
       '')
 
       (writeShellScriptBin "nix-search" ''
-      nix search ${<nixpkgs>} --no-update-lock-file --no-registries $@
+      nix search ${pkgs.path} --no-update-lock-file --no-registries $@
       '')
 
       # Desktop entries
