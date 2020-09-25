@@ -71,8 +71,6 @@ with import ./lib.nix args;
       ]))
       browserpass keybase
       gnupg nextcloud-client
-      kdeFrameworks.kwallet
-      kwalletmanager python3Packages.snapperGUI
 
       # Blocking emacs.
       (writeShellScriptBin "ee" ''
