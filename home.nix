@@ -8,10 +8,6 @@ with import ./lib.nix args;
     ./modules/i3/home.nix
   ];
 
-  nixpkgs.config = {
-    checkMeta = true;
-  };
-
   manual.json.enable = true;
 
   home = {

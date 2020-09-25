@@ -5,14 +5,14 @@ with lib; {
     ./modules/core.nix
     ./modules
 
-    ./hardware-configuration.nix
+    ./secret/hardware-configuration.nix
     ./hw/dell-latitude-5400.nix
 
     ./modules/desktop.nix
     ./modules/i3/system.nix
     ./secret/system.nix
 
-    # ./modules/home-manager
+    ./modules/home-manager
 
   ];
 
@@ -30,6 +30,6 @@ with lib; {
   # compatible, in order to avoid breaking some software such as database
   # servers. You should change this only after NixOS release notes say you
   # should.
-  system.stateVersion = "20.03"; # Did you read the comment?
+  system.stateVersion = "20.09"; # Did you read the comment?
 
 }

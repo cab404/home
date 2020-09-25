@@ -1,13 +1,8 @@
-{ pkgs, config, ... }:
-let
-  sources = import ../../nix/sources.nix;
-  home-manager = toString sources.home-manager;
-in
-{
+{ pkgs, config, ... }: {
 
-  imports = [ (home-manager + "/nixos") ];
   config = {
     home-manager.useUserPackages = true;
+    home-manager.useGlobalPkgs = true;
     home-manager.users = {
 
       root = {
@@ -16,15 +11,14 @@ in
         ];
       };
 
-      # "${config._.user}" = {
-      #   imports = [
-      #     ./user-shell.nix
-      #     ../../home.nix
-      #   ] ++ (if config._.desktop == null then [] else [
-      #     (./.. + "/${config._.desktop}/home.nix")
-      #   ]);
-      # };
+      "${config._.user}" = {
+        imports = [
+          ./user-shell.nix
+          ../../home.nix
+        ];
+      };
 
     };
+
   };
 }

@@ -2,19 +2,32 @@
   description = "cab's system config";
 
   inputs = {
-    home-manager = {
-      url = "github:rycee/home-manager/release-20.03";
-      flake = false;
-    };
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    home-manager.url = "github:nix-community/home-manager";
+    home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, nixpkgs, home-manager }: {
+  outputs = inputs @ { self, nixpkgs, home-manager, ... }: {
 
     nixosConfigurations = {
-      yuna = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        modules = [ ./configuration.nix ];
-      };
+
+      yuna =
+        let
+          inherit (nixpkgs) lib;
+          system = "x86_64-linux";
+          specialArgs = {
+            inherit inputs;
+          };
+          modules = [
+            ./configuration.nix
+            home-manager.nixosModules.home-manager
+          ];
+        in lib.nixosSystem {
+          inherit modules system specialArgs;
+        };
+
     };
+
   };
+
 }
