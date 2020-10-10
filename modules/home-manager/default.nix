@@ -1,4 +1,8 @@
-{ pkgs, config, ... }: {
+{ pkgs, config, inputs, ... }: {
+
+  imports = [
+    inputs.home-manager.nixosModules.home-manager
+  ];
 
   config = {
     home-manager.useUserPackages = true;
