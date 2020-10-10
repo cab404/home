@@ -34,8 +34,6 @@ in
 
   boot = {
     kernelPackages = pkgs.linuxPackages_latest;
-    loader.systemd-boot.enable = true;
-    loader.efi.canTouchEfiVariables = true;
   };
 
   networking = {
@@ -46,7 +44,7 @@ in
   hardware.nitrokey.enable = true;
 
   services = enableThings [
-    "openssh" "fwupd" "upower"
+    "openssh" "fwupd" "avahi"
   ] {
 
     udev.extraRules = ''
@@ -88,5 +86,6 @@ in
     nix-index  # woo, search in nix packages files!
     nix-zsh-completions zsh-completions  # systemctl ena<TAB>... AAAAGH
   ]);
+
 
 }
