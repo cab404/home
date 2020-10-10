@@ -1,4 +1,4 @@
-{ pkgs, lib, ... }:
+{ pkgs, lib, config, ... }:
 with import ../../lib.nix { inherit pkgs; }; {
 
   home.packages = with pkgs; [
@@ -8,7 +8,24 @@ with import ../../lib.nix { inherit pkgs; }; {
   ];
 
   home.file = {
-      ".bg.png".source = ../../bg.png;
+    ".bg.png".source = ../../bg.png;
+
+    # KDE splash is eeevil
+    ".config/ksplashrc".text = ''
+    [KSplash]
+    Engine=none
+    Theme=None
+    '';
+
+    # Plasma theme
+    ".config/plasmarc".text = ''
+    [Theme]
+    name=Adapta
+
+    [Wallpapers]
+    usersWallpapers=/home/${config.home.username}/.bg.png
+    '';
+
   };
 
   services = enableThings [
@@ -23,7 +40,7 @@ with import ../../lib.nix { inherit pkgs; }; {
       shadow = true;
       vSync = true;
       fadeDelta = 5;
-      inactiveOpacity = "0.96";
+      # inactiveOpacity = "0.96";
     };
 
   };
