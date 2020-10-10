@@ -36,6 +36,8 @@ in
     android_sdk.accept_license = true;
   };
 
+  fonts.fontconfig.enable = true;
+
   services = enableThings [
     "ntp" "locate" "xserver"
     "actkbd" "throttled" "blueman" "flatpak"
