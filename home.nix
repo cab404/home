@@ -72,6 +72,14 @@ with import ./lib.nix args;
       browserpass keybase
       gnupg nextcloud-client
 
+      # Themes, all of them
+      adwaita-qt
+      gnome3.adwaita-icon-theme
+      gnome-themes-extra
+      theme-obsidian2
+      adapta-gtk-theme
+      adapta-kde-theme
+
       # Blocking emacs.
       (writeShellScriptBin "ee" ''
       ${emacs}/bin/emacsclient -c $@
@@ -151,26 +159,6 @@ with import ./lib.nix args;
     # == Rofi menu
     rofi.theme = "sidebar";
 
-    # == Alacritty terminal
-    alacritty = {
-      settings =
-        {
-          "env" = {
-            "TERM" = "xterm-256color";
-          };
-          "window" = {
-            "gtk-theme-variant" = "dark";
-          };
-          "font" = let family = "Fira Code"; in {
-            "normal" = { "family" = family; };
-            "italic" = { "family" = family; };
-            "bold" = { "family" = family; };
-            "bold_italic" = { "family" = family; };
-            "size" = 8;
-          };
-        };
-    };
-
     # == Emacs
     emacs = {
       package = pkgs.emacs.override {
@@ -190,10 +178,10 @@ with import ./lib.nix args;
   services = enableThings [
     "emacs"
     "gpg-agent"
-    "kbfs"
-    "keybase"
+    # "kbfs"
+    # "keybase"
     "flameshot"
-    "lorri"
+    # "lorri"
   ] { };
 
   # == Gnome hates when there's no dconf -.-
@@ -201,11 +189,18 @@ with import ./lib.nix args;
 
   gtk = {
     enable = true;
-    iconTheme.package = pkgs.paper-icon-theme;
-    iconTheme.name = "Paper";
+    iconTheme.package = pkgs.gnome3.adwaita-icon-theme;
+    iconTheme.name = "Adwaita";
+    gtk2.extraConfig = ''
+    gtk-enable-animations=1
+    gtk-primary-button-warps-slider=0
+    gtk-toolbar-style=GTK_TOOLBAR_BOTH_HORIZ
+    gtk-menu-images=1
+    gtk-button-images=1
+    gtk-font-name="Noto Sans,  10"
+    '';
     theme.package = pkgs.adapta-gtk-theme;
     theme.name = "Adapta-Nokto-Eta";
   };
 
-  qt = { enable = true; platformTheme = "gtk"; };
 }
