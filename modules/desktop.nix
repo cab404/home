@@ -37,7 +37,7 @@ in
   };
 
   services = enableThings [
-    "ntp" "locate" "upower" "xserver"
+    "ntp" "locate" "xserver"
     "actkbd" "throttled" "blueman" "flatpak"
     "tor" "gnunet" "earlyoom"
   ] {
@@ -99,7 +99,7 @@ in
     "wireshark" # should create some missing groups
   ] {};
 
-  powerManagement.powertop.enable = true;
+  powerManagement.powertop.enable = lib.mkDefault true;
 
   environment.systemPackages = with pkgs; [
     gnome3.dconf xfce.xfconf  # programs <3 configs
