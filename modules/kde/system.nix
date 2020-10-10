@@ -7,7 +7,4 @@
     displayManager.sddm.enable = true;
   };
 
-  environment.systemPackages = with pkgs; [
-  ];
-
 }
