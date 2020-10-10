@@ -24,6 +24,10 @@ Section "InputClass"
     #"iwlwifi.power_level=5" # ITS OVER 4!
   ];
 
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
+  powerManagement.enable = true;
+
   hardware.opengl = with pkgs; {
     enable = true;
     driSupport = true;
@@ -33,6 +37,7 @@ Section "InputClass"
       intel-compute-runtime
       clblas
       amdvlk
+      vulkan-loader
     ];
     extraPackages32 = [
       driversi686Linux.amdvlk
