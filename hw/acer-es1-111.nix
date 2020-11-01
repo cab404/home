@@ -1,9 +1,6 @@
 { config, lib, pkgs, ... }:
 
 {
-  imports =
-    [ <nixpkgs/nixos/modules/installer/scan/not-detected.nix>
-    ];
 
   boot.initrd.availableKernelModules = [ "xhci_pci" "usb_storage" "sd_mod" "sdhci_acpi" ];
   boot.initrd.kernelModules = [ ];
@@ -20,4 +17,5 @@
   nix.maxJobs = lib.mkDefault 2;
   powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
 
+  hardware.enableRedistributableFirmware = lib.mkDefault true;
 }
