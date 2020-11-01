@@ -1,0 +1,23 @@
+{ config, lib, pkgs, ... }:
+
+{
+  imports =
+    [ <nixpkgs/nixos/modules/installer/scan/not-detected.nix>
+    ];
+
+  boot.initrd.availableKernelModules = [ "xhci_pci" "usb_storage" "sd_mod" "sdhci_acpi" ];
+  boot.initrd.kernelModules = [ ];
+  boot.kernelModules = [ "kvm-intel" ];
+  boot.extraModulePackages = [ ];
+
+  fileSystems."/" =
+    { device = "/dev/disk/by-uuid/82c37f83-6405-43b3-8c99-afd81e58c18b";
+      fsType = "btrfs";
+    };
+
+  swapDevices = [ ];
+
+  nix.maxJobs = lib.mkDefault 2;
+  powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
+
+}

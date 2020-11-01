@@ -38,6 +38,22 @@
           }
         ];
 
+        tifa = buildSystem [
+          ./hw/acer-es1-111.nix
+          ./modules/i3/system.nix
+          ./modules/home-manager
+          ./secret/system.nix
+          ./secret/hardware-configuration.nix
+          {
+            systemd.coredump.enable = true;
+            system.name = "tifa";
+            networking.hostName = "tifa";
+            _.user = "cab";
+            time.timeZone = "Europe/Moscow";
+            i18n.defaultLocale = "en_US.UTF-8";
+          }
+        ];
+
         container = buildSystem [
           ./modules
           ./modules/kde/system.nix
