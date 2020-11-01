@@ -57,6 +57,7 @@ in
     };
     udev.packages = [
       pkgs.android-udev-rules
+      pkgs.stlink
       (pkgs.writeTextDir "/etc/udev/rules.d/42-user-devices.rules" ''
       # Saleae Logic thing
       ATTR{idVendor}=="0925", ATTR{idProduct}=="3881", GROUP+="dialout"
