@@ -95,7 +95,7 @@ with import ./lib.nix args;
       (writeShellScriptBin "cab-home" ''
       #!/usr/bin/env bash
       sudo cp -r ~/data/cab-home/* /etc/nixos
-      sudo nixos-rebuild $@
+      sudo nixos-rebuild --flake /etc/nixos#''${HOST} $@
       '')
 
       (writeShellScriptBin "nix-search" ''
