@@ -29,6 +29,9 @@
           ./secret/system.nix
           ./secret/hardware-configuration.nix
           {
+            systemd.coredump.enable = true;
+            system.name = "yuna";
+            networking.hostName = "yuna";
             _.user = "cab";
             time.timeZone = "Europe/Moscow";
             i18n.defaultLocale = "en_US.UTF-8";
