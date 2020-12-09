@@ -56,7 +56,7 @@ with import ./lib.nix args;
 
       # Hardware stuff
       androidenv.androidPkgs_9_0.platform-tools
-      minicom pulseview cutecom
+      minicom pulseview cutecom picocom scrcpy
 
       # Viewers
       feh vlc zathura ark clementine
