@@ -15,7 +15,7 @@ with import ./lib.nix args;
     packages = with pkgs; [
 
       # Interweebs
-      firefox transmission-gtk
+      transmission-gtk
       thunderbird
 
       # Coding stuff
