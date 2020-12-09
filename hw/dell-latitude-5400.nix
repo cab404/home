@@ -11,6 +11,9 @@ Section "InputClass"
   Option "ScrollButton" "2"
   '';
 
+  services.tlp.enable = true;
+  services.blueman.enable = true;
+
   boot.kernelParams = [
     #"amdgpu.runpm=0" # disable power manager
     "amdgpu.gpu_recovery=1" # mowmow, hang in there

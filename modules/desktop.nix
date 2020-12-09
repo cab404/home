@@ -40,8 +40,8 @@ in
 
   services = enableThings [
     "ntp" "locate" "xserver"
-    "actkbd" "throttled" "blueman" "flatpak"
-    "tor" "gnunet" "earlyoom"
+    "actkbd" "flatpak"
+    "tor" "gnunet" "earlyoom" "printing"
   ] {
 
     logind = {
