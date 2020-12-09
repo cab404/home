@@ -29,7 +29,8 @@ with import ../../lib.nix args;
     starship = {
       enableZshIntegration = true;
       settings = {
-        character.symbol = "δ";
+        character.success_symbol = "[δ](dimmed green)";
+        character.error_symbol = "[δ](bold red)";
         battery = {
           display = [
             {style = "red"; threshold = 15;}
