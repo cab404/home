@@ -44,6 +44,10 @@ in
     "tor" "gnunet" "earlyoom" "printing"
   ] {
 
+    printing.drivers = [
+      pkgs.gutenprint
+    ];
+
     logind = {
       lidSwitch = "suspend-then-hibernate";
       lidSwitchExternalPower = "suspend";
