@@ -11,6 +11,7 @@ with import ../../lib.nix args;
   ] {
 
     direnv.enableZshIntegration = true;
+    direnv.enableNixDirenvIntegration = true;
 
     # Fuzzy file search (Ctrl-T for files; Alt-C for dirs)
     fzf = let
