@@ -33,7 +33,7 @@ with import ./lib.nix args;
 
       # Editing
       libreoffice inkscape gimp krita
-      joplin-desktop ffmpeg
+      joplin-desktop ffmpeg peek
 
       # Fonts
       source-code-pro noto-fonts
@@ -59,7 +59,7 @@ with import ./lib.nix args;
       minicom pulseview cutecom picocom scrcpy
 
       # Viewers
-      feh vlc zathura ark clementine
+      feh vlc zathura ark clementine font-manager baobab
 
       # Funny utilities
       aircrack-ng netsniff-ng hashcat wireshark
