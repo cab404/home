@@ -28,7 +28,6 @@ with import ./lib.nix args;
       # Emacs is a whiny banana
       #TODO: move into emacs path
       nodePackages.tern # please stop whining spacemacs i'll get you a pony
-      emacsPackages.telega
       ispell
 
       # Editing
@@ -169,7 +168,6 @@ with import ./lib.nix args;
         spinner undo-tree adaptive-wrap mmm-mode
         tern lsp-mode lsp-haskell
         direnv ag
-        telega
       ];
     };
 
