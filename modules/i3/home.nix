@@ -49,6 +49,7 @@ with import ../../lib.nix { inherit pkgs; }; {
   home.sessionVariables = {
     DESKTOP_SESSION = "kde";
     KDE_SESSION_VERSION = "5";
+    KDEWM = "${pkgs.i3-gaps}/bin/i3";
   };
 
   xsession.enable = true;
