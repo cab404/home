@@ -4,7 +4,7 @@ with import ../../lib.nix { inherit pkgs; }; {
   home.packages = with pkgs; [
     nitrogen arandr redshift
     redshift-plasma-applet kdeconnect
-    kwalletmanager
+    kwalletmanager xcwd
   ];
 
   home.file = {
@@ -105,7 +105,7 @@ with import ../../lib.nix { inherit pkgs; }; {
 
           "${mod}+Tab" = "workspace back_and_forth";
           "${mod}+Shift+q" = "kill";
-          "${mod}+Return" = "exec DRI_PRIME=1 alacritty";
+          "${mod}+Return" = "exec DRI_PRIME=1 alacritty --working-directory $(xcwd)";
           "${mod}+d" = "exec rofi -show combi";
           "${mod}+Ctrl+p" = "exec rofi-pass";
           "${mod}+Ctrl+Return" = "exec emacsclient -c";
