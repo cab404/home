@@ -30,6 +30,7 @@
           ./secret/hardware-configuration.nix
           {
             systemd.coredump.enable = true;
+            boot.tmpOnTmpfs = true;
             system.name = "yuna";
             networking.hostName = "yuna";
             _.user = "cab";
