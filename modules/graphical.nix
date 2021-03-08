@@ -15,8 +15,10 @@
 
       libinput = {
         enable = true;
-        naturalScrolling = true;
-        tapping = false;
+        touchpad = {
+          naturalScrolling = true;
+          tapping = false;
+        };
       };
       wacom.enable = true;
     };

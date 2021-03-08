@@ -1,6 +1,6 @@
 { pkgs, ... }: {
   # Trackpoint scroll fix. Injection!
-  services.xserver.libinput.additionalOptions = ''
+  services.xserver.libinput.touchpad.additionalOptions = ''
 EndSection
 Section "InputClass"
   Identifier "libinput pointer catchall"
