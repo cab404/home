@@ -33,6 +33,12 @@ with import ../../lib.nix args;
         character.success_symbol = "[δ](dimmed green)";
         character.error_symbol = "[δ](bold red)";
         battery = {
+          full_symbol = "yes";
+          charging_symbol = "chg";
+          discharging_symbol = "dis";
+          unknown_symbol = "wat";
+          empty_symbol = "oof";
+          format = "[$symbol|$percentage]($style) ";
           display = [
             {style = "red"; threshold = 15;}
             {style = "dimmed red"; threshold = 50;}
