@@ -73,7 +73,7 @@ clip_clear=45
 ## Options for generating new password entries
 
 # open new password entries in editor
-edit_new_pass="true"
+edit_new_pass="false"
 
 # default_user is also used for password files that have no user field.
 #default_user="${ROFI_PASS_DEFAULT_USER-$(whoami)}"

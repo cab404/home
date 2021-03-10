@@ -65,9 +65,6 @@ with import ./lib.nix args;
       metasploit mtr btfs strace
 
       # Personal data and sync
-      (pass.withExtensions (e: with e; [
-        pass-otp pass-update pass-genphrase pass-audit
-      ]))
       browserpass keybase
       gnupg nextcloud-client
 
@@ -143,9 +140,19 @@ with import ./lib.nix args;
     "browserpass"
     "firefox"
     "rofi"
+    "password-store"
     "alacritty"
     "emacs"
   ] {
+
+    password-store = {
+      settings = {
+        PASSWORD_STORE_ENABLE_EXTENSIONS = "true";
+      };
+      package = pkgs.pass.withExtensions (e: with e; [
+        pass-otp pass-update pass-genphrase pass-audit
+      ]);
+    };
 
     # == SSH
     ssh = {
@@ -178,6 +185,7 @@ with import ./lib.nix args;
     "gpg-agent"
     # "kbfs"
     # "keybase"
+    "password-store-sync"
     "flameshot"
     # "lorri"
   ] { };
