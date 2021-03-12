@@ -146,9 +146,6 @@ with import ./lib.nix args;
   ] {
 
     password-store = {
-      settings = {
-        PASSWORD_STORE_ENABLE_EXTENSIONS = "true";
-      };
       package = pkgs.pass.withExtensions (e: with e; [
         pass-otp pass-update pass-genphrase pass-audit
       ]);
