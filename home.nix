@@ -16,7 +16,7 @@ with import ./lib.nix args;
 
       # Interweebs
       transmission-gtk
-      thunderbird
+      thunderbird gh
 
       # Coding stuff
       vscodium
