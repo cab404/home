@@ -26,6 +26,7 @@ in
   nix = {
     package = pkgs.nixUnstable;
     trustedUsers = [ "root" config._.user ];
+    nixPath = [ "nixpkgs=${pkgs.path}" ];
     extraOptions = ''
     experimental-features = nix-command flakes
     '';
