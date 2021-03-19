@@ -94,6 +94,9 @@ with import ./lib.nix args;
       sudo nixos-rebuild --flake /etc/nixos#''${HOST} $@
       '')
 
+      (writeShellScriptBin "alacritty-light" ''cp ${./alacritty/solarized-light.yaml} ~/.config/alacritty/alacritty.yml'')
+      (writeShellScriptBin "alacritty-dark" ''cp ${./alacritty/solarized-dark.yaml} ~/.config/alacritty/alacritty.yml'')
+
       (writeShellScriptBin "nix-search" ''
       nix search ${pkgs.path} --no-update-lock-file --no-registries $@
       '')
