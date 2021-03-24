@@ -58,7 +58,7 @@ with import ./lib.nix args;
       minicom pulseview cutecom picocom scrcpy
 
       # Viewers
-      feh vlc zathura ark clementine font-manager baobab
+      feh vlc zathura ark font-manager baobab evince
 
       # Funny utilities
       aircrack-ng netsniff-ng hashcat wireshark
