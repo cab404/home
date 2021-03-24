@@ -50,6 +50,8 @@ with import ../../lib.nix { inherit pkgs; }; {
     DESKTOP_SESSION = "kde";
     KDE_SESSION_VERSION = "5";
     KDEWM = "${pkgs.i3-gaps}/bin/i3";
+    # that makes window themes work
+    XDG_CURRENT_DESKTOP = "KDE";
   };
 
   xsession.enable = true;
