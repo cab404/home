@@ -94,8 +94,15 @@ with import ./lib.nix args;
       sudo nixos-rebuild --flake /etc/nixos#''${HOST} $@
       '')
 
-      (writeShellScriptBin "alacritty-light" ''cp ${./alacritty/solarized-light.yaml} ~/.config/alacritty/alacritty.yml'')
-      (writeShellScriptBin "alacritty-dark" ''cp ${./alacritty/solarized-dark.yaml} ~/.config/alacritty/alacritty.yml'')
+      (writeShellScriptBin "light-mode" ''
+      cp ${./alacritty/solarized-light.yaml} ~/.config/alacritty/alacritty.yml
+      emacsclient -e "(spacemacs/load-theme 'spacemacs-light)"
+      '')
+
+      (writeShellScriptBin "dark-mode" ''
+      cp ${./alacritty/solarized-dark.yaml} ~/.config/alacritty/alacritty.yml
+      emacsclient -e "(spacemacs/load-theme 'spacemacs-dark)"
+      '')
 
       (writeShellScriptBin "nix-search" ''
       nix search ${pkgs.path} --no-update-lock-file --no-registries $@
