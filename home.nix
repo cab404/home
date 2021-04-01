@@ -89,7 +89,6 @@ with import ./lib.nix args;
       # TODO: Make cab-home switch both system and local config from any folder.
       # System reload
       (writeShellScriptBin "cab-home" ''
-      #!/usr/bin/env bash
       sudo cp -r ~/data/cab-home/* /etc/nixos
       sudo nixos-rebuild --flake /etc/nixos#''${HOST} $@
       '')
