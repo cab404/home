@@ -65,8 +65,7 @@ with import ./lib.nix args;
       metasploit mtr btfs strace
 
       # Personal data and sync
-      browserpass keybase
-      gnupg nextcloud-client
+      browserpass gnupg nextcloud-client
 
       # Themes, all of them
       adwaita-qt
@@ -200,8 +199,8 @@ with import ./lib.nix args;
   services = enableThings [
     "emacs"
     "gpg-agent"
-    # "kbfs"
-    # "keybase"
+    "kbfs"
+    "keybase"
     "password-store-sync"
     "flameshot"
     # "lorri"
