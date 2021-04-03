@@ -94,13 +94,24 @@ with import ./lib.nix args;
       '')
 
       (writeShellScriptBin "light-mode" ''
-      cp ${./alacritty/solarized-light.yaml} ~/.config/alacritty/alacritty.yml
-      emacsclient -e "(spacemacs/load-theme 'spacemacs-light)"
+      cp ${./alacritty/solarized-light.yaml} ~/.config/alacritty/alacritty.yml &
+      emacsclient -e "(spacemacs/load-theme 'spacemacs-light)" &
+      {
+          vsc_settings=$(mktemp)
+            jq '.["workbench.colorTheme"]="Solarized Light"' ~/.config/VSCodium/User/settings.json > $vsc_settings
+            mv $vsc_settings ~/.config/VSCodium/User/settings.json
+      } &
       '')
 
       (writeShellScriptBin "dark-mode" ''
-      cp ${./alacritty/solarized-dark.yaml} ~/.config/alacritty/alacritty.yml
-      emacsclient -e "(spacemacs/load-theme 'spacemacs-dark)"
+      cp ${./alacritty/solarized-dark.yaml} ~/.config/alacritty/alacritty.yml &
+      emacsclient -e "(spacemacs/load-theme 'spacemacs-dark)" &
+
+      {
+          vsc_settings=$(mktemp)
+            jq '.["workbench.colorTheme"]="Solarized Dark"' ~/.config/VSCodium/User/settings.json > $vsc_settings
+            mv $vsc_settings ~/.config/VSCodium/User/settings.json
+      } &
       '')
 
       (writeShellScriptBin "nix-search" ''
