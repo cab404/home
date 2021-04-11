@@ -40,7 +40,7 @@ with import ./lib.nix args;
       font-awesome-ttf
 
       # Window manager and looks stuff
-      rofi rofi-pass qrencode
+      qrencode
 
       # Command line comfort
       alacritty zsh findutils
@@ -131,12 +131,6 @@ with import ./lib.nix args;
 
     ];
 
-    file = {
-      # Just making sure they don't get collected
-      # ".cache/direnv_deps".source = (import ~/.direnv-packages.nix);
-      ".config/rofi-pass/config".source = ./rofi-menu-config.sh;
-    };
-
     # == Keyboard config
     keyboard = {
       layout = "us,ru";
@@ -179,7 +173,20 @@ with import ./lib.nix args;
     browserpass.browsers = [ "firefox" ];
 
     # == Rofi menu
-    rofi.theme = "sidebar";
+    rofi = {
+      theme = "sidebar";
+      pass = {
+        enable = true;
+        extraConfig = ''
+        edit_new_pass=false
+        notify=true;
+        password_length=6
+        _pwgen () {
+          ${pkgs.xkcdpass}/bin/xkcdpass -w eff-special -d - -n $1
+        }
+        '';
+      };
+    };
 
     # == Emacs
     emacs = {
@@ -203,7 +210,6 @@ with import ./lib.nix args;
     "keybase"
     "password-store-sync"
     "flameshot"
-    # "lorri"
   ] { };
 
   # == Gnome hates when there's no dconf -.-
