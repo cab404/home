@@ -33,6 +33,7 @@ with import ./lib.nix args;
       # Editing
       libreoffice inkscape gimp krita
       joplin-desktop ffmpeg peek
+      audacity
 
       # Fonts
       source-code-pro noto-fonts
@@ -59,6 +60,7 @@ with import ./lib.nix args;
 
       # Viewers
       feh vlc zathura ark font-manager baobab evince gthumb
+      audacious
 
       # Funny utilities
       aircrack-ng netsniff-ng hashcat wireshark
