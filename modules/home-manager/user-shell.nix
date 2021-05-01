@@ -46,9 +46,6 @@ with import ../../lib.nix args;
             {style = "bold green"; threshold = 100;}
           ];
         };
-        # slow af
-        haskell.disabled = true;
-
       };
     };
 
