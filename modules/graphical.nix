@@ -25,4 +25,6 @@
 
   };
 
+  users.users.${config._.user}.extraGroups = [ "input" ];
+
 }
