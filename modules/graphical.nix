@@ -10,7 +10,7 @@
 
       displayManager.autoLogin = {
         enable = true;
-        user = "${config._.user}";
+        user = config._.user;
       };
 
       libinput = {
