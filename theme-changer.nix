@@ -20,18 +20,19 @@ let
     };
 
   };
+  inlineJq = fname: query: (''
+      tmp_settings=$(mktemp)
+      cp ${fname} ${fname}.bkp
+      ${pkgs.jq}/bin/jq '${query}' ${fname} > $tmp_settings
+      mv $tmp_settings ${fname}
+  '');
   scripts = {
 
     alacritty = (t: ''cp ${t} ~/.config/alacritty/alacritty.yml'');
 
     spacemacs = (t: ''emacsclient -e "(spacemacs/load-theme '${t})"'');
 
-    vscodium = (t: ''
-      vsc_settings=$(mktemp)
-      cp ~/.config/VSCodium/User/settings.json ~/.config/backup.vscodium.json
-      ${pkgs.jq}/bin/jq '.["workbench.colorTheme"]=${builtins.toJSON t}' ~/.config/VSCodium/User/settings.json > $vsc_settings
-      mv $vsc_settings ~/.config/VSCodium/User/settings.json
-    '');
+    vscodium = t: inlineJq "~/.config/VSCodium/User/settings.json" ''.["workbench.colorTheme"]=${builtins.toJSON t}'';
 
   };
 
