@@ -107,6 +107,7 @@ with import ../../lib.nix { inherit pkgs; }; {
         in lib.mkDefault ({
 
           "${mod}+Tab" = "workspace back_and_forth";
+          "${mod}+Shift+Tab" = "move container to workspace back_and_forth";
           "${mod}+Shift+q" = "kill";
           "${mod}+Return" = "exec DRI_PRIME=1 alacritty --working-directory $(xcwd)";
           "${mod}+d" = "exec rofi -show combi";
