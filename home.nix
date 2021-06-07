@@ -114,6 +114,11 @@ with import ./lib.nix args;
 
     ];
 
+    file.".XCompose".text = ''
+    include "${pkgs.xlibs.libX11}/share/X11/locale/en_US.UTF-8/Compose"
+    <Multi_key> <period> <backslash>           : "λ"   U03BB  # GREEK SMALL LETTER LAMBDA
+    '';
+
     # == Keyboard config
     keyboard = {
       layout = "us,ru";
