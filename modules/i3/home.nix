@@ -4,7 +4,7 @@ with import ../../lib.nix { inherit pkgs; }; {
   home.packages = with pkgs; [
     nitrogen arandr redshift
     redshift-plasma-applet kdeconnect
-    kwalletmanager xcwd
+    kwalletmanager xcwd plasma-browser-integration
   ];
 
   home.file = {

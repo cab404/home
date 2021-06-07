@@ -114,6 +114,7 @@ with import ./lib.nix args;
 
     ];
 
+    file.".mozilla/native-messaging-hosts/org.kde.plasma.browser_integration.json".source = "${pkgs.plasma-browser-integration}/lib/mozilla/native-messaging-hosts/org.kde.plasma.browser_integration.json";
     file.".XCompose".text = ''
     include "${pkgs.xlibs.libX11}/share/X11/locale/en_US.UTF-8/Compose"
     <Multi_key> <period> <backslash>           : "λ"   U03BB  # GREEK SMALL LETTER LAMBDA
