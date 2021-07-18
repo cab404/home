@@ -165,8 +165,9 @@ with import ../../lib.nix { inherit pkgs; }; {
 
     extraConfig = ''
     # For unfocusing notifications
-    no_focus [class="plasmashell" window_type="notification"]
-    no_focus [class="plasmashell" window_type="on_screen_display"]
+    no_focus [class="plasmashell"]
+    no_focus [window_role="pop-up"]
+    no_focus [window_type="notification"]
     '';
 
   };
