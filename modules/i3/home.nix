@@ -30,7 +30,7 @@ with import ../../lib.nix { inherit pkgs; }; {
 
   services = enableThings [
     "flameshot"
-    "picom"
+   # "picom"
   ] {
 
     # == Compositor
