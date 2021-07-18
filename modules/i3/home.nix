@@ -78,6 +78,7 @@ with import ../../lib.nix { inherit pkgs; }; {
         border = 1;
         hideEdgeBorders = "both";
         commands = [
+          { criteria = { title = "Nitrogen"; }; command = "floating enable"; }
           { criteria = { class = "plasmashell"; }; command = "floating enable"; }
           { criteria = { title = "Desktop — Plasma"; }; command = "kill, floating enable, border none"; }
         ];
