@@ -12,6 +12,7 @@
         enable = true;
         user = config._.user;
       };
+      desktopManager.plasma5.enable = true;
 
       libinput = {
         enable = true;
