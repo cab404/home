@@ -10,8 +10,8 @@ with import ../../lib.nix args;
     "zsh"
   ] {
 
-    direnv.enableZshIntegration = true;
-    direnv.enableNixDirenvIntegration = true;
+    direnv.nix-direnv.enable = true;
+    direnv.nix-direnv.enableFlakes = true;
 
     # Fuzzy file search (Ctrl-T for files; Alt-C for dirs)
     fzf = let
