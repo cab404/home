@@ -25,7 +25,8 @@ in
     # makes all the external modules break builds :/ # nixos.includeAllModules = true;
   };
 
-  xdg = enableThings [ "portal" "mime" "sounds" "menus" "icons" "autostart" ] {};
+  xdg = enableThings [ "portal" ] {
+  };
 
   boot.extraModulePackages = with config.boot.kernelPackages; [
     # It doesn't build :| (forgiveMeStallman amdgpu-pro)
