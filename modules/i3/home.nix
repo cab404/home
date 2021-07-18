@@ -45,13 +45,14 @@ with import ../../lib.nix { inherit pkgs; }; {
 
   };
 
-  # == That fixes qtkeychain
   home.sessionVariables = {
+  # == That fixes qtkeychain
     DESKTOP_SESSION = "kde";
     KDE_SESSION_VERSION = "5";
-    KDEWM = "${pkgs.i3-gaps}/bin/i3";
     # that makes window themes work
     XDG_CURRENT_DESKTOP = "KDE";
+    # that makes kde chill about vm
+    KDEWM = "i3";
   };
 
   xsession.enable = true;
