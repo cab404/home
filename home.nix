@@ -184,8 +184,7 @@ with import ./lib.nix args;
       };
       # Some packages for Spacemacs it fails to install
       extraPackages = s: with s; [
-        spinner undo-tree adaptive-wrap mmm-mode
-        tern lsp-mode lsp-haskell
+        adaptive-wrap mmm-mode tern
         direnv ag
       ];
     };
