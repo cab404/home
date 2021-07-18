@@ -67,7 +67,7 @@ with import ./lib.nix args;
       metasploit mtr btfs strace
 
       # Personal data and sync
-      browserpass gnupg nextcloud-client
+      browserpass gnupg # nextcloud-client
 
       # Themes, all of them
       adwaita-qt
