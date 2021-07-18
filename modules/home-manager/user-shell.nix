@@ -65,8 +65,8 @@ with import ../../lib.nix args;
       history = {
         extended = true;
         ignoreDups = true;
-        size = 100000;
-        save = 100000;
+        size = 10000000;
+        save = 10000000;
         share = true;
       };
 
