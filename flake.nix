@@ -35,6 +35,14 @@
             networking.hostName = "yuna";
             _.user = "cab";
             time.timeZone = "Europe/Moscow";
+            nixpkgs.overlays = [
+              (self: sup: {
+                rofi-pass = sup.rofi-pass.overrideAttrs (s: {
+                  # latest in the field!
+                  src = self.fetchFromGitHub { repo = "rofi-pass"; owner = "carnager"; rev = "916ac3bf5f50d0140a9839f523621c5d77bccf0e"; hash = "sha256-TFPhUt4vvm4Uhp3wys5ZoVoxdbGHdpfnV34CKADiG8Y="; };
+                });
+              })
+            ];
 
             i18n.defaultLocale = "en_US.UTF-8";
           }
