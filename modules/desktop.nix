@@ -77,6 +77,7 @@ in
     tor = {
       controlSocket.enable = true;
       client.enable = true;
+      client.dns.enable = true;
     };
 
   };
