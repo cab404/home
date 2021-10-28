@@ -10,7 +10,7 @@ let
 in
 {
 
-  require = [ ./env.nix ];
+  require = [ ./options.nix ];
 
   console = {
     colors = [
