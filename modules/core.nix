@@ -1,14 +1,5 @@
 args @ { config, pkgs, lib, ... }:
-let
-  enableThings = with builtins;
-    things: overrides:
-    if length things == 0
-    then overrides
-    else lib.recursiveUpdate (enableThings (tail things) overrides) {
-      "${head things}".enable = true;
-    };
-in
-{
+with import ../lib.nix args; {
 
   require = [ ./options.nix ];
 
@@ -44,15 +35,17 @@ in
 
   hardware.nitrokey.enable = true;
 
-  services = enableThings [
-    "openssh" "fwupd" "avahi"
-  ] {
+  services = {
+
+    avahi = on;
+    fwupd = on;
 
     udev.extraRules = ''
+    # GNUK token
     GROUPS=="wheel", ATTR{idVendor}=="234b", ATTR{idProduct}=="0000", ENV{ID_SMARTCARD_READER}="1", ENV{ID_SMARTCARD_READER_DRIVER}="gnupg"
     '';
 
-    openssh = {
+    openssh = on // {
       passwordAuthentication = false;
     };
 
@@ -80,7 +73,7 @@ in
   environment.pathsToLink = [ "/share/zsh" ];
   environment.defaultPackages = (with pkgs; [
     # this section is a tribute to my PEP-8 hatred
-    curl neovim-nightly htop git tmux rsync hexedit # find one which does not fit
+    curl htop git tmux rsync hexedit # find one which does not fit
     ntfsprogs btrfs-progs  # why aren't those there by default?
     killall usbutils pciutils unzip  # WHY AREN'T THOSE THERE BY DEFAULT?
     nmap arp-scan
