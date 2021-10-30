@@ -199,6 +199,7 @@ with import ./lib.nix args;
     "pass-secret-service"
     "password-store-sync"
     "flameshot"
+    "kdeconnect"
   ] { };
 
   # == Gnome hates when there's no dconf -.-
