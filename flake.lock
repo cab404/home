@@ -38,11 +38,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1632256651,
-        "narHash": "sha256-+jbZKohfqTjp/5SwudwIhYzmFqmGDlIG99V5lOE4Yjg=",
+        "lastModified": 1634543124,
+        "narHash": "sha256-sPjP5GjZ0DgTgY8KljhGeix4L5ey7A3L1nm6lDffTh0=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "58aa667e28ca4a6a2159b1f3258ef5d494d5ecb6",
+        "rev": "b5d738b5a3f8c3738433e0aa6482afb4ac635380",
         "type": "github"
       },
       "original": {
@@ -62,11 +62,11 @@
       },
       "locked": {
         "dir": "contrib",
-        "lastModified": 1632338761,
-        "narHash": "sha256-/NTzwXOr4dJCc5zine0bXLQnXCmtwFe6k6KqkA2dHk8=",
+        "lastModified": 1634519907,
+        "narHash": "sha256-39X+ijcxhs4VHn5yIUMMoLoiQsU53cOzpcj3Ndurq5w=",
         "owner": "neovim",
         "repo": "neovim",
-        "rev": "aba397991b59dbadad21b9ab7ad9f7a3a21f6259",
+        "rev": "389a898586c1ed2c6cd50f3099ff50fe0645f86f",
         "type": "github"
       },
       "original": {
@@ -85,11 +85,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1632384767,
-        "narHash": "sha256-HzOaOKpUTAUmE8gqXNss93LuGP9PSf9jo1voj7hPXkQ=",
+        "lastModified": 1634544931,
+        "narHash": "sha256-KswZ666M0PmtrB4CvOxqSjXkuX9bZUI73gHsDB30pUM=",
         "owner": "nix-community",
         "repo": "neovim-nightly-overlay",
-        "rev": "67f9deafd1949745eb1b35972746b07ec32f7778",
+        "rev": "2125320b8e067469466421bc8ab160f960dbe72b",
         "type": "github"
       },
       "original": {
@@ -100,16 +100,16 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1632376865,
-        "narHash": "sha256-/o5YDaKVy1xxBFQA6qYXvqXMr/2Uj+Y7Ag24HiJ4xK8=",
+        "lastModified": 1634436779,
+        "narHash": "sha256-D/nrXTWpe1bPIjFy85sgiLHYqu+AeaC6v5/+KlA9PRg=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "bfc4b6b621dcbf7a64e0745be678267083492226",
+        "rev": "9aeeb7574fb784eaf6395f4400705b5f619e6cc3",
         "type": "github"
       },
       "original": {
         "owner": "nixos",
-        "ref": "staging-next",
+        "ref": "nixos-unstable",
         "repo": "nixpkgs",
         "type": "github"
       }
