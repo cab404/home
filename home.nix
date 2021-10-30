@@ -64,7 +64,8 @@ with import ./lib.nix args;
 
       # Funny utilities
       aircrack-ng netsniff-ng hashcat wireshark
-      metasploit mtr btfs strace
+      # metasploit
+      mtr btfs strace
 
       # Personal data and sync
       browserpass gnupg # nextcloud-client
