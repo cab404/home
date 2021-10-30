@@ -26,7 +26,7 @@
         # My notebook
         yuna = buildSystem [
           ./hw/dell-latitude-5400.nix
-          ./modules/i3/system.nix
+          ./modules/sway/system.nix
           ./modules/home-manager
           ./secret/system.nix
           ./secret/hardware-configuration.nix
