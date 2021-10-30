@@ -206,20 +206,4 @@ with import ./lib.nix args;
   # == Gnome hates when there's no dconf -.-
   dconf.enable = true;
 
-  # gtk = {
-  #   enable = true;
-  #   iconTheme.package = pkgs.gnome3.adwaita-icon-theme;
-  #   iconTheme.name = "Adwaita";
-  #   gtk2.extraConfig = ''
-  #   gtk-enable-animations=1
-  #   gtk-primary-button-warps-slider=0
-  #   gtk-toolbar-style=GTK_TOOLBAR_BOTH_HORIZ
-  #   gtk-menu-images=1
-  #   gtk-button-images=1
-  #   gtk-font-name="Noto Sans,  10"
-  #   '';
-  #   theme.package = pkgs.adapta-gtk-theme;
-  #   theme.name = "Adapta-Nokto-Eta";
-  # };
-
 }
