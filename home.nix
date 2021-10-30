@@ -1,5 +1,8 @@
 args @ { config, pkgs, lib, ... }:
 with import ./lib.nix args;
+let
+  isWL = true;
+in
 {
 
   imports = [
@@ -16,14 +19,24 @@ with import ./lib.nix args;
 
       # Interweebs
       transmission-gtk
-      thunderbird gh
+      thunderbird
 
-      # Coding stuff
-      vscodium
+      tdesktop
+    ] ++ (if isWL then [
+      # wayland interweebs
+      element-desktop-wayland
+    ] else [
+      # xserver interweebs
+      element-desktop
+    ]) ++ [
 
-      # Building stuff
-      stack
-      jdk8 nim
+      # Coding
+      #vscodium #imdone #yolo #sorryrms
+      (writeShellScriptBin "codium" ''
+        ${vscodium}/bin/codium $@ --enable-features=UseOzonePlatform --ozone-platform=wayland
+      '')
+      gh ghc jdk8 nim
+      julia-stable-bin # all julias are generally broken. which strangely coinsides with my life experience
 
       # Emacs is a whiny banana
       #TODO: move into emacs path
@@ -32,8 +45,8 @@ with import ./lib.nix args;
 
       # Editing
       libreoffice inkscape gimp krita
-      joplin-desktop ffmpeg peek
-      audacity
+      ffmpeg peek
+      audacity bat
 
       # Fonts
       source-code-pro noto-fonts
@@ -54,8 +67,6 @@ with import ./lib.nix args;
       # Development
       docker-compose insomnia
 
-      # Hardware stuff
-      androidenv.androidPkgs_9_0.platform-tools
       minicom pulseview cutecom picocom scrcpy
 
       # Viewers
@@ -68,7 +79,7 @@ with import ./lib.nix args;
       mtr btfs strace
 
       # Personal data and sync
-      browserpass gnupg # nextcloud-client
+      browserpass gnupg nextcloud-client
 
       # Themes, all of them
       adwaita-qt
