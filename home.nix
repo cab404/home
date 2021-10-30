@@ -5,7 +5,7 @@ with import ./lib.nix args;
   imports = [
     ./secret/home.nix
     ./modules/home-manager/user-shell.nix
-    ./modules/i3/home.nix
+    ./modules/sway/home.nix
   ];
 
   manual.json.enable = true;
