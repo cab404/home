@@ -12,7 +12,6 @@
         enable = true;
         user = config._.user;
       };
-      desktopManager.plasma5.enable = true;
 
       libinput = {
         enable = true;
@@ -21,7 +20,7 @@
           tapping = false;
         };
       };
-      wacom.enable = true;
+
     };
 
   };
