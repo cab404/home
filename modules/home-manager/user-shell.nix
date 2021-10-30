@@ -8,6 +8,7 @@ with import ../../lib.nix args;
     "fzf"
     "starship"
     "zsh"
+    "neovim"
   ] {
 
     direnv.nix-direnv.enable = true;
@@ -47,6 +48,19 @@ with import ../../lib.nix args;
           ];
         };
       };
+    };
+
+    neovim = {
+      package = pkgs.neovim-nightly;
+      coc.enable = true;
+      viAlias = true;
+      withNodeJs = true;
+      withPython3 = true;
+      extraConfig = ''
+      :set expandtab
+      :set tabstop=4
+      :set shiftwidth=4
+      '';
     };
 
     zsh = {
