@@ -199,6 +199,7 @@ with import ./lib.nix args;
     "pass-secret-service"
     "password-store-sync"
     "flameshot"
+    "easyeffects"
     "kdeconnect"
   ] { };
 
