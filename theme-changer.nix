@@ -7,16 +7,20 @@ with builtins;
 let
   themes = {
 
-    dark = {
+    dark = rec {
       alacritty = ./alacritty/monokai.yaml;
       spacemacs = "spacemacs-dark";
       vscodium = "Monokai";
+      vscode = vscodium;
+      gtk3 = "Adapta-Nokto-Eta";
     };
 
-    light = {
+    light = rec {
       alacritty = ./alacritty/solarized-light.yaml;
       spacemacs = "spacemacs-light";
       vscodium = "Default Light+";
+      vscode = vscodium;
+      gtk3 = "Adwaita";
     };
 
   };
@@ -33,6 +37,10 @@ let
     spacemacs = (t: ''emacsclient -e "(spacemacs/load-theme '${t})"'');
 
     vscodium = t: inlineJq "~/.config/VSCodium/User/settings.json" ''.["workbench.colorTheme"]=${builtins.toJSON t}'';
+
+    vscode = t: inlineJq "~/.config/Code/User/settings.json" ''.["workbench.colorTheme"]=${builtins.toJSON t}'';
+
+    gtk3 = t: ''${pkgs.dconf}/bin/dconf write /org/gnome/desktop/interface/gtk-theme \"${t}\"'';
 
   };
 
