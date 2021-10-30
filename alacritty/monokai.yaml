@@ -24,13 +24,4 @@ colors:
     magenta: '0xfd5ff0'
     cyan:    '0xa1efe4'
     white:   '0xf8f8f2'
-font:
-  size: 12
-  normal:
-    family: Fira Mono
-  italic:
-    family: Fira Mono
-  bold:
-    family: Fira Mono
-  bold_italic:
-    family: Fira Mono
+
