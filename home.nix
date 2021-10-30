@@ -109,7 +109,7 @@ in
       (pkgs.callPackage ./theme-changer.nix {})
 
       (writeShellScriptBin "nix-search" ''
-      nix search ${pkgs.path} --no-update-lock-file --no-registries $@
+      nix search --override-flake nixpkgs ${pkgs.path} --offline nixpkgs $@
       '')
 
       # Desktop entries
