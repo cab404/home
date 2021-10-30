@@ -1,28 +1,40 @@
-{ pkgs, ... }: {
+{ config, pkgs, ... }@args:
+with import ../../lib.nix args; {
 
-  programs.sway = {
-    enable = true;
-    extraSessionCommands = ''
-    export SDL_VIDEODRIVER=wayland
-    # needs qt5.qtwayland in systemPackages
-    export QT_QPA_PLATFORM=wayland
-    export QT_WAYLAND_DISABLE_WINDOWDECORATION="1"
-    # Fix for some Java AWT applications (e.g. Android Studio)
-    # use this if they aren't displayed properly:
-    export _JAVA_AWT_WM_NONREPARENTING=1
-    export MOZ_ENABLE_WAYLAND=1
-    '';
-    extraPackages = with pkgs; [
-      xwayland qt5.qtwayland swaylock
+  require = [ ../desktop.nix ];
+
+  users.users.${config._.user}.extraGroups = [ "input" ];
+
+  fonts = {
+    enableDefaultFonts = true;
+
+    fontconfig = on // {
+      defaultFonts = {
+        monospace = ["Fira Code"];
+      };
+    };
+
+    fonts = with pkgs; [
+      source-code-pro noto-fonts
+      roboto fira-code fira
+      font-awesome
+      orbitron
     ];
+
   };
 
-  services.xserver.displayManager.session = [
-    {
-      manage = "desktop";
-      name = "Sway";
-      start = "exec ${pkgs.sway}/bin/sway";
-    }
-  ];
+  # That adds /etc/sway/config.d/nixos.conf with one important line.
+  # Yeah, I'm too lazy to copy it here.
+  # also it enables whole bunch of other options, which I am too lazy to describe here.
+  # just look at <nixpkgs/nixos/modules/programs/sway.nix>
+  programs.sway = on;
+
+  xdg = {
+    portal = {
+      extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+      wlr = on;
+      gtkUsePortal = true;
+    };
+  };
 
 }
