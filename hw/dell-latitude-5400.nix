@@ -27,6 +27,7 @@ Section "InputClass"
     #"iwlwifi.power_level=5" # ITS OVER 4!
   ];
 
+  boot.blacklistedKernelModules = [ "amdgpu" ];
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   powerManagement.enable = true;
