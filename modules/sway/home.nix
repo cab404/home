@@ -206,8 +206,8 @@ with import ../../lib.nix args; {
           "${mod}+Shift+space" = "floating toggle";
 
           # Gaps
-          "${mod}+Shift+plus" = "gaps inner current plus 6";
-          "${mod}+Shift+minus" = "gaps inner current minus 6";
+          "${mod}+plus" = "gaps inner current plus 6";
+          "${mod}+underscore" = "gaps inner current minus 6";
 
           # Tiling modes
           "${mod}+s" = "layout stacking";
