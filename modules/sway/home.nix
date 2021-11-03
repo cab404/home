@@ -188,6 +188,7 @@ with import ../../lib.nix args; {
           "${mod}+d" = "exec rofi -show combi";
           "${mod}+Ctrl+p" = "exec rofi-pass";
           "${mod}+Ctrl+Return" = "exec emacsclient -c";
+          "${mod}+Shift+Return" = "exec codium";
           "${mod}+Shift+e" = "exec swaynag -t warning -m 'Do you want to exit sway?' -b 'Yes' 'swaymsg exit'";
           "${mod}+Escape" = "exec loginctl lock-session";
 
