@@ -45,7 +45,7 @@ in
 
       # Editing
       libreoffice inkscape gimp krita
-      ffmpeg peek
+      ffmpeg-full peek
       audacity bat
 
       # Fonts
