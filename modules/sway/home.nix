@@ -12,6 +12,7 @@ with import ../../lib.nix args; {
       flameshot
       wl-clipboard
       swaycwd
+      wlrctl
 
       kdeconnect kwalletmanager
       plasma-browser-integration
