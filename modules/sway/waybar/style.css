@@ -76,6 +76,7 @@ window#waybar.chromium {
 #clock,
 #battery,
 #cpu,
+#disk,
 #memory,
 #temperature,
 #backlight,
@@ -93,6 +94,10 @@ window#waybar.chromium {
 
 #clock {
     background-color: #64727D;
+}
+
+#disk {
+    background-color: #772152;
 }
 
 #battery {
