@@ -35,6 +35,7 @@ in
       (writeShellScriptBin "codium" ''
         ${vscodium}/bin/codium $@ --enable-features=UseOzonePlatform --ozone-platform=wayland
       '')
+      rnix-lsp
       gh ghc jdk8 nim
       julia-stable-bin # all julias are generally broken. which strangely coinsides with my life experience
 
