@@ -93,10 +93,6 @@ in
       adwaita-qt
       gnome3.adwaita-icon-theme
       gnome-themes-extra
-      theme-obsidian2
-      adapta-gtk-theme
-      adapta-kde-theme
-
 
       '')
 
