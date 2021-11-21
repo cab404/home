@@ -170,8 +170,6 @@ in
 
   services = enableThings [
     "gpg-agent"
-    "kbfs"
-    "keybase"
     "pass-secret-service"
     "password-store-sync"
     "flameshot"
