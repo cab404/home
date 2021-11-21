@@ -70,9 +70,7 @@ in
       audacious
 
       # Funny utilities
-      aircrack-ng netsniff-ng hashcat wireshark
-      # metasploit
-      mtr btfs strace
+      aircrack-ng netsniff-ng hashcat wireshark mtr strace
 
       # Personal data and sync
       browserpass gnupg nextcloud-client
