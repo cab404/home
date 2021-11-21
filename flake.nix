@@ -42,7 +42,7 @@
             environment.defaultPackages = [ pkgs.gdb ];
 
             _.user = "cab";
-            time.timeZone = "Europe/Moscow";
+#            time.timeZone = "Europe/Moscow";
             nixpkgs.overlays = [
               (self: sup: {
                 rofi-pass = sup.rofi-pass.overrideAttrs (s: {
