@@ -108,6 +108,11 @@ in
       sudo nixos-rebuild --flake /etc/nixos#''${HOST} $@
       '')
 
+      # like which, but for nix
+      (writeShellScriptBin "what" ''
+      readlink -f $(which $@)
+      '')
+
       (pkgs.callPackage ./theme-changer.nix {})
 
       (writeShellScriptBin "nix-search" ''
