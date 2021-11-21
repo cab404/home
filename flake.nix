@@ -3,6 +3,7 @@
 
   inputs = {
     dwarffs.url = "github:edolstra/dwarffs";
+    nix.url = "github:NixOS/nix";
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     home-manager.url = "github:nix-community/home-manager/master";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
@@ -49,6 +50,7 @@
             _.user = "cab";
 #            time.timeZone = "Europe/Moscow";
             nixpkgs.overlays = [
+              inputs.nix.overlay
               (self: sup: {
                 rofi-pass = sup.rofi-pass.overrideAttrs (s: {
                   # latest in the field!
