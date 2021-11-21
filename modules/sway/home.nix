@@ -130,12 +130,12 @@ with import ../../lib.nix args; {
           lock = "swaylock -i ~/.bg.png -s fill -F";
         in
         [
-          { command = "mako"; }
           { command = "waybar"; }
-          { command = "flameshot"; }
-          { command = "copyq"; }
+          { command = "mako"; }
           { command = "telegram-desktop"; }
           { command = "element-desktop --hidden"; }
+          { command = "flameshot"; }
+          { command = "copyq"; }
           {
             command = ''swayidle \
               lock           '${lock}' \
@@ -155,6 +155,15 @@ with import ../../lib.nix args; {
           # Firefox video indicator
           { criteria = { title = "Firefox — Sharing Indicator"; }; command = "floating enable"; }
           { criteria = { title = "Firefox — Sharing Indicator"; }; command = "no_focus"; }
+          { criteria = { title = "Firefox — Sharing Indicator"; }; command = "resize set 0 0"; }
+          { criteria = { title = "Firefox — Sharing Indicator"; }; command = "move absolute position 10 10"; }
+
+          # I freaking love this thing
+          { criteria = { title = ".*— CopyQ"; }; command = "floating enable"; }
+          { criteria = { title = ".*— CopyQ"; }; command = "move position mouse"; }
+
+          { criteria = { app_id = "com.nextcloud.desktopclient.nextcloud"; }; command = "floating enable"; }
+          { criteria = { app_id = "com.nextcloud.desktopclient.nextcloud"; }; command = "move position mouse"; }
         ];
 
         hideEdgeBorders = "none";
@@ -191,6 +200,7 @@ with import ../../lib.nix args; {
           "${mod}+Shift+q" = "kill";
           "${mod}+Return" = "exec DRI_PRIME=1 alacritty --working-directory $(swaycwd)";
           "${mod}+d" = "exec rofi -show combi";
+          "${mod}+c" = "exec copyq show";
           "${mod}+Ctrl+p" = "exec rofi-pass";
           "${mod}+Ctrl+Return" = "exec emacsclient -c";
           "${mod}+Shift+Return" = "exec codium";

@@ -2,6 +2,7 @@
   description = "cab's system config";
 
   inputs = {
+    dwarffs.url = "github:edolstra/dwarffs";
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     home-manager.url = "github:nix-community/home-manager/master";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
@@ -25,16 +26,21 @@
       {
         # My notebook
         yuna = buildSystem [
+          inputs.dwarffs.nixosModules.dwarffs
           ./hw/dell-latitude-5400.nix
           ./modules/sway/system.nix
           ./modules/home-manager
           ./secret/system.nix
           ./secret/hardware-configuration.nix
-          {
-            systemd.coredump.enable = true;
+          ({ config, pkgs, ... }: {
             boot.tmpOnTmpfs = true;
             system.name = "yuna";
             networking.hostName = "yuna";
+
+            # systemd.coredump.enable = true;
+            # I guess if I have dwarffs in this system, might as well.
+            environment.defaultPackages = [ pkgs.gdb ];
+
             _.user = "cab";
             time.timeZone = "Europe/Moscow";
             nixpkgs.overlays = [
@@ -48,7 +54,7 @@
             ];
 
             i18n.defaultLocale = "en_US.UTF-8";
-          }
+          })
         ];
 
         tifa = buildSystem [
