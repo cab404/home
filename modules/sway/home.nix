@@ -165,7 +165,7 @@ with import ../../lib.nix args; {
       };
 
       seat."*" = {
-        xcursor_theme = "Paper 24";
+        xcursor_theme = "Adwaita 24";
       };
 
       keybindings =
@@ -246,8 +246,8 @@ with import ../../lib.nix args; {
 
   };
 
-  xsession.pointerCursor.package = pkgs.paper-icon-theme;
-  xsession.pointerCursor.name = "Paper";
+  xsession.pointerCursor.package = pkgs.gnome-themes-extra;
+  xsession.pointerCursor.name = "Adwaita";
   fonts.fontconfig = on;
 
   systemd.user.targets = {
@@ -272,17 +272,20 @@ with import ../../lib.nix args; {
       gtk-enable-animations=1
       gtk-primary-button-warps-slider=0
       gtk-toolbar-style=GTK_TOOLBAR_BOTH_HORIZ
-      gtk-cursor-theme-name=Paper
+      gtk-cursor-theme-name=Adwaita
       gtk-menu-images=1
       gtk-button-images=1
     '';
-    theme.package = pkgs.adapta-gtk-theme;
-    theme.name = "Adapta-Nokto-Eta";
+    theme.package = pkgs.gnome-themes-extra;
+    theme.name = "Adwaita-dark";
   };
 
   qt = on // {
     platformTheme = "gtk";
     style.name = "gtk2";
+    # platformTheme = "gnome";
+    # style.package = pkgs.adwaita-qt;
+    # style.name = "adwaita";
   };
 
 }
