@@ -66,8 +66,19 @@ in
       minicom pulseview cutecom picocom scrcpy
 
       # Viewers
-      feh vlc zathura ark font-manager baobab evince gthumb
-      audacious
+      feh mpv zathura font-manager gthumb audacious
+
+      # Gnome
+    ] ++ (with gnome; [
+      nautilus
+      gnome-disk-utility
+      gnome-online-accounts
+      file-roller
+      gucharmap
+      baobab
+      evince
+      sushi
+    ]) ++ [
 
       # Funny utilities
       aircrack-ng netsniff-ng hashcat wireshark mtr strace
