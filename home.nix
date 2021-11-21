@@ -26,6 +26,7 @@ in
       # wayland interweebs
       element-desktop-wayland
     ] else [
+      xclip
       # xserver interweebs
       element-desktop
     ]) ++ [
