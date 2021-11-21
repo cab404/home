@@ -85,6 +85,10 @@ with import ../lib.nix args;
 
   };
 
+  boot.kernel.sysctl = {
+    "fs.inotify.max_user_watches" = 524288;
+  };
+
   # == Sound
   sound.enable = true;
   hardware = {
