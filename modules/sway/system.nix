@@ -10,7 +10,7 @@ with import ../../lib.nix args; {
 
     fontconfig = on // {
       defaultFonts = {
-        monospace = ["Fira Code"];
+        monospace = ["Fira Mono"];
       };
     };
 
