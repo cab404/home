@@ -39,11 +39,6 @@ in
       gh ghc jdk8 nim
       julia-stable-bin # all julias are generally broken. which strangely coinsides with my life experience
 
-      # Emacs is a whiny banana
-      #TODO: move into emacs path
-      nodePackages.tern # please stop whining spacemacs i'll get you a pony
-      ispell
-
       # Editing
       libreoffice inkscape gimp krita
       ffmpeg-full peek
@@ -90,14 +85,7 @@ in
       adapta-gtk-theme
       adapta-kde-theme
 
-      # Blocking emacs.
-      (writeShellScriptBin "ee" ''
-      ${emacs}/bin/emacsclient -c $@
-      '')
 
-      # Non-blocking emacs
-      (writeShellScriptBin "ec" ''
-      ${emacs}/bin/emacsclient -nc $@
       '')
 
       # TODO: Make cab-home switch both system and local config from any folder.
@@ -112,18 +100,6 @@ in
       (writeShellScriptBin "nix-search" ''
       nix search --override-flake nixpkgs ${pkgs.path} --offline nixpkgs $@
       '')
-
-      # Desktop entries
-      (makeDesktopItem {
-        name = "emacsclient";
-        desktopName = "Emacs client";
-        exec = "emacsclient -c";
-        comment = "Text editor";
-        icon = builtins.fetchurl {
-          url = "http://spacemacs.org/img/logo.svg";
-          sha256 = "85700ee004fac81c58fdea353b1fd7c2b3ead2ee630f2988b94eba068e3ec072";
-        };
-      })
 
     ];
 
@@ -140,7 +116,7 @@ in
     };
 
     sessionVariables = {
-      EDITOR = "ee";
+      EDITOR = "vi";
       XKB_DEFAULT_LAYOUT = "us,ru";
       XKB_DEFAULT_OPTIONS = "ctrl:nocaps,grp:switch";
     };
@@ -157,7 +133,6 @@ in
     "rofi"
     "password-store"
     "alacritty"
-    "emacs"
   ] {
 
     password-store = {
@@ -190,22 +165,10 @@ in
       };
     };
 
-    # == Emacs
-    emacs = {
-      package = pkgs.emacs.override {
-        imagemagick = pkgs.imagemagickBig;
-      };
-      # Some packages for Spacemacs it fails to install
-      extraPackages = s: with s; [
-        adaptive-wrap mmm-mode tern
-        direnv ag
-      ];
-    };
 
   };
 
   services = enableThings [
-    "emacs"
     "gpg-agent"
     "kbfs"
     "keybase"
