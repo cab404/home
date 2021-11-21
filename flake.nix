@@ -38,6 +38,11 @@
             networking.hostName = "yuna";
 
             # systemd.coredump.enable = true;
+            # Young streamer's kit (don't mistake with adolescent kit, that would be tiktok)
+            programs.gphoto2.enable = true;
+            users.users.cab.extraGroups = [ "camera" ];
+            boot.extraModulePackages = [ config.boot.kernelPackages.v4l2loopback ];
+
             # I guess if I have dwarffs in this system, might as well.
             environment.defaultPackages = [ pkgs.gdb ];
 
