@@ -65,6 +65,7 @@ in
       # Development
       docker-compose insomnia
 
+      # Hardware?
       minicom pulseview cutecom picocom scrcpy
 
       # Viewers
