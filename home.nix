@@ -54,8 +54,8 @@ in
 
       # Command line comfort
       alacritty zsh findutils
-      pulsemixer ag fff xclip
-      fzf file tree jq
+      pulsemixer ag fzf file
+      jq ranger
 
       # Runners
       appimage-run lutris-free
