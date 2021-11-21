@@ -148,6 +148,7 @@ in
     "rofi"
     "password-store"
     "alacritty"
+    "lsd"
   ] {
 
     password-store = {
