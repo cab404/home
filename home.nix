@@ -51,6 +51,7 @@ in
       font-awesome-ttf
 
       # Window manager and looks stuff
+      helvum
       qrencode
 
       # Command line comfort
