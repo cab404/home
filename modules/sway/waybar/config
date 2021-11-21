@@ -71,18 +71,20 @@
     },
     "clock": {
         "interval": 1,
-        "format": "{:%Y-%m-%d :%H:%M:%S}",
+        "format": "{:%Y-%m-%d %H:%M:%S}",
         "tooltip-format": "{:%Y-%m-%d | %H:%M}"
     },
     "cpu": {
+        "interval": 5,
         "format": "{usage}% ",
         "tooltip": false
     },
     "memory": {
+        "interval": 5,
         "format": "{avail:.2}GiB "
     },
     "disk": {
-        "interval": 30,
+        "interval": 5,
         "format": "{path} {free} "
     },
     "temperature": {
