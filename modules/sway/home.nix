@@ -135,6 +135,7 @@ with import ../../lib.nix args; {
           { command = "telegram-desktop"; }
           { command = "element-desktop --hidden"; }
           { command = "flameshot"; }
+          { command = "nextcloud"; }
           { command = "copyq"; }
           {
             command = ''swayidle \
