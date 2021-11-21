@@ -122,7 +122,7 @@ in
     ];
 
     file.".mozilla/native-messaging-hosts/org.kde.plasma.browser_integration.json".source = "${pkgs.plasma-browser-integration}/lib/mozilla/native-messaging-hosts/org.kde.plasma.browser_integration.json";
-    file.".XCompose".text = ''
+    file.".local/XCompose".text = ''
     include "${pkgs.xlibs.libX11}/share/X11/locale/en_US.UTF-8/Compose"
     <Multi_key> <period> <backslash>           : "λ"   U03BB  # GREEK SMALL LETTER LAMBDA
     '';
@@ -135,6 +135,7 @@ in
 
     sessionVariables = {
       EDITOR = "vi";
+      XCOMPOSEFILE = "~/.local/XCompose";
       XKB_DEFAULT_LAYOUT = "us,ru";
       XKB_DEFAULT_OPTIONS = "ctrl:nocaps,grp:switch";
     };
@@ -197,5 +198,7 @@ in
 
   # == Gnome hates when there's no dconf -.-
   dconf.enable = true;
+  # long time brewing
+  xdg.enable = true;
 
 }
