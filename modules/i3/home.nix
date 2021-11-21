@@ -46,7 +46,7 @@ with import ../../lib.nix { inherit pkgs; }; {
   };
 
   home.sessionVariables = {
-  # == That fixes qtkeychain
+    # == That fixes qtkeychain
     DESKTOP_SESSION = "kde";
     KDE_SESSION_VERSION = "5";
     # that makes window themes work

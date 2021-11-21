@@ -180,8 +180,6 @@ in
         '';
       };
     };
-
-
   };
 
   services = enableThings [
@@ -191,7 +189,7 @@ in
     "flameshot"
     "easyeffects"
     "kdeconnect"
-  ] { };
+  ] {};
 
   # == Gnome hates when there's no dconf -.-
   dconf.enable = true;
