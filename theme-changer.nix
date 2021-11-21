@@ -12,11 +12,11 @@ let
       spacemacs = "spacemacs-dark";
       vscodium = "Monokai";
       vscode = vscodium;
-      gtk3 = "Adapta-Nokto-Eta";
+      gtk3 = "Adwaita-dark";
     };
 
     light = rec {
-      alacritty = ./alacritty/solarized-light.yaml;
+      alacritty = ./alacritty/gruvbox-light.yaml;
       spacemacs = "spacemacs-light";
       vscodium = "Default Light+";
       vscode = vscodium;
