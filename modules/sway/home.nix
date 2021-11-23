@@ -136,7 +136,8 @@ with import ../../lib.nix args; {
           { command = "element-desktop --hidden"; }
           { command = "flameshot"; }
           { command = "nextcloud"; }
-          { command = "copyq"; }
+          # hacky, yes. doesn't work otherwise -- also yes.
+          { command = "sleep 1 && copyq"; }
           {
             command = ''swayidle \
               lock           '${lock}' \
@@ -160,8 +161,8 @@ with import ../../lib.nix args; {
           { criteria = { title = "Firefox — Sharing Indicator"; }; command = "move absolute position 10 10"; }
 
           # I freaking love this thing
-          { criteria = { title = ".*— CopyQ"; }; command = "floating enable"; }
-          { criteria = { title = ".*— CopyQ"; }; command = "move position mouse"; }
+          { criteria = { title = ".*CopyQ"; }; command = "floating enable"; }
+          { criteria = { title = ".*CopyQ"; }; command = "move position mouse"; }
 
           { criteria = { app_id = "com.nextcloud.desktopclient.nextcloud"; }; command = "floating enable"; }
           { criteria = { app_id = "com.nextcloud.desktopclient.nextcloud"; }; command = "move position mouse"; }
