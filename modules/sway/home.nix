@@ -120,8 +120,8 @@ with import ../../lib.nix args; {
           scroll_method = "on_button_down";
           natural_scroll = "enabled";
           middle_emulation = "enabled";
-          xkb_layout = "us,ru";
-          xkb_options = "ctrl:nocaps,grp:switch";
+          xkb_layout = config.home.keyboard.layout;
+          xkb_options = pkgs.lib.concatStringsSep "," config.home.keyboard.options;
         };
       };
 
