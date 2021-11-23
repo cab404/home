@@ -46,8 +46,8 @@ with import ../lib.nix args;
     };
 
     logind = {
-      lidSwitch = "suspend";
-      lidSwitchExternalPower = "suspend";
+      lidSwitch = "ignore";
+      lidSwitchExternalPower = "ignore";
       extraConfig = ''
         # IdleAction=lock
         # IdleActionSec=30
