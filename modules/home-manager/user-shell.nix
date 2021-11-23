@@ -12,7 +12,6 @@ with import ../../lib.nix args;
   ] {
 
     direnv.nix-direnv.enable = true;
-    direnv.nix-direnv.enableFlakes = true;
 
     # Fuzzy file search (Ctrl-T for files; Alt-C for dirs)
     fzf = let
