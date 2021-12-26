@@ -47,6 +47,7 @@
             # I guess if I have dwarffs in this system, might as well.
             # environment.defaultPackages = [ pkgs.gdb ];
 
+            services.pcscd.enable = true;
 
             _.user = "cab";
 
