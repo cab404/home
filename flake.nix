@@ -49,7 +49,6 @@
 
 
             _.user = "cab";
-#            time.timeZone = "Europe/Moscow";
 
             nix.registry = let
               lock = (with builtins; fromJSON (readFile ./flake.lock));
