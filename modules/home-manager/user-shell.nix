@@ -32,13 +32,18 @@ with import ../../lib.nix args;
       settings = {
         character.success_symbol = "[δ](dimmed green)";
         character.error_symbol = "[δ](bold red)";
+        time = {
+          disabled = false;
+          format= "[$time]($style)";
+          time_format = "%H:%M";
+        };
         battery = {
-          full_symbol = "yes";
-          charging_symbol = "chg";
-          discharging_symbol = "dis";
-          unknown_symbol = "wat";
-          empty_symbol = "oof";
-          format = "[$symbol|$percentage]($style) ";
+          full_symbol = "";
+          charging_symbol = "+";
+          discharging_symbol = "-";
+          unknown_symbol = "?";
+          empty_symbol = "X";
+          format = "[$symbol$percentage]($style)";
           display = [
             {style = "red"; threshold = 15;}
             {style = "dimmed red"; threshold = 50;}
