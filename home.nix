@@ -22,14 +22,7 @@ in
       thunderbird
 
       tdesktop
-    ] ++ (if isWL then [
-      # wayland interweebs
-      element-desktop-wayland
-    ] else [
-      xclip
-      # xserver interweebs
-      element-desktop
-    ]) ++ [
+      (if isWL then element-desktop-wayland else element-desktop)
 
       # Coding
       #vscodium #imdone #yolo #sorryrms
@@ -44,6 +37,12 @@ in
       libreoffice inkscape gimp krita
       ffmpeg-full peek
       audacity bat
+      openscad
+      blender
+      lmms
+
+      # at least do backups
+      restic
 
       # Fonts
       source-code-pro noto-fonts
@@ -57,7 +56,7 @@ in
       # Command line comfort
       alacritty zsh findutils
       pulsemixer ag fzf file
-      jq ranger
+      jq ranger btop
 
       # Runners
       appimage-run lutris-free
@@ -76,6 +75,7 @@ in
       nautilus
       gnome-disk-utility
       gnome-online-accounts
+      gnome-power-manager
       file-roller
       gucharmap
       baobab
