@@ -2,13 +2,13 @@
   description = "cab's system config";
 
   inputs = {
-    dwarffs.url = "github:edolstra/dwarffs";
-    nix.url = "github:NixOS/nix";
+    # dwarffs.url = "github:edolstra/dwarffs";
+    # nix.url = "github:NixOS/nix";
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     home-manager.url = "github:nix-community/home-manager/master";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
-    neovim-nightly.url = "github:nix-community/neovim-nightly-overlay";
-    neovim-nightly.inputs.nixpkgs.follows = "nixpkgs";
+    # neovim-nightly.url = "github:nix-community/neovim-nightly-overlay";
+    # neovim-nightly.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = inputs @ { self, nixpkgs, home-manager, ... }:
@@ -27,7 +27,7 @@
       {
         # My notebook
         yuna = buildSystem [
-          inputs.dwarffs.nixosModules.dwarffs
+          # inputs.dwarffs.nixosModules.dwarffs
           ./hw/dell-latitude-5400.nix
           ./modules/sway/system.nix
           ./modules/home-manager
@@ -45,12 +45,14 @@
             boot.extraModulePackages = [ config.boot.kernelPackages.v4l2loopback ];
 
             # I guess if I have dwarffs in this system, might as well.
-            environment.defaultPackages = [ pkgs.gdb ];
+            # environment.defaultPackages = [ pkgs.gdb ];
+
 
             _.user = "cab";
 #            time.timeZone = "Europe/Moscow";
             nixpkgs.overlays = [
-              inputs.nix.overlay
+              # inputs.nix.overlay
+              # inputs.neovim-nightly.overlay
               (self: sup: {
                 rofi-pass = sup.rofi-pass.overrideAttrs (s: {
                   # latest in the field!
