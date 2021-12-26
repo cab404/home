@@ -50,6 +50,16 @@
 
             _.user = "cab";
 #            time.timeZone = "Europe/Moscow";
+
+            nix.registry = let
+              lock = (with builtins; fromJSON (readFile ./flake.lock));
+            in {
+              nixpkgs = with lock.nodes.nixpkgs; {
+                from = { id = "nixpkgs"; type = "indirect"; };
+                to = locked;
+              };
+            };
+
             nixpkgs.overlays = [
               # inputs.nix.overlay
               # inputs.neovim-nightly.overlay
