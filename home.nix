@@ -158,8 +158,10 @@ in
     "rofi"
     "password-store"
     "alacritty"
-    "lsd"
+    "exa"
   ] {
+
+    exa.enableAliases = true;
 
     password-store = {
       package = pkgs.pass.withExtensions (e: with e; [
