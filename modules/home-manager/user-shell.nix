@@ -74,9 +74,9 @@ with import ../../lib.nix args;
       export PATH=$PATH:~/.cargo/bin
       '';
       shellAliases = {
-        ls = "ls --color=auto";
-        ll = "ls -hal";
-        l = "ll";
+        ls = lib.mkDefault "ls --color=auto";
+        ll = lib.mkDefault "ls -hal";
+        l = lib.mkDefault "ll";
       };
       history = {
         extended = true;
