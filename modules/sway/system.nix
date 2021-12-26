@@ -23,6 +23,14 @@ with import ../../lib.nix args; {
 
   };
 
+  services = {
+    gvfs = on;
+    gnome = {
+      gnome-online-miners = on;
+      sushi = on;
+    };
+  };
+
   # That adds /etc/sway/config.d/nixos.conf with one important line.
   # Yeah, I'm too lazy to copy it here.
   # also it enables whole bunch of other options, which I am too lazy to describe here.
