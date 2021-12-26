@@ -55,11 +55,9 @@ with import ../../lib.nix args;
     };
 
     neovim = {
-      package = pkgs.neovim-nightly;
+      # package = pkgs.neovim-nightly;
       coc.enable = true;
       viAlias = true;
-      withNodeJs = true;
-      withPython3 = true;
       extraConfig = ''
       :set expandtab
       :set tabstop=4
