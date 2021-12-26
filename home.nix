@@ -112,7 +112,7 @@ in
       (pkgs.callPackage ./theme-changer.nix {})
 
       (writeShellScriptBin "nix-search" ''
-      nix search --override-flake nixpkgs ${pkgs.path} --offline nixpkgs $@
+      nix search --offline nixpkgs $@
       '')
 
     ];
