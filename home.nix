@@ -52,6 +52,7 @@ in
       # Window manager and looks stuff
       helvum
       qrencode
+      wofi
 
       # Command line comfort
       alacritty zsh findutils
@@ -103,6 +104,24 @@ in
       sudo cp -r ~/data/cab-home/* /etc/nixos
       sudo nixos-rebuild --flake /etc/nixos#''${HOST} $@
       '')
+
+      (let
+        conf = builtins.toFile "woficonf" ''
+        filter_rate=200
+        dynamic_lines=true
+        insensitive=true
+        matching=fuzzy
+        layer=overlay
+        '';
+      in (writeShellScriptBin "wofi-pass" ''
+      WOFI=${wofi}/bin/wofi
+      WCONF="-c ${conf}"
+      set -e
+      MODE=$(echo -e "\notp" | $WOFI $WCONF --show dmenu)
+      SELECTION=$((cd $PASSWORD_STORE_DIR; find -type f -not -path './.*' | sed 's/.gpg$//') | $WOFI $WCONF --show dmenu)
+      echo pass --clip $MODE $SELECTION
+      pass --clip $MODE $SELECTION
+      ''))
 
       # like which, but for nix
       (writeShellScriptBin "what" ''

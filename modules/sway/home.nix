@@ -201,9 +201,9 @@ with import ../../lib.nix args; {
           "${mod}+Shift+Tab" = "move container to workspace back_and_forth";
           "${mod}+Shift+q" = "kill";
           "${mod}+Return" = "exec DRI_PRIME=1 alacritty --working-directory $(swaycwd)";
-          "${mod}+d" = "exec rofi -show combi";
+          "${mod}+d" = "exec wofi --show drun,run";
           "${mod}+c" = "exec copyq show";
-          "${mod}+Ctrl+p" = "exec rofi-pass";
+          "${mod}+Ctrl+p" = "exec wofi-pass";
           "${mod}+Ctrl+Return" = "exec emacsclient -c";
           "${mod}+Shift+Return" = "exec codium";
           "${mod}+Shift+e" = "exec swaynag -t warning -m 'Do you want to exit sway?' -b 'Yes' 'swaymsg exit'";
