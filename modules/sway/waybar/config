@@ -27,7 +27,7 @@
     // Modules configuration
     "sway/workspaces": {
         "disable-scroll": true,
-        "all-outputs": true
+        "all-outputs": false
     },
     "sway/mode": {
         "format": "<span style=\"italic\">{}</span>"

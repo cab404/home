@@ -41,22 +41,17 @@ window#waybar.chromium {
 }
 
 #workspaces button {
-    animation: expand;
-    animation-duration: 0.2s;
-    animation-timing-function: ease-in;
-    padding: 0 2px;
+    padding: 0 0px;
     background-color: transparent;
     color: #ffffff;
-    transition-property: border;
-    transition-duration: .2s;
-    /* border-bottom: 3px solid transparent; */
+    border-bottom: 1px solid transparent;
 }
 
 /* https://github.com/Alexays/Waybar/wiki/FAQ#the-workspace-buttons-have-a-strange-hover-effect */
 #workspaces button:hover {
     background: rgba(0, 0, 0, 0.2);
     box-shadow: inherit;
-    border-bottom: 3px solid #ffffff;
+    border-bottom: 1px solid #ffffff;
 }
 
 #workspaces button.focused {
@@ -199,19 +194,3 @@ label:focus {
     color: #2d3436;
 }
 
-#mpd {
-    background-color: #66cc99;
-    color: #2a5c45;
-}
-
-#mpd.disconnected {
-    background-color: #f53c3c;
-}
-
-#mpd.stopped {
-    background-color: #90b1b1;
-}
-
-#mpd.paused {
-    background-color: #51a37a;
-}

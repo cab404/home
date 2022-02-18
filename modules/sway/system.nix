@@ -1,4 +1,4 @@
-{ config, pkgs, ... }@args:
+{ config, pkgs, lib, ... }@args:
 with import ../../lib.nix args; {
 
   require = [ ../desktop.nix ];
@@ -29,6 +29,9 @@ with import ../../lib.nix args; {
       gnome-online-miners = on;
       sushi = on;
     };
+
+    syslogd.enable = true;
+
   };
 
   # That adds /etc/sway/config.d/nixos.conf with one important line.

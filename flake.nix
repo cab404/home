@@ -5,13 +5,18 @@
     # dwarffs.url = "github:edolstra/dwarffs";
     # nix.url = "github:NixOS/nix";
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+
     home-manager.url = "github:nix-community/home-manager/master";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
+
+    emacs-overlay.url = "github:nix-community/emacs-overlay";
+    emacs-overlay.inputs.nixpkgs.follows = "nixpkgs";
+
     # neovim-nightly.url = "github:nix-community/neovim-nightly-overlay";
     # neovim-nightly.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = inputs @ { self, nixpkgs, home-manager, ... }:
+  outputs = inputs @ { self, nixpkgs, home-manager, emacs-overlay, ... }:
     let
       inherit (nixpkgs) lib;
       system = "x86_64-linux";
@@ -33,12 +38,16 @@
           ./modules/home-manager
           ./secret/system.nix
           ./secret/hardware-configuration.nix
+          ./secret/serokell.nix
           ({ config, pkgs, ... }: {
             boot.tmpOnTmpfs = true;
+            boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
+
             system.name = "yuna";
             networking.hostName = "yuna";
 
             # systemd.coredump.enable = true;
+
             # Young streamer's kit (don't mistake with adolescent kit, that would be tiktok)
             programs.gphoto2.enable = true;
             users.users.cab.extraGroups = [ "camera" ];
@@ -63,12 +72,7 @@
             nixpkgs.overlays = [
               # inputs.nix.overlay
               # inputs.neovim-nightly.overlay
-              (self: sup: {
-                rofi-pass = sup.rofi-pass.overrideAttrs (s: {
-                  # latest in the field!
-                  src = self.fetchFromGitHub { repo = "rofi-pass"; owner = "carnager"; rev = "916ac3bf5f50d0140a9839f523621c5d77bccf0e"; hash = "sha256-TFPhUt4vvm4Uhp3wys5ZoVoxdbGHdpfnV34CKADiG8Y="; };
-                });
-              })
+              # inputs.emacs-overlay.overlay
             ];
 
             i18n.defaultLocale = "en_US.UTF-8";

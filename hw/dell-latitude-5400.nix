@@ -34,11 +34,7 @@
   hardware.opengl = with pkgs; {
     enable = true;
     driSupport = true;
-    driSupport32Bit = true;
     extraPackages = [
-      rocm-opencl-icd
-      intel-compute-runtime
-      clblas
       amdvlk
       vulkan-loader
     ];

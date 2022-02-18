@@ -16,16 +16,17 @@ with import ../lib.nix args; {
 
   nix = {
     package = pkgs.nixUnstable;
-    trustedUsers = [ "root" config._.user ];
+    settings = {
+      trusted-users = [ "root" config._.user ];
+      experimental-features = [ "nix-command" "flakes" ];
+    };
     nixPath = [ "nixpkgs=${pkgs.path}" ];
-    extraOptions = ''
-    experimental-features = nix-command flakes
-    '';
   };
 
-
   boot = {
-    kernelPackages = pkgs.linuxPackages_latest;
+    kernelPackages = pkgs.linuxPackages;
+    plymouth = on;
+    kernelParams = [ "quiet" ];
   };
 
   networking = {
@@ -51,7 +52,7 @@ with import ../lib.nix args; {
 
     xserver = {
       layout = "us,ru";
-      xkbOptions = "ctrl:nocaps, grp:switch";
+      xkbOptions = "ctrl:nocaps,lv3:ralt_switch_multikey,misc:typo,grp:lctrl_rctrl_switch";
     };
 
   };
@@ -70,6 +71,7 @@ with import ../lib.nix args; {
     users.root.shell = pkgs.zsh;
   };
 
+  environment.shells = [ pkgs.zsh ];
   environment.pathsToLink = [ "/share/zsh" ];
   environment.defaultPackages = (with pkgs; [
     # this section is a tribute to my PEP-8 hatred
@@ -77,6 +79,7 @@ with import ../lib.nix args; {
     ntfsprogs btrfs-progs  # why aren't those there by default?
     killall usbutils pciutils unzip  # WHY AREN'T THOSE THERE BY DEFAULT?
     nmap arp-scan
+    emacs # an editor, too
     nix-index  # woo, search in nix packages files!
     nix-zsh-completions zsh-completions  # systemctl ena<TAB>... AAAAGH
   ]);

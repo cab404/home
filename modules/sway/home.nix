@@ -21,7 +21,8 @@ with import ../../lib.nix args; {
       pavucontrol copyq
 
       qt5.qtwayland libsForQt5.qtstyleplugins
-      swaylock xdg-utils
+      xdg-utils
+      swaylock-effects
     ];
 
     file = {
@@ -56,7 +57,6 @@ with import ../../lib.nix args; {
     #
   };
 
-  services.kanshi = on;
   programs.waybar = on;
 
   services.gammastep = on // {
@@ -88,9 +88,24 @@ with import ../../lib.nix args; {
     '';
   };
 
-  wayland.windowManager.sway = on // {
+  services.swayidle = let
+    lock = "swaylock --clock -i ~/.bg.png  --indicator  -FLke --effect-blur 6x6 --effect-vignette 0.1:0.5";
+    #lock = "swaylock -i ~/.bg.png -s fill -F";
+  in on // {
+    timeouts = [
+      { timeout = 60; command = lock; }
+    ];
+    events = [
+      { event = "lock"; command = lock; }
+      { event = "before-sleep"; command = lock; }
+    ];
+    # dpms kills everyone and everything I love
+    # timeout     30 'swaymsg "output * dpms off"' \
+    #         resume 'swaymsg "output * dpms on"' \
+  };
 
-    wrapperFeatures.gtk = true;
+  wayland.windowManager.sway = on // {
+     wrapperFeatures.gtk = true;
 
     config = rec {
 
@@ -126,27 +141,17 @@ with import ../../lib.nix args; {
       };
 
       startup =
-        let
-          lock = "swaylock -i ~/.bg.png -s fill -F";
-        in
         [
           { command = "waybar"; }
           { command = "mako"; }
           { command = "telegram-desktop"; }
           { command = "element-desktop --hidden"; }
-          { command = "flameshot"; }
           { command = "nextcloud"; }
+          { command = "flameshot"; }
           # hacky, yes. doesn't work otherwise -- also yes.
           { command = "sleep 1 && copyq"; }
-          {
-            command = ''swayidle \
-              lock           '${lock}' \
-              timeout     60 '${lock}' \
-              timeout     30 'swaymsg "output * dpms off"' \
-		                  resume 'swaymsg "output * dpms on"' \
-	            before-sleep   '${lock}'
-          '';
-          }
+
+
         ];
 
       window = {
@@ -195,13 +200,22 @@ with import ../../lib.nix args; {
               (map (i: nameValuePair "${mod}+${numkey i}" "workspace number ${toString i}") workspaceList) ++
               (map (i: nameValuePair "${mod}+Shift+${numkey i}" "move container to workspace number ${toString i}") workspaceList)
             );
+          conf = builtins.toFile "woficonf" ''
+            dynamic_lines=true
+            insensitive=true
+            layer=overlay
+          '';
+          # This works a lot more reliably, at cost of not providing any options of saving
+          flameshotWlCopy = pkgs.writeScript "sfwlcp" ''
+            flameshot gui -c -r  | wl-copy
+          '';
         in
         lib.mkDefault ({
           "${mod}+Tab" = "workspace back_and_forth";
           "${mod}+Shift+Tab" = "move container to workspace back_and_forth";
           "${mod}+Shift+q" = "kill";
-          "${mod}+Return" = "exec DRI_PRIME=1 alacritty --working-directory $(swaycwd)";
-          "${mod}+d" = "exec wofi --show drun,run";
+          "${mod}+Return" = "exec DRI_PRIME=1 alacritty --working-directory \"$(swaycwd)\"";
+          "${mod}+d" = "exec wofi -c ${conf} --show drun\\,run";
           "${mod}+c" = "exec copyq show";
           "${mod}+Ctrl+p" = "exec wofi-pass";
           "${mod}+Ctrl+Return" = "exec emacsclient -c";
@@ -214,7 +228,7 @@ with import ../../lib.nix args; {
           "XF86AudioMute" = "exec --no-startup-id pactl set-sink-mute 0 toggle";
           "XF86AudioRaiseVolume" = "exec --no-startup-id pactl set-sink-volume 0 +5%";
 
-          "Print" = "exec flameshot gui";
+          "Print" = "exec ${flameshotWlCopy}";
 
           # Display key is bound to Win+P in Dell 5400
           # "Mod4+p" = "exec arandr";

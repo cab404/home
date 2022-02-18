@@ -76,8 +76,6 @@ with import ../lib.nix args;
       '')
     ];
 
-    earlyoom = on // { freeMemThreshold = 5; };
-
     tor = on // {
       client = on // { dns = on; };
       controlSocket = on;

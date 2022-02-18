@@ -1,4 +1,4 @@
-args @ { config, pkgs, lib, ... }:
+args @ { sysconfig, config, pkgs /* inputs.nixpkgs */, lib /* inputs.nixpkgs.lib */, ... }:
 with import ./lib.nix args;
 let
   isWL = true;
@@ -120,7 +120,7 @@ in
       MODE=$(echo -e "\notp" | $WOFI $WCONF --show dmenu)
       SELECTION=$((cd $PASSWORD_STORE_DIR; find -type f -not -path './.*' | sed 's/.gpg$//') | $WOFI $WCONF --show dmenu)
       echo pass --clip $MODE $SELECTION
-      pass --clip $MODE $SELECTION
+      pass $MODE -c $SELECTION
       ''))
 
       # like which, but for nix
@@ -140,8 +140,8 @@ in
 
     # == Keyboard config
     keyboard = {
-      layout = "us,ru";
-      options = [ "ctrl:nocaps" "grp:switch" ];
+      layout = sysconfig.services.xserver.layout;
+      options = with builtins; filter isString (split "," sysconfig.services.xserver.xkbOptions);
     };
 
     sessionVariables = {
@@ -174,7 +174,6 @@ in
     "ssh"
     "browserpass"
     "firefox"
-    "rofi"
     "password-store"
     "alacritty"
     "exa"
@@ -196,21 +195,6 @@ in
     # == Pass and stuff
     browserpass.browsers = [ "firefox" ];
 
-    # == Rofi menu
-    rofi = {
-      theme = "sidebar";
-      pass = {
-        enable = true;
-        extraConfig = ''
-        edit_new_pass=false
-        notify=true;
-        password_length=6
-        _pwgen () {
-          ${pkgs.xkcdpass}/bin/xkcdpass -w eff-special -d - -n $1
-        }
-        '';
-      };
-    };
   };
 
   services = enableThings [
