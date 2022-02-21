@@ -9,7 +9,7 @@ let
 
     dark = rec {
       alacritty = ./alacritty/monokai.yaml;
-      spacemacs = "spacemacs-dark";
+      # spacemacs = "spacemacs-dark";
       vscodium = "Monokai";
       vscode = vscodium;
       gtk3 = "Adwaita-dark";
@@ -17,7 +17,7 @@ let
 
     light = rec {
       alacritty = ./alacritty/gruvbox-light.yaml;
-      spacemacs = "spacemacs-light";
+      # spacemacs = "spacemacs-light";
       vscodium = "Default Light+";
       vscode = vscodium;
       gtk3 = "Adwaita";
@@ -34,7 +34,7 @@ let
 
     alacritty = (t: ''cp ${t} ~/.config/alacritty/alacritty.yml'');
 
-    spacemacs = (t: ''emacsclient -e "(spacemacs/load-theme '${t})"'');
+    # spacemacs = (t: ''emacsclient -e "(spacemacs/load-theme '${t})"'');
 
     vscodium = t: inlineJq "~/.config/VSCodium/User/settings.json" ''.["workbench.colorTheme"]=${builtins.toJSON t}'';
 

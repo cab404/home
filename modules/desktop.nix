@@ -36,7 +36,8 @@ with import ../lib.nix args;
       jack = on;
       alsa = on;
       pulse = on;
-      media-session = on;
+      wireplumber = on;
+      # media-session = on;
     };
 
     printing = on // {
@@ -57,23 +58,24 @@ with import ../lib.nix args;
 
     actkbd = on // {
       bindings = [
-        { keys = [ 224 ]; events = [ "key" ]; command = "/run/current-system/sw/bin/light -U 2"; }
-        { keys = [ 225 ]; events = [ "key" ]; command = "/run/current-system/sw/bin/light -A 2"; }
+        { keys = [ 224 ]; events = [ "key" ]; command = "/run/current-system/sw/bin/light -T 0.6"; }
+        { keys = [ 225 ]; events = [ "key" ]; command = "/run/current-system/sw/bin/light -A 0.1; /run/current-system/sw/bin/light -T 1.5"; }
         # that's pretty much ctrlaltdel on steroids - lalt + super + ralt + rctrl + delete
         { keys = [ 56 97 100 111 125 ]; events = [ "key" ]; command = "/run/current-system/sw/bin/killall -9 sway"; }
       ];
     };
 
-    udev.packages = [
-      pkgs.android-udev-rules
-      pkgs.stlink
-      pkgs.openocd
-      (pkgs.writeTextDir "/etc/udev/rules.d/42-user-devices.rules" ''
+    udev.packages = with pkgs; [
+      android-udev-rules
+      stlink
+      openocd
+      (writeTextDir "/etc/udev/rules.d/42-user-devices.rules" ''
         # Saleae Logic thing
         ATTR{idVendor}=="0925", ATTR{idProduct}=="3881", GROUP+="dialout"
         # USBTiny
         ATTR{idVendor}=="1781", ATTR{idProduct}=="0c9f", GROUP+="dialout"
       '')
+      ledger-udev-rules
     ];
 
     tor = on // {
@@ -84,7 +86,7 @@ with import ../lib.nix args;
   };
 
   boot.kernel.sysctl = {
-    "fs.inotify.max_user_watches" = 524288;
+    "fs.inotify.max_user_watches" = 1000000;
   };
 
   # == Sound
@@ -108,8 +110,9 @@ with import ../lib.nix args;
   powerManagement.powertop.enable = lib.mkDefault true;
 
   environment.systemPackages = with pkgs; [
-    gnome3.dconf
+    dconf
     xfce.xfconf # programs <3 configs
+    polkit_gnome # and polkit guis :\
   ];
 
   users.users."${config._.user}".extraGroups = [

@@ -1,6 +1,7 @@
 { pkgs, config, inputs, ... }: {
 
   imports = [
+    ../options.nix
     inputs.home-manager.nixosModules.home-manager
   ];
 
@@ -22,7 +23,6 @@
       "${config._.user}" = {
         imports = [
           ./user-shell.nix
-          ../../home.nix
         ];
       };
 

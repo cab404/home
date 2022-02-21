@@ -1,4 +1,4 @@
-secret/
+secrets/
 !temlplates/*
 .direnv
 result

@@ -55,6 +55,7 @@ with import ../../lib.nix { inherit pkgs; }; {
     KDEWM = "i3";
   };
 
+
   xsession.enable = true;
   xsession.pointerCursor = {
     package = pkgs.paper-icon-theme;
@@ -97,6 +98,9 @@ with import ../../lib.nix { inherit pkgs; }; {
       };
       keybindings =
         let
+          selectorScript = pkgs.writeScript "selectworkspace" ''
+          i3-msg -t get_workspaces | jq -r .[].name | rofi -dmenu -matching fuzzy -p workspace: | xargs i3-msg workspace
+          '';
           mod = modifier;
           intMod = a: b: a - (a / b) * b;
           numkey = i: toString (intMod i 10);
@@ -107,7 +111,7 @@ with import ../../lib.nix { inherit pkgs; }; {
               (map (i: nameValuePair "${mod}+Shift+${numkey i}" "move container to workspace number ${toString i}") workspaceList)
             );
         in lib.mkDefault ({
-
+          "${mod}+a" = "exec --no-startup-id ${selectorScript}";
           "${mod}+Tab" = "workspace back_and_forth";
           "${mod}+Shift+Tab" = "move container to workspace back_and_forth";
           "${mod}+Shift+q" = "kill";

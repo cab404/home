@@ -11,16 +11,21 @@ with import ../../lib.nix args; {
       swayidle
       flameshot
       wl-clipboard
+      rofi-wayland
       swaycwd
       wlrctl
+      mate.mate-polkit
 
-      kdeconnect kwalletmanager
+      kdeconnect
+      kwalletmanager
       plasma-browser-integration
 
       # For waybar
-      pavucontrol copyq
+      pavucontrol
+      copyq
 
-      qt5.qtwayland libsForQt5.qtstyleplugins
+      qt5.qtwayland
+      libsForQt5.qtstyleplugins
       xdg-utils
       swaylock-effects
     ];
@@ -88,24 +93,38 @@ with import ../../lib.nix args; {
     '';
   };
 
-  services.swayidle = let
-    lock = "swaylock --clock -i ~/.bg.png  --indicator  -FLke --effect-blur 6x6 --effect-vignette 0.1:0.5";
-    #lock = "swaylock -i ~/.bg.png -s fill -F";
-  in on // {
-    timeouts = [
-      { timeout = 60; command = lock; }
-    ];
-    events = [
-      { event = "lock"; command = lock; }
-      { event = "before-sleep"; command = lock; }
-    ];
-    # dpms kills everyone and everything I love
-    # timeout     30 'swaymsg "output * dpms off"' \
-    #         resume 'swaymsg "output * dpms on"' \
-  };
+  services.swayidle =
+    let
+      lock = "swaylock --clock -i ~/.bg.png  --indicator  -FLke --effect-blur 6x6 --effect-vignette 0.1:0.5";
+      #lock = "swaylock -i ~/.bg.png -s fill -F";
+    in
+    on // {
+      timeouts = [
+        { timeout = 60; command = lock; }
+        # dpms kills everyone and everything I love
+        # let's try it again!
+        # 2022-04-30 it still slaughters
+        (
+          let
+            lights-off = pkgs.writeShellScript "lights-off" ''
+              light -O
+              light -S 0
+            '';
+            lights-on = pkgs.writeShellScript "lights-on" ''
+              light -I
+            '';
+          in
+          { timeout = 30; command = toString lights-off; resumeCommand = toString lights-on; }
+        )
+      ];
+      events = [
+        { event = "lock"; command = lock; }
+        { event = "before-sleep"; command = lock; }
+      ];
+    };
 
   wayland.windowManager.sway = on // {
-     wrapperFeatures.gtk = true;
+    wrapperFeatures.gtk = true;
 
     config = rec {
 
@@ -132,9 +151,9 @@ with import ../../lib.nix args; {
 
       input = {
         "*" = {
-          scroll_method = "on_button_down";
+          # scroll_method = "on_button_down";
           natural_scroll = "enabled";
-          middle_emulation = "enabled";
+          # middle_emulation = "enabled";
           xkb_layout = config.home.keyboard.layout;
           xkb_options = pkgs.lib.concatStringsSep "," config.home.keyboard.options;
         };
@@ -156,8 +175,14 @@ with import ../../lib.nix args; {
 
       window = {
         commands = [
-          { criteria = { window_role = "pop-up"; }; command = "no_focus" ; }
+          { criteria = { window_role = "pop-up"; }; command = "no_focus"; }
           { criteria = { window_type = "notification"; }; command = "no_focus"; }
+
+          # Jitsi Window
+          { criteria = { instance = "jitsi meet"; }; command = "floating enable"; }
+          { criteria = { instance = "jitsi meet"; }; command = "no_focus"; }
+          { criteria = { instance = "jitsi meet"; }; command = "resize set 0 0"; }
+          { criteria = { instance = "jitsi meet"; }; command = "move absolute position 10 10"; }
 
           # Firefox video indicator
           { criteria = { title = "Firefox — Sharing Indicator"; }; command = "floating enable"; }
@@ -198,7 +223,7 @@ with import ../../lib.nix args; {
           workspaces = with lib;
             listToAttrs (
               (map (i: nameValuePair "${mod}+${numkey i}" "workspace number ${toString i}") workspaceList) ++
-              (map (i: nameValuePair "${mod}+Shift+${numkey i}" "move container to workspace number ${toString i}") workspaceList)
+                (map (i: nameValuePair "${mod}+Shift+${numkey i}" "move container to workspace number ${toString i}") workspaceList)
             );
           conf = builtins.toFile "woficonf" ''
             dynamic_lines=true
@@ -214,8 +239,8 @@ with import ../../lib.nix args; {
           "${mod}+Tab" = "workspace back_and_forth";
           "${mod}+Shift+Tab" = "move container to workspace back_and_forth";
           "${mod}+Shift+q" = "kill";
-          "${mod}+Return" = "exec DRI_PRIME=1 alacritty --working-directory \"$(swaycwd)\"";
-          "${mod}+d" = "exec wofi -c ${conf} --show drun\\,run";
+          "${mod}+Return" = "exec alacritty --working-directory \"$(swaycwd)\"";
+          "${mod}+d" = "exec rofi -show drun";
           "${mod}+c" = "exec copyq show";
           "${mod}+Ctrl+p" = "exec wofi-pass";
           "${mod}+Ctrl+Return" = "exec emacsclient -c";

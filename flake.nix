@@ -12,127 +12,106 @@
     emacs-overlay.url = "github:nix-community/emacs-overlay";
     emacs-overlay.inputs.nixpkgs.follows = "nixpkgs";
 
-    # neovim-nightly.url = "github:nix-community/neovim-nightly-overlay";
-    # neovim-nightly.inputs.nixpkgs.follows = "nixpkgs";
+    deploy-rs.url = "github:serokell/deploy-rs";
+    deploy-rs.inputs.nixpkgs.follows = "nixpkgs";
+
+    wg-bond.url = "github:cab404/wg-bond";
+    wg-bond.inputs.nixpkgs.follows = "nixpkgs";
+
   };
 
-  outputs = inputs @ { self, nixpkgs, home-manager, emacs-overlay, ... }:
+  outputs = inputs @ { self, nixpkgs, home-manager, emacs-overlay, deploy-rs, wg-bond, ... }:
     let
-      inherit (nixpkgs) lib;
       system = "x86_64-linux";
+      patchedPkgs =
+        let
+          patched = import "${nixpkgs.legacyPackages.${system}.applyPatches {
+            name = "nixpkgs-patched";
+            src = nixpkgs;
+            patches = [ ./0001-wg-file-patch.patch ];
+          }}/flake.nix";
+          invoked = patched.outputs { self = invoked; };
+        in
+          invoked;
+
+      inherit (patchedPkgs) lib;
       specialArgs = {
         inherit inputs;
       };
       buildConfig = modules: { inherit modules system specialArgs; };
       buildSystem = modules: lib.nixosSystem (buildConfig modules);
+      onPkgs = f: builtins.mapAttrs f patchedPkgs.legacyPackages;
+      deployNixos = deploy-rs.lib.${system}.activate.nixos;
     in
     {
 
-    nixosConfigurations =
-      {
-        # My notebook
-        yuna = buildSystem [
-          # inputs.dwarffs.nixosModules.dwarffs
-          ./hw/dell-latitude-5400.nix
-          ./modules/sway/system.nix
-          ./modules/home-manager
-          ./secret/system.nix
-          ./secret/hardware-configuration.nix
-          ./secret/serokell.nix
-          ({ config, pkgs, ... }: {
-            boot.tmpOnTmpfs = true;
-            boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
+      nixosConfigurations =
+        {
+          # My notebook
+          yuna = buildSystem [ ./hw/portables/yuna ];
 
-            system.name = "yuna";
-            networking.hostName = "yuna";
+        } // (builtins.mapAttrs (k: v: buildSystem v) (import ./hw/keter));
 
-            # systemd.coredump.enable = true;
+      deploy = {
 
-            # Young streamer's kit (don't mistake with adolescent kit, that would be tiktok)
-            programs.gphoto2.enable = true;
-            users.users.cab.extraGroups = [ "camera" ];
-            boot.extraModulePackages = [ config.boot.kernelPackages.v4l2loopback ];
-
-            # I guess if I have dwarffs in this system, might as well.
-            # environment.defaultPackages = [ pkgs.gdb ];
-
-            services.pcscd.enable = true;
-
-            _.user = "cab";
-
-            nix.registry = let
-              lock = (with builtins; fromJSON (readFile ./flake.lock));
-            in {
-              nixpkgs = with lock.nodes.nixpkgs; {
-                from = { id = "nixpkgs"; type = "indirect"; };
-                to = locked;
+        autoRollback = true;
+        magicRollback = true;
+        sshOpts = [ ];
+        nodes = {
+          c1 = {
+            hostname = "10.0.10.2";
+            profiles = {
+              system = {
+                path = deployNixos self.nixosConfigurations.c1;
+                user = "root";
               };
             };
-
-            nixpkgs.overlays = [
-              # inputs.nix.overlay
-              # inputs.neovim-nightly.overlay
-              # inputs.emacs-overlay.overlay
-            ];
-
-            i18n.defaultLocale = "en_US.UTF-8";
-          })
-        ];
-
-        tifa = buildSystem [
-          ./hw/acer-es1-111.nix
-          ./modules/i3/system.nix
-          ./modules/home-manager
-          ./secret/system.nix
-          ./secret/hardware-configuration.nix
-          {
-            systemd.coredump.enable = true;
-            system.name = "tifa";
-            networking.hostName = "tifa";
-            _.user = "cab";
-            time.timeZone = "Europe/Moscow";
-            i18n.defaultLocale = "en_US.UTF-8";
-          }
-        ];
-
-        container = buildSystem [
-          ./modules
-          ./modules/kde/system.nix
-          {
-            boot.isContainer = true;
-            _.user = "cab";
-            time.timeZone = "Europe/Berlin";
-            i18n.defaultLocale = "en_US.UTF-8";
-            users.users.root.password = "foobar";
-          }
-        ];
-
+          };
+          tiferet = {
+            hostname = "51.15.83.8";
+            profiles = {
+              system = {
+                path = deployNixos self.nixosConfigurations.tiferet;
+                user = "root";
+              };
+            };
+          };
+          yuna = {
+            hostname = "localhost";
+            profiles = {
+              system = {
+                path = deployNixos self.nixosConfigurations.yuna;
+                user = "root";
+              };
+            };
+          };
+        };
       };
 
-    devShell.x86_64-linux = with (import nixpkgs { system = "x86_64-linux"; }); mkShell {
-      buildInputs = [ nixfmt rnix-lsp ];
-    };
+      devShells = onPkgs (system: pkgs: with pkgs; {
+        default = mkShell {
+          buildInputs = [
+            nixfmt
+            rnix-lsp
+            deploy-rs.defaultPackage.${system}
+            wg-bond.defaultPackage.${system}
+          ];
+        };
+      });
 
-    packages = {
+      packages = {
 
-      vm.x86_64-linux =
-        let
-          cfg = import "${nixpkgs}/nixos/lib/eval-config.nix" (buildConfig [
-              ./modules
-              ./modules/kde/system.nix
-              "${nixpkgs}/nixos/modules/virtualisation/qemu-vm.nix"
-              {
-                boot.isContainer = true;
-                _.user = "cab";
-                time.timeZone = "Europe/Berlin";
-                i18n.defaultLocale = "en_US.UTF-8";
-                users.users.root.password = "foobar";
-              }
+        x86_64-linux.vm =
+          let
+            cfg = import "${nixpkgs}/nixos/lib/eval-config.nix" (buildConfig [
+              ./hw/portables/yuna
+              "${nixpkgs}/nixos/modules/virtualisation/build-vm.nix"
+              { }
             ]);
-        in
+          in
           cfg.config.system.build.vm;
-    };
+      };
 
-  };
+    };
 
 }

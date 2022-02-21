@@ -18,20 +18,32 @@ with import ../lib.nix args; {
     package = pkgs.nixUnstable;
     settings = {
       trusted-users = [ "root" config._.user ];
-      experimental-features = [ "nix-command" "flakes" ];
+      experimental-features = [ "nix-command" "flakes" "ca-derivations" ];
     };
     nixPath = [ "nixpkgs=${pkgs.path}" ];
+    registry =
+      let
+        lock = (with builtins; fromJSON (readFile ../flake.lock));
+      in
+      {
+        nixpkgs = with lock.nodes.${lock.nodes.${lock.root}.inputs.nixpkgs}; {
+          from = { id = "nixpkgs"; type = "indirect"; };
+          to = locked;
+        };
+      };
   };
 
   boot = {
-    kernelPackages = pkgs.linuxPackages;
+    kernelPackages = pkgs.linuxPackages_testing;
     plymouth = on;
     kernelParams = [ "quiet" ];
   };
 
   networking = {
     networkmanager.enable = true;
-    firewall.enable = false;
+    dhcpcd.enable = false;
+
+    # firewall.enable = false;
   };
 
   hardware.nitrokey.enable = true;
@@ -52,7 +64,7 @@ with import ../lib.nix args; {
 
     xserver = {
       layout = "us,ru";
-      xkbOptions = "ctrl:nocaps,lv3:ralt_switch_multikey,misc:typo,grp:lctrl_rctrl_switch";
+      xkbOptions = "ctrl:nocaps,lv3:ralt_switch_multikey,misc:typo,grp:win_space_toggle";
     };
 
   };
@@ -71,8 +83,16 @@ with import ../lib.nix args; {
     users.root.shell = pkgs.zsh;
   };
 
+  security = {
+    polkit = on;
+    tpm2 = on;
+  };
+
   environment.shells = [ pkgs.zsh ];
   environment.pathsToLink = [ "/share/zsh" ];
+  environment.variables = {
+    EDITOR = "vi";
+  };
   environment.defaultPackages = (with pkgs; [
     # this section is a tribute to my PEP-8 hatred
     curl htop git tmux rsync hexedit # find one which does not fit
