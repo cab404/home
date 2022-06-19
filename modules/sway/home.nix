@@ -51,6 +51,8 @@ with import ../../lib.nix args; {
     GTK_BACKEND = "wayland";
     XDG_CURRENT_DESKTOP = "sway";
     XDG_SESSION_TYPE = "sway";
+    # woo wrappers
+    NIXOS_OZONE_WL = "1";
 
     QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
 
