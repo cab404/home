@@ -14,12 +14,6 @@ with lib;
         description = "Username for your single-user system.";
       };
 
-      desktop = mkOption {
-        type = with types; nullOr (enum [ "i3" "kde" "sway" ]);
-        default = "i3";
-        description = "Desktop environment to use. Can be either kde, i3 or sway. Or null.";
-      };
-
     };
   };
 
