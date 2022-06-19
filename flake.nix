@@ -18,6 +18,8 @@
     wg-bond.url = "github:cab404/wg-bond";
     wg-bond.inputs.nixpkgs.follows = "nixpkgs";
 
+    nix-doom-emacs.url = "github:nix-community/nix-doom-emacs";
+
   };
 
   outputs = inputs @ { self, nixpkgs, home-manager, emacs-overlay, deploy-rs, wg-bond, ... }:
@@ -25,14 +27,15 @@
       system = "x86_64-linux";
       patchedPkgs =
         let
+          patches = [ ];
           patched = import "${nixpkgs.legacyPackages.${system}.applyPatches {
+            inherit patches;
             name = "nixpkgs-patched";
             src = nixpkgs;
-            patches = [ ./0001-wg-file-patch.patch ];
-          }}/flake.nix";
+        }}/flake.nix";
           invoked = patched.outputs { self = invoked; };
         in
-          invoked;
+        if builtins.length patches > 0 then invoked else nixpkgs;
 
       inherit (patchedPkgs) lib;
       specialArgs = {
@@ -41,7 +44,8 @@
       buildConfig = modules: { inherit modules system specialArgs; };
       buildSystem = modules: lib.nixosSystem (buildConfig modules);
       onPkgs = f: builtins.mapAttrs f patchedPkgs.legacyPackages;
-      deployNixos = deploy-rs.lib.${system}.activate.nixos;
+      deployNixos = s: deploy-rs.lib.${s.pkgs.system}.activate.nixos s;
+      deployHomeManager = sys: s: deploy-rs.lib.${sys}.activate.home-manager s;
     in
     {
 
