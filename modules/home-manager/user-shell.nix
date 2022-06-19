@@ -55,8 +55,6 @@ with import ../../lib.nix args;
     };
 
     neovim = {
-      # package = pkgs.neovim-nightly;
-      coc.enable = true;
       viAlias = true;
       extraConfig = ''
       :set expandtab
