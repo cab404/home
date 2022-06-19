@@ -79,6 +79,7 @@ in
       fzf
       file
       jq
+      jless
       ranger
       btop
 
