@@ -142,6 +142,7 @@ in
       mtr
       strace
       hcxdumptool
+      sshfs
 
       # Personal data and sync
       browserpass
