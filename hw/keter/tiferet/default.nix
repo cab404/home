@@ -15,7 +15,8 @@
       { address = "::"; via = "2001:bc8:1820:1943::"; prefixLength = 0; }
     ];
 
-    networking.firewall.allowedUDPPorts = [ 61111 ];
+    networking.firewall.enable = false;
+    networking.networkmanager.enable = false;
 
     imports = [
       ../ssh.nix
