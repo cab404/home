@@ -54,6 +54,9 @@
           # My notebook
           yuna = buildSystem [ ./hw/portables/yuna ];
 
+          # My cockbox
+          cabriolet = buildSystem [ ./hw/cockbox ];
+
         } // (builtins.mapAttrs (k: v: buildSystem v) (import ./hw/keter));
 
       deploy = {
@@ -85,6 +88,16 @@
             profiles = {
               system = {
                 path = deployNixos self.nixosConfigurations.yuna;
+                user = "root";
+                ssh-user = "root";
+              };
+            };
+          };
+          cabriolet = {
+            hostname = "83.97.20.94";
+            profiles = {
+              system = {
+                path = deployNixos self.nixosConfigurations.cabriolet;
                 user = "root";
               };
             };
