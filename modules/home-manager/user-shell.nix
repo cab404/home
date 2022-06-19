@@ -70,6 +70,7 @@ with import ../../lib.nix args;
       initExtra = ''
       zstyle ':completion:*' menu select
       export PATH=$PATH:~/.cargo/bin
+      mcd () { mkdir -pv "$@"; cd "$@"; }
       '';
       shellAliases = {
         ls = lib.mkDefault "ls --color=auto";
