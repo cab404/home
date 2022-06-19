@@ -39,13 +39,6 @@ with import ../lib.nix args; {
     kernelParams = [ "quiet" ];
   };
 
-  networking = {
-    networkmanager.enable = true;
-    dhcpcd.enable = false;
-
-    # firewall.enable = false;
-  };
-
   hardware.nitrokey.enable = true;
 
   services = {

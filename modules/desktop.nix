@@ -19,6 +19,9 @@ with import ../lib.nix args;
     android_sdk.accept_license = true;
   };
 
+  # Yeah, desktop needs one
+  networking.networkmanager.enable = true;
+
   # Can't enable flatpak without this
   xdg.portal = on;
 

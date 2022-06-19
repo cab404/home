@@ -3,7 +3,8 @@
   networking.hostName = config.system.name;
 
   imports =
-    [ # Include the results of the hardware scan.
+    [
+      # Include the results of the hardware scan.
       ./hardware-configuration.nix
       # ./hydra.nix
       # ./secrets.nix
@@ -23,15 +24,22 @@
   boot.kernelPackages = lib.mkForce pkgs.linuxPackages_latest;
 
   environment.systemPackages = with pkgs; [
-    wget vim cryptsetup docker-compose btrfs-progs
+    wget
+    vim
+    cryptsetup
+    docker-compose
+    btrfs-progs
     thin-provisioning-tools
-    hexedit git screen
+    hexedit
+    git
+    screen
   ];
 
   services.cron.enable = true;
 
   virtualisation.docker.enable = true;
-  systemd.services.docker.wantedBy = [];
+  systemd.services.docker.wantedBy = [ ];
+
   networking.firewall.enable = false;
 
   services.tor = {
