@@ -16,6 +16,9 @@
 
   # dns = [ "1.1.1.1" "1.0.0.1" "2606:4700:4700::1111" "2606:4700:4700::1001" ];
   networking.wg-quick.interfaces."keter".configFile = "/secrets/keter.conf";
+  networking.hosts = {
+    "10.0.10.2" = [ "c1.keter" "cab404.ru" "nextcloud.cab404.ru" ];
+  };
 
   # From 'not-detected.nix'
   hardware.enableRedistributableFirmware = lib.mkDefault true;
