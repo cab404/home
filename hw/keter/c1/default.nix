@@ -42,6 +42,11 @@
 
   networking.firewall.enable = false;
 
+  # constant disconnects and weird internets are the reason i use nm.
+  # it's really versatile, and aims to just get the client to the internet no matter what
+  # and that's what I want with this machine
+  networking.networkmanager.enable = true;
+
   services.tor = {
     enable = true;
     relay = {
