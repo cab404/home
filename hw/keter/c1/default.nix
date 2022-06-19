@@ -62,6 +62,12 @@
     };
   };
 
+  users.users = {
+    "${config._.user}" = {
+      extraGroups = [ "docker" ];
+    };
+  };
+
   security.sudo.wheelNeedsPassword = false;
 
   # This value determines the NixOS release with which your system is to be
