@@ -7,6 +7,12 @@ with import ../../lib.nix args; {
 
   home = {
 
+      pointerCursor = {
+        package = pkgs.gnome-themes-extra;
+        name = "Adwaita";
+        size = 16;
+      };
+
     packages = with pkgs; [
       swayidle
       flameshot
@@ -262,7 +268,7 @@ with import ../../lib.nix args; {
           #"XF86Display" = "exec arandr";
 
           # Floating
-          "${mod}+space" = "focus mode_toggle";
+          # "${mod}+space" = "focus mode_toggle"; # yup it clashes with my layout changer
           "${mod}+Shift+space" = "floating toggle";
 
           # Gaps
@@ -304,8 +310,6 @@ with import ../../lib.nix args; {
 
   };
 
-  xsession.pointerCursor.package = pkgs.gnome-themes-extra;
-  xsession.pointerCursor.name = "Adwaita";
   fonts.fontconfig = on;
 
   systemd.user.targets = {
