@@ -260,9 +260,6 @@ in
 
       vscode = on // {
         package = pkgs.vscodium;
-        # (writeShellScriptBin "codium" ''
-        #   ${vscodium}/bin/codium $@ # --enable-features=UseOzonePlatform --ozone-platform=wayland
-        # '')
       };
 
       firefox.package = pkgs.firefox-esr-unwrapped;
