@@ -10,6 +10,7 @@ let
     dark = rec {
       alacritty = ./alacritty/monokai.yaml;
       # spacemacs = "spacemacs-dark";
+      doom-emacs = "doom-monokai-classic";
       vscodium = "Monokai";
       vscode = vscodium;
       gtk3 = "Adwaita-dark";
@@ -18,6 +19,7 @@ let
     light = rec {
       alacritty = ./alacritty/gruvbox-light.yaml;
       # spacemacs = "spacemacs-light";
+      doom-emacs = "doom-gruvbox-light";
       vscodium = "Default Light+";
       vscode = vscodium;
       gtk3 = "Adwaita";
@@ -35,6 +37,8 @@ let
     alacritty = (t: ''cp ${t} ~/.config/alacritty/alacritty.yml'');
 
     # spacemacs = (t: ''emacsclient -e "(spacemacs/load-theme '${t})"'');
+
+    doom-emacs = (t: ''emacsclient -e "(consult-theme '${t})"'');
 
     vscodium = t: inlineJq "~/.config/VSCodium/User/settings.json" ''.["workbench.colorTheme"]=${builtins.toJSON t}'';
 

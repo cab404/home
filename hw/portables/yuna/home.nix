@@ -1,4 +1,4 @@
-args @ { sysconfig, config, pkgs /* inputs.nixpkgs */, lib /* inputs.nixpkgs.lib */, ... }:
+args @ { sysconfig, config, pkgs /* inputs.nixpkgs */, lib /* inputs.nixpkgs.lib */, inputs, ... }:
 with import ../../../lib.nix args;
 let
   isWL = true;
@@ -6,6 +6,7 @@ in
 {
 
   imports = [
+    inputs.nix-doom-emacs.hmModule
     ../../../modules/home-manager/user-shell.nix
     ../../../modules/sway/home.nix
   ];
@@ -188,6 +189,16 @@ in
         nix search --offline nixpkgs $@
       '')
 
+      # Blocking emacs.
+      (writeShellScriptBin "ee" ''
+        ${emacs}/bin/emacsclient -c $@
+      '')
+
+      # Non-blocking emacs
+      (writeShellScriptBin "ec" ''
+        ${emacs}/bin/emacsclient -nc $@
+      '')
+
     ];
 
     file.".mozilla/native-messaging-hosts/org.kde.plasma.browser_integration.json".source = "${pkgs.plasma-browser-integration}/lib/mozilla/native-messaging-hosts/org.kde.plasma.browser_integration.json";
@@ -232,8 +243,14 @@ in
     "alacritty"
     "exa"
     "bat"
+    "doom-emacs"
   ]
     {
+
+      doom-emacs = {
+        doomPrivateDir = ../../../doom.d;
+      };
+
       vscode = on // {
         package = pkgs.vscodium;
         # (writeShellScriptBin "codium" ''
@@ -299,7 +316,7 @@ in
     "flameshot"
     "easyeffects"
     "kdeconnect"
-    "emacs"
+    # "emacs"
   ]
     {
       gpg-agent = {
