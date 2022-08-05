@@ -1,6 +1,8 @@
 args @ { config, pkgs, lib, ... }:
 with import ../lib.nix args; {
 
+  system.stateVersion = "22.05";
+
   require = [ ./options.nix ];
 
   console = {

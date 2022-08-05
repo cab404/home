@@ -1,10 +1,7 @@
-/**
-  * Desktop related configuration.
-  * Desktop is all that is not a server .-.
-*/
+# Desktop related configuration.
+# Desktop is all that is not a server .-.
 { config, pkgs, lib, ... }@args:
-with import ../lib.nix args;
-{
+with import ../lib.nix args; {
 
   require = [ ./. ];
 
@@ -26,28 +23,59 @@ with import ../lib.nix args;
   xdg.portal = on;
 
   # @balsoft's hack to enable battery levels on supported headphones
-  systemd.services.bluetooth.serviceConfig.ExecStart = lib.mkForce [ "" "${pkgs.bluezFull}/libexec/bluetooth/bluetoothd -f /etc/bluetooth/main.conf -E" ];
+  systemd.services.bluetooth.serviceConfig.ExecStart = lib.mkForce [
+    ""
+    "${pkgs.bluezFull}/libexec/bluetooth/bluetoothd -f /etc/bluetooth/main.conf -E"
+  ];
 
   services = {
 
     # gnunet = e;
-    locate = on;
+    locate = on // {
+      locate = pkgs.plocate;
+      localuser = null;
+    };
     upower = on;
     flatpak = on;
 
     pipewire = on // {
+      config.pipewire = {
+        "context.modules" = [
+          {
+            args = { "nice.level" = -11; };
+            flags = [ "ifexists" "nofail" ];
+            name = "libpipewire-module-rt";
+          }
+          { name = "libpipewire-module-protocol-native"; }
+          { name = "libpipewire-module-profiler"; }
+          { name = "libpipewire-module-metadata"; }
+          { name = "libpipewire-module-spa-device-factory"; }
+          { name = "libpipewire-module-spa-node-factory"; }
+          { name = "libpipewire-module-client-node"; }
+          { name = "libpipewire-module-client-device"; }
+          {
+            flags = [ "ifexists" "nofail" ];
+            name = "libpipewire-module-portal";
+          }
+          {
+            args = { };
+            name = "libpipewire-module-access";
+          }
+          { name = "libpipewire-module-adapter"; }
+          { name = "libpipewire-module-link-factory"; }
+          { name = "libpipewire-module-session-manager"; }
+          { name = "libpipewire-module-zeroconf-discover"; }
+          { name = "libpipewire-module-raop-discover"; }
+        ];
+      };
+      audio = on;
       jack = on;
       alsa = on;
       pulse = on;
-      wireplumber = on;
-      # media-session = on;
+      wireplumber.enable = true;
     };
 
-    printing = on // {
-      drivers = [
-        pkgs.gutenprint
-      ];
-    };
+    printing = on // { drivers = [ pkgs.gutenprint ]; };
 
     logind = {
       # lidSwitch = "ignore";
@@ -61,10 +89,23 @@ with import ../lib.nix args;
 
     actkbd = on // {
       bindings = [
-        { keys = [ 224 ]; events = [ "key" ]; command = "/run/current-system/sw/bin/light -T 0.6"; }
-        { keys = [ 225 ]; events = [ "key" ]; command = "/run/current-system/sw/bin/light -A 0.1; /run/current-system/sw/bin/light -T 1.5"; }
+        {
+          keys = [ 224 ];
+          events = [ "key" ];
+          command = "/run/current-system/sw/bin/light -T 0.6";
+        }
+        {
+          keys = [ 225 ];
+          events = [ "key" ];
+          command =
+            "/run/current-system/sw/bin/light -A 0.1; /run/current-system/sw/bin/light -T 1.5";
+        }
         # that's pretty much ctrlaltdel on steroids - lalt + super + ralt + rctrl + delete
-        { keys = [ 56 97 100 111 125 ]; events = [ "key" ]; command = "/run/current-system/sw/bin/killall -9 sway"; }
+        {
+          keys = [ 56 97 100 111 125 ];
+          events = [ "key" ];
+          command = "/run/current-system/sw/bin/killall -9 sway";
+        }
       ];
     };
 
@@ -88,9 +129,7 @@ with import ../lib.nix args;
 
   };
 
-  boot.kernel.sysctl = {
-    "fs.inotify.max_user_watches" = 1000000;
-  };
+  boot.kernel.sysctl = { "fs.inotify.max_user_watches" = 1000000; };
 
   # == Sound
   sound.enable = true;
@@ -107,8 +146,7 @@ with import ../lib.nix args;
     "light" # brightness control
     # "plotinus" # command pallet that doesn't work yet for some reason
     "wireshark" # should create some missing groups
-  ]
-    { };
+  ] { };
 
   powerManagement.powertop.enable = lib.mkDefault true;
 
@@ -118,14 +156,7 @@ with import ../lib.nix args;
     polkit_gnome # and polkit guis :\
   ];
 
-  users.users."${config._.user}".extraGroups = [
-    "docker"
-    "containers"
-    "plugdev"
-    "tor"
-    "wireshark"
-    "libvirtd"
-    "sound"
-  ];
+  users.users."${config._.user}".extraGroups =
+    [ "docker" "containers" "plugdev" "tor" "wireshark" "libvirtd" "sound" ];
 
 }

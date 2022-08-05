@@ -7,24 +7,24 @@ with import ../../lib.nix args; {
 
   home = {
 
-      pointerCursor = {
-        package = pkgs.gnome-themes-extra;
-        name = "Adwaita";
-        size = 16;
-      };
+    pointerCursor = {
+      package = pkgs.gnome-themes-extra;
+      name = "Adwaita";
+      size = 16;
+    };
 
     packages = with pkgs; [
-      swayidle
       flameshot
       wl-clipboard
       rofi-wayland
       swaycwd
       wlrctl
-      mate.mate-polkit
 
-      kdeconnect
-      kwalletmanager
-      plasma-browser-integration
+#      mate.mate-polkit
+#      swayidle
+#      kdeconnect
+#      kwalletmanager
+#      plasma-browser-integration
 
       # For waybar
       pavucontrol
@@ -71,6 +71,7 @@ with import ../../lib.nix args; {
   };
 
   programs.waybar = on;
+  programs.alacritty = on;
 
   services.gammastep = on // {
     latitude = "55.75222";
@@ -103,7 +104,8 @@ with import ../../lib.nix args; {
 
   services.swayidle =
     let
-      lock = "swaylock --clock -i ~/.bg.png  --indicator  -FLke --effect-blur 6x6 --effect-vignette 0.1:0.5";
+      swaylock = pkgs.swaylock-effects;
+      lock = "${swaylock}/bin/swaylock --clock -i ~/.bg.png  --indicator  -FLke --effect-blur 6x6 --effect-vignette 0.1:0.5";
       #lock = "swaylock -i ~/.bg.png -s fill -F";
     in
     on // {
@@ -133,17 +135,25 @@ with import ../../lib.nix args; {
 
   wayland.windowManager.sway = on // {
     wrapperFeatures.gtk = true;
-
+    extraConfig = ''
+        bindsym --locked --to-code ISO_Level3_Shift input * xkb_switch_layout 0
+        # bindsym --locked --to-code --release Mod4   input * xkb_switch_layout 0
+    '';
     config = rec {
 
       modifier = "Mod4";
 
-      bars = [ ];
+      bars = [
+        {
+          statusCommand = "${pkgs.i3status}/bin/i3status";
+          trayOutput = "*";
+        }
+      ];
       modes = { };
       terminal = "alacritty";
       output = {
         "*" = {
-          bg = "~/.bg.png tile";
+          #bg = "~/.bg.png tile";
         };
       };
 
@@ -160,23 +170,33 @@ with import ../../lib.nix args; {
       input = {
         "*" = {
           # scroll_method = "on_button_down";
-          natural_scroll = "enabled";
+          natural_scroll = "enable";
+          # I am good at not touching the thing.
+          # Also, it interferes with me working in blender ;D
+          dwt = "disable";
           # middle_emulation = "enabled";
           xkb_layout = config.home.keyboard.layout;
           xkb_options = pkgs.lib.concatStringsSep "," config.home.keyboard.options;
         };
+
+        # let's make this clit useful
+        "1160:4639:DELL08B8:00_0488:121F_Mouse" = {
+          accel_profile = "flat";
+          pointer_accel = "1";
+        };
+
       };
 
       startup =
         [
-          { command = "waybar"; }
+          #{ command = "waybar"; }
           { command = "mako"; }
           { command = "telegram-desktop"; }
           { command = "element-desktop --hidden"; }
           { command = "nextcloud"; }
           { command = "flameshot"; }
           # hacky, yes. doesn't work otherwise -- also yes.
-          { command = "sleep 1 && copyq"; }
+          { command = "copyq"; }
 
 
         ];
@@ -219,9 +239,10 @@ with import ../../lib.nix args; {
       };
 
       seat."*" = {
-        xcursor_theme = "Adwaita 24";
+        xcursor_theme = "Adwaita 16";
       };
 
+      bindkeysToCode = true;
       keybindings =
         let
           mod = modifier;
@@ -248,7 +269,7 @@ with import ../../lib.nix args; {
           "${mod}+Shift+Tab" = "move container to workspace back_and_forth";
           "${mod}+Shift+q" = "kill";
           "${mod}+Return" = "exec alacritty --working-directory \"$(swaycwd)\"";
-          "${mod}+d" = "exec rofi -show drun";
+          "${mod}+d" = "exec rofi -show run";
           "${mod}+c" = "exec copyq show";
           "${mod}+Ctrl+p" = "exec wofi-pass";
           "${mod}+Ctrl+Return" = "exec emacsclient -c";
@@ -256,10 +277,10 @@ with import ../../lib.nix args; {
           "${mod}+Shift+e" = "exec swaynag -t warning -m 'Do you want to exit sway?' -b 'Yes' 'swaymsg exit'";
           "${mod}+Escape" = "exec loginctl lock-session";
 
-          "XF86AudioLowerVolume" = "exec --no-startup-id pactl set-sink-volume 0 -5%";
-          "XF86AudioMicMute" = "exec --no-startup-id pactl set-source-mute 1 toggle";
-          "XF86AudioMute" = "exec --no-startup-id pactl set-sink-mute 0 toggle";
-          "XF86AudioRaiseVolume" = "exec --no-startup-id pactl set-sink-volume 0 +5%";
+          "XF86AudioLowerVolume" = "exec --no-startup-id amixer -D pipewire sset Master 5%-";
+          "XF86AudioMicMute" = "exec --no-startup-id amixer -D pipewire sset Capture toggle";
+          "XF86AudioMute" = "exec --no-startup-id amixer -D pipewire sset Master toggle";
+          "XF86AudioRaiseVolume" = "exec --no-startup-id amixer -D pipewire sset Master 5%+";
 
           "Print" = "exec ${flameshotWlCopy}";
 

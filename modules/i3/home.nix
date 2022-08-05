@@ -1,49 +1,65 @@
 { pkgs, lib, config, ... }:
 with import ../../lib.nix { inherit pkgs; }; {
 
-  home.packages = with pkgs; [
-    nitrogen arandr redshift
-    redshift-plasma-applet kdeconnect
-    kwalletmanager xcwd plasma-browser-integration
-  ];
+  home = {
+    pointerCursor = {
+      package = pkgs.paper-icon-theme;
+      name = "Paper";
+      size = 16;
+    };
 
-  home.file = {
-    ".bg.png".source = ../../bg.png;
+    packages = with pkgs; [
+      nitrogen
+      arandr
+      redshift
+      redshift-plasma-applet
+      kdeconnect
+      kwalletmanager
+      xcwd
+      plasma-browser-integration
+    ];
 
-    # KDE splash is eeevil
-    ".config/ksplashrc".text = ''
-    [KSplash]
-    Engine=none
-    Theme=None
-    '';
+    file = {
+      ".bg.png".source = ../../bg.png;
 
-    # Plasma theme
-    ".config/plasmarc".text = ''
-    [Theme]
-    name=Adapta
+      # KDE splash is eeevil
+      ".config/ksplashrc".text = ''
+        [KSplash]
+        Engine=none
+        Theme=None
+      '';
 
-    [Wallpapers]
-    usersWallpapers=/home/${config.home.username}/.bg.png
-    '';
+      # Plasma theme
+      ".config/plasmarc".text = ''
+        [Theme]
+        name=Adapta
 
-  };
+        [Wallpapers]
+        usersWallpapers=/home/${config.home.username}/.bg.png
+      '';
 
-  services = enableThings [
-    "flameshot"
-   # "picom"
-  ] {
-
-    # == Compositor
-    picom = {
-      blur = true;
-      fade = true;
-      shadow = true;
-      vSync = true;
-      fadeDelta = 5;
-      # inactiveOpacity = "0.96";
     };
 
   };
+
+
+  services = enableThings [
+    "flameshot"
+    # "picom"
+  ]
+    {
+
+      # == Compositor
+      picom = {
+        blur = true;
+        fade = true;
+        shadow = true;
+        vSync = true;
+        fadeDelta = 5;
+        # inactiveOpacity = "0.96";
+      };
+
+    };
 
   home.sessionVariables = {
     # == That fixes qtkeychain
@@ -57,19 +73,14 @@ with import ../../lib.nix { inherit pkgs; }; {
 
 
   xsession.enable = true;
-  xsession.pointerCursor = {
-    package = pkgs.paper-icon-theme;
-    name = "Paper";
-    size = 16;
-  };
 
   xsession.windowManager.i3 = {
     enable = true;
     package = pkgs.i3-gaps;
     config = rec {
-      bars = [];
+      bars = [ ];
       modifier = "Mod4";
-      modes = {};
+      modes = { };
       terminal = "alacritty";
       startup = [
         { command = "nitrogen --restore"; notification = false; }
@@ -99,7 +110,7 @@ with import ../../lib.nix { inherit pkgs; }; {
       keybindings =
         let
           selectorScript = pkgs.writeScript "selectworkspace" ''
-          i3-msg -t get_workspaces | jq -r .[].name | rofi -dmenu -matching fuzzy -p workspace: | xargs i3-msg workspace
+            i3-msg -t get_workspaces | jq -r .[].name | rofi -dmenu -matching fuzzy -p workspace: | xargs i3-msg workspace
           '';
           mod = modifier;
           intMod = a: b: a - (a / b) * b;
@@ -110,7 +121,8 @@ with import ../../lib.nix { inherit pkgs; }; {
               (map (i: nameValuePair "${mod}+${numkey i}" "workspace number ${toString i}") workspaceList) ++
               (map (i: nameValuePair "${mod}+Shift+${numkey i}" "move container to workspace number ${toString i}") workspaceList)
             );
-        in lib.mkDefault ({
+        in
+        lib.mkDefault ({
           "${mod}+a" = "exec --no-startup-id ${selectorScript}";
           "${mod}+Tab" = "workspace back_and_forth";
           "${mod}+Shift+Tab" = "move container to workspace back_and_forth";
@@ -168,10 +180,10 @@ with import ../../lib.nix { inherit pkgs; }; {
     };
 
     extraConfig = ''
-    # For unfocusing notifications
-    no_focus [class="plasmashell"]
-    no_focus [window_role="pop-up"]
-    no_focus [window_type="notification"]
+      # For unfocusing notifications
+      no_focus [class="plasmashell"]
+      no_focus [window_role="pop-up"]
+      no_focus [window_type="notification"]
     '';
 
   };

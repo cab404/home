@@ -1,17 +1,39 @@
-args @ { config, pkgs, lib, ... }:
+args @ { sysconfig, config, pkgs, lib, ... }:
 with import ../../lib.nix args;
 {
 
-  programs = enableThings [
-    "git"
-    "direnv"
-    "fzf"
-    "starship"
-    "zsh"
-    "neovim"
-  ] {
+  home.stateVersion = "22.05";
+  home.keyboard =
+    {
+    layout = sysconfig.services.xserver.layout;
+    options = with builtins;
+      filter isString (split "," sysconfig.services.xserver.xkbOptions);
+  };
 
-    direnv.nix-direnv.enable = true;
+  home.packages = with pkgs; [
+    ripgrep
+  ];
+
+  programs = let
+    onWithShell = on // { enableZshIntegration = true; };
+  in {
+
+    git = on;
+
+    direnv = on // { nix-direnv = on; };
+
+    keychain = onWithShell // {
+      agents = [ "gpg" "ssh" ];
+    };
+
+    # Too damn verbose!
+    # nix-index = onWithShell;
+
+    atuin = onWithShell // {
+      settings = {
+        search_mode = "fuzzy";
+      };
+    };
 
     # Fuzzy file search (Ctrl-T for files; Alt-C for dirs)
     fzf = let
@@ -19,16 +41,15 @@ with import ../../lib.nix args;
       # so yeah
       ultimacate = pkgs.writeScript "l" ''
             #!/usr/bin/env bash
-            locate $@
-            locate -d ~/.locate.db $@
+            echo test
+            locate $PWD
           '';
-    in {
-      enableZshIntegration = true;
-      fileWidgetCommand = "${ultimacate} .";
+    in onWithShell // {
+      fileWidgetCommand = toString ultimacate;
     };
 
-    starship = {
-      enableZshIntegration = true;
+
+    starship = onWithShell // {
       settings = {
         character.success_symbol = "[δ](dimmed green)";
         character.error_symbol = "[δ](bold red)";
@@ -54,7 +75,7 @@ with import ../../lib.nix args;
       };
     };
 
-    neovim = {
+    neovim = on // {
       viAlias = true;
       extraConfig = ''
       :set expandtab
@@ -63,19 +84,27 @@ with import ../../lib.nix args;
       '';
     };
 
-    zsh = {
+    zsh = on // {
       enableCompletion = true;
+      enableVteIntegration = true;
       enableAutosuggestions = true;
+      enableSyntaxHighlighting = true;
+
+      autocd = true;
       defaultKeymap = "emacs";
       initExtra = ''
       zstyle ':completion:*' menu select
       export PATH=$PATH:~/.cargo/bin
+
+      ATUIN_NOBIND=true
+      bindkey '^r' _atuin_search_widget
+
       mcd () { mkdir -pv "$@"; cd "$@"; }
+
       '';
       shellAliases = {
         ls = lib.mkDefault "ls --color=auto";
         ll = lib.mkDefault "ls -hal";
-        l = lib.mkDefault "ll";
       };
       history = {
         extended = true;
@@ -91,33 +120,12 @@ with import ../../lib.nix args;
           src = pkgs.fetchFromGitHub {
             owner = "chisui";
             repo = "zsh-nix-shell";
-            rev = "v0.4.0";
-            sha256 = "037wz9fqmx0ngcwl9az55fgkipb745rymznxnssr3rx9irb6apzg";
+            rev = "af6f8a266ea1875b9a3e86e14796cadbe1cfbf08";
+            sha256 = "BjgMhILEL/qdgfno4LR64LSB8n9pC9R+gG7IQWwgyfQ=";
           };
         }
       ];
 
-    };
-
-  };
-
-  systemd.user = {
-
-    # Locatedb for faster fzf completion
-    # TODO: try making tracker work
-
-    services.home-locatedb = {
-      Service.Environment = "PATH=$PATH:${pkgs.gnused}/bin:${pkgs.coreutils}/bin";
-      Unit.Description = "Local locatedb update for fzf";
-      Service.ExecStart = "${pkgs.findutils}/bin/updatedb --localpaths='/home/cab' --output=.locate.db";
-    };
-
-    timers.home-locatedb = {
-      Unit.Description = "Local file DB updates";
-      Unit.PartOf="home-locatedb.service";
-      Timer.OnUnitActiveSec = "1d";
-      Timer.OnBootSec = "15min";
-      Install.WantedBy = [ "timers.target" ];
     };
 
   };

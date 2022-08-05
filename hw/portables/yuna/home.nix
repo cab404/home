@@ -27,7 +27,6 @@ in {
         ungoogled-chromium
 
         (if isWL then element-desktop-wayland else element-desktop)
-
         # Coding
         rnix-lsp
         gh
@@ -73,7 +72,7 @@ in {
         # Command line comfort
         alacritty
         zsh
-        findutils
+
         pulsemixer
         silver-searcher
         fzf
@@ -108,7 +107,7 @@ in {
         font-manager
         gthumb
         audacious
-        quodlibet
+        # quodlibet
         ytfzf
 
       ]
@@ -125,7 +124,6 @@ in {
         gucharmap
         baobab
         evince
-        sushi
       ]) ++ [
         gnome-online-accounts
 
@@ -254,7 +252,7 @@ in {
 
     vscode = on // { package = pkgs.vscodium; };
 
-    firefox.package = pkgs.firefox-esr-unwrapped;
+    # .package = pkgs.firefox-esr-unwrapped; #
 
     exa.enableAliases = true;
 

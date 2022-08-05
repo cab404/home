@@ -26,6 +26,8 @@ with import ../../lib.nix args; {
   services = {
     gvfs = on;
     gnome = {
+      glib-networking = on;
+      gnome-online-accounts = on;
       gnome-online-miners = on;
       sushi = on;
     };

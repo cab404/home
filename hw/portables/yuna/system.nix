@@ -26,6 +26,7 @@
   boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "ahci" "usb_storage" "sd_mod" "rtsx_pci_sdmmc" ];
   boot.initrd.kernelModules = [ "nvme" "dm-snapshot" "usb_storage" ];
   boot.kernelModules = [ "kvm-intel" ];
+  boot.kernelParams = [ "mitigations=off" ];
 
   boot.loader.timeout = 0;
   boot.loader.efi.canTouchEfiVariables = true;
