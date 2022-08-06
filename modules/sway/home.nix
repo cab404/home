@@ -105,7 +105,15 @@ with import ../../lib.nix args; {
   services.swayidle =
     let
       swaylock = pkgs.swaylock-effects;
-      lock = "${swaylock}/bin/swaylock --clock -i ~/.bg.png  --indicator  -FLke --effect-blur 6x6 --effect-vignette 0.1:0.5";
+      lock = ''
+        ${swaylock}/bin/swaylock \
+          --clock \
+          -i ~/.bg.png \
+          --indicator \
+          -fFLke \
+          --effect-blur 6x6 \
+          --effect-vignette 0.1:0.5
+      '';
       #lock = "swaylock -i ~/.bg.png -s fill -F";
     in
     on // {
