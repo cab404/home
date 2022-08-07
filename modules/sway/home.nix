@@ -112,7 +112,7 @@ with import ../../lib.nix args; {
           --indicator \
           -fFLke \
           --effect-blur 6x6 \
-          --effect-vignette 0.1:0.5
+          --effect-vignette 0.1:0.5 \
       '';
       #lock = "swaylock -i ~/.bg.png -s fill -F";
     in
