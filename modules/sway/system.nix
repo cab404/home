@@ -31,9 +31,6 @@ with import ../../lib.nix args; {
       gnome-online-miners = on;
       sushi = on;
     };
-
-    syslogd.enable = true;
-
   };
 
   # That adds /etc/sway/config.d/nixos.conf with one important line.
@@ -42,11 +39,17 @@ with import ../../lib.nix args; {
   # just look at <nixpkgs/nixos/modules/programs/sway.nix>
   programs.sway = on;
 
+  # That makes screensharing possible
   xdg = {
     portal = {
-      extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
-      wlr = on;
-      gtkUsePortal = true;
+     extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+     wlr = on // {
+       settings.screencast = {
+         chooser_type = "dmenu";
+         chooser_cmd = "${pkgs.rofi-wayland}/bin/rofi -dmenu";
+       };
+     };
+      #gtkUsePortal = true;
     };
   };
 

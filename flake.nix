@@ -27,7 +27,7 @@
       system = "x86_64-linux";
       patchedPkgs =
         let
-          patches = [ ];
+          patches = with builtins; attrNames (readDir ./patches);
           patched = import "${nixpkgs.legacyPackages.${system}.applyPatches {
             inherit patches;
             name = "nixpkgs-patched";

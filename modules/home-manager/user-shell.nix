@@ -29,11 +29,11 @@ with import ../../lib.nix args;
     # Too damn verbose!
     # nix-index = onWithShell;
 
-    atuin = onWithShell // {
-      settings = {
-        search_mode = "fuzzy";
-      };
-    };
+    # atuin = onWithShell // {
+    #   settings = {
+    #     search_mode = "fuzzy";
+    #   };
+    # };
 
     # Fuzzy file search (Ctrl-T for files; Alt-C for dirs)
     fzf = let
@@ -96,8 +96,8 @@ with import ../../lib.nix args;
       zstyle ':completion:*' menu select
       export PATH=$PATH:~/.cargo/bin
 
-      ATUIN_NOBIND=true
-      bindkey '^r' _atuin_search_widget
+      # ATUIN_NOBIND=true
+      # bindkey '^r' _atuin_search_widget
 
       mcd () { mkdir -pv "$@"; cd "$@"; }
 

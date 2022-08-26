@@ -5,14 +5,17 @@
 
 {
 
-  home-manager.users.cab = {
-    imports = [ ./home.nix ];
-  };
+  home-manager.users.cab = { imports = [ ./home.nix ]; };
 
   users.users.cab.passwordFile = "/secrets/password";
   users.users.root.passwordFile = "/secrets/password";
 
-  nix.settings.trusted-public-keys = [ "keter-builders:tkX3vAac9+Zg9v0hGcCfuPBkykQm/PNQ4/QNpz4Ulgc=" ];
+  nix.settings.trusted-public-keys = [
+    "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+    "hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ="
+    "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+    "keter-builders:tkX3vAac9+Zg9v0hGcCfuPBkykQm/PNQ4/QNpz4Ulgc="
+  ];
 
   # dns = [ "1.1.1.1" "1.0.0.1" "2606:4700:4700::1111" "2606:4700:4700::1001" ];
   networking.wg-quick.interfaces."keter".configFile = "/secrets/keter.conf";
@@ -20,10 +23,20 @@
     "10.0.10.2" = [ "c1.keter" "cab404.ru" "nextcloud.cab404.ru" ];
   };
 
+  programs.ssh = {
+    extraConfig = ''
+      Host *
+        ControlMaster auto
+        ControlPath ~/.ssh/master-%r@%n:%p
+        ControlPersist 2m
+    '';
+  };
+
   # From 'not-detected.nix'
   hardware.enableRedistributableFirmware = lib.mkDefault true;
 
-  boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "ahci" "usb_storage" "sd_mod" "rtsx_pci_sdmmc" ];
+  boot.initrd.availableKernelModules =
+    [ "nvme" "xhci_pci" "ahci" "usb_storage" "sd_mod" "rtsx_pci_sdmmc" ];
   boot.initrd.kernelModules = [ "nvme" "dm-snapshot" "usb_storage" ];
   boot.kernelModules = [ "kvm-intel" ];
   boot.kernelParams = [ "mitigations=off" ];
@@ -45,20 +58,19 @@
     };
   };
 
-  fileSystems."/" =
-    {
-      device = "/dev/0/yuna-root";
-      fsType = "btrfs";
-    };
+  fileSystems."/" = {
+    device = "/dev/0/yuna-root";
+    fsType = "btrfs";
+  };
 
-  fileSystems."/boot" =
-    {
-      device = "/dev/disk/by-label/yuna-boot";
-      fsType = "vfat";
-    };
+  fileSystems."/boot" = {
+    device = "/dev/disk/by-label/yuna-boot";
+    fsType = "vfat";
+  };
 
-  swapDevices = [
-    { device = "/var/swapfile"; size = 2 * 1024; }
-  ];
+  swapDevices = [{
+    device = "/var/swapfile";
+    size = 2 * 1024;
+  }];
 
 }

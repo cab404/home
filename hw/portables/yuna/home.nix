@@ -27,10 +27,12 @@ in {
         ungoogled-chromium
 
         (if isWL then element-desktop-wayland else element-desktop)
+        nheko
         # Coding
         rnix-lsp
         gh
         ghc
+        sbcl
         jdk8
         nim
         julia-stable-bin # all julias are generally broken. which strangely coinsides with my life experience
@@ -138,6 +140,9 @@ in {
         hcxdumptool
         sshfs
 
+        # KDE Connect only passes thru user profile
+        systemd
+
         # Personal data and sync
         browserpass
         gnupg
@@ -152,24 +157,6 @@ in {
         (writeShellScriptBin "notes" ''
           codium ~/data/cab/notes/ ~/data/cab/notes/$(date +%Y-%m-%d).md
         '')
-
-        (let
-          conf = builtins.toFile "woficonf" ''
-            filter_rate=200
-            dynamic_lines=true
-            insensitive=true
-            matching=fuzzy
-            layer=overlay
-          '';
-        in (writeShellScriptBin "wofi-pass" ''
-          WOFI=${wofi}/bin/wofi
-          WCONF="-c ${conf}"
-          set -e
-          MODE=$(echo -e "\notp" | $WOFI $WCONF --show dmenu)
-          SELECTION=$((cd $PASSWORD_STORE_DIR; find -type f -not -path './.*' | sed 's/.gpg$//') | $WOFI $WCONF --show dmenu)
-          echo pass --clip $MODE $SELECTION
-          pass $MODE -c $SELECTION
-        ''))
 
         # like which, but for nix
         (writeShellScriptBin "what" ''
@@ -198,6 +185,10 @@ in {
           ${emacs}/bin/emacsclient -nc $@
         '')
 
+        # Non-blocking emacs
+        (writeShellScriptBin "ve" ''
+          ${emacs}/bin/emacsclient -nw $@
+        '')
       ];
 
     file.".mozilla/native-messaging-hosts/org.kde.plasma.browser_integration.json".source =
@@ -248,7 +239,10 @@ in {
     "doom-emacs"
   ] {
 
-    doom-emacs = { doomPrivateDir = ../../../doom.d; };
+    doom-emacs = {
+      doomPrivateDir = "${inputs.self}/doom.d";
+      emacsPackage = inputs.emacs-overlay.packages.${pkgs.system}.emacsPgtk;
+    };
 
     vscode = on // { package = pkgs.vscodium; };
 
@@ -264,6 +258,8 @@ in {
     # == SSH
     ssh = {
       compression = true;
+      controlMaster = "auto";
+      controlPersist = "2m";
       matchBlocks =
         let is = (user: identityFile: { inherit user identityFile; });
         in {
@@ -309,6 +305,8 @@ in {
         "AB76EEA25B5E957595B61C28F5A81F597C44A711"
       ];
     };
+
+    kdeconnect.indicator = true;
 
     git-sync = on // {
       repositories = {

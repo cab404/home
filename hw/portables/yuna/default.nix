@@ -1,4 +1,4 @@
-{ inputs, config, pkgs, ... }: {
+args@{ inputs, config, pkgs, ... }: with import ../../../lib.nix args; {
 
   imports = [
     # inputs.subspace.nixosModule
@@ -33,7 +33,7 @@
   services.pcscd.enable = true;
   services.udev.packages = [ pkgs.qFlipper ];
   # This also opens all the necessary ports
-  programs.kdeconnect.enable = true;
+  programs.kdeconnect = on;
 
   _.user = "cab";
 
@@ -43,6 +43,6 @@
     # inputs.emacs-overlay.overlay
   ];
 
-  i18n.defaultLocale = "en_US.UTF-8";
+  i18n.defaultLocale = "C.UTF-8";
 
 }

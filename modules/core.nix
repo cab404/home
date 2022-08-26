@@ -14,14 +14,16 @@ with import ../lib.nix args; {
     useXkbConfig = true; # ctrl:nocaps at last
   };
 
-  i18n.defaultLocale = "en_US.UTF-8";
+  i18n.defaultLocale = "C.UTF-8";
 
   nix = {
     package = pkgs.nixUnstable;
     settings = {
       trusted-users = [ "root" config._.user ];
       experimental-features = [ "nix-command" "flakes" "ca-derivations" ];
+      substituters = [ "https://hydra.nixos.org?want-mass-query=1" ];
     };
+
     nixPath = [ "nixpkgs=${pkgs.path}" ];
     registry =
       let
@@ -92,7 +94,7 @@ with import ../lib.nix args; {
     # this section is a tribute to my PEP-8 hatred
     curl htop git tmux rsync hexedit # find one which does not fit
     ntfsprogs btrfs-progs  # why aren't those there by default?
-    killall usbutils pciutils unzip  # WHY AREN'T THOSE THERE BY DEFAULT?
+    killall usbutils pciutils zip unzip  # WHY AREN'T THOSE THERE BY DEFAULT?
     nmap arp-scan
     emacs # an editor, too
     nix-index  # woo, search in nix packages files!

@@ -18,6 +18,4 @@
   networking.useDHCP = false;
   networking.interfaces.ens2.useDHCP = true;
 
-  system.stateVersion = "21.03"; # Did you read the comment?
-
 }
