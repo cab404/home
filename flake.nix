@@ -20,22 +20,24 @@
 
     nix-doom-emacs.url = "github:nix-community/nix-doom-emacs";
 
+    swaycwd.url = "sourcehut:~cab/swaycwd";
+
   };
 
   outputs = inputs @ { self, nixpkgs, home-manager, emacs-overlay, deploy-rs, wg-bond, ... }:
     let
       system = "x86_64-linux";
-      patchedPkgs =
-        let
-          patches = with builtins; attrNames (readDir ./patches);
-          patched = import "${nixpkgs.legacyPackages.${system}.applyPatches {
-            inherit patches;
-            name = "nixpkgs-patched";
-            src = nixpkgs;
-        }}/flake.nix";
-          invoked = patched.outputs { self = invoked; };
-        in
-        if builtins.length patches > 0 then invoked else nixpkgs;
+      patchedPkgs = nixpkgs;
+        # let
+        #   patches = with builtins; attrNames (readDir ./patches);
+        #   patched = import "${nixpkgs.legacyPackages.${system}.applyPatches {
+        #     inherit patches;
+        #     name = "nixpkgs-patched";
+        #     src = nixpkgs;
+        # }}/flake.nix";
+        #   invoked = patched.outputs { self = invoked; };
+        # in
+        # if builtins.length patches > 0 then invoked else nixpkgs;
 
       inherit (patchedPkgs) lib;
       specialArgs = {
@@ -53,6 +55,9 @@
         {
           # My notebook
           yuna = buildSystem [ ./hw/portables/yuna ];
+
+          # Hackerspace Embassy config
+          hackem0 = buildSystem [ ./hw/portables/hackem0 ];
 
           # My cockbox
           cabriolet = buildSystem [ ./hw/cockbox ];
@@ -91,6 +96,27 @@
                 user = "root";
                 ssh-user = "root";
               };
+            };
+          };
+          hackem0 = {
+            hostname = "jigglypuff";
+            profiles = {
+              system = {
+                path = deployNixos self.nixosConfigurations.hackem0;
+                user = "root";
+                ssh-user = "user";
+              };
+            };
+          };
+          local-home = {
+            hostname = "albali.aquarius.serokell.team";
+            port = 17788;
+            profiles = {
+             cab-home = {
+               path = deployHomeManager "x86_64-linux" self.nixosConfigurations.c1.config.home-manager.users.cab.home;
+               user = "cab";
+               ssh-user = "cab";
+             };
             };
           };
           cabriolet = {

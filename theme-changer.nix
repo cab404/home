@@ -38,7 +38,7 @@ let
 
     # spacemacs = (t: ''emacsclient -e "(spacemacs/load-theme '${t})"'');
 
-    doom-emacs = (t: ''emacsclient -e "(consult-theme '${t})"'');
+    doom-emacs = (t: ''emacsclient -e "(load-theme '${t} t)"'');
 
     vscodium = t: inlineJq "~/.config/VSCodium/User/settings.json" ''.["workbench.colorTheme"]=${builtins.toJSON t}'';
 

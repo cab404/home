@@ -12,8 +12,8 @@
     peers = [
       {
         publicKey = "sgLUARawWJejANs2CwuCptwJO55c4jkmnP0L14FNCyw=";
-        allowedIPs = [ "172.20.0.0/24" ];
-        endpoint = "95.217.152.163:35944";
+        allowedIPs = [ "172.20.0.1/32" "172.20.0.0/24" ];
+        endpoint = "wasat.gemini.serokell.team:35944";
       }
     ];
   };

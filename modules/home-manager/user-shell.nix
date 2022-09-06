@@ -41,7 +41,6 @@ with import ../../lib.nix args;
       # so yeah
       ultimacate = pkgs.writeScript "l" ''
             #!/usr/bin/env bash
-            echo test
             locate $PWD
           '';
     in onWithShell // {
@@ -90,7 +89,6 @@ with import ../../lib.nix args;
       enableAutosuggestions = true;
       enableSyntaxHighlighting = true;
 
-      autocd = true;
       defaultKeymap = "emacs";
       initExtra = ''
       zstyle ':completion:*' menu select
@@ -103,16 +101,16 @@ with import ../../lib.nix args;
 
       '';
       shellAliases = {
-        ls = lib.mkDefault "ls --color=auto";
-        ll = lib.mkDefault "ls -hal";
+        l = lib.mkDefault "ll";
       };
+
       history = {
         extended = true;
         ignoreDups = true;
         size = 10000000;
         save = 10000000;
-        share = true;
       };
+
       plugins = [
         {
           name = "zsh-nix-shell";

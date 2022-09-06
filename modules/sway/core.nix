@@ -12,7 +12,7 @@ with import "${inputs.self}/lib.nix" args; {
       wl-clipboard
       rofi-wayland
       flameshot
-      swaycwd
+      inputs.swaycwd.packages.${pkgs.system}.default
       ydotool
       copyq
       xdg-utils

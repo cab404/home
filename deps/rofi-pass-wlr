@@ -6,7 +6,8 @@ basecommand="$0"
 
 # set default settings
 _rofi () {
-	rofi -no-auto-select -i "$@"
+	echo rofi -dmenu -no-auto-select -i "$@" >&2
+	rofi -dmenu -no-auto-select -i "$@"
 }
 
 _image_viewer () {
@@ -790,9 +791,9 @@ main () {
 	fi
 
 	# set help color
-	if [[ $help_color == "" ]]; then
-		help_color=$(rofi -dump-xresources | grep 'rofi.color.normal' | gawk -F ',' '/,/{gsub(/ /, "", $2); print $2}')
-	fi
+	# if [[ $help_color == "" ]]; then
+	# 	help_color=$(rofi -dump-xresources | grep 'rofi.color.normal' | gawk -F ',' '/,/{gsub(/ /, "", $2); print $2}')
+	# fi
 
 	# check for BROWSER variable, use xdg-open as fallback
 	if [[ -z $BROWSER ]]; then

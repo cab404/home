@@ -31,6 +31,7 @@ in {
         # Coding
         rnix-lsp
         gh
+        glab
         ghc
         sbcl
         jdk8

@@ -11,6 +11,7 @@ with import "${inputs.self}/lib.nix" args; {
       package = pkgs.gnome-themes-extra;
       name = "Adwaita";
       size = 14;
+      gtk = on;
     };
   };
 
@@ -25,28 +26,28 @@ with import "${inputs.self}/lib.nix" args; {
   };
 
   gtk = on // {
+    theme.package = pkgs.gnome-themes-extra;
+    theme.name = "Adwaita-dark";
+
     iconTheme.package = pkgs.gnome3.adwaita-icon-theme;
     iconTheme.name = "Adwaita";
 
     font.name = "Noto Sans";
     font.size = 10;
 
+    gtk2.configLocation = "${config.xdg.configHome}/gtk-2.0/gtkrc";
     gtk2.extraConfig = ''
       gtk-enable-animations=1
       gtk-primary-button-warps-slider=0
       gtk-toolbar-style=GTK_TOOLBAR_BOTH_HORIZ
-      gtk-cursor-theme-name=${config.home.pointerCursor.name}
-      gtk-cursor-theme-size=${toString config.home.pointerCursor.size}
       gtk-menu-images=1
       gtk-button-images=1
     '';
-    theme.package = pkgs.gnome-themes-extra;
-    theme.name = "Adwaita-dark";
   };
 
   qt = on // {
     platformTheme = "gtk";
-    style.name = "gtk2";
+    # style.name = "gtk2";
     # platformTheme = "gnome";
     # style.package = pkgs.adwaita-qt;
     # style.name = "adwaita";
