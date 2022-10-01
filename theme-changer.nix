@@ -25,6 +25,14 @@ let
       gtk3 = "Adwaita";
     };
 
+    fancy = rec {
+      alacritty = ./alacritty/gruvbox-light.yaml;
+      # spacemacs = "spacemacs-light";
+      doom-emacs = "doom-outrun-electric";
+      vscodium = "Default Light+";
+      vscode = vscodium;
+      gtk3 = "Adwaita";
+    };
   };
   inlineJq = fname: query: (''
       tmp_settings=$(mktemp)

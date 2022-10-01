@@ -27,17 +27,19 @@
   outputs = inputs @ { self, nixpkgs, home-manager, emacs-overlay, deploy-rs, wg-bond, ... }:
     let
       system = "x86_64-linux";
-      patchedPkgs = nixpkgs;
-        # let
-        #   patches = with builtins; attrNames (readDir ./patches);
-        #   patched = import "${nixpkgs.legacyPackages.${system}.applyPatches {
-        #     inherit patches;
-        #     name = "nixpkgs-patched";
-        #     src = nixpkgs;
-        # }}/flake.nix";
-        #   invoked = patched.outputs { self = invoked; };
-        # in
-        # if builtins.length patches > 0 then invoked else nixpkgs;
+      patchedPkgs =
+        let
+          patches = [
+            ./patches/193694.diff
+          ];
+          patched = import "${nixpkgs.legacyPackages.${system}.applyPatches {
+              inherit patches;
+              name = "nixpkgs-patched";
+              src = nixpkgs;
+          }}/flake.nix";
+          invoked = patched.outputs { self = invoked; };
+        in
+        if builtins.length patches > 0 then invoked else nixpkgs;
 
       inherit (patchedPkgs) lib;
       specialArgs = {
@@ -54,15 +56,30 @@
       nixosConfigurations =
         {
           # My notebook
-          yuna = buildSystem [ ./hw/portables/yuna ];
+          yuna = buildSystem [ ./nodes/portables/yuna ];
 
-          # Hackerspace Embassy config
-          hackem0 = buildSystem [ ./hw/portables/hackem0 ];
+          # My new notebook
+          eris = buildSystem [ ./nodes/portables/eris ];
 
           # My cockbox
-          cabriolet = buildSystem [ ./hw/cockbox ];
+          cabriolet = buildSystem [ ./nodes/cockbox ];
 
-        } // (builtins.mapAttrs (k: v: buildSystem v) (import ./hw/keter));
+          # Yup, installer
+          installer = buildSystem [
+            (nixpkgs + (toString /nixos/modules/installer/cd-dvd/installation-cd-base.nix))
+            ./modules/home-manager
+            ./modules/sway/system.nix
+            ./modules/core.nix
+            ({config, lib, pkgs, ...}: {
+              _.user = "nixos";
+              boot.kernelPackages = lib.mkForce pkgs.linuxPackages;
+              networking.wireless.enable = false;
+              home-manager.users.${config._.user}.imports = [
+                ./modules/sway/core.nix
+              ];
+            })
+          ];
+        } // (builtins.mapAttrs (k: v: buildSystem v) (import ./nodes/keter));
 
       deploy = {
 
@@ -98,31 +115,9 @@
               };
             };
           };
-          hackem0 = {
-            hostname = "jigglypuff";
-            profiles = {
-              system = {
-                path = deployNixos self.nixosConfigurations.hackem0;
-                user = "root";
-                ssh-user = "user";
-              };
-            };
-          };
-          local-home = {
-            hostname = "albali.aquarius.serokell.team";
-            port = 17788;
-            profiles = {
-             cab-home = {
-               path = deployHomeManager "x86_64-linux" self.nixosConfigurations.c1.config.home-manager.users.cab.home;
-               user = "cab";
-               ssh-user = "cab";
-             };
-            };
-          };
           cabriolet = {
             hostname = "83.97.20.94";
-            profiles = {
-              system = {
+            profiles = {              system = {
                 path = deployNixos self.nixosConfigurations.cabriolet;
                 user = "root";
               };
@@ -147,7 +142,7 @@
         x86_64-linux.vm =
           let
             cfg = import "${nixpkgs}/nixos/lib/eval-config.nix" (buildConfig [
-              ./hw/portables/yuna
+              ./nodes/portables/yuna
               "${nixpkgs}/nixos/modules/virtualisation/build-vm.nix"
               { }
             ]);

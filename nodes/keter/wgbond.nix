@@ -18,10 +18,10 @@
     privateKeyFile = "/secrets/wg-keter.ed25519.base64";
     listenPort = 61111;
     address = [ "10.0.10.1" "fd80:c4b4::1" ];
-    preUp =
-      "iptables -A POSTROUTING -t nat -j MASQUERADE -s 10.0.10.0/24 -o ens2;ip6tables -A POSTROUTING -t nat -j MASQUERADE -s fd80:c4b4::/48 -o ens2";
-    preDown =
-      "iptables -D POSTROUTING -t nat -j MASQUERADE -s 10.0.10.0/24 -o ens2;ip6tables -D POSTROUTING -t nat -j MASQUERADE -s fd80:c4b4::/48 -o ens2";
+    # preUp =
+    #   "iptables -A POSTROUTING -t nat -j MASQUERADE -s 10.0.10.0/24 -o ens2;ip6tables -A POSTROUTING -t nat -j MASQUERADE -s fd80:c4b4::/48 -o ens2";
+    # preDown =
+    #   "iptables -D POSTROUTING -t nat -j MASQUERADE -s 10.0.10.0/24 -o ens2;ip6tables -D POSTROUTING -t nat -j MASQUERADE -s fd80:c4b4::/48 -o ens2";
     peers = [
       {
         publicKey = "JR36+8Btz6610PEOR2sRAVVT1gTrv17HMgKYsu8g0ik=";

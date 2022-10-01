@@ -22,7 +22,7 @@ with import ../lib.nix args; {
   # Can't enable flatpak without this
   xdg.portal = on;
 
-  # @balsoft's hack to enable battery levels on supported headphones
+  # Enabling experimental features on bluetooth daemon
   systemd.services.bluetooth.serviceConfig.ExecStart = lib.mkForce [
     ""
     "${pkgs.bluezFull}/libexec/bluetooth/bluetoothd -f /etc/bluetooth/main.conf -E"
@@ -30,7 +30,7 @@ with import ../lib.nix args; {
 
   services = {
 
-    # gnunet = e;
+    gnunet = on;
     locate = on // {
       locate = pkgs.plocate;
       localuser = null;
@@ -78,8 +78,8 @@ with import ../lib.nix args; {
     printing = on // { drivers = [ pkgs.gutenprint ]; };
 
     logind = {
-      # lidSwitch = "ignore";
-      # lidSwitchExternalPower = "ignore";
+      lidSwitch = "ignore";
+      lidSwitchExternalPower = "ignore";
       extraConfig = ''
         # IdleAction=lock
         # IdleActionSec=30

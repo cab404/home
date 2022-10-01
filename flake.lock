@@ -568,11 +568,11 @@
         "nixpkgs": "nixpkgs_3"
       },
       "locked": {
-        "lastModified": 1661577319,
-        "narHash": "sha256-VrG3H6oTeYsfncdD0IBp3zbmkoF5YF146LRxL064ZAE=",
+        "lastModified": 1662438026,
+        "narHash": "sha256-R/LnojbA0vBQVivGLaoM0+M4qVJ7vjf4kggB59i896w=",
         "owner": "~cab",
         "repo": "swaycwd",
-        "rev": "ec0e774ae569c787d8f3e1f267e60c93b58332e0",
+        "rev": "896ddbd78f7416cbd90c503054e9afef003f31a0",
         "type": "sourcehut"
       },
       "original": {

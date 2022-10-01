@@ -1,8 +1,9 @@
-args@{ config, inputs, ... }:
+args@{ pkgs, config, inputs, ... }:
 with import "${inputs.self}/lib.nix" args;
 {
 
     time.timeZone = "Europe/Amsterdam";
+    networking.hostName = "tiferet";
 
     _.user = "cab";
 
@@ -34,11 +35,45 @@ with import "${inputs.self}/lib.nix" args;
             reverse_proxy 10.0.10.2
           '';
         };
+        "hs.cab.moe" = {
+          extraConfig = ''
+            reverse_proxy 127.0.0.1:8080
+          '';
+        };
       };
     };
 
-    networking.firewall.enable = false;
-    networking.networkmanager.enable = false;
+    services.tailscale = on;
+    services.headscale = on // {
+      serverUrl = "https://hs.cab.moe";
+      dns = {
+        nameservers = [ "1.1.1.1" "1.0.0.1" "2606:4700:4700::1111" "2606:4700:4700::1001" ];
+        baseDomain = "keter";
+      };
+    };
+
+    environment.defaultPackages = with pkgs; [ headscale ];
+
+    networking = {
+      firewall = on // {
+        allowedTCPPorts = [ 80 443 ];
+        allowedUDPPorts = [ 41641 42232 61111 ];
+        trustedInterfaces = [ "tailscale0" "keter" ];
+      };
+      nat = {
+        enable = true;
+        enableIPv6 = true;
+        externalInterface = "ens2";
+        internalIPs = [
+          "10.0.10.0/24"
+          "100.64.0.0/10"
+        ];
+        internalIPv6s = [
+          "fd80:c4b4::/48"
+        ];
+      };
+      networkmanager = off;
+    };
 
     imports = [
       ../ssh.nix

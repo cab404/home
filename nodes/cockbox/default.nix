@@ -1,5 +1,5 @@
 { ... }:
-let on = e: e // { enable = true; }; in
+let on = { enable = true; }; in
 {
   imports = [
     ./hardware-configuration.nix
@@ -17,9 +17,11 @@ let on = e: e // { enable = true; }; in
   ];
 
   services = {
-    openssh = on { };
+    openssh = on;
 
-    dokuwiki.sites.undef = on {
+    headscale = on;
+
+    dokuwiki.sites.undef = on // {
       disableActions = "register";
       extraConfig = ''
         $conf['title'] = 'undefwiki';

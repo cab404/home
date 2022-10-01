@@ -7,7 +7,8 @@
       "${head things}".enable = true;
   };
   on = { enable = true; };
+  off = { enable = false; };
   forgiveMeStallman = package: package.overrideAttrs(a: { meta = {}; });
 in {
-  inherit enableThings on forgiveMeStallman;
+  inherit enableThings on forgiveMeStallman off;
 }

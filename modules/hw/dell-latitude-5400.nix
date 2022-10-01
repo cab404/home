@@ -1,15 +1,4 @@
-{ pkgs, ... }: {
-  # Trackpoint scroll fix. Injection!
-#  services.xserver.libinput.touchpad.additionalOptions = ''
-#EndSection
-#Section "InputClass"
-#  Identifier "libinput pointer catchall"
-#  MatchIsPointer "on"
-#  MatchDevicePath "/dev/input/event*"
-#  Driver "libinput"
-#  Option "ScrollMethod" "button"
-#  Option "ScrollButton" "2"
-#  '';
+{ pkgs, lib, ... }: {
 
   services.tlp.enable = true;
   services.blueman.enable = true;
@@ -23,6 +12,8 @@
 
     "i915.enable_gvt=1" # virtal graphics
     "i915.error_capture=1" # they dies sometimes
+
+    "intel_pstate=no_hwp"
 
     #"iwlwifi.power_level=5" # ITS OVER 4!
   ];
@@ -43,6 +34,8 @@
     ];
   };
 
+
+  powerManagement.cpuFreqGovernor = lib.mkDefault "schedutil";
 
   # For amdvlk
   environment.variables.VK_ICD_FILENAMES = "/run/opengl-driver/share/vulkan/icd.d/amd_icd64.json";

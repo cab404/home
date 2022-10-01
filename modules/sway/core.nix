@@ -269,7 +269,6 @@ with import "${inputs.self}/lib.nix" args; {
 
       focus = { newWindow = "smart"; };
 
-      workspaceAutoBackAndForth = true;
       bindkeysToCode = true;
       keybindings = let
         mod = config.wayland.windowManager.sway.config.modifier;

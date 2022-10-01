@@ -12,6 +12,13 @@ with import ../../lib.nix args;
 
   home.packages = with pkgs; [
     ripgrep
+    bat
+    fzf
+    file
+    jq
+    jless
+    ranger
+    btop
   ];
 
   programs = let
@@ -101,7 +108,8 @@ with import ../../lib.nix args;
 
       '';
       shellAliases = {
-        l = lib.mkDefault "ll";
+        l = lib.mkDefault "ls -hal";
+        ag = "rg"; # on the home row!
       };
 
       history = {

@@ -5,6 +5,10 @@
 
 {
 
+  # In the grim dark future there is only NixOS
+  system.stateVersion = lib.mkForce "40000.05";
+  # (enables all of the unstable features pretty much always)
+
   home-manager.users.cab = { imports = [ ./home.nix ]; };
 
   users.users.cab.passwordFile = "/secrets/password";
@@ -43,6 +47,8 @@
 
   boot.loader.timeout = 0;
   boot.loader.efi.canTouchEfiVariables = true;
+
+  services.tailscale.enable = true;
 
   boot.initrd.luks.gpgSupport = true;
   boot.initrd.luks.devices = {

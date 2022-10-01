@@ -26,7 +26,6 @@ in {
         mumble
         ungoogled-chromium
 
-        (if isWL then element-desktop-wayland else element-desktop)
         nheko
         # Coding
         rnix-lsp
@@ -34,9 +33,8 @@ in {
         glab
         ghc
         sbcl
-        jdk8
         nim
-        julia-stable-bin # all julias are generally broken. which strangely coinsides with my life experience
+        # julia-stable-bin # all julias are generally broken. which strangely coinsides with my life experience
 
         # Editing
         libreoffice
@@ -44,14 +42,12 @@ in {
         gimp
         krita
         ffmpeg-full
-        peek
         audacity
-        bat
         openscad
         solvespace
         blender
         simple-scan
-        lmms
+        # lmms
 
         # at least do backups
         restic
@@ -75,9 +71,7 @@ in {
         # Command line comfort
         alacritty
         zsh
-
-        pulsemixer
-        silver-searcher
+        bat
         fzf
         file
         jq
@@ -87,20 +81,20 @@ in {
 
         # Runners
         appimage-run
-        lutris-free
 
         # Development
-        docker-compose
-        insomnia
+        # docker-compose
+        # insomnia
         remmina
 
         # Hardware?
         minicom
-        pulseview
         cutecom
         picocom
+        android-tools
         scrcpy
         qFlipper
+        pulseview
         #ledger-live-desktop
 
         # Viewers
@@ -127,6 +121,7 @@ in {
         gucharmap
         baobab
         evince
+
       ]) ++ [
         gnome-online-accounts
 
@@ -156,7 +151,7 @@ in {
 
         # Notes are important!
         (writeShellScriptBin "notes" ''
-          codium ~/data/cab/notes/ ~/data/cab/notes/$(date +%Y-%m-%d).md
+          codium ~/data/cab/notes/ ~/data/cab/notes/journals/$(date +%Y_%m_%d).md
         '')
 
         # like which, but for nix
@@ -190,6 +185,7 @@ in {
         (writeShellScriptBin "ve" ''
           ${emacs}/bin/emacsclient -nw $@
         '')
+
       ];
 
     file.".mozilla/native-messaging-hosts/org.kde.plasma.browser_integration.json".source =
