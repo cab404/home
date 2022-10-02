@@ -5,24 +5,57 @@
 }:
 with builtins;
 let
+  enabled_modules = [
+    "alacritty"
+    "doom-emacs"
+    "vscodium"
+    "vscode"
+    "gtk3"
+    "sway"
+  ];
+
   themes = {
 
     dark = rec {
       alacritty = ./alacritty/monokai.yaml;
-      # spacemacs = "spacemacs-dark";
+      spacemacs = "spacemacs-dark";
       doom-emacs = "doom-monokai-classic";
       vscodium = "Monokai";
       vscode = vscodium;
       gtk3 = "Adwaita-dark";
+      sway = "";
     };
 
     light = rec {
       alacritty = ./alacritty/gruvbox-light.yaml;
-      # spacemacs = "spacemacs-light";
+      spacemacs = "spacemacs-light";
       doom-emacs = "doom-gruvbox-light";
       vscodium = "Default Light+";
       vscode = vscodium;
       gtk3 = "Adwaita";
+      sway = "";
+    };
+
+    fairy = rec {
+      alacritty = ./alacritty/fairyfloss.yaml;
+      spacemacs = "spacemacs-light";
+      doom-emacs = "doom-fairy-floss";
+      vscodium = "fairyfloss";
+      vscode = vscodium;
+      gtk3 = "Adwaita-dark";
+      sway = ''
+        sway font pango:FiraSansCondensed 8
+
+        sway bar bar-0 colors background 5a5475
+        sway bar bar-0 colors statusline f8f8f0
+        sway bar bar-0 colors focused_workspace 554357 554357 f8f8f0
+        sway bar bar-0 colors inactive_workspace 343145 343145 f8f8f033
+
+        sway client.unfocused 5a5475aa 5a5475 f8f8f2 5a5475 5a5475
+        sway client.focused 5a5475 5a5475 f8f8f2 2e9ef4 28aa77
+
+        sway bar bar-0 font pango:FiraSansCondensed 8
+      '';
     };
 
     fancy = rec {
@@ -42,9 +75,10 @@ let
   '');
   scripts = {
 
-    alacritty = (t: ''cp ${t} ~/.config/alacritty/alacritty.yml'');
+    # alacritty doesn't create it's config folder by default, so yeah.
+    alacritty = (t: ''mkdir -p ~/.config/alacritty; chmod +w ~/.config/alacritty/alacritty.yml; cp ${t} ~/.config/alacritty/alacritty.yml'');
 
-    # spacemacs = (t: ''emacsclient -e "(spacemacs/load-theme '${t})"'');
+    spacemacs = (t: ''emacsclient -e "(spacemacs/load-theme '${t})"'');
 
     doom-emacs = (t: ''emacsclient -e "(load-theme '${t} t)"'');
 
@@ -54,6 +88,7 @@ let
 
     gtk3 = t: ''${pkgs.dconf}/bin/dconf write /org/gnome/desktop/interface/gtk-theme \"${t}\"'';
 
+    sway = t: t;
   };
 
   genSwitcher =
@@ -69,13 +104,16 @@ let
     concatStringsSep "" (
       attrValues (
         mapAttrs
-          (program: theme-fn: ''
-            { # ${program}
-              setup ${program}
-              ${theme-fn theme.${program}}
-              success
-            } &
-          '')
+          (program: theme-fn:
+            if !(elem program enabled_modules)
+            then ""
+            else ''
+              { # ${program}
+                setup ${program}
+                ${theme-fn theme.${program}}
+                success
+              } &
+            '')
           scripts
       )
     );

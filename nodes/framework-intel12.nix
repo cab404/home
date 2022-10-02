@@ -17,21 +17,17 @@ with import "${inputs.self}/lib.nix" args;
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 
+  boot.kernelPackages = lib.mkForce pkgs.linuxPackages_testing;
   # These two are kinda interweaved
-  boot.kernelParams = [ "intel_pstate=no_hwp" ];
+  boot.kernelParams = [ "intel_pstate=no_hwp" "enable_guc=3" "enable_gvt=1" ];
+  boot.blacklistedKernelModules = [ "hid_sensor_hub" ];
+
   powerManagement = on // {
     cpuFreqGovernor = lib.mkDefault "schedutil";
   };
 
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 
-  nixpkgs.config.allowUnfreePredicate = pkg:
-    builtins.elem (lib.getName pkg) [ "libfprint-2-tod1-goodix" ];
-
-  services.fprintd = on // {
-    tod = on // {
-      driver = pkgs.libfprint-2-tod1-goodix;
-    };
-  };
+  services.fprintd = on;
 
 }
