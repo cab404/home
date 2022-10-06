@@ -21,8 +21,9 @@
     #"amdgpu.deep_color=1" # y not?
     #"amdgpu.exp_hw_support=1" # mow
 
-    "i915.enable_gvt=1" # virtal graphics
-    "i915.error_capture=1" # they dies sometimes
+    "i915.enable_gvt=1" # virtual graphics
+    "i915.enable_guc=3" # something something offload to gpu
+    "i915.error_capture=1" # they die sometimes
 
     "intel_pstate=no_hwp"
 

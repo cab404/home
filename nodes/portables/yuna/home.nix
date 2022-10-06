@@ -250,6 +250,16 @@ in {
 
     # .package = pkgs.firefox-esr-unwrapped; #
 
+    firefox = {
+      # you either do it from the start
+      # profiles.default = {
+      #   userChrome = builtins.readFile "${inputs.self}/firefox/userChrome.css";
+      #   settings = {
+      #     "browser.bookmarks.showMobileBookmarks" = true;
+      #   };
+      # };
+    };
+
     exa.enableAliases = true;
 
     password-store = {

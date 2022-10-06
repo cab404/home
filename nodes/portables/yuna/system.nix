@@ -48,7 +48,7 @@
   boot.loader.timeout = 0;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  services.tailscale.enable = true;
+#  services.tailscale.enable = true;
 
   boot.initrd.luks.gpgSupport = true;
   boot.initrd.luks.devices = {
