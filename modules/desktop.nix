@@ -77,9 +77,9 @@ with import ../lib.nix args; {
 
     printing = on // { drivers = [ pkgs.gutenprint ]; };
 
-    logind = {
-      lidSwitch = "ignore";
-      lidSwitchExternalPower = "ignore";
+    logind = lib.mkDefault {
+      lidSwitch = "suspend";
+      lidSwitchExternalPower = "suspend";
       extraConfig = ''
         # IdleAction=lock
         # IdleActionSec=30

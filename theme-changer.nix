@@ -36,7 +36,7 @@ let
       sway = "";
     };
 
-    fairy = rec {
+    sailor = rec {
       alacritty = ./alacritty/fairyfloss.yaml;
       spacemacs = "spacemacs-light";
       doom-emacs = "doom-fairy-floss";
@@ -58,14 +58,6 @@ let
       '';
     };
 
-    fancy = rec {
-      alacritty = ./alacritty/gruvbox-light.yaml;
-      # spacemacs = "spacemacs-light";
-      doom-emacs = "doom-outrun-electric";
-      vscodium = "Default Light+";
-      vscode = vscodium;
-      gtk3 = "Adwaita";
-    };
   };
   inlineJq = fname: query: (''
       tmp_settings=$(mktemp)

@@ -10,7 +10,7 @@ with import "${inputs.self}/lib.nix" args; {
     pointerCursor = {
       package = pkgs.gnome-themes-extra;
       name = "Adwaita";
-      size = 14;
+      size = lib.mkDefault 14;
       gtk = on;
     };
   };

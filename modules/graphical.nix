@@ -1,4 +1,4 @@
-{ config, ... }: {
+{ config, lib, ... }: {
 
   require = [ ./desktop.nix ];
 
@@ -17,7 +17,7 @@
         enable = true;
         touchpad = {
           naturalScrolling = true;
-          tapping = false;
+          tapping = lib.mkDefault false;
         };
       };
 

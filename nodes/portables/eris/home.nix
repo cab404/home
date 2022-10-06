@@ -26,6 +26,8 @@ in {
 
   home = {
 
+    pointerCursor.size = 24;
+
     packages = with pkgs;
       [
 
@@ -185,18 +187,19 @@ in {
 
         # Blocking emacs.
         (writeShellScriptBin "ee" ''
-          ${emacs}/bin/emacsclient -c $@
+          emacsclient -c $@
         '')
 
         # Non-blocking emacs
         (writeShellScriptBin "ec" ''
-          ${emacs}/bin/emacsclient -nc $@
+          emacsclient -nc $@
         '')
 
-        # vem
+        # Non-blocking emacs
         (writeShellScriptBin "ve" ''
-          ${emacs}/bin/emacsclient -nw $@
+          emacsclient -nw $@
         '')
+
       ];
 
     file.".mozilla/native-messaging-hosts/org.kde.plasma.browser_integration.json".source =

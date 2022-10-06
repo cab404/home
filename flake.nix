@@ -115,6 +115,16 @@
               };
             };
           };
+          eris = {
+            hostname = "localhost";
+            profiles = {
+              system = {
+                path = deployNixos self.nixosConfigurations.eris;
+                user = "root";
+                ssh-user = "root";
+              };
+            };
+          };
           cabriolet = {
             hostname = "83.97.20.94";
             profiles = {              system = {

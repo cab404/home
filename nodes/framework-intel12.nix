@@ -19,7 +19,7 @@ with import "${inputs.self}/lib.nix" args;
 
   boot.kernelPackages = lib.mkForce pkgs.linuxPackages_testing;
   # These two are kinda interweaved
-  boot.kernelParams = [ "intel_pstate=no_hwp" "enable_guc=3" "enable_gvt=1" ];
+  boot.kernelParams = [ "intel_pstate=no_hwp" "enable_guc=3" "enable_gvt=0" ];
   boot.blacklistedKernelModules = [ "hid_sensor_hub" ];
 
   powerManagement = on // {

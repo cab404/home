@@ -167,21 +167,14 @@ with import "${inputs.self}/lib.nix" args; {
 
       input = {
         "*" = {
-          # scroll_method = "on_button_down";
           natural_scroll = "enable";
           # I am good at not touching the thing.
           # Also, it interferes with me working in blender ;D
           dwt = "disable";
-          # middle_emulation = "enabled";
+
           xkb_layout = config.home.keyboard.layout;
           xkb_options =
             pkgs.lib.concatStringsSep "," config.home.keyboard.options;
-        };
-
-        # let's make this clit useful
-        "1160:4639:DELL08B8:00_0488:121F_Mouse" = {
-          accel_profile = "flat";
-          pointer_accel = "1";
         };
 
       };

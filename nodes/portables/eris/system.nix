@@ -52,6 +52,9 @@
 
   # services.tailscale.enable = true;
 
+  # Well, otherwise it's unbearable
+  services.xserver.libinput.touchpad.tapping = lib.mkForce true;
+
   services.greetd = {
     enable = true;
     settings = {

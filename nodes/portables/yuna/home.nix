@@ -12,6 +12,11 @@ in {
   ];
 
   manual.json.enable = true;
+  # let's make this clit useful
+  wayland.windowManager.sway.config.input."1160:4639:DELL08B8:00_0488:121F_Mouse" = {
+    accel_profile = "flat";
+    pointer_accel = "1";
+  };
 
   home = {
 
@@ -173,17 +178,17 @@ in {
 
         # Blocking emacs.
         (writeShellScriptBin "ee" ''
-          ${emacs}/bin/emacsclient -c $@
+          emacsclient -c $@
         '')
 
         # Non-blocking emacs
         (writeShellScriptBin "ec" ''
-          ${emacs}/bin/emacsclient -nc $@
+          emacsclient -nc $@
         '')
 
         # Non-blocking emacs
         (writeShellScriptBin "ve" ''
-          ${emacs}/bin/emacsclient -nw $@
+          emacsclient -nw $@
         '')
 
       ];
