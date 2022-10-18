@@ -11,9 +11,12 @@ with import "${inputs.self}/lib.nix" args;
   hardware.opengl = on // {
     driSupport = true;
     extraPackages = with pkgs; [
+      intel-compute-runtime
       vulkan-loader
     ];
   };
+
+  environment.systemPackages = [ pkgs.clinfo ];
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 
