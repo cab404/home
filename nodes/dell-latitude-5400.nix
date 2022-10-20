@@ -23,7 +23,7 @@
 
     "i915.enable_gvt=1" # virtual graphics
     "i915.enable_guc=3" # something something offload to gpu
-    "i915.error_capture=1" # they die sometimes
+    # "i915.error_capture=1" # they die sometimes
 
     "intel_pstate=no_hwp"
 
@@ -40,6 +40,7 @@
     extraPackages = [
       amdvlk
       vulkan-loader
+      intel-compute-runtime
     ];
     extraPackages32 = [
       driversi686Linux.amdvlk

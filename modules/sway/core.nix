@@ -33,6 +33,7 @@ with import "${inputs.self}/lib.nix" args; {
     # actually I'm sure it's set somewhere else too
     DESKTOP_SESSION = "sway";
     GTK_BACKEND = "wayland";
+    GDK_BACKEND = "wayland";
     XDG_CURRENT_DESKTOP = "sway";
     XDG_SESSION_TYPE = "sway";
     # woo wrappers

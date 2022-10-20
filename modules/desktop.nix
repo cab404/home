@@ -3,7 +3,9 @@
 { config, pkgs, lib, ... }@args:
 with import ../lib.nix args; {
 
-  require = [ ./. ];
+  require = [
+    ./.
+  ];
 
   documentation = {
     dev.enable = true;
@@ -35,7 +37,23 @@ with import ../lib.nix args; {
       locate = pkgs.plocate;
       localuser = null;
     };
-    upower = on;
+
+    # yeah, bluetooth
+    blueman = on;
+
+    udev.packages = with pkgs; [
+      android-udev-rules
+      stlink
+      openocd
+      (writeTextDir "/etc/udev/rules.d/42-user-devices.rules" ''
+        # Saleae Logic thing
+        ATTR{idVendor}=="0925", ATTR{idProduct}=="3881", GROUP+="dialout"
+        # USBTiny
+        ATTR{idVendor}=="1781", ATTR{idProduct}=="0c9f", GROUP+="dialout"
+      '')
+      ledger-udev-rules
+    ];
+
     flatpak = on;
 
     pipewire = on // {
@@ -109,18 +127,6 @@ with import ../lib.nix args; {
       ];
     };
 
-    udev.packages = with pkgs; [
-      android-udev-rules
-      stlink
-      openocd
-      (writeTextDir "/etc/udev/rules.d/42-user-devices.rules" ''
-        # Saleae Logic thing
-        ATTR{idVendor}=="0925", ATTR{idProduct}=="3881", GROUP+="dialout"
-        # USBTiny
-        ATTR{idVendor}=="1781", ATTR{idProduct}=="0c9f", GROUP+="dialout"
-      '')
-      ledger-udev-rules
-    ];
 
     tor = on // {
       client = on // { dns = on; };
@@ -143,6 +149,7 @@ with import ../lib.nix args; {
   virtualisation.podman = on;
 
   programs = enableThings [
+    "gpaste"
     "light" # brightness control
     # "plotinus" # command pallet that doesn't work yet for some reason
     "wireshark" # should create some missing groups

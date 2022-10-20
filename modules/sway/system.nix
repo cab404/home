@@ -1,7 +1,10 @@
 { config, pkgs, lib, ... }@args:
 with import ../../lib.nix args; {
 
-  require = [ ../desktop.nix ];
+  require = [
+    ../desktop.nix
+    ../gnome-services.nix
+  ];
 
   users.users.${config._.user}.extraGroups = [ "input" ];
 
@@ -31,6 +34,16 @@ with import ../../lib.nix args; {
       gnome-online-miners = on;
       sushi = on;
     };
+
+    greetd = {
+      enable = true;
+      settings = {
+        default_session = {
+          command = "${pkgs.greetd.greetd}/bin/agreety --cmd 'zsh -ic sway'";
+        };
+      };
+    };
+
   };
 
   # That adds /etc/sway/config.d/nixos.conf with one important line.
@@ -38,6 +51,7 @@ with import ../../lib.nix args; {
   # also it enables whole bunch of other options, which I am too lazy to describe here.
   # just look at <nixpkgs/nixos/modules/programs/sway.nix>
   programs.sway = on;
+  programs.wshowkeys = on;
 
   # That makes screensharing possible
   xdg = {
