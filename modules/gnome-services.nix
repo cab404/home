@@ -13,8 +13,11 @@ in
 
     gnome = {
 
-      # for some reason it wasn't in the gnome thing :|
+      # Search and stuff
       tracker = on;
+
+      # more miners!
+      tracker-miners = on;
 
       # accesibility, if I ever loose my sight or smth
       at-spi2-core = on;
@@ -35,8 +38,6 @@ in
       # UPnP video sharing
       rygel = on;
 
-      # Search and stuff
-      tracker = on;
     };
 
     # power stats and stuff

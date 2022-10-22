@@ -113,11 +113,10 @@ in {
         ytfzf
 
       ]
-      # Mate
-      ++ (with mate; [ mate-calc caja ])
-
       # Gnome
       ++ (with gnome; [
+        nautilus
+        gnome-calculator
         gnome-disk-utility
         gnome-power-manager
         gnome-sound-recorder
