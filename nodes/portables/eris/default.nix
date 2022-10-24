@@ -11,7 +11,7 @@ args@{ inputs, lib, config, pkgs, ... }: with import ../../../lib.nix args; {
 
   programs.nix-ld.enable = true;
   environment.variables = {
-    # NIX_LD = lib.fileContents "${pkgs.stdenv.cc}" + "/nix-support/dynamic-linker"; #
+     NIX_LD = pkgs.stdenv.cc.bintools.dynamicLinker;
   };
 
   networking.firewall = on;
