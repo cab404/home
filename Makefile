@@ -6,7 +6,7 @@ build:
 
 .PHONY: deploy
 deploy/%:
-	# $(MAKE) send-secrets/$*
+	$(MAKE) send-secrets/$*
 	deploy -s .\#$* --ssh-user root -- -L
 
 .PHONY: send-secrets

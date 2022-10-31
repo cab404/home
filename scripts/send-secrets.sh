@@ -13,4 +13,4 @@ echo to "$host":/secrets
     [ "$S" == "λ" ] || exit 1
 }
 
-scp -pr secrets/"${1}"/* root@"$host":/secrets
+rsync -avp secrets/"${1}"/* root@"$host":/secrets
