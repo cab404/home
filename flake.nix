@@ -4,7 +4,7 @@
   inputs = {
     # dwarffs.url = "github:edolstra/dwarffs";
     # nix.url = "github:NixOS/nix";
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:nixos/nixpkgs";
 
     home-manager.url = "github:nix-community/home-manager/master";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
@@ -14,6 +14,8 @@
 
     deploy-rs.url = "github:serokell/deploy-rs";
     deploy-rs.inputs.nixpkgs.follows = "nixpkgs";
+
+    nixos-hw.url = "github:nixos/nixos-hardware";
 
     wg-bond.url = "github:cab404/wg-bond";
     wg-bond.inputs.nixpkgs.follows = "nixpkgs";
@@ -30,7 +32,6 @@
       patchedPkgs =
         let
           patches = [
-            ./patches/193694.diff
           ];
           patched = import "${nixpkgs.legacyPackages.${system}.applyPatches {
               inherit patches;
