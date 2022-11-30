@@ -23,6 +23,8 @@ with import "${inputs.self}/lib.nix" args; {
 
   };
 
+  xdg = on // {};
+
   home.sessionVariables = {
     # for some reason it doesn't want to read anything else
     SDL_VIDEODRIVER = "wayland";
