@@ -165,7 +165,8 @@ in {
 
         # Notes are important!
         (writeShellScriptBin "notes" ''
-          codium ~/data/cab/notes/ ~/data/cab/notes/$(date +%Y-%m-%d).md
+          # codium ~/data/cab/notes/ ~/data/cab/notes/$(date +%Y-%m-%d).md
+          flatpak run --socket=wayland com.logseq.Logseq --enable-features=UseOzonePlatform --ozone-platform=wayland
         '')
 
         # like which, but for nix
