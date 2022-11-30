@@ -174,11 +174,6 @@ in {
           readlink -f $(which $@)
         '')
 
-        # I would like to have my hotspot now
-        (writeShellScriptBin "nm-rescan" ''
-          nmcli dev wifi rescan
-        '')
-
         (pkgs.callPackage ../../../theme-changer.nix { })
 
         # nix search, but without the internets
