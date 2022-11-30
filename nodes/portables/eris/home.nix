@@ -35,11 +35,10 @@ in {
         transmission-gtk
         thunderbird
         # jitsi-meet-electron
-        tdesktop
         mumble
         ungoogled-chromium
-
         nheko
+
         # Coding
         rnix-lsp
         gh
