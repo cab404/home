@@ -14,6 +14,7 @@ args@{ inputs, lib, config, pkgs, ... }: with import "${inputs.self}/lib.nix" ar
     "${inputs.self}/modules/recipes/audio.nix"
     "${inputs.self}/modules/recipes/nixld.nix"
     "${inputs.self}/modules/recipes/hwhack.nix"
+    "${inputs.self}/modules/recipes/known-keys.nix"
   ];
 
   # dns = [ "1.1.1.1" "1.0.0.1" "2606:4700:4700::1111" "2606:4700:4700::1001" ];
