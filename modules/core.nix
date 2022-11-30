@@ -17,6 +17,7 @@ with import ../lib.nix args; {
     nix-index  # woo, search in nix packages files!
 
     nix-zsh-completions zsh-completions  # systemctl ena<TAB>... AAAAGH
+    nix-bash-completions bash-completion
 
   ]);
 
@@ -94,8 +95,9 @@ with import ../lib.nix args; {
     xkbOptions = "ctrl:nocaps,lv3:ralt_switch_multikey,misc:typo,grp:rctrl_switch";
   };
 
-  environment.shells = [ pkgs.zsh ];
-  environment.pathsToLink = [ "/share/zsh" ];
+  environment.shells = [ pkgs.zsh pkgs.bash ];
+
+  environment.pathsToLink = [ "/share/zsh" "/share/bash" ];
   environment.variables = { EDITOR = "vi"; };
 
   # ====== Security keys support

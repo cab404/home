@@ -22,7 +22,10 @@ with import ../../lib.nix args;
   ];
 
   programs = let
-    onWithShell = on // { enableZshIntegration = true; };
+    onWithShell = on // {
+      enableZshIntegration = true;
+      enableBashIntegration = true;
+    };
   in {
 
     git = on;
@@ -88,6 +91,11 @@ with import ../../lib.nix args;
       :set tabstop=4
       :set shiftwidth=4
       '';
+    };
+
+    # Well, I still use it from time to time
+    bash = on // {
+      enableVteIntegration = true;
     };
 
     zsh = on // {
