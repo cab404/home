@@ -1,49 +1,55 @@
-args@{ inputs, lib, config, pkgs, ... }: with import ../../../lib.nix args; {
-
+args@{ inputs, lib, config, pkgs, ... }: with import "${inputs.self}/lib.nix" args; {
   imports = [
-    ../../../modules/home-manager
-    ../../../modules/sway/system.nix
+    "${inputs.self}/modules/sway/system.nix"
+    "${inputs.self}/modules/home-manager"
 
     # device-specific
     inputs.nixos-hw.nixosModules.framework-12th-gen-intel
 
     # eris-specific
-    ./system.nix
+    ./hardware-configuration.nix
 
     # usecase-specific
-    ../../../modules/electronics.nix
+    "${inputs.self}/modules/recipes/streaming.nix"
+    "${inputs.self}/modules/recipes/audio.nix"
+    "${inputs.self}/modules/recipes/nixld.nix"
+    "${inputs.self}/modules/recipes/hwhack.nix"
   ];
 
-  programs.nix-ld.enable = true;
-  environment.variables = {
-     NIX_LD = pkgs.stdenv.cc.bintools.dynamicLinker;
-  };
+  # dns = [ "1.1.1.1" "1.0.0.1" "2606:4700:4700::1111" "2606:4700:4700::1001" ];
+  # networking.wg-quick.interfaces."keter".configFile = "/secrets/keter.conf";
+  # networking.hosts = {
+  #   "10.0.10.2" = [ "c1.keter" "cab404.ru" "nextcloud.cab404.ru" ];
+  # };
+
+  # In the grim dark future there is only NixOS
+  system.stateVersion = lib.mkForce "40000.05";
+  # (enables all of the unstable features pretty much always)
+  networking.hostName = "eris";
+  _.user = "cab";
+  i18n.defaultLocale = "C.UTF-8";
+  home-manager.users.cab = { imports = [ ./home.nix ]; };
+  users.users.cab.passwordFile = "/secrets/password";
+  users.users.root.passwordFile = "/secrets/password";
+
 
   networking.firewall = on;
+
+  programs.ssh = {
+    extraConfig = ''
+      Host *
+        ControlMaster auto
+        ControlPath ~/.ssh/master-%r@%n:%p
+        ControlPersist 2m
+    '';
+  };
 
   boot.tmpOnTmpfs = true;
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
-  networking.hostName = "eris";
-
-  # systemd.coredump.enable = true;
-
-  # Young streamer's kit (don't mistake with adolescent kit, that would be tiktok)
-  programs.gphoto2 = on;
-  users.users.cab.extraGroups = [ "camera" ];
-  boot.extraModulePackages = [ config.boot.kernelPackages.v4l2loopback ];
-
-  # I guess if I have dwarffs in this system, might as well.
-  # environment.defaultPackages = [ pkgs.gdb ];
-
-  services.pcscd = on;
-  services.udev.packages = with pkgs; [ qFlipper openhantek6022 ];
+  services.udev.packages = with pkgs; [ qFlipper ];
 
   # This also opens all the necessary ports
   programs.kdeconnect = on;
-
-  _.user = "cab";
-
-  i18n.defaultLocale = "C.UTF-8";
 
 }

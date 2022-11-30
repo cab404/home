@@ -1,6 +1,4 @@
-{ config, pkgs, lib, ... }@args:
-
-with import ../lib.nix args; {
+args@{ inputs, lib, config, pkgs, ... }: with import "${inputs.self}/lib.nix" args; {
 
   # == Sound
   sound.enable = true;

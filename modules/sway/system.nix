@@ -55,7 +55,7 @@ with import ../../lib.nix args; {
 
   # That makes screensharing possible
   xdg = {
-    portal = {
+    portal = on // {
      extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
      wlr = on // {
        settings.screencast = {
@@ -63,7 +63,6 @@ with import ../../lib.nix args; {
          chooser_cmd = "${pkgs.rofi-wayland}/bin/rofi -dmenu";
        };
      };
-      #gtkUsePortal = true;
     };
   };
 

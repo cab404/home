@@ -37,7 +37,6 @@ with import ../lib.nix args; {
     settings = {
       trusted-users = [ "root" config._.user ];
       experimental-features = [ "nix-command" "flakes" "ca-derivations" ];
-      substituters = [ "https://cache.nixos.org?want-mass-query=1" ];
     };
 
     # This pins nixpkgs from the flake.lock system-wide both in registry and NIX_PATH

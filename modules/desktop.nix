@@ -5,7 +5,7 @@ with import ../lib.nix args; {
 
   require = [
     ./.
-    ./audio.nix
+    ./recipes/audio.nix
   ];
 
   documentation = {
@@ -29,15 +29,20 @@ with import ../lib.nix args; {
   ];
 
   services = {
+    # yeah, bluetooth
+    blueman = on;
 
     gnunet = on;
+
+    tor = on // {
+      client = on // { dns = on; };
+      controlSocket = on;
+    };
+
     locate = on // {
       locate = pkgs.plocate;
       localuser = null;
     };
-
-    # yeah, bluetooth
-    blueman = on;
 
     udev.packages = with pkgs; [
       android-udev-rules
@@ -77,12 +82,6 @@ with import ../lib.nix args; {
           command = "/run/current-system/sw/bin/killall -9 sway";
         }
       ];
-    };
-
-
-    tor = on // {
-      client = on // { dns = on; };
-      controlSocket = on;
     };
 
   };
