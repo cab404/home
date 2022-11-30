@@ -9,6 +9,9 @@ deploy/%:
 	$(MAKE) send-secrets/$*
 	deploy -s .\#$* --ssh-user root -- -L
 
+switch:
+	nixos-rebuild switch --flake . --target-host root@localhost
+
 .PHONY: send-secrets
 send-secrets/%:
 	YOLO=YES scripts/send-secrets.sh $*
