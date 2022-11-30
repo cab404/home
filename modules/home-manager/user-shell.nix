@@ -21,6 +21,13 @@ with import ../../lib.nix args;
     btop
   ];
 
+  home.shellAliases = {
+    "nfb" = "nix build --no-link --print-out-paths";
+    "nfl" = "nix flake lock --update-input";
+    "ns" = "nix search --offline nixpkgs";
+    "nm" = "nmcli";
+  };
+
   programs = let
     onWithShell = on // {
       enableZshIntegration = true;
