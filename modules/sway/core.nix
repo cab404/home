@@ -58,7 +58,8 @@ with import "${inputs.self}/lib.nix" args; {
     borderSize = 0;
     borderRadius = 5;
     backgroundColor = "#125522aa";
-    font = "Noto Sans 10";
+    font = "Noto Sans 8";
+    maxIconSize = 32;
     # alllright, need sum recursive config definitions for that one
     extraConfig = ''
       [mode=do-not-disturb]
