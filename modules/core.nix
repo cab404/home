@@ -3,6 +3,8 @@
 args @ { config, pkgs, lib, ... }:
 with import ../lib.nix args; {
 
+  nixpkgs.config.checkMeta = true;
+
   # ====== Packages
 
   environment.defaultPackages = (with pkgs; [

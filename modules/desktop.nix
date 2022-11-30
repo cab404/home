@@ -5,6 +5,7 @@ with import ../lib.nix args; {
 
   require = [
     ./.
+    ./audio.nix
   ];
 
   documentation = {
@@ -13,10 +14,7 @@ with import ../lib.nix args; {
     # nixos.includeAllModules = true;
   };
 
-  nixpkgs.config = {
-    checkMeta = true;
-    android_sdk.accept_license = true;
-  };
+  nixpkgs.config.android_sdk.accept_license = true;
 
   # Yeah, desktop needs one
   networking.networkmanager.enable = true;
@@ -43,55 +41,9 @@ with import ../lib.nix args; {
 
     udev.packages = with pkgs; [
       android-udev-rules
-      stlink
-      openocd
-      (writeTextDir "/etc/udev/rules.d/42-user-devices.rules" ''
-        # Saleae Logic thing
-        ATTR{idVendor}=="0925", ATTR{idProduct}=="3881", GROUP+="dialout"
-        # USBTiny
-        ATTR{idVendor}=="1781", ATTR{idProduct}=="0c9f", GROUP+="dialout"
-      '')
-      ledger-udev-rules
     ];
 
     flatpak = on;
-
-    pipewire = on // {
-      config.pipewire = {
-        "context.modules" = [
-          {
-            args = { "nice.level" = -11; };
-            flags = [ "ifexists" "nofail" ];
-            name = "libpipewire-module-rt";
-          }
-          { name = "libpipewire-module-protocol-native"; }
-          { name = "libpipewire-module-profiler"; }
-          { name = "libpipewire-module-metadata"; }
-          { name = "libpipewire-module-spa-device-factory"; }
-          { name = "libpipewire-module-spa-node-factory"; }
-          { name = "libpipewire-module-client-node"; }
-          { name = "libpipewire-module-client-device"; }
-          {
-            flags = [ "ifexists" "nofail" ];
-            name = "libpipewire-module-portal";
-          }
-          {
-            args = { };
-            name = "libpipewire-module-access";
-          }
-          { name = "libpipewire-module-adapter"; }
-          { name = "libpipewire-module-link-factory"; }
-          { name = "libpipewire-module-session-manager"; }
-          { name = "libpipewire-module-zeroconf-discover"; }
-          { name = "libpipewire-module-raop-discover"; }
-        ];
-      };
-      audio = on;
-      jack = on;
-      alsa = on;
-      pulse = on;
-      wireplumber.enable = true;
-    };
 
     printing = on // { drivers = [ pkgs.gutenprint ]; };
 
@@ -137,25 +89,19 @@ with import ../lib.nix args; {
 
   boot.kernel.sysctl = { "fs.inotify.max_user_watches" = 1000000; };
 
-  # == Sound
-  sound.enable = true;
   hardware = {
     opengl = on;
     bluetooth = on;
     opentabletdriver = on;
   };
 
-  # virtualisation.anbox.enable = true;
   virtualisation.podman = on;
 
-  programs = enableThings [
-    "gpaste"
-    "light" # brightness control
-    # "plotinus" # command pallet that doesn't work yet for some reason
-    "wireshark" # should create some missing groups
-  ] { };
-
-  powerManagement.powertop.enable = lib.mkDefault true;
+  programs = {
+    light = on; # brightness control
+    plotinus = on; # command pallet that doesn't work yet for some reason
+    wireshark = on; # should create some missing groups
+  };
 
   environment.systemPackages = with pkgs; [
     dconf

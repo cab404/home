@@ -3,10 +3,15 @@ args@{ inputs, lib, config, pkgs, ... }: with import ../../../lib.nix args; {
   imports = [
     ../../../modules/home-manager
     ../../../modules/sway/system.nix
+
     # device-specific
-    ../../framework-intel12.nix
+    inputs.nixos-hw.nixosModules.framework-12th-gen-intel
+
     # eris-specific
     ./system.nix
+
+    # usecase-specific
+    ../../../modules/electronics.nix
   ];
 
   programs.nix-ld.enable = true;
@@ -32,7 +37,7 @@ args@{ inputs, lib, config, pkgs, ... }: with import ../../../lib.nix args; {
   # environment.defaultPackages = [ pkgs.gdb ];
 
   services.pcscd = on;
-  services.udev.packages = [ pkgs.qFlipper ];
+  services.udev.packages = with pkgs; [ qFlipper openhantek6022 ];
 
   # This also opens all the necessary ports
   programs.kdeconnect = on;
