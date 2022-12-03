@@ -17,11 +17,21 @@ args@{ inputs, lib, config, pkgs, ... }: with import "${inputs.self}/lib.nix" ar
     "${inputs.self}/modules/recipes/known-keys.nix"
   ];
 
-  # dns = [ "1.1.1.1" "1.0.0.1" "2606:4700:4700::1111" "2606:4700:4700::1001" ];
-  # networking.wg-quick.interfaces."keter".configFile = "/secrets/keter.conf";
-  # networking.hosts = {
-  #   "10.0.10.2" = [ "c1.keter" "cab404.ru" "nextcloud.cab404.ru" ];
-  # };
+  networking = {
+    networkmanager.dns = "systemd-resolved";
+    networkmanager.wifi.backend = "iwd";
+    networkmanager.wifi.powersave = false;
+    firewall = on // {
+      checkReversePath = "loose";
+    };
+  };
+  services.resolved = {
+    enable = true;
+    fallbackDns = [
+      "8.8.8.8" "1.1.1.1" "1.0.0.1" "2606:4700:4700::1111" "2606:4700:4700::1001"
+    ];
+  };
+  services.tailscale.enable = true;
 
   # In the grim dark future there is only NixOS
   system.stateVersion = lib.mkForce "40000.05";
@@ -33,8 +43,6 @@ args@{ inputs, lib, config, pkgs, ... }: with import "${inputs.self}/lib.nix" ar
   users.users.cab.passwordFile = "/secrets/password";
   users.users.root.passwordFile = "/secrets/password";
 
-
-  networking.firewall = on;
 
   programs.ssh = {
     extraConfig = ''
