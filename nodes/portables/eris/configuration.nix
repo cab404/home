@@ -1,7 +1,8 @@
-args@{ inputs, lib, config, pkgs, ... }: with import "${inputs.self}/lib.nix" args; {
+{ inputs, prelude, lib, config, pkgs, ... }: with prelude; let __findFile = prelude.__findFile; in { # %%MODULE_HEADER%%
+
   imports = [
-    "${inputs.self}/modules/sway/system.nix"
-    "${inputs.self}/modules/home-manager"
+    <modules/gnome/system.nix>
+    <modules/home-manager>
 
     # device-specific
     inputs.nixos-hw.nixosModules.framework-12th-gen-intel
@@ -10,11 +11,14 @@ args@{ inputs, lib, config, pkgs, ... }: with import "${inputs.self}/lib.nix" ar
     ./hardware-configuration.nix
 
     # usecase-specific
-    "${inputs.self}/modules/recipes/streaming.nix"
-    "${inputs.self}/modules/recipes/audio.nix"
-    "${inputs.self}/modules/recipes/nixld.nix"
-    "${inputs.self}/modules/recipes/hwhack.nix"
-    "${inputs.self}/modules/recipes/known-keys.nix"
+    <modules/recipes/ssh.nix>
+    <modules/recipes/ssh-persist.nix>
+    <modules/recipes/streaming.nix>
+    <modules/recipes/audio.nix>
+    <modules/recipes/nixld.nix>
+    <modules/recipes/hwhack.nix>
+    <modules/recipes/known-keys.nix>
+    <modules/recipes/oculus.nix>
   ];
 
   networking = {
@@ -36,22 +40,14 @@ args@{ inputs, lib, config, pkgs, ... }: with import "${inputs.self}/lib.nix" ar
   # In the grim dark future there is only NixOS
   system.stateVersion = lib.mkForce "40000.05";
   # (enables all of the unstable features pretty much always)
+
+
   networking.hostName = "eris";
   _.user = "cab";
   i18n.defaultLocale = "C.UTF-8";
   home-manager.users.cab = { imports = [ ./home.nix ]; };
   users.users.cab.passwordFile = "/secrets/password";
   users.users.root.passwordFile = "/secrets/password";
-
-
-  programs.ssh = {
-    extraConfig = ''
-      Host *
-        ControlMaster auto
-        ControlPath ~/.ssh/master-%r@%n:%p
-        ControlPersist 2m
-    '';
-  };
 
   boot.tmpOnTmpfs = true;
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
@@ -60,5 +56,11 @@ args@{ inputs, lib, config, pkgs, ... }: with import "${inputs.self}/lib.nix" ar
 
   # This also opens all the necessary ports
   programs.kdeconnect = on;
+
+  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
+    "steam"
+    "steam-run"
+    "steam-original"
+  ];
 
 }

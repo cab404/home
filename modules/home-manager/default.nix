@@ -1,4 +1,4 @@
-{ pkgs, config, inputs, ... }: {
+{ pkgs, config, inputs, prelude, ... }: {
 
   imports = [
     ../options.nix
@@ -9,7 +9,7 @@
     home-manager.useUserPackages = true;
     home-manager.useGlobalPkgs = true;
     home-manager.extraSpecialArgs = {
-      inherit inputs;
+      inherit inputs prelude;
       sysconfig = config;
     };
     home-manager.users = {

@@ -1,4 +1,4 @@
-args@{ inputs, lib, config, pkgs, ... }: with import "${inputs.self}/lib.nix" args; {
+args@{ inputs, prelude, lib, config, pkgs, ... }: with prelude; let __findFile = prelude.__findFile; in {
 
   nix.settings.trusted-public-keys = [
     "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="

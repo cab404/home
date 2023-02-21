@@ -39,10 +39,10 @@ args@{ inputs, lib, config, pkgs, ... }: with import ../../../lib.nix args; {
   # Of course, you lose purity in libraries in any program you've downloaded
   # from the internet without patching — but you made your choice after clicking
   # it's link. After all, we already did that to cacerts.
-  programs.nix-ld.enable = true;
-  environment.variables = {
-    NIX_LD = pkgs.stdenv.cc.bintools.dynamicLinker;
-  };
+#  programs.nix-ld.enable = true;
+#  environment.variables = {
+#    NIX_LD = pkgs.stdenv.cc.bintools.dynamicLinker;
+#  };
 
   networking.firewall = on;
 

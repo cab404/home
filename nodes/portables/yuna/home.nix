@@ -1,13 +1,13 @@
 args@{ sysconfig, config, pkgs # inputs.nixpkgs
 , lib # inputs.nixpkgs.lib
-, inputs, ... }:
-with import ../../../lib.nix args;
+, inputs, prelude, ... }:
+with prelude; let __findFile = prelude.__findFile; in
 let isWL = true;
 in {
 
   imports = [
     inputs.nix-doom-emacs.hmModule
-    ../../../modules/home-manager/user-shell.nix
+    <modules/home-manager/user-shell.nix>
     ../../../modules/sway/home.nix
   ];
 
@@ -241,7 +241,7 @@ in {
   ] {
 
     doom-emacs = {
-      doomPrivateDir = "${inputs.self}/doom.d";
+      doomPrivateDir = <doom.d>;
       emacsPackage = inputs.emacs-overlay.packages.${pkgs.system}.emacsPgtk;
     };
 
@@ -252,7 +252,7 @@ in {
     firefox = {
       # you either do it from the start
       # profiles.default = {
-      #   userChrome = builtins.readFile "${inputs.self}/firefox/userChrome.css";
+      #   userChrome = builtins.readFile <firefox/userChrome.css>;
       #   settings = {
       #     "browser.bookmarks.showMobileBookmarks" = true;
       #   };

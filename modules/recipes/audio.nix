@@ -1,4 +1,4 @@
-args@{ inputs, lib, config, pkgs, ... }: with import "${inputs.self}/lib.nix" args; {
+args@{ inputs, prelude, lib, config, pkgs, ... }: with prelude; let __findFile = prelude.__findFile; in {
 
   # == Sound
   sound.enable = true;

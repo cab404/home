@@ -73,6 +73,7 @@
         "fd80:c4b4::1/128"
       ];
       persistentKeepalive = 30;
+      endpoint = "51.15.83.8:61111";
     }];
   };
   "c2".networking.wg-quick.interfaces."keter" = {

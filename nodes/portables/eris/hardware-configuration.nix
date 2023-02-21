@@ -1,5 +1,5 @@
-{ config, lib, pkgs, inputs, ... }@args:
-with import "${inputs.self}/lib.nix" args;
+{ config, lib, pkgs, prelude, inputs, ... }@args:
+with prelude; let __findFile = prelude.__findFile; in
 let
   # Calculated with btrfs_map_physical
   swapOffset = 6131420;
@@ -15,6 +15,7 @@ in
   environment.systemPackages = [ pkgs.clinfo ];
   hardware.opengl = on // {
     driSupport = true;
+    driSupport32Bit = true;
     extraPackages = with pkgs; [
       intel-compute-runtime
       vulkan-loader
@@ -23,8 +24,9 @@ in
 
   # Power management tweaks
   services.tlp = {
-    enable = true;
+#    enable = true;
     settings = {
+      USB_EXCLUDE_PHONE = 1;
       CPU_BOOST_ON_BAT = 0;
       CPU_SCALING_GOVERNOR_ON_BATTERY = "schedutil";
       START_CHARGE_THRESH_BAT0 = 90;
@@ -54,7 +56,7 @@ in
   boot.loader.systemd-boot = on;
   boot.loader.timeout = 0;
   boot.loader.efi.canTouchEfiVariables = true;
-  boot.kernelPackages = lib.mkForce pkgs.linuxPackages_testing;
+  #  boot.kernelPackages = lib.mkForce pkgs.linuxPackages_testing;
   hardware.enableRedistributableFirmware = lib.mkDefault true;
 
   boot.initrd.availableKernelModules = [ "xhci_pci" "thunderbolt" "nvme" "usb_storage" "sd_mod" ];

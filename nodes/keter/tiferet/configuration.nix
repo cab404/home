@@ -1,5 +1,5 @@
 args@{ pkgs, config, inputs, ... }:
-with import "${inputs.self}/lib.nix" args;
+with prelude; let __findFile = prelude.__findFile; in
 {
 
     time.timeZone = "Europe/Amsterdam";
@@ -77,7 +77,6 @@ with import "${inputs.self}/lib.nix" args;
 
     imports = [
       ../ssh.nix
-      ../../scaleway
       ../../../modules/core.nix
       ../../../modules/home-manager
     ];

@@ -1,7 +1,6 @@
 # This is a small dump of useful options I prefer everywhere.
 
-args @ { config, pkgs, lib, ... }:
-with import ../lib.nix args; {
+{ config, pkgs, lib, prelude, ... }: with prelude; let __findFile = prelude.__findFile; in {
 
   nixpkgs.config.checkMeta = true;
 
@@ -21,6 +20,7 @@ with import ../lib.nix args; {
     nix-zsh-completions zsh-completions  # systemctl ena<TAB>... AAAAGH
     nix-bash-completions bash-completion
 
+    waypipe # cause reasons
   ]);
 
   # ====== NixOS system-level stuff
@@ -71,9 +71,8 @@ with import ../lib.nix args; {
 
   # ====== Kernel
 
-  boot = {
-    kernelPackages = pkgs.linuxPackages_testing;
-    plymouth = on;
+  boot = lib.mkDefault {
+#    kernelPackages = pkgs.linuxPackages_testing;
     kernelParams = [ "quiet" ];
   };
 
@@ -119,7 +118,7 @@ with import ../lib.nix args; {
     };
 
     openssh = on // {
-      passwordAuthentication = false;
+      settings.PasswordAuthentication = false;
     };
 
   };

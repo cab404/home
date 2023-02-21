@@ -1,5 +1,4 @@
-{ config, pkgs, lib, ... }@args:
-with import ../../lib.nix args; {
+{ config, pkgs, lib, prelude, ... }: with prelude; {
 
   require = [
     ../desktop.nix

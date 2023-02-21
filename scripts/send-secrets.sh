@@ -13,4 +13,4 @@ echo to "$host":/secrets
     [ "$S" == "λ" ] || exit 1
 }
 
-rsync -avp secrets/"${1}"/* root@"$host":/secrets
+rsync -avP secrets/"${1}"/* root@"$host":/secrets

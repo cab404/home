@@ -40,6 +40,7 @@ with import ../../lib.nix args;
     direnv = on // { nix-direnv = on; };
 
     keychain = onWithShell // {
+      keys = [];
       agents = [ "gpg" "ssh" ];
     };
 

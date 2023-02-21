@@ -1,8 +1,8 @@
 # Hacks to get all of the windows look nice
 # Tries to convince QT to be GTK, and GTK to be uniform
 #
-{ config, pkgs, lib, inputs, ... }@args:
-with import "${inputs.self}/lib.nix" args; {
+{ config, pkgs, lib, inputs, prelude, ... }: with prelude; let __findFile = prelude.__findFile; in
+{
 
   home = {
     packages = with pkgs; [ qt5.qtwayland libsForQt5.qtstyleplugins ];

@@ -1,5 +1,5 @@
-{ config, pkgs, lib, inputs, ... }@args:
-with import "${inputs.self}/lib.nix" args; {
+{ config, pkgs, lib, prelude, inputs, ... }@args:
+with prelude; let __findFile = prelude.__findFile; in {
   # needs ./system.nix in system configuration
   imports = [ ./core.nix ./pass.nix ];
   home = {
@@ -23,7 +23,10 @@ with import "${inputs.self}/lib.nix" args; {
     '';
     config = rec {
       startup =
-        [ { command = "telegram-desktop"; } { command = "nextcloud"; } ];
+        [ 
+        #{ command = "telegram-desktop"; } 
+        #{ command = "nextcloud"; } 
+        ];
     };
   };
 

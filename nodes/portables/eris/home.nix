@@ -1,14 +1,14 @@
 args@{ sysconfig, config, pkgs # inputs.nixpkgs
 , lib # inputs.nixpkgs.lib
-, inputs, ... }:
-with import ../../../lib.nix args;
+, inputs, prelude, ... }:
+with prelude; let __findFile = prelude.__findFile; in
 let isWL = true;
 in {
 
   imports = [
     inputs.nix-doom-emacs.hmModule
-    ../../../modules/home-manager/user-shell.nix
-    ../../../modules/sway/home.nix
+    <modules/home-manager/user-shell.nix>
+#    <modules/sway/home.nix>
   ];
 
   manual.json.enable = true;
@@ -20,13 +20,18 @@ in {
       pointer_accel = "0.5";
     };
     output."eDP-1" = {
-      scale = "1.5";
+      scale = "1";
     };
   };
 
   home = {
 
-    pointerCursor.size = 24;
+    pointerCursor = {
+      size = 24;
+      package = pkgs.gnome-themes-extra;
+      name = "Adwaita";
+      gtk = on;
+    };
 
     packages = with pkgs;
       [
@@ -35,19 +40,22 @@ in {
         transmission-gtk
         thunderbird
         # jitsi-meet-electron
-        mumble
+        # mumble
         ungoogled-chromium
         nheko
 
-        # Coding
-        rnix-lsp
+        # Coding/Netutils
         gh
         glab
+
+        # Coding
+        rnix-lsp
         ghc
         sbcl
         jdk8
         nim
         julia-stable-bin # all julias are generally broken. which strangely coinsides with my life experience
+
 
         # Editing
         libreoffice
@@ -55,14 +63,13 @@ in {
         gimp
         krita
         ffmpeg-full
-        peek
+        # peek # Doesn't support wayland :(
         audacity
-        bat
         openscad
         solvespace
         blender
         simple-scan
-        lmms
+        # lmms
 
         # at least do backups
         restic
@@ -77,17 +84,19 @@ in {
         gohufont
 
         # Window manager and looks stuff
-        helvum
+#        helvum
         qrencode
 
         # Command line comfort
         alacritty
+        perl
         zsh
 
         pulsemixer
         silver-searcher
         fzf
         file
+        bat
         jq
         jless
         ranger
@@ -122,11 +131,10 @@ in {
         ytfzf
 
       ]
-      # Mate
-      ++ (with mate; [ mate-calc caja ])
-
       # Gnome
       ++ (with gnome; [
+        nautilus
+        gnome-calculator
         gnome-disk-utility
         gnome-power-manager
         gnome-sound-recorder
@@ -135,6 +143,7 @@ in {
         gucharmap
         baobab
         evince
+
       ]) ++ [
         gnome-online-accounts
 
@@ -173,7 +182,7 @@ in {
           readlink -f $(which $@)
         '')
 
-        (pkgs.callPackage ../../../theme-changer.nix { })
+        (pkgs.callPackage <theme-changer.nix> { })
 
         # nix search, but without the internets
         (writeShellScriptBin "nix-search" ''
@@ -216,6 +225,10 @@ in {
   };
 
   xdg = on // {
+    # mimeApps = on // {
+
+    # };
+
     configFile = let
       composeConfig = ''
         include "${pkgs.xorg.libX11}/share/X11/locale/en_US.UTF-8/Compose"
@@ -246,7 +259,7 @@ in {
   ] {
 
     doom-emacs = {
-      doomPrivateDir = "${inputs.self}/doom.d";
+      doomPrivateDir = <doom.d>;
       emacsPackage = inputs.emacs-overlay.packages.${pkgs.system}.emacsPgtk;
     };
 
@@ -312,7 +325,7 @@ in {
       ];
     };
 
-    kdeconnect.indicator = true;
+    # kdeconnect.indicator = true;
 
     git-sync = on // {
       repositories = {

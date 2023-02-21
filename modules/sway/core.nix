@@ -1,8 +1,8 @@
 # Basic functionality, like window keybindings, clipboard, screenshots and terminals
 # Should run from the box.
 #
-args@{ config, lib, pkgs, inputs, ... }:
-with import "${inputs.self}/lib.nix" args; {
+args@{ config, prelude, lib, pkgs, inputs, ... }:
+with prelude; let __findFile = prelude.__findFile; in {
 
   imports = [ ./lookandfeel.nix ];
 
@@ -16,10 +16,9 @@ with import "${inputs.self}/lib.nix" args; {
       ydotool
       copyq
       xdg-utils
-      swaylock-effects
     ];
 
-    file = { ".bg.png".source = "${inputs.self}/bg.png"; };
+    file = { ".bg.png".source = <bg.png>; };
 
   };
 
@@ -81,7 +80,15 @@ with import "${inputs.self}/lib.nix" args; {
   # Lock/unlock/timeout manager
 
   services.swayidle = let
-    swaylock = pkgs.swaylock-effects;
+    swaylock = pkgs.swaylock-effects.overrideAttrs (f: f // {
+      version = "v1.6-4";
+      src = pkgs.fetchFromGitHub {
+        owner = "mortie";
+        repo = "swaylock-effects";
+        rev = "20ecc6a0a5b61bb1a66cfb513bc357f74d040868";
+        sha256 = "nYA8W7iabaepiIsxDrCkG/WIFNrVdubk/AtFhIvYJB8=";
+      };
+    });
     lock = ''
       ${swaylock}/bin/swaylock \
         --clock \
@@ -112,8 +119,8 @@ with import "${inputs.self}/lib.nix" args; {
         '';
       in {
         timeout = 30;
-        command = toString lights-off;
-        resumeCommand = toString lights-on;
+        command = "${pkgs.sway}/bin/sway output '*' dpms off"; # toString lights-off;
+        resumeCommand = "${pkgs.sway}/bin/sway output '*' dpms on"; # toString lights-on;
       })
     ];
     events = [

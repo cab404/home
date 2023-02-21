@@ -98,7 +98,7 @@ with import ../lib.nix args; {
 
   programs = {
     light = on; # brightness control
-    plotinus = on; # command pallet that doesn't work yet for some reason
+#    plotinus = on; # command pallet that doesn't work yet for some reason
     wireshark = on; # should create some missing groups
   };
 

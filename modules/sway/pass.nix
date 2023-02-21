@@ -2,8 +2,8 @@
 # Basically does the same thing, except for wayland and works
 # Also uses xkcdpass, cause why not
 #
-{ config, pkgs, lib, inputs, ... }@args:
-with import "${inputs.self}/lib.nix" args;
+{ config, pkgs, lib, prelude, inputs, ... }@args:
+with prelude; let __findFile = prelude.__findFile; in
 let
   rofi-pass-wlr = pkgs.stdenv.mkDerivation {
     name = "rofi-pass-wlr";
@@ -13,7 +13,7 @@ let
     installPhase = ''
       runHook preInstall
       mkdir -p $out/bin
-      install -Dm 755 ${inputs.self}/deps/rofi-pass-wlr $out/bin/rofi-pass-wlr
+      install -Dm 755 ${<deps/rofi-pass-wlr>} $out/bin/rofi-pass-wlr
       runHook postInstall
     '';
     meta = {
