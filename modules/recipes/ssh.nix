@@ -5,7 +5,7 @@ let keys = [
 {
   services.openssh = {
     enable = true;
-    passwordAuthentication = false;
+    settings = { PasswordAuthentication = false; };
   };
 
   users.users."${config._.user}".openssh.authorizedKeys.keys = keys;

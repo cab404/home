@@ -121,6 +121,7 @@ with import ../../lib.nix args;
       # bindkey '^r' _atuin_search_widget
 
       mcd () { mkdir -pv "$@"; cd "$@"; }
+      function np() { nix build nixpkgs#$1 --no-link --print-out-paths }
 
       '';
       shellAliases = {

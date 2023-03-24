@@ -91,7 +91,7 @@ with import ../lib.nix args; {
   hardware = {
     opengl = on;
     bluetooth = on;
-    opentabletdriver = on;
+#    opentabletdriver = on;
   };
 
   virtualisation.podman = on;

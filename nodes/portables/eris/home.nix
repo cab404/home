@@ -8,7 +8,6 @@ in {
   imports = [
     inputs.nix-doom-emacs.hmModule
     <modules/home-manager/user-shell.nix>
-#    <modules/sway/home.nix>
   ];
 
   manual.json.enable = true;
@@ -255,12 +254,11 @@ in {
     "alacritty"
     "exa"
     "bat"
-    "doom-emacs"
   ] {
 
-    doom-emacs = {
+    doom-emacs = on // {
       doomPrivateDir = <doom.d>;
-      emacsPackage = inputs.emacs-overlay.packages.${pkgs.system}.emacsPgtk;
+      emacsPackage = pkgs.emacsPgtk;
     };
 
     vscode = on // { package = pkgs.vscodium; };
@@ -314,7 +312,7 @@ in {
     "password-store-sync"
     "flameshot"
     "easyeffects"
-    "kdeconnect"
+    # "kdeconnect"
     "emacs"
   ] {
     gpg-agent = on // {

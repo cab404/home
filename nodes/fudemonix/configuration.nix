@@ -3,7 +3,7 @@
   imports = [
     <modules/core.nix>
     <modules/home-manager>
-    <modules/recipes/known-keys.nix>
+    <modules/recipes/substituters.nix>
     <modules/recipes/klipper.nix>
     <modules/recipes/ssh.nix>
   ];

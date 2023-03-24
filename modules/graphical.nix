@@ -8,10 +8,10 @@
     xserver = {
       enable = true;
 
-      displayManager.autoLogin = {
-        enable = true;
-        user = config._.user;
-      };
+      # displayManager.autoLogin = {
+      #   enable = true;
+      #   user = config._.user;
+      # };
 
       libinput = {
         enable = true;

@@ -23,8 +23,7 @@ in
   };
 
   # Power management tweaks
-  services.tlp = {
-#    enable = true;
+  services.tlp = off // {
     settings = {
       USB_EXCLUDE_PHONE = 1;
       CPU_BOOST_ON_BAT = 0;
@@ -32,12 +31,13 @@ in
       START_CHARGE_THRESH_BAT0 = 90;
       STOP_CHARGE_THRESH_BAT0 = 97;
       RUNTIME_PM_ON_BAT = "auto";
+      PCIE_ASPM_ON_BAT = "auto";
     };
   };
 
   # magic schedulers!
   powerManagement = on // {
-    cpuFreqGovernor = lib.mkDefault "schedutil";
+    # cpuFreqGovernor = lib.mkDefault "schedutil";
   };
 
   services.logind = {
@@ -67,7 +67,7 @@ in
     "mem_sleep_default=deep"
     "resume=${config.boot.resumeDevice}"
     "resume_offset=${toString swapOffset}"
-    "intel_pstate=no_hwp"
+    # "intel_pstate=no_hwp" # Gnome tries to use hwp, sooo
     "i915.enable_guc=3"
     "i915.enable_fbc=1"
     "i915.enable_psr=1"

@@ -17,7 +17,7 @@
     <modules/recipes/audio.nix>
     <modules/recipes/nixld.nix>
     <modules/recipes/hwhack.nix>
-    <modules/recipes/known-keys.nix>
+    <modules/recipes/substituters.nix>
     <modules/recipes/oculus.nix>
   ];
 
@@ -25,10 +25,13 @@
     networkmanager.dns = "systemd-resolved";
     networkmanager.wifi.backend = "iwd";
     networkmanager.wifi.powersave = false;
-    firewall = on // {
+    firewall = on // rec {
       checkReversePath = "loose";
+      allowedTCPPortRanges = [ { from = 1714; to = 1764; } ];
+      allowedUDPPortRanges = allowedTCPPortRanges;
     };
   };
+
   services.resolved = {
     enable = true;
     fallbackDns = [
@@ -36,6 +39,8 @@
     ];
   };
   services.tailscale.enable = true;
+
+  nixpkgs.overlays = [ (import inputs.emacs-overlay) ];
 
   # In the grim dark future there is only NixOS
   system.stateVersion = lib.mkForce "40000.05";
@@ -55,7 +60,6 @@
   services.udev.packages = with pkgs; [ qFlipper ];
 
   # This also opens all the necessary ports
-  programs.kdeconnect = on;
 
   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
     "steam"
