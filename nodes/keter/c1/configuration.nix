@@ -1,27 +1,31 @@
-{ config, pkgs, inputs, lib, ... }: {
-  system.name = "c1";
-  networking.hostName = config.system.name;
-
+{ inputs, prelude, lib, config, pkgs, ... }: with prelude; let __findFile = prelude.__findFile; in { # %%MODULE_HEADER%%
   imports =
     [
-      # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-      # ./hydra.nix
-      # ./secrets.nix
-      ../ssh.nix
-      ../../../modules/core.nix
-      ../../../modules/home-manager
+      <modules/recipes/ssh.nix>
+      <modules/recipes/ssh-persist.nix>
+      <modules/recipes/substituters.nix>
+      <modules/recipes/tailscale.nix>
+      <modules/core.nix>
+      <modules/home-manager>
+
+      (import <nodes/keter/wgbond.nix>).defaults
+      (import <nodes/keter/wgbond.nix>).c1
     ];
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.useDHCP = false;
-  networking.interfaces.enp7s0.useDHCP = true;
+  networking.hostName = "c1";
+  _.user = "cab";
 
   boot.loader.timeout = 0;
   boot.kernelPackages = lib.mkForce pkgs.linuxPackages_latest;
+
+  powerManagement.enable = true;
+  powerManagement.cpuFreqGovernor = "schedutil";
+
+  services.fstrim.enable = true;
 
   environment.systemPackages = with pkgs; [
     wget
@@ -38,7 +42,6 @@
   services.cron.enable = true;
 
   virtualisation.docker.enable = true;
-  systemd.services.docker.wantedBy = [ ];
 
   networking.firewall.enable = false;
 
@@ -47,20 +50,20 @@
   # and that's what I want with this machine
   networking.networkmanager.enable = true;
 
-  services.tor = {
-    enable = true;
-    relay = {
-      enable = true;
-      role = "relay";
-    };
-    settings = {
-      BandwidthBurst = 800 * 1024;
-      BandwidthRate = 500 * 1024;
-      Nickname = "mnfrdmcx";
-      # Address = "cab404.ru";
-      # ORPort = 143;
-    };
-  };
+  # services.tor = {
+  #   enable = true;
+  #   relay = {
+  #     enable = true;
+  #     role = "relay";
+  #   };
+  #   settings = {
+  #     BandwidthBurst = 800 * 1024;
+  #     BandwidthRate = 500 * 1024;
+  #     Nickname = "mnfrdmcx";
+  #     # Address = "cab404.ru";
+  #     # ORPort = 143;
+  #   };
+  # };
 
   users.users = {
     "${config._.user}" = {
@@ -71,4 +74,3 @@
   security.sudo.wheelNeedsPassword = false;
 
 }
-

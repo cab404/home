@@ -2,12 +2,12 @@
   description = "cab's system config";
   nixConfig = {
     extra-substituters = [
-        "https://nix-community.cachix.org"
-        "https://cache.nixos.org"
+      "https://nix-community.cachix.org"
+      "https://cache.nixos.org"
     ];
     trusted-public-keys = [
-        "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
-        "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+      "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+      "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
     ];
   };
 
@@ -30,6 +30,9 @@
 
     nix-doom-emacs.url = "github:thiagokokada/nix-doom-emacs/bump-doom-emacs";
     nix-doom-emacs.inputs.nixpkgs.follows = "nixpkgs";
+
+    gtch.url = "/home/cab/data/cab/ticket-checker";
+    gtch.inputs.nixpkgs.follows = "nixpkgs";
 
     swaycwd.url = "sourcehut:~cab/swaycwd";
 
@@ -70,12 +73,14 @@
       node = dir: with hostAttrs dir; buildSystem [
         config
         hw-config
-      ] settings.system;
+      ]
+        settings.system;
 
       virt-node = dir: with hostAttrs dir; buildSystem [
         config
         "${nixpkgs}/nixos/modules/virtualisation/build-vm.nix"
-      ] settings.system;
+      ]
+        settings.system;
 
       onPkgs = f: builtins.mapAttrs f patchedPkgs.legacyPackages;
       deployNixos = s: deploy-rs.lib.${s.pkgs.system}.activate.nixos s;
@@ -92,6 +97,12 @@
           # My new notebook
           eris = node ./nodes/portables/eris;
 
+          # First server
+          c1 = node ./nodes/keter/c1;
+
+          # Scaleway proxy
+          tiferet = node ./nodes/keter/tiferet;
+
           # My printer
           fudemonix = node ./nodes/fudemonix;
 
@@ -101,7 +112,7 @@
             ./modules/home-manager
             ./modules/sway/system.nix
             ./modules/core.nix
-            ({config, lib, pkgs, ...}: {
+            ({ config, lib, pkgs, ... }: {
               _.user = "nixos";
               boot.kernelPackages = lib.mkForce pkgs.linuxPackages;
               networking.wireless.enable = false;
@@ -110,7 +121,7 @@
               ];
             })
           ];
-        } // (builtins.mapAttrs (k: v: buildSystem v) (import ./nodes/keter));
+        }; #// (builtins.mapAttrs (k: v: buildSystem v) (import ./nodes/keter));
 
       deploy = {
 
