@@ -269,8 +269,8 @@
         "utils": "utils_2"
       },
       "locked": {
-        "lastModified": 1680443466,
-        "narHash": "sha256-G0ofEflYpTuso5NEEB1iJxNy4612Ho3RbIepuhYxhD8=",
+        "lastModified": 1682466855,
+        "narHash": "sha256-AOBMYXc/YsM9YDvZWOByDHAinF+9ZXLk8qL6zi/lIRA=",
         "type": "git",
         "url": "file:///home/cab/data/cab/ticket-checker"
       },
@@ -283,15 +283,14 @@
       "inputs": {
         "nixpkgs": [
           "nixpkgs"
-        ],
-        "utils": "utils_3"
+        ]
       },
       "locked": {
-        "lastModified": 1679480702,
-        "narHash": "sha256-npuRD61YmxUPitI1TqKwlxLrU6iGl5E+BPT196LgUDo=",
+        "lastModified": 1681971090,
+        "narHash": "sha256-3j0M63GkG6GGny9e+C//GyuDCx1IwrurD27S0YI+GQY=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "363c46b2480f1b73ec37cf68caac61f5daa82a2e",
+        "rev": "5160039edca28a7e66bad0cfc72a07c91d6768ad",
         "type": "github"
       },
       "original": {
@@ -364,11 +363,11 @@
     },
     "nixos-hw": {
       "locked": {
-        "lastModified": 1679598117,
-        "narHash": "sha256-Vs1f/7imI77OkMOQhO3xgx4jalN2Gx3D3C2wmnlpWJM=",
+        "lastModified": 1680876084,
+        "narHash": "sha256-eP9yxP0wc7XuVaODugh+ajgbFGaile2O1ihxiLxOuvU=",
         "owner": "nixos",
         "repo": "nixos-hardware",
-        "rev": "648021dcb2b65498eed3ea3a7339cdfc3bea4d82",
+        "rev": "3006d2860a6ed5e01b0c3e7ffb730e9b293116e2",
         "type": "github"
       },
       "original": {
@@ -392,13 +391,28 @@
         "type": "github"
       }
     },
+    "nixpkgs-test": {
+      "locked": {
+        "lastModified": 1682032750,
+        "narHash": "sha256-THNW5GYQlRTBS5GHPG+JzxNhfLZEMcc4lFemxYG3OlA=",
+        "ref": "refs/heads/paperwm-bump",
+        "rev": "b308fbfed873021865c7ba957267d7dfafce5467",
+        "revCount": 470984,
+        "type": "git",
+        "url": "file:///home/cab/data/cab/nixpkgs"
+      },
+      "original": {
+        "type": "git",
+        "url": "file:///home/cab/data/cab/nixpkgs"
+      }
+    },
     "nixpkgs_2": {
       "locked": {
-        "lastModified": 1679437018,
-        "narHash": "sha256-vOuiDPLHSEo/7NkiWtxpHpHgoXoNmrm+wkXZ6a072Fc=",
+        "lastModified": 1681828457,
+        "narHash": "sha256-o4Zvs309HOhrNeVloPKqangcKHobsggVt6GFbnEPZlQ=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "19cf008bb18e47b6e3b4e16e32a9a4bdd4b45f7e",
+        "rev": "555daa9d339b3df75e58ee558a4fec98ea92521e",
         "type": "github"
       },
       "original": {
@@ -565,6 +579,7 @@
         "nix-doom-emacs": "nix-doom-emacs",
         "nixos-hw": "nixos-hw",
         "nixpkgs": "nixpkgs_2",
+        "nixpkgs-test": "nixpkgs-test",
         "swaycwd": "swaycwd",
         "wg-bond": "wg-bond"
       }
@@ -657,21 +672,6 @@
         "owner": "numtide",
         "repo": "flake-utils",
         "rev": "93a2b84fc4b70d9e089d029deacc3583435c2ed6",
-        "type": "github"
-      },
-      "original": {
-        "owner": "numtide",
-        "repo": "flake-utils",
-        "type": "github"
-      }
-    },
-    "utils_3": {
-      "locked": {
-        "lastModified": 1676283394,
-        "narHash": "sha256-XX2f9c3iySLCw54rJ/CZs+ZK6IQy7GXNY4nSOyu2QG4=",
-        "owner": "numtide",
-        "repo": "flake-utils",
-        "rev": "3db36a8b464d0c4532ba1c7dda728f4576d6d073",
         "type": "github"
       },
       "original": {
