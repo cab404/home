@@ -11,11 +11,41 @@ with prelude; let __findFile = prelude.__findFile; in
       <modules/core.nix>
       <modules/home-manager>
 
+      ./mail.nix
+      ./heisenbridge.nix
+
       (import <nodes/keter/wgbond.nix>).defaults
       (import <nodes/keter/wgbond.nix>).tiferet
       inputs.gtch.nixosModules.default
-  ];
+    ];
 
+  services.journald.extraConfig = ''
+    SystemMaxUse=500M
+  '';
+
+  services.gtch = on // {
+    listenAddress = "10.0.10.1";
+    webSettings = {
+      DEBUG = false;
+
+      STATIC_URL = "/static/";
+      ALLOWED_HOSTS = [ "gtch.cab.moe" "10.0.10.1" ];
+
+      EMAIL_HOST = "smtp.yandex.com";
+      EMAIL_PORT = 465;
+      EMAIL_USE_SSL = true;
+      EMAIL_HOST_USER = "mail@unitycon.ru";
+      EMAIL_HOST_PASSWORD = ''jtbrjgkwvjdldjtr'';
+
+    };
+  };
+
+  services.resolved = {
+    enable = true;
+    fallbackDns = [
+      "8.8.8.8" "1.1.1.1" "1.0.0.1" "2606:4700:4700::1111" "2606:4700:4700::1001"
+    ];
+  };
 
   _.user = "cab";
   time.timeZone = "Europe/Amsterdam";
@@ -35,9 +65,18 @@ with prelude; let __findFile = prelude.__findFile; in
           reverse_proxy 10.0.10.1:8000
         '';
       };
+      "eris.cab.moe" = {
+        extraConfig = ''
+          reverse_proxy eris-taxguywu.keter.keter:6006
+        '';
+      };
       "gtch.cab404.pw" = {
         extraConfig = ''
-          reverse_proxy 10.0.10.2
+          handle_path /static/* {
+            root * ${inputs.gtch.packages.x86_64-linux.static}
+            file_server
+          }
+          reverse_proxy 10.0.10.1:8000
         '';
       };
       "nextcloud.cab.moe" = {
@@ -70,6 +109,10 @@ with prelude; let __findFile = prelude.__findFile; in
   services.headscale = on // {
     settings = {
       server_url = "https://hs.cab.moe";
+      ip_prefixes = [ 
+        "100.64.0.0/10" 
+        # "fd80:b4b4:c4b4::/48"
+      ];
       dns_config = {
         nameservers = [ "1.1.1.1" "1.0.0.1" "2606:4700:4700::1111" "2606:4700:4700::1001" ];
         base_domain = "keter";

@@ -1,10 +1,28 @@
 { config, lib, pkgs, prelude, inputs, ... }@args:
 with prelude; let __findFile = prelude.__findFile; in
-let
-  # Calculated with btrfs_map_physical
-  swapOffset = 6131420;
-in
 {
+
+  imports = [
+    inputs.nixos-hw.nixosModules.framework-12th-gen-intel
+    ./hibernate.nix
+  ];
+
+  # nixpkgs.overlays = [
+  #   (self: super: {
+  #     iio-sensor-proxy = self.runCommand "iio-sensor-fixed" { sp = super.iio-sensor-proxy; } ''
+  #       cp -r $sp $out
+  #       chmod -R +rw $out
+  #       mkdir $out/share
+  #       mv $out/etc/dbus-1 $out/share/dbus-1
+  #     '';
+      
+  #   })
+    
+  # ];
+
+  systemd.services.iio-sensor-proxy.environment = {
+    G_MESSAGES_DEBUG = "all";    
+  };
 
   hardware.sensor.iio.enable = true;
 
@@ -18,63 +36,46 @@ in
     driSupport32Bit = true;
     extraPackages = with pkgs; [
       intel-compute-runtime
+      intel-media-driver
       vulkan-loader
     ];
   };
 
-  # Power management tweaks
-  services.tlp = off // {
-    settings = {
-      USB_EXCLUDE_PHONE = 1;
-      CPU_BOOST_ON_BAT = 0;
-      CPU_SCALING_GOVERNOR_ON_BATTERY = "schedutil";
-      START_CHARGE_THRESH_BAT0 = 90;
-      STOP_CHARGE_THRESH_BAT0 = 97;
-      RUNTIME_PM_ON_BAT = "auto";
-      PCIE_ASPM_ON_BAT = "auto";
-    };
-  };
+  systemd.sleep.extraConfig = ''
+    AllowSuspend=yes
+    AllowHibernate=yes
+    AllowSuspendThenHibernate=yes
+    AllowHybridSleep=yes
 
-  # magic schedulers!
-  powerManagement = on // {
-    # cpuFreqGovernor = lib.mkDefault "schedutil";
-  };
+    SuspendState=mem
+    HibernateState=disk
+    HibernateDelaySec=30m
+  '';
 
-  services.logind = {
-    lidSwitch = "suspend-then-hibernate";
-    extraConfig = ''
-      HandlePowerKey=suspend-then-hibernate
-      IdleAction=suspend-then-hibernate
-      IdleActionSec=2m
-    '';
-  };
-
-  systemd.sleep.extraConfig = "HibernateDelaySec=30m";
+  powerManagement = on // { cpuFreqGovernor = "schedutil"; };
 
   # Boot essentials
-  #
   boot.loader.systemd-boot = on;
   boot.loader.timeout = 0;
   boot.loader.efi.canTouchEfiVariables = true;
-  #  boot.kernelPackages = lib.mkForce pkgs.linuxPackages_testing;
   hardware.enableRedistributableFirmware = lib.mkDefault true;
 
   boot.initrd.availableKernelModules = [ "xhci_pci" "thunderbolt" "nvme" "usb_storage" "sd_mod" ];
-  boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-intel" ];
-  boot.resumeDevice = "/dev/disk/by-uuid/2622a677-90ba-4182-9a66-845e72710533";
+
   boot.kernelParams = [
-    "mem_sleep_default=deep"
-    "resume=${config.boot.resumeDevice}"
-    "resume_offset=${toString swapOffset}"
-    # "intel_pstate=no_hwp" # Gnome tries to use hwp, sooo
-    "i915.enable_guc=3"
+    "mitigations=off"
+    # "intel_pstate=no_hwp"
+    # "i915.enable_guc=3"
     "i915.enable_fbc=1"
-    "i915.enable_psr=1"
+    "enable_psr2_sel_fetch=1"
+    "i915.enable_psr=2"
+    "i915.fastboot=1"
     "i915.enable_gvt=1"
-    "nvme.noacpi=1"
+    "mem_sleep_default=s2idle" # faster faster
   ];
 
+  # services.cpupower-gui = on;
 
   boot.initrd.luks.devices = {
     rootfs = {
@@ -92,10 +93,5 @@ in
     device = "/dev/disk/by-label/eris-boot";
     fsType = "vfat";
   };
-
-  swapDevices = [{
-    device = "/var/swapfile";
-    size = 17 * 1024;
-  }];
 
 }

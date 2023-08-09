@@ -1,4 +1,4 @@
 {
   system = "x86_64-linux";
-  host = "localhost";
+  host = "c1-tail";
 }

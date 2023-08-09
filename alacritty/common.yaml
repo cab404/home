@@ -1,0 +1,2 @@
+key_bindings:
+    - { key: Return, mods: Command, action: CreateNewWindow }

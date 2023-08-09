@@ -1,4 +1,6 @@
+.system-link*
 secrets/
 !temlplates/*
 .direnv
 result
+.system-link

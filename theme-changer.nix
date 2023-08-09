@@ -68,7 +68,7 @@ let
   scripts = {
 
     # alacritty doesn't create it's config folder by default, so yeah.
-    alacritty = (t: ''mkdir -p ~/.config/alacritty; chmod +w ~/.config/alacritty/alacritty.yml; cp ${t} ~/.config/alacritty/alacritty.yml'');
+    alacritty = (t: ''mkdir -p ~/.config/alacritty; chmod +w ~/.config/alacritty/alacritty.yml; { cat ${t} ${./alacritty/common.yaml}; } > ~/.config/alacritty/alacritty.yml'');
 
     spacemacs = (t: ''emacsclient -e "(spacemacs/load-theme '${t})"'');
 

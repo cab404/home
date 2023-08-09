@@ -65,8 +65,8 @@
     peers = [{
       publicKey = "AhOeGzMO2evGSkyI+IJVNoF9+POHGlnk+/XRWK4Jvhw=";
       allowedIPs = [
-        "::/0"
-        "0.0.0.0/0"
+        # "::/0"
+        # "0.0.0.0/0"
         "10.0.10.0/24"
         "fd80:c4b4::/48"
         "10.0.10.1/32"

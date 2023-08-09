@@ -6,8 +6,9 @@ let isWL = true;
 in {
 
   imports = [
-    inputs.nix-doom-emacs.hmModule
+    # inputs.nix-doom-emacs.hmModule
     <modules/home-manager/user-shell.nix>
+    <modules/gnome/home.nix>
   ];
 
   manual.json.enable = true;
@@ -40,7 +41,6 @@ in {
         thunderbird
         # jitsi-meet-electron
         # mumble
-        ungoogled-chromium
         nheko
 
         # Coding/Netutils
@@ -48,7 +48,8 @@ in {
         glab
 
         # Coding
-        rnix-lsp
+        # rnix-lsp
+        nil
         ghc
         sbcl
         jdk8
@@ -83,8 +84,11 @@ in {
         gohufont
 
         # Window manager and looks stuff
-#        helvum
+        # helvum
+        qpwgraph
+        pavucontrol
         qrencode
+
 
         # Command line comfort
         alacritty
@@ -100,6 +104,8 @@ in {
         jless
         ranger
         btop
+        
+        nix-prefetch-github
 
         # Runners
         appimage-run
@@ -117,9 +123,11 @@ in {
         picocom
         scrcpy
         qFlipper
+        android-tools
         #ledger-live-desktop
 
         # Viewers
+        fstl
         feh
         mpv
         zathura
@@ -242,6 +250,13 @@ in {
       # And this one I found in tdesktop. Cause why not? At least it's XDG Compliant (tm)
       "XCompose".text = composeConfig;
     };
+
+    userDirs = on // {
+      music = "$HOME/media/music";
+      pictures = "$HOME/media/pictures";
+      videos = "$HOME/media/videos";
+    };
+  
   };
   # don't know where to put it
   fonts.fontconfig.enable = true;
@@ -254,12 +269,23 @@ in {
     "alacritty"
     "exa"
     "bat"
+    "chromium"
   ] {
 
-    doom-emacs = on // {
-      doomPrivateDir = <doom.d>;
-      emacsPackage = pkgs.emacsPgtk;
+    chromium = {
+      package = pkgs.ungoogled-chromium;
+      commandLineArgs = [
+        "--enable-logging=stderr"
+      ];
+      extensions = [
+        { id = "cjpalhdlnbpafiamejdnhcphjbkeiagm"; }
+      ];
     };
+
+    # doom-emacs = on // {
+    #   doomPrivateDir = <doom.d>;
+    #   emacsPackage = pkgs.emacsPgtk;
+    # };
 
     vscode = on // { package = pkgs.vscodium; };
 

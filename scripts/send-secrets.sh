@@ -3,7 +3,7 @@ set -e
 shopt -s dotglob
 
 cd "$(dirname "$0")/.."
-host=$(nix eval --raw .\#deploy.nodes."${1}".hostname)
+host=$(./scripts/hostname.sh ${1})
 
 echo going to send
 ls -1 secrets/"${1}"/*
@@ -13,4 +13,4 @@ echo to "$host":/secrets
     [ "$S" == "λ" ] || exit 1
 }
 
-rsync -avP secrets/"${1}"/* root@"$host":/secrets
+rsync -avP secrets/"${1}"/. root@"$host":/secrets

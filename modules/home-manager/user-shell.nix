@@ -92,13 +92,26 @@ with import ../../lib.nix args;
       };
     };
 
-    neovim = on // {
-      viAlias = true;
-      extraConfig = ''
-      :set expandtab
-      :set tabstop=4
-      :set shiftwidth=4
-      '';
+      
+    helix = on // {
+      settings = {
+        theme = "base16";
+        editor = {
+          # I want to believe
+          # whitespace.render = "trailing";
+          lsp.display-messages = true;
+          cursor-shape = {
+            normal = "block";
+            insert = "bar";
+            select = "underline";
+          };
+        };
+        keys.normal = {
+          space.space = "file_picker";
+          space.q = ":q";
+          esc = [ "collapse_selection" "keep_primary_selection" ];
+        };
+      };
     };
 
     # Well, I still use it from time to time

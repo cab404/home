@@ -6,7 +6,7 @@ let isWL = true;
 in {
 
   imports = [
-    inputs.nix-doom-emacs.hmModule
+    # inputs.nix-doom-emacs.hmModule
     <modules/home-manager/user-shell.nix>
     ../../../modules/sway/home.nix
   ];
@@ -237,13 +237,13 @@ in {
     "alacritty"
     "exa"
     "bat"
-    "doom-emacs"
+    # "doom-emacs"
   ] {
 
-    doom-emacs = {
-      doomPrivateDir = <doom.d>;
-      emacsPackage = inputs.emacs-overlay.packages.${pkgs.system}.emacsPgtk;
-    };
+    # doom-emacs = {
+    #   doomPrivateDir = <doom.d>;
+    #   emacsPackage = inputs.emacs-overlay.packages.${pkgs.system}.emacsPgtk;
+    # };
 
     vscode = on // { package = pkgs.vscodium; };
 

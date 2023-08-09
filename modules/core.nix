@@ -8,17 +8,18 @@
 
   environment.defaultPackages = (with pkgs; [
     # this section is a tribute to my PEP-8 hatred
-    curl htop git tmux
-    ntfsprogs btrfs-progs  # why aren't those there by default?
-    killall usbutils pciutils zip unzip  # WHY AREN'T THOSE THERE BY DEFAULT?
-    nmap arp-scan
-    rsync
+    curl htop git tmux ntfsprogs btrfs-progs # why aren't those there by default?
+    killall usbutils pciutils zip unzip # WHY AREN'T THOSE THERE BY DEFAULT?
+    nmap arp-scan rsync
 
-    vim
-    nix-index  # woo, search in nix packages files!
+    helix vim 
+    
+    nix-index # woo, search in nix packages files!
 
-    nix-zsh-completions zsh-completions  # systemctl ena<TAB>... AAAAGH
-    nix-bash-completions bash-completion
+    nix-zsh-completions
+    zsh-completions # systemctl ena<TAB>... AAAAGH
+    nix-bash-completions
+    bash-completion
 
     waypipe # cause reasons
   ]);
@@ -60,9 +61,13 @@
     users."${config._.user}" = {
       isNormalUser = true;
       extraGroups = [
-        "plugdev" "wheel" "nitrokey"
-        "containers" "networkmanager"
-        "dialout" "video"
+        "plugdev"
+        "wheel"
+        "nitrokey"
+        "containers"
+        "networkmanager"
+        "dialout"
+        "video"
       ];
       shell = pkgs.zsh;
     };
@@ -72,7 +77,7 @@
   # ====== Kernel
 
   boot = lib.mkDefault {
-#    kernelPackages = pkgs.linuxPackages_testing;
+    kernelPackages = pkgs.linuxPackages_testing;
     kernelParams = [ "quiet" ];
   };
 
@@ -81,8 +86,10 @@
 
   console = {
     colors = [
-        "3A3C43" "BE3E48" "869A3A" "C4A535" "4E76A1" "855B8D" "568EA3" "B8BCB9"
-        "888987" "FB001E" "0E712E" "C37033" "176CE3" "FB0067" "2D6F6C" "FCFFB8"
+      "3A3C43" "BE3E48" "869A3A" "C4A535"
+      "4E76A1" "855B8D" "568EA3" "B8BCB9"
+      "888987" "FB001E" "0E712E" "C37033"
+      "176CE3" "FB0067" "2D6F6C" "FCFFB8"
     ];
     font = "Lat2-Terminus16";
     useXkbConfig = true; # ctrl:nocaps at last
@@ -95,17 +102,22 @@
     xkbOptions = "ctrl:nocaps,lv3:ralt_switch_multikey,misc:typo,grp:rctrl_switch";
   };
 
-  environment.shells = [ pkgs.zsh pkgs.bash ];
+  programs = {
+    zsh = on // {
+      enableCompletion = true;
+    };
+    bash.enableCompletion = true;
+  };
 
-  environment.pathsToLink = [ "/share/zsh" "/share/bash" ];
-  environment.variables = { EDITOR = "vi"; };
+  environment.pathsToLink = [ "/share/zsh" ];
+  environment.variables = { EDITOR = "hx"; };
 
   # ====== Security keys support
 
   hardware.nitrokey.enable = true;
   services.udev.extraRules = ''
     # GNUK token
-    GROUPS=="wheel", ATTR{idVendor}=="234b", ATTR{idProduct}=="0000", ENV{ID_SMARTCARD_READER}="1", ENV{ID_SMARTCARD_READER_DRIVER}="gnupg"
+    ATTR{idVendor}=="234b", ATTR{idProduct}=="0000", ENV{ID_SMARTCARD_READER}="1", ENV{ID_SMARTCARD_READER_DRIVER}="gnupg", GROUP="wheel"
   '';
 
   # ====== Core services
