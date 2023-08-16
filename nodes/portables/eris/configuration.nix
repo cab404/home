@@ -34,7 +34,7 @@
   };
   services.tailscale.enable = true;
 
-  # nixpkgs.overlays = [ (import inputs.emacs-overlay) ];
+  nixpkgs.overlays = [ inputs.helix.overlays.default ];
 
   # In the grim dark future there is only NixOS
   system.stateVersion = lib.mkForce "40000.05";
