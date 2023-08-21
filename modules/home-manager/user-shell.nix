@@ -47,11 +47,16 @@ with import ../../lib.nix args;
     # Too damn verbose!
     # nix-index = onWithShell;
 
-    # atuin = onWithShell // {
-    #   settings = {
-    #     search_mode = "fuzzy";
-    #   };
-    # };
+    atuin = onWithShell // {
+      flags = [
+        "--disable-up-arrow"
+      ];
+      settings = {
+        search_mode = "fuzzy";
+        inline_height = 20;
+        style = "compact";
+      };
+    };
 
     # Fuzzy file search (Ctrl-T for files; Alt-C for dirs)
     fzf = let
@@ -123,18 +128,19 @@ with import ../../lib.nix args;
       enableCompletion = true;
       enableVteIntegration = true;
       enableAutosuggestions = true;
-      enableSyntaxHighlighting = true;
+      syntaxHighlighting = on;
 
       defaultKeymap = "emacs";
       initExtra = ''
       zstyle ':completion:*' menu select
       export PATH=$PATH:~/.cargo/bin
 
-      # ATUIN_NOBIND=true
-      # bindkey '^r' _atuin_search_widget
+      ATUIN_NOBIND=true
+      bindkey '^r' _atuin_search_widget
 
       mcd () { mkdir -pv "$@"; cd "$@"; }
-      function np() { nix build nixpkgs#$1 --no-link --print-out-paths }
+      np() { nix build nixpkgs#$1 --no-link --print-out-paths }
+      ldnix() { nix eval nixpkgs\#legacyPackages.x86_64-linux --raw --apply "s: with s; lib.makeLibraryPath [ $(echo $@) ]"; }
 
       '';
       shellAliases = {
