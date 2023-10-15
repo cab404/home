@@ -1,6 +1,4 @@
-{ config, lib, pkgs, inputs, ... }@args:
-with prelude; let __findFile = prelude.__findFile; in
-{
+{ inputs, prelude, lib, config, pkgs, ... }: with prelude; let __findFile = prelude.__findFile; in { # %%MODULE_HEADER%%
   services = {
     loki = on // {
       configuration = {

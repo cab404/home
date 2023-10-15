@@ -2,79 +2,22 @@
 
 { config, pkgs, lib, prelude, ... }: with prelude; let __findFile = prelude.__findFile; in {
 
-  nixpkgs.config.checkMeta = true;
-
   # ====== Packages
+
+  imports = [
+    ./barecore.nix
+  ];
 
   environment.defaultPackages = (with pkgs; [
     # this section is a tribute to my PEP-8 hatred
-    curl htop git tmux ntfsprogs btrfs-progs # why aren't those there by default?
-    killall usbutils pciutils zip unzip # WHY AREN'T THOSE THERE BY DEFAULT?
-    nmap arp-scan rsync
-
-    helix vim 
-    
-    nix-index # woo, search in nix packages files!
-
-    nix-zsh-completions
-    zsh-completions # systemctl ena<TAB>... AAAAGH
-    nix-bash-completions
-    bash-completion
-
-    waypipe # cause reasons
+    ntfsprogs btrfs-progs
   ]);
 
   # ====== NixOS system-level stuff
 
-  system.stateVersion = "22.05";
-
   # In the grim dark future there is only NixOS
   # system.stateVersion = "40000.00";
   # (enables all of the unstable features pretty much always)
-
-  require = [ ./options.nix ];
-  nix = {
-    package = pkgs.nixUnstable;
-    settings = {
-      trusted-users = [ "root" config._.user ];
-      experimental-features = [ "nix-command" "flakes" "ca-derivations" ];
-    };
-
-    # This pins nixpkgs from the flake.lock system-wide both in registry and NIX_PATH
-    nixPath = [ "nixpkgs=${pkgs.path}" ];
-    registry =
-      let
-        lock = (with builtins; fromJSON (readFile ../flake.lock));
-      in
-      {
-        nixpkgs = with lock.nodes.${lock.nodes.${lock.root}.inputs.nixpkgs}; {
-          from = { id = "nixpkgs"; type = "indirect"; };
-          to = locked;
-        };
-      };
-  };
-
-  # ====== User configuration
-
-  users = {
-    mutableUsers = false;
-    users."${config._.user}" = {
-      isNormalUser = true;
-      extraGroups = [
-        "plugdev"
-        "wheel"
-        "nitrokey"
-        "containers"
-        "networkmanager"
-        "dialout"
-        "video"
-      ];
-      shell = pkgs.zsh;
-    };
-    users.root.shell = pkgs.zsh;
-  };
-
-  # ====== Kernel
 
   boot = lib.mkDefault {
     kernelPackages = pkgs.linuxPackages_testing;
@@ -124,13 +67,9 @@
 
   services = {
 
-    avahi = on;
+    # avahi = on;
     fwupd = on // {
       extraRemotes = [ "lvfs-testing" ];
-    };
-
-    openssh = on // {
-      settings.PasswordAuthentication = false;
     };
 
   };

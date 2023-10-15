@@ -23,11 +23,11 @@
     };
 
 
-  fileSystems."/var/lib/nextcloud" =
-    {
-      device = "/dev/disk/by-uuid/f05d3fa0-9b83-4c15-a742-fbe0100c004a";
-      options = [ "nofail" ];
-    };
+  # fileSystems."/var/lib/nextcloud" =
+  #   {
+  #     device = "/dev/disk/by-uuid/f05d3fa0-9b83-4c15-a742-fbe0100c004a";
+  #     options = [ "nofail" ];
+  #   };
 
   swapDevices = [ ];
 

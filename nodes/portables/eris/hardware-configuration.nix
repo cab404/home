@@ -7,24 +7,7 @@ with prelude; let __findFile = prelude.__findFile; in
     ./hibernate.nix
   ];
 
-  # nixpkgs.overlays = [
-  #   (self: super: {
-  #     iio-sensor-proxy = self.runCommand "iio-sensor-fixed" { sp = super.iio-sensor-proxy; } ''
-  #       cp -r $sp $out
-  #       chmod -R +rw $out
-  #       mkdir $out/share
-  #       mv $out/etc/dbus-1 $out/share/dbus-1
-  #     '';
-      
-  #   })
-    
-  # ];
-
-  systemd.services.iio-sensor-proxy.environment = {
-    G_MESSAGES_DEBUG = "all";    
-  };
-
-  hardware.sensor.iio.enable = true;
+  # hardware.sensor.iio.enable = true;
 
   # Well, otherwise it's unbearable
   services.xserver.libinput.touchpad.tapping = lib.mkForce true;
@@ -36,14 +19,22 @@ with prelude; let __findFile = prelude.__findFile; in
     driSupport32Bit = true;
     extraPackages = with pkgs; [
       intel-compute-runtime
+      nvidia-vaapi-driver
       intel-media-driver
       vulkan-loader
     ];
   };
 
+  services.xserver.videoDrivers = [ "nvidia" ];
+  hardware.nvidia.open = true;
+  programs.steam.gamescopeSession = on;
+
+  nixpkgs.config.allowUnfree = true;
+
+
   systemd.sleep.extraConfig = ''
     AllowSuspend=yes
-    AllowHibernate=yes
+    AllowHibernation=yes
     AllowSuspendThenHibernate=yes
     AllowHybridSleep=yes
 
@@ -52,7 +43,7 @@ with prelude; let __findFile = prelude.__findFile; in
     HibernateDelaySec=30m
   '';
 
-  powerManagement = on // { cpuFreqGovernor = "schedutil"; };
+  # powerManagement = on // { cpuFreqGovernor = "schedutil"; };
 
   # Boot essentials
   boot.loader.systemd-boot = on;
@@ -68,6 +59,7 @@ with prelude; let __findFile = prelude.__findFile; in
     # "intel_pstate=no_hwp"
     # "i915.enable_guc=3"
     "i915.enable_fbc=1"
+    "iwlwifi.amsdu_size=3"
     "enable_psr2_sel_fetch=1"
     "i915.enable_psr=2"
     "i915.fastboot=1"

@@ -13,7 +13,7 @@ args@{ inputs, prelude, lib, config, pkgs, ... }: with prelude; let __findFile =
             args = { "nice.level" = -11; };
             flags = [ "ifexists" "nofail" ];
           }
-          { name = "libpipewire-module-protocol-native"; }
+          # { name = "libpipewire-module-protocol-native"; }
           { name = "libpipewire-module-profiler"; }
           { name = "libpipewire-module-spa-device-factory"; }
           { name = "libpipewire-module-spa-node-factory"; }

@@ -12,10 +12,6 @@ with prelude; let __findFile = prelude.__findFile; in {
     tray = true;
   };
 
-  home-manager.users.${config._.user}.imports = [
-    ./home.nix
-  ];
-
   wayland.windowManager.sway = on // {
     extraConfig = with pkgs; ''
       bindsym --locked --to-code ISO_Level3_Shift input * xkb_switch_layout 0

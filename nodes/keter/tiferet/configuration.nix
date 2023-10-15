@@ -85,7 +85,7 @@ with prelude; let __findFile = prelude.__findFile; in
             path_regexp N /.well-known/(card|cal)dav
           }
           rewrite @webdav /remote.php/dav/
-          reverse_proxy 10.0.10.2
+          reverse_proxy http://10.0.10.2:80
         '';
       };
       "nextcloud.cab404.ru" = {
@@ -94,7 +94,7 @@ with prelude; let __findFile = prelude.__findFile; in
             path_regexp N /.well-known/(card|cal)dav
           }
           rewrite @webdav /remote.php/dav/
-          reverse_proxy 10.0.10.2
+          reverse_proxy http://10.0.10.2:80
         '';
       };
       "hs.cab.moe" = {

@@ -20,7 +20,9 @@ with import ../lib.nix args; {
   networking.networkmanager.enable = true;
 
   # Can't enable flatpak without this
-  xdg.portal = on;
+  xdg.portal = on // {
+    # xdgOpenUsePortal = true;
+  };
 
   # Enabling experimental features on bluetooth daemon
   systemd.services.bluetooth.serviceConfig.ExecStart = lib.mkForce [
@@ -52,15 +54,15 @@ with import ../lib.nix args; {
 
     printing = on // { drivers = [ pkgs.gutenprint ]; };
 
-    logind = lib.mkDefault {
-      lidSwitch = "hybrid-sleep";
-      lidSwitchExternalPower = "hybrid-sleep";
-      extraConfig = ''
-        # IdleAction=lock
-        # IdleActionSec=30
-        HandlePowerKey=suspend
-      '';
-    };
+    # logind = lib.mkDefault {
+    #   # lidSwitch = "hybrid-sleep";
+    #   # lidSwitchExternalPower = "hybrid-sleep";
+    #   extraConfig = ''
+    #     # IdleAction=lock
+    #     # IdleActionSec=30
+    #     HandlePowerKey=suspend
+    #   '';
+    # };
 
     actkbd = on // {
       bindings = [

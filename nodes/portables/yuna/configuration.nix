@@ -1,16 +1,25 @@
-args@{ inputs, lib, config, pkgs, ... }: with import ../../../lib.nix args; {
+{ inputs, prelude, lib, config, pkgs, ... }: with prelude; let __findFile = prelude.__findFile; in { # %%MODULE_HEADER%%
 
   imports = [
     # inputs.subspace.nixosModule
     # inputs.dwarffs.nixosModules.dwarffs
-    ../../../modules/home-manager
-    ../../../modules/sway/system.nix
+    <modules/sway/system.nix>
+    <modules/home-manager>
 
-    # device-specific
-    ../../dell-latitude-5400.nix
+    # usecase-specific
+    <modules/recipes/ssh.nix>
+    <modules/recipes/ssh-persist.nix>
+    # <modules/recipes/streaming.nix>
+    # <modules/recipes/audio.nix>
+    <modules/recipes/nixld.nix>
+    # <modules/recipes/hwhack.nix>
+    <modules/recipes/substituters.nix>
+    # <modules/recipes/oculus.nix>
+    # <modules/recipes/btkill.nix>
+
     # yuna-specific
     ./system.nix
-    ./serokell.nix
+    # ./serokell.nix
     ./lifelogging.nix
   ];
 
@@ -44,7 +53,7 @@ args@{ inputs, lib, config, pkgs, ... }: with import ../../../lib.nix args; {
 #    NIX_LD = pkgs.stdenv.cc.bintools.dynamicLinker;
 #  };
 
-  networking.firewall = on;
+  networking.firewall = off;
 
   boot.tmpOnTmpfs = true;
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];

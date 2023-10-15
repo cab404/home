@@ -1,9 +1,11 @@
 { inputs, prelude, lib, config, pkgs, ... }: with prelude; let __findFile = prelude.__findFile; in { # %%MODULE_HEADER%%
 
   imports = [
+    <modules/core.nix>
+
     <modules/gnome/system.nix>
     <modules/home-manager>
-
+    
     # usecase-specific
     <modules/recipes/ssh.nix>
     <modules/recipes/ssh-persist.nix>
@@ -15,6 +17,20 @@
     <modules/recipes/oculus.nix>
     <modules/recipes/btkill.nix>
   ];
+
+  # security.audit = on // {};
+
+  # Doesn't work with Linux 6
+  # virtualisation.anbox = on // {
+  #   ipv4.container = {
+  #     address = "10.120.0.2";
+  #     prefixLength = 16;
+  #   };
+  #   ipv4.gateway = {
+  #     address = "10.120.0.1";
+  #     prefixLength = 16;
+  #   };
+  # };
 
   networking = {
     networkmanager.dns = "systemd-resolved";
@@ -37,7 +53,7 @@
   nixpkgs.overlays = [ inputs.helix.overlays.default ];
 
   # In the grim dark future there is only NixOS
-  system.stateVersion = lib.mkForce "40000.05";
+  # system.stateVersion = lib.mkForce "40000.05";
   # (enables all of the unstable features pretty much always)
   
   # services.power-profiles-daemon.enable = false;
@@ -51,6 +67,7 @@
   #     RUNTIME_PM_ON_BAT = "auto";
   #   };
   # };
+  powerManagement.powertop.enable = true;
 
   networking.hostName = "eris";
   _.user = "cab";
@@ -62,9 +79,7 @@
   boot.tmp.useTmpfs = true;
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
-  zramSwap = on // {
-    
-  };
+  zramSwap = on;
   
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 

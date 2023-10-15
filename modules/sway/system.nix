@@ -1,9 +1,18 @@
 { config, pkgs, lib, prelude, ... }: with prelude; {
 
-  require = [
-    ../desktop.nix
+
+  home-manager.users.${config._.user}.imports = [
+    ./home.nix
+  ];
+
+  imports = [
+    ../graphical.nix
     ../gnome-services.nix
   ];
+
+  # require = [
+  #   # ../desktop.nix
+  # ];
 
   users.users.${config._.user}.extraGroups = [ "input" ];
 

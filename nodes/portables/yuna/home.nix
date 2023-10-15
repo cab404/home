@@ -8,7 +8,7 @@ in {
   imports = [
     # inputs.nix-doom-emacs.hmModule
     <modules/home-manager/user-shell.nix>
-    ../../../modules/sway/home.nix
+    <modules/sway/home.nix>
   ];
 
   manual.json.enable = true;
@@ -168,7 +168,7 @@ in {
           nmcli dev wifi rescan
         '')
 
-        (pkgs.callPackage ../../../theme-changer.nix { })
+        (pkgs.callPackage <theme-changer.nix> { })
 
         # nix search, but without the internets
         (writeShellScriptBin "nix-search" ''

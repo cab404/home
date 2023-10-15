@@ -8,34 +8,39 @@
 
   imports = [
     ../graphical.nix
+    ../gnome-services.nix
   ];
 
-  qt = on // {
-    platformTheme = "gnome";
+  # qt = on // {
+  #   platformTheme = "gnome";
+  # };
+
+  programs.firefox.enable = true;
+  programs.firefox.nativeMessagingHosts = {
+    browserpass = true;
+    gsconnect = true;
   };
 
+  security.rtkit = on;
+
+  services.xserver.windowManager.i3 = on;
+  services.xserver.displayManager.startx = on;
+  services.xserver.displayManager.sx = on;
   services.xserver.desktopManager.gnome = on // {
     sessionPath = with pkgs.gnomeExtensions; [
-      pano
-      caffeine
-      gsconnect
-      tailscale-status
-      # vertical-overview # not compatible with 44
 
-      # (paperwm.overrideAttrs (s: s // {
-      #   src = pkgs.fetchFromGitHub {
-      #     owner = "paperwm";
-      #     repo = "PaperWM";
-      #     rev = "477d546e5a78280cb324379a365225b0f702ad8d";
-      #     hash = "sha256-aCw7Tjng+c5ykga5mBPDMohZauhczzV6PWwydw4ymUQ=";
-      #   };
-      # }))
-      paperwm
-      # swap-finger-gestures-3-to-4
-      # gnome-40-ui-improvements
-      transparent-top-bar-adjustable-transparency
+      vertical-workspaces # So PaperWM doesn't look dumb and vertical
+      paperwm # So I get infinite space to clutter
+      hide-top-bar # So there's even more space to clutter
+      just-perfection # To move clock to the right obs
 
-      easyeffects-preset-selector
+      cronomix # Ultra-cool time tools
+      caffeine # Don't leave home without
+      easyeffects-preset-selector # Easyeffects is hungry
+
+      gsconnect # KDE connect on GSteroids
+      tailscale-status # Tailscale status
+      window-calls-extended # For tracking and querying window changes
 
     ] ++ (with pkgs; [
       wl-clipboard
@@ -44,9 +49,39 @@
       gnome.gnome-tweaks
     ]);
   };
-  
-  services.gnome.gnome-browser-connector = on;
-  services.xserver.displayManager.gdm = on;
+
+  environment.sessionVariables = {
+    # woo wrappers
+    # NIXOS_OZONE_WL = "1";
+  };
+
+  services.dbus = {
+    packages = with pkgs; [
+      flatpak
+    ];
+    implementation = "broker";
+  };
+
+  systemd.packages = [
+    (pkgs.writeTextFile {
+      name = "flatpak-dbus-overrides";
+      destination = "/etc/systemd/user/dbus-.service.d/flatpak.conf";
+      text = ''
+        [Service]
+        ExecSearchPath=${pkgs.flatpak}/bin
+      '';
+    })
+  ];
+
+  services.gnome = { };
+
+  programs.dconf = on;
+
+  services.xserver.enable = true;
+  # services.xserver.autorun = false;
+  services.xserver.displayManager.gdm = on // {
+    # wayland = false;
+  };
   hardware.pulseaudio = off;
 
 }

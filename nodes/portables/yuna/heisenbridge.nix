@@ -1,7 +1,7 @@
 args@{ inputs, prelude, lib, config, pkgs, ... }: with prelude; let __findFile = prelude.__findFile; in {
-  # services.matterbridge = on // {
-  #   configPath = "/secrets/matterbridge.toml";
-  # };
+  services.matterbridge = on // {
+    configPath = "/secrets/matterbridge.toml";
+  };
 
   # services.caddy = on // {
   #   virtualHosts = {
