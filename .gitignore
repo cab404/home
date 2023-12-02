@@ -4,3 +4,4 @@ secrets/
 .direnv
 result
 .system-link
+*.qcow2

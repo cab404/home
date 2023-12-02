@@ -39,7 +39,7 @@ with import ../../lib.nix args;
     {
 
       bat = on;
-      exa = on // { enableAliases = true; };
+      eza = on // { enableAliases = true; };
 
       direnv = on // { nix-direnv = on; };
 
@@ -148,18 +148,46 @@ with import ../../lib.nix args;
           np() { nix build nixpkgs#$1 --no-link --print-out-paths; }
           what() { readlink -f $(which $@); }
 
-          # nix search, but without the internets
-          nix-search() { nix search --offline nixpkgs $@ }
+          function set_win_title() {
+            local cmd=" ($@)"
+            if [[ "$cmd" == " (starship_precmd)" || "$cmd" == " ()" ]]
+            then
+              cmd=""
+            fi
+            if [[ $PWD == $HOME ]]
+            then
+              if [[ $SSH_TTY ]]
+              then
+                echo -ne "\033]0; [ssh] @ $HOST ~$cmd\a" < /dev/null
+              else
+                echo -ne "\033]0; ~$cmd\a" < /dev/null
+              fi
+            else
+              BASEPWD=$(basename "$PWD")
+              if [[ $SSH_TTY ]]
+              then
+                echo -ne "\033]0; [ssh] $PWD @ $HOST $cmd\a" < /dev/null
+              else
+                echo -ne "\033]0; $PWD $cmd\a" < /dev/null
+              fi
+            fi
 
-          ldnix() { 
+          }
+          starship_precmd_user_func="set_win_title"
+          precmd_functions+=(set_win_title)
+          
+          # add some library to LD_LIBRARY_PATH
+          ldnix() {
+            # since we already use nix-ld, we can reuse the NIX_LDFLAGS
               export LD_LIBRARY_PATH=$(
-                  nix eval nixpkgs\#legacyPackages.x86_64-linux --raw --apply "s: with s; lib.makeLibraryPath [ $@ ]"
+                  nix eval nixpkgs\#legacyPackages.x86_64-linux --raw --apply "s: with s; lib.makeLibraryPath [ $(echo $@) ]"
               ):$LD_LIBRARY_PATH;
           }
 
         '';
         shellAliases = {
           l = lib.mkDefault "ls -hal";
+          nix-search = "nix search --offline nixpkgs";
           ag = "rg"; # on the home row!
         };
 

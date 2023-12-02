@@ -56,6 +56,7 @@
         let
           patches = [
             # Place your nixpkgs patches here
+            # ./patches/v4.patch # Scary one with x86-64-v4 and a _full_ system rebuild
           ];
           patched = import "${nixpkgs.legacyPackages.${system}.applyPatches {
               inherit patches;

@@ -45,15 +45,6 @@
     xkbOptions = "ctrl:nocaps,lv3:ralt_switch_multikey,misc:typo,grp:rctrl_switch";
   };
 
-  programs = {
-    zsh = on // {
-      enableCompletion = true;
-    };
-    bash.enableCompletion = true;
-  };
-
-  environment.pathsToLink = [ "/share/zsh" ];
-  environment.variables = { EDITOR = "hx"; };
 
   # ====== Security keys support
 

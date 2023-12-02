@@ -69,6 +69,7 @@
       shell = pkgs.zsh;
     };
     users.root.shell = pkgs.zsh;
+    defaultUserShell = pkgs.zsh;
   };
 
   # ====== Kernel

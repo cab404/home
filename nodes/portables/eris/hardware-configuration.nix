@@ -25,12 +25,23 @@ with prelude; let __findFile = prelude.__findFile; in
     ];
   };
 
-  services.xserver.videoDrivers = [ "nvidia" ];
-  hardware.nvidia.open = true;
-  programs.steam.gamescopeSession = on;
+  nix.settings.system-features = [ "gccarch-alderlake" ];
+
+  # For external GPU
+  # services.xserver.videoDrivers = [ "nvidia" "amdgpu" ];
+  
+  # I am using it with external GPU
+  # Video out doesn't work, framerates are worse than integrated
+  # But it can run cuda workloads
+  # hardware.nvidia.open = true;
+
+  # Superhot
+  services.thermald = on // {
+    # debug = true;
+  };
+
 
   nixpkgs.config.allowUnfree = true;
-
 
   systemd.sleep.extraConfig = ''
     AllowSuspend=yes
@@ -53,6 +64,8 @@ with prelude; let __findFile = prelude.__findFile; in
 
   boot.initrd.availableKernelModules = [ "xhci_pci" "thunderbolt" "nvme" "usb_storage" "sd_mod" ];
   boot.kernelModules = [ "kvm-intel" ];
+  # Should fix FN keys dying in after a suspend
+  boot.blacklistedKernelModules = [ "cros_ec_lpcs" ];
 
   boot.kernelParams = [
     "mitigations=off"

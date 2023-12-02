@@ -1,16 +1,22 @@
-args@{ sysconfig, config, pkgs # inputs.nixpkgs
+args@{ sysconfig
+, config
+, pkgs # inputs.nixpkgs
 , lib # inputs.nixpkgs.lib
-, inputs, prelude, ... }:
+, inputs
+, prelude
+, ...
+}:
 with prelude; let __findFile = prelude.__findFile; in
 let isWL = true;
-in {
+in
+{
 
   home = {
 
     packages = with pkgs;
       [
 
-        speechd # Tried and failed to get FF speech synthesis to work
+        speechd
         wine
         winetricks
 
@@ -114,6 +120,7 @@ in {
         audacious
         # quodlibet
         ytfzf
+        yt-dlp
 
       ]
 
@@ -176,76 +183,82 @@ in {
     "password-store"
     "alacritty"
     "chromium"
-  ] {
+  ]
+    {
 
-    # so degoogled spotify doesn't work
-    chromium = {
-      package = pkgs.ungoogled-chromium;
-      commandLineArgs = [
-        "--enable-logging=stderr"
-      ];
-    };
+      # so degoogled spotify doesn't work
+      chromium = {
+        package = pkgs.ungoogled-chromium;
+        commandLineArgs = [
+          "--enable-logging=stderr"
+        ];
+      };
 
-    vscode = on // { package = pkgs.vscodium; };
+      vscode = on // { package = pkgs.vscodium; };
 
 
-    password-store = {
-      package = pkgs.pass.withExtensions
-        (e: with e; [ pass-otp pass-update pass-genphrase pass-audit ]);
-    };
+      password-store = {
+        package = pkgs.pass.withExtensions
+          (e: with e; [ pass-otp pass-update pass-genphrase pass-audit ]);
+      };
 
-    # == SSH
-    ssh = {
-      compression = true;
-      controlMaster = "auto";
-      controlPersist = "2m";
-      matchBlocks =
-        let is = (user: identityFile: { inherit user identityFile; });
-        in {
-          "cab404.ru" = is "cab" "~/.ssh/id_rsa";
+      # == SSH
+      ssh = {
+        compression = true;
+        controlMaster = "auto";
+        controlPersist = "2m";
+        matchBlocks =
+          let is = (user: identityFile: { inherit user identityFile; });
+          in
+          {
+            "cab404.ru" = is "cab" "~/.ssh/id_rsa";
+          };
+      };
+
+      # == Pass and stuff
+      browserpass.browsers = [ "firefox" ];
+
+      git = {
+        userName = "Cabia Rangris";
+        userEmail = "cab@cab.moe";
+        extraConfig = {
+          pull.ff = "only";
+          init = { defaultBranch = "master"; };
         };
-    };
-
-    # == Pass and stuff
-    browserpass.browsers = [ "firefox" ];
-
-    git = {
-      userName = "Vladimir Serov";
-      userEmail = "cab+git@cab.moe";
-      extraConfig = {
-        pull.ff = "only";
-        init = { defaultBranch = "master"; };
-      };
-      signing = {
-        key = "1BB96810926F4E715DEF567E6BA7C26C3FDF7BB3";
-        signByDefault = true;
+        signing = {
+          key = "1BB96810926F4E715DEF567E6BA7C26C3FDF7BB3";
+          signByDefault = true;
+        };
       };
     };
-  };
 
   services = enableThings [
-    "password-store-sync"
     "flameshot"
-  ] {
-    gpg-agent = on // {
-      enableSshSupport = true;
-      sshKeys = [
-        "28D5BB057E5E743B9917335CDA8F71D89506FF7F"
-        "AB76EEA25B5E957595B61C28F5A81F597C44A711"
-      ];
-    };
+  ]
+    {
+      gpg-agent = on // {
+        enableSshSupport = true;
+        sshKeys = [
+          "28D5BB057E5E743B9917335CDA8F71D89506FF7F"
+          "AB76EEA25B5E957595B61C28F5A81F597C44A711"
+        ];
+      };
 
-    git-sync = on // {
-      repositories = {
-        notes = {
-          path = "/home/cab/data/cab/notes";
-          uri = "git@git.sr.ht:~cab/notes";
-          interval = 120;
+      git-sync = on // {
+        repositories = {
+          pass = {
+            path = config.programs.password-store.settings.PASSWORD_STORE_DIR;
+            uri = "git@git.sr.ht:~cab/pwds";
+          };
+          notes = {
+            path = "/home/cab/data/cab/notes";
+            uri = "git@git.sr.ht:~cab/notes";
+            interval = 120;
+          };
         };
       };
-    };
 
-  };
+    };
 
 
 }

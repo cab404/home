@@ -1,13 +1,10 @@
 { inputs, prelude, lib, config, pkgs, ... }: with prelude; let __findFile = prelude.__findFile; in { # %%MODULE_HEADER%%
 
-  # In the grim dark future there is only NixOS
-  system.stateVersion = lib.mkForce "40000.05";
-  # (enables all of the unstable features pretty much always)
 
   home-manager.users.cab = { imports = [ ./home.nix ]; };
 
-  users.users.cab.passwordFile = "/secrets/password";
-  users.users.root.passwordFile = "/secrets/password";
+  users.users.cab.hashedPasswordFile = "/secrets/password";
+  users.users.root.hashedPasswordFile = "/secrets/password";
 
   nix.settings.trusted-public-keys = [
     "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="

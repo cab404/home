@@ -70,7 +70,7 @@
   # I guess if I have dwarffs in this system, might as well.
   # environment.defaultPackages = [ pkgs.gdb ];
 
-  services.pcscd = on;
+  # services.pcscd = on;
   services.udev.packages = [ pkgs.qFlipper ];
 
   # This also opens all the necessary ports

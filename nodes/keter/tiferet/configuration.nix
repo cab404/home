@@ -8,11 +8,12 @@ with prelude; let __findFile = prelude.__findFile; in
       <modules/recipes/ssh-persist.nix>
       <modules/recipes/substituters.nix>
       <modules/recipes/tailscale.nix>
-      <modules/core.nix>
+      <modules/barecore.nix>
       <modules/home-manager>
 
       ./mail.nix
       ./heisenbridge.nix
+      ./tailscale.nix
 
       (import <nodes/keter/wgbond.nix>).defaults
       (import <nodes/keter/wgbond.nix>).tiferet
@@ -43,7 +44,11 @@ with prelude; let __findFile = prelude.__findFile; in
   services.resolved = {
     enable = true;
     fallbackDns = [
-      "8.8.8.8" "1.1.1.1" "1.0.0.1" "2606:4700:4700::1111" "2606:4700:4700::1001"
+      "8.8.8.8"
+      "1.1.1.1"
+      "1.0.0.1"
+      "2606:4700:4700::1111"
+      "2606:4700:4700::1001"
     ];
   };
 
@@ -62,12 +67,12 @@ with prelude; let __findFile = prelude.__findFile; in
             root * ${inputs.gtch.packages.x86_64-linux.static}
             file_server
           }
-          reverse_proxy 10.0.10.1:8000
+          reverse_proxy 100.64.0.1:8000
         '';
       };
       "eris.cab.moe" = {
         extraConfig = ''
-          reverse_proxy eris-taxguywu.keter.keter:6006
+          reverse_proxy eris-taxguywu.cab.keter:6006
         '';
       };
       "gtch.cab404.pw" = {
@@ -76,7 +81,7 @@ with prelude; let __findFile = prelude.__findFile; in
             root * ${inputs.gtch.packages.x86_64-linux.static}
             file_server
           }
-          reverse_proxy 10.0.10.1:8000
+          reverse_proxy 100.64.0.1:8000
         '';
       };
       "nextcloud.cab.moe" = {
@@ -85,7 +90,7 @@ with prelude; let __findFile = prelude.__findFile; in
             path_regexp N /.well-known/(card|cal)dav
           }
           rewrite @webdav /remote.php/dav/
-          reverse_proxy http://10.0.10.2:80
+          reverse_proxy http://100.64.0.9:80
         '';
       };
       "nextcloud.cab404.ru" = {
@@ -94,7 +99,7 @@ with prelude; let __findFile = prelude.__findFile; in
             path_regexp N /.well-known/(card|cal)dav
           }
           rewrite @webdav /remote.php/dav/
-          reverse_proxy http://10.0.10.2:80
+          reverse_proxy http://100.64.0.9:80
         '';
       };
       "hs.cab.moe" = {
@@ -104,23 +109,6 @@ with prelude; let __findFile = prelude.__findFile; in
       };
     };
   };
-
-  services.tailscale = on;
-  services.headscale = on // {
-    settings = {
-      server_url = "https://hs.cab.moe";
-      ip_prefixes = [ 
-        "100.64.0.0/10" 
-        # "fd80:b4b4:c4b4::/48"
-      ];
-      dns_config = {
-        nameservers = [ "1.1.1.1" "1.0.0.1" "2606:4700:4700::1111" "2606:4700:4700::1001" ];
-        base_domain = "keter";
-      };
-    };
-  };
-
-  environment.defaultPackages = with pkgs; [ headscale ];
 
   networking = {
     firewall = on // {

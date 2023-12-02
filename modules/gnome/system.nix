@@ -32,21 +32,24 @@
       vertical-workspaces # So PaperWM doesn't look dumb and vertical
       paperwm # So I get infinite space to clutter
       hide-top-bar # So there's even more space to clutter
-      just-perfection # To move clock to the right obs
+      just-perfection # To move clock to the right obvs
 
       cronomix # Ultra-cool time tools
       caffeine # Don't leave home without
       easyeffects-preset-selector # Easyeffects is hungry
 
       gsconnect # KDE connect on GSteroids
-      tailscale-status # Tailscale status
+      # tailscale-status # Tailscale status
+      tailscale-qs # Better tailscale status
       window-calls-extended # For tracking and querying window changes
+
+      browser-tabs # maybe it works?
 
     ] ++ (with pkgs; [
       wl-clipboard
-      # kdeconnect
       easyeffects
       gnome.gnome-tweaks
+      gnome.gnome-calculator
     ]);
   };
 

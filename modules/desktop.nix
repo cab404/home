@@ -27,7 +27,7 @@ with import ../lib.nix args; {
   # Enabling experimental features on bluetooth daemon
   systemd.services.bluetooth.serviceConfig.ExecStart = lib.mkForce [
     ""
-    "${pkgs.bluezFull}/libexec/bluetooth/bluetoothd -f /etc/bluetooth/main.conf -E"
+    "${pkgs.bluez}/libexec/bluetooth/bluetoothd -f /etc/bluetooth/main.conf -E"
   ];
 
   services = {
@@ -42,8 +42,15 @@ with import ../lib.nix args; {
     };
 
     locate = on // {
-      locate = pkgs.plocate;
+      package = pkgs.plocate;
       localuser = null;
+    };
+
+    avahi = on // {
+      nssmdns = true;
+      publish = on // {
+        userServices = true;
+      };
     };
 
     udev.packages = with pkgs; [
