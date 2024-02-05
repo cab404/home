@@ -1,21 +1,22 @@
 { inputs, prelude, lib, config, pkgs, ... }: with prelude; let __findFile = prelude.__findFile; in# %%MODULE_HEADER%%
 {
-  services.copyq = on;
 
   xdg = on;
-  qt.enable = true;
-  qt.style.name = "adwaita-dark";
-  qt.platformTheme = "gnome";
 
-  # systemd.user.services.dbus.environment.PATH = "/run/wrappers/bin:/home/cab/.local/share/flatpak/exports/bin:/var/lib/flatpak/exports/bin:/home/cab/.nix-profile/bin:/etc/profiles/per-user/cab/bin:/nix/var/nix/profiles/default/bin:/run/current-system/sw/bin";
-
-  programs.firefox.package = pkgs.firefox-wayland.override { 
-    cfg.enableGnomeExtensions = true;
+  programs.firefox.package = pkgs.firefox-wayland.override {
+    nativeMessagingHosts = with pkgs; [
+      libsForQt5.plasma-browser-integration
+      browserpass
+    ];
   };
+
   services = {
     easyeffects = on;
-    flameshot = on;
+    kdeconnect = on;
+    copyq = on;
   };
+
+  systemd.user.services.copyq.Service.Environment = lib.mkForce [ "QT_QPA_PLATFORM=wayland" ];
 
   home.sessionVariables = {
     # for some reason it doesn't want to read anything else
@@ -36,5 +37,16 @@
     _JAVA_AWT_WM_NONREPARENTING = "1";
 
   };
+
+  # Required for some (flameshot, lol) tray services to work
+  # systemd.user.targets = {
+  #   # Copied from <home-manager/modules/xsession.nix>
+  #   tray = {
+  #     Unit = {
+  #       Description = "Home Manager System Tray";
+  #       Requires = [ "graphical-session-pre.target" ];
+  #     };
+  #   };
+  # };
 
 }

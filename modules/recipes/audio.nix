@@ -2,7 +2,7 @@ args@{ inputs, prelude, lib, config, pkgs, ... }: with prelude; let __findFile =
 
   # == Sound
   sound.enable = true;
-
+  security.rtkit = on;
 
   environment.etc."pipewire/pipewire.conf.d/100-user.conf" = {
     text = builtins.toJSON
@@ -29,7 +29,16 @@ args@{ inputs, prelude, lib, config, pkgs, ... }: with prelude; let __findFile =
           { name = "libpipewire-module-link-factory"; }
           { name = "libpipewire-module-session-manager"; }
           { name = "libpipewire-module-zeroconf-discover"; }
-          { name = "libpipewire-module-raop-discover"; }
+          { name = "libpipewire-module-raop-discover"; 
+            raop.latency.ms = 2000;
+            raop.autoreconnect = true;
+            # rules = [
+            #   {
+            #     matches = {};
+
+            #   }
+            # ];
+          }
         ];
       };
   };

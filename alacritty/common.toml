@@ -1,0 +1,4 @@
+[[keyboard.bindings]]
+action = "CreateNewWindow"
+key = "Return"
+mods = "Command"

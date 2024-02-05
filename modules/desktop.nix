@@ -19,21 +19,24 @@ with import ../lib.nix args; {
   # Yeah, desktop needs one
   networking.networkmanager.enable = true;
 
+  # This one is cursed
+  systemd.network.wait-online.enable = false;
+
   # Can't enable flatpak without this
   xdg.portal = on // {
-    # xdgOpenUsePortal = true;
+    xdgOpenUsePortal = true;
   };
 
-  # Enabling experimental features on bluetooth daemon
+  # HACKS: Enabling experimental features on bluetooth daemon
   systemd.services.bluetooth.serviceConfig.ExecStart = lib.mkForce [
     ""
     "${pkgs.bluez}/libexec/bluetooth/bluetoothd -f /etc/bluetooth/main.conf -E"
   ];
 
-  services = {
-    # yeah, bluetooth
-    blueman = on;
+  # HACKS: remove if cups-browsed.service learns to shut itself down
+  systemd.services.cups-browsed.serviceConfig.TimeoutStopSec=2;
 
+  services = {
     gnunet = on;
 
     tor = on // {
@@ -47,15 +50,11 @@ with import ../lib.nix args; {
     };
 
     avahi = on // {
-      nssmdns = true;
+      nssmdns4 = true;
       publish = on // {
         userServices = true;
       };
     };
-
-    udev.packages = with pkgs; [
-      android-udev-rules
-    ];
 
     flatpak = on;
 
@@ -71,27 +70,28 @@ with import ../lib.nix args; {
     #   '';
     # };
 
-    actkbd = on // {
-      bindings = [
-        {
-          keys = [ 224 ];
-          events = [ "key" ];
-          command = "/run/current-system/sw/bin/light -T 0.6";
-        }
-        {
-          keys = [ 225 ];
-          events = [ "key" ];
-          command =
-            "/run/current-system/sw/bin/light -A 0.1; /run/current-system/sw/bin/light -T 1.5";
-        }
-        # that's pretty much ctrlaltdel on steroids - lalt + super + ralt + rctrl + delete
-        {
-          keys = [ 56 97 100 111 125 ];
-          events = [ "key" ];
-          command = "/run/current-system/sw/bin/killall -9 sway";
-        }
-      ];
-    };
+    # OOOF, that was interesting never remembered it being here
+    # actkbd = on // {
+    #   bindings = [
+    #     {
+    #       keys = [ 224 ];
+    #       events = [ "key" ];
+    #       command = "/run/current-system/sw/bin/light -T 0.6";
+    #     }
+    #     {
+    #       keys = [ 225 ];
+    #       events = [ "key" ];
+    #       command =
+    #         "/run/current-system/sw/bin/light -A 0.1; /run/current-system/sw/bin/light -T 1.5";
+    #     }
+    #     # that's pretty much ctrlaltdel on steroids - lalt + super + ralt + rctrl + delete
+    #     {
+    #       keys = [ 56 97 100 111 125 ];
+    #       events = [ "key" ];
+    #       command = "/run/current-system/sw/bin/killall -9 sway";
+    #     }
+    #   ];
+    # };
 
   };
 
@@ -100,14 +100,12 @@ with import ../lib.nix args; {
   hardware = {
     opengl = on;
     bluetooth = on;
-#    opentabletdriver = on;
+    # opentabletdriver = on;
   };
 
-  virtualisation.podman = on;
-
   programs = {
-    light = on; # brightness control
-#    plotinus = on; # command pallet that doesn't work yet for some reason
+    # light = on; # brightness control interfering with each and every WM
+    # plotinus = on; # command pallet that doesn't work yet for some reason
     wireshark = on; # should create some missing groups
   };
 
@@ -118,6 +116,6 @@ with import ../lib.nix args; {
   ];
 
   users.users."${config._.user}".extraGroups =
-    [ "docker" "containers" "plugdev" "tor" "wireshark" "libvirtd" "sound" ];
+    [ "containers" "plugdev" "tor" "wireshark" "libvirtd" "sound" ];
 
 }

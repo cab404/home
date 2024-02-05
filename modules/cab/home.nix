@@ -57,15 +57,17 @@ in
 
         # at least do backups
         restic
-
         # Fonts
+
         source-code-pro
         noto-fonts
-        roboto
         fira-code
         fira
         font-awesome
         gohufont
+        source-code-pro
+        source-sans
+        ubuntu_font_family
 
         # Window manager and looks stuff
         # helvum
@@ -124,8 +126,8 @@ in
 
       ]
 
-      # Gnome
-      ++ (with gnome; [
+      # Gnome (turned off)
+      ++ lib.optionals false (with gnome; [
         nautilus
         # gnome-calculator
         # gnome-disk-utility
@@ -175,6 +177,11 @@ in
 
   };
 
+  home.sessionVariables = {
+    # Grrr, no proper way to do that
+    GNUPGHOME = config.programs.gpg.homedir;
+  };
+
   programs = enableThings [
     "git"
     "ssh"
@@ -185,6 +192,8 @@ in
     "chromium"
   ]
     {
+
+      gpg.homedir = "${config.xdg.dataHome}/gnupg";
 
       # so degoogled spotify doesn't work
       chromium = {
@@ -236,6 +245,7 @@ in
     "flameshot"
   ]
     {
+
       gpg-agent = on // {
         enableSshSupport = true;
         sshKeys = [

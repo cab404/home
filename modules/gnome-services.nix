@@ -14,6 +14,7 @@ in
       packages = with pkgs; [
         flatpak
         xdg-dbus-proxy
+        zeitgeist
       ];
       # implementation = "broker";
     };

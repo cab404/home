@@ -1,18 +1,37 @@
 args@{ inputs, prelude, lib, config, pkgs, ... }: with prelude; let __findFile = prelude.__findFile; in 
 let 
   fqdn = "cab.moe";
-  mailAccounts = config.mailserver.loginAccounts;
-  htpasswd = with lib; pkgs.writeText "radicale.users" (concatStrings
-    (flip mapAttrsToList mailAccounts (mail: user:
-      mail + ":" + user.hashedPassword + "\n"
-    ))
-  );
 in {
+
+  systemd.services.mail-htpasswd-update = {
+    script = ''
+      {
+      ${with lib; let
+          mailAccounts = config.mailserver.loginAccounts;
+        in concatStrings (flip mapAttrsToList mailAccounts (mail: user:
+        ''
+          echo -n ${mail}:
+          ${ if user.hashedPasswordFile != null then ''         
+            cat ${user.hashedPasswordFile}
+          '' else ''
+            echo ${user.hashedPassword}
+          '' }
+          echo
+        ''
+      ))}
+      } >> /run/radicale-htpasswd
+    '';
+    serviceConfig.Type = "oneshot";
+    wantedBy = [
+      "radicale.service"
+    ];
+  };
+
   services.radicale = {
     enable = true;
     settings.auth = {
       type = "htpasswd";
-      htpasswd_filename = toString htpasswd;
+      htpasswd_filename = "/run/radicale-htpasswd";
       htpasswd_encryption = "bcrypt";
     };
   };
@@ -44,6 +63,9 @@ in {
     certificateScheme = "manual";
     certificateFile = "/var/lib/caddy/.local/share/caddy/certificates/acme-v02.api.letsencrypt.org-directory/${fqdn}/${fqdn}.crt";
     keyFile = "/var/lib/caddy/.local/share/caddy/certificates/acme-v02.api.letsencrypt.org-directory/${fqdn}/${fqdn}.key";
+    
+    enableManageSieve = true;
+    
     loginAccounts = {
       "cab@${fqdn}" = {
         aliases = [ 
@@ -51,15 +73,17 @@ in {
           "cab404@mailbox.org"
           "@cab404.ru"
         ];
-        hashedPassword = "$2y$05$/7OpSkstC8yoFQmkFpE.puPPP.0CxY1JsRTKAutMHjLtH1CmMQJme";
+        hashedPasswordFile = "/secrets/cab-mail-pw";
       };
     };
 
+    indexDir = "/var/lib/dovecot/indices";
     fullTextSearch = on // {
       autoIndex = true;
-      # indexAttachments = true;
       enforced = "body";
     };
   };
+
+  services.dovecot2.sieve.extensions = [ "fileinto" ];
 
 }

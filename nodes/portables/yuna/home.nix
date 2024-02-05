@@ -192,9 +192,6 @@ in {
 
       ];
 
-    file.".mozilla/native-messaging-hosts/org.kde.plasma.browser_integration.json".source =
-      "${pkgs.plasma-browser-integration}/lib/mozilla/native-messaging-hosts/org.kde.plasma.browser_integration.json";
-
     # == Keyboard config
     keyboard = {
       layout = sysconfig.services.xserver.layout;

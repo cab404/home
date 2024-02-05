@@ -11,6 +11,8 @@
   networking.hostName = "fudemonix";
   _.user = "cab";
 
+  environment.systemPackages = [ pkgs.avrdude ];
+
   printing.klipper = on // {
     printer = {
       fwBuildConfig = ./buildconfig.ini;
@@ -19,22 +21,17 @@
     };
   };
 
-  services.rtsp-simple-server = on // {
-    settings = {
-      hlsDisable = true;
-      rtmpDisable = true;
-      paths = {
-        cam = {
-          runOnInit = "ffmpeg -f v4l2 -i /dev/video0 -f rtsp rtsp://localhost:$RTSP_PORT/$RTSP_PATH";
-          runOnInitRestart = true;
-        };
-        # cam2 = {
-        #   runOnInit = "ffmpeg -f v4l2 -i /dev/v4l/by-id/usb-046d_09c1-video-index1 -pix_fmt yuv420p -preset ultrafast -b:v 600k -f rtsp rtsp://localhost:$RTSP_PORT/$RTSP_PATH";
-        #   runOnInitRestart = true;
-        # };
-      };
-    };
-  };
   networking.firewall.enable = false;
+  systemd.network.wait-online.enable = false;
+  networking.supplicant.wlan0 = {
+    configFile = {
+      path = "/etc/wifi.conf";
+      writable = true;
+    };
+    userControlled.enable = true;
+  };
+  
+  # networking.networkmanager.enable = true;
+
 
 }

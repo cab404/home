@@ -75,7 +75,6 @@
   # ====== Kernel
 
   boot = lib.mkDefault {
-    kernelPackages = pkgs.linuxPackages_testing;
     kernelParams = [ "quiet" ];
   };
 

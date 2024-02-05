@@ -4,6 +4,10 @@
 
   ];
 
+  services.logind.lidSwitch = "ignore";
+  services.logind.lidSwitchDocked = "ignore";
+  services.logind.lidSwitchExternalPower = "ignore";
+
   # From 'not-detected.nix'
   hardware.enableRedistributableFirmware = lib.mkDefault true;
 
@@ -15,10 +19,6 @@
 
   boot.loader.timeout = 0;
   boot.loader.efi.canTouchEfiVariables = true;
-
-  # tailscale
-  services.tailscale.enable = true;
-  networking.firewall.checkReversePath = "loose";
 
   boot.initrd.luks.gpgSupport = true;
   boot.initrd.luks.devices = {

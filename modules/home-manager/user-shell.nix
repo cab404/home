@@ -9,6 +9,7 @@ with import ../../lib.nix args;
       options = with builtins;
         filter isString (split "," sysconfig.services.xserver.xkbOptions);
     };
+  systemd.user.startServices = "sd-switch";
 
   home.packages = with pkgs; [
     ripgrep
@@ -20,6 +21,7 @@ with import ../../lib.nix args;
     jless
     ranger
     btop
+    nushell
   ];
 
   home.shellAliases = {
@@ -32,6 +34,7 @@ with import ../../lib.nix args;
   programs =
     let
       onWithShell = on // {
+        enableNushellIntegration = true;
         enableZshIntegration = true;
         enableBashIntegration = true;
       };
@@ -72,7 +75,9 @@ with import ../../lib.nix args;
             locate $PWD
           '';
         in
-        onWithShell // {
+        {
+          enableZshIntegration = true;
+          enableBashIntegration = true;
           fileWidgetCommand = toString ultimacate;
         };
 

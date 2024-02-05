@@ -26,19 +26,7 @@ with prelude; let __findFile = prelude.__findFile; in
 
   services.gtch = on // {
     listenAddress = "10.0.10.1";
-    webSettings = {
-      DEBUG = false;
-
-      STATIC_URL = "/static/";
-      ALLOWED_HOSTS = [ "gtch.cab.moe" "10.0.10.1" ];
-
-      EMAIL_HOST = "smtp.yandex.com";
-      EMAIL_PORT = 465;
-      EMAIL_USE_SSL = true;
-      EMAIL_HOST_USER = "mail@unitycon.ru";
-      EMAIL_HOST_PASSWORD = ''jtbrjgkwvjdldjtr'';
-
-    };
+    webSettingsFile = "/secrets/gtch_settings.json";
   };
 
   services.resolved = {
@@ -67,21 +55,17 @@ with prelude; let __findFile = prelude.__findFile; in
             root * ${inputs.gtch.packages.x86_64-linux.static}
             file_server
           }
-          reverse_proxy 100.64.0.1:8000
+          reverse_proxy 10.0.10.1:8000
         '';
       };
       "eris.cab.moe" = {
         extraConfig = ''
-          reverse_proxy eris-taxguywu.cab.keter:6006
+          reverse_proxy 100.64.0.7:6006
         '';
       };
-      "gtch.cab404.pw" = {
+      "ocapn.cab.moe" = {
         extraConfig = ''
-          handle_path /static/* {
-            root * ${inputs.gtch.packages.x86_64-linux.static}
-            file_server
-          }
-          reverse_proxy 100.64.0.1:8000
+          reverse_proxy http://100.64.0.9:7000
         '';
       };
       "nextcloud.cab.moe" = {

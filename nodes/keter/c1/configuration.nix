@@ -43,12 +43,21 @@
 
   virtualisation.docker.enable = true;
 
-  networking.firewall.enable = false;
+  networking = {
+    firewall = on // {
+      allowedTCPPorts = [ 80 443 7000 ];
+      allowedUDPPorts = [ 41641 42232 61111 ];
+      trustedInterfaces = [ "tailscale0" "keter" ];
+    };
+    # constant disconnects and weird internets are the reason i use nm.
+    # it's really versatile, and aims to just get the client to the internet no matter what
+    # and that's what I want with this machine
+    networkmanager = on;
+  };
 
-  # constant disconnects and weird internets are the reason i use nm.
-  # it's really versatile, and aims to just get the client to the internet no matter what
-  # and that's what I want with this machine
-  networking.networkmanager.enable = true;
+
+  nix.settings.system-features = [ "gccarch-alderlake" "benchmark" "big-parallel" "ca-derivations" "kvm" "nixos-test"  ];
+
 
   # services.tor = {
   #   enable = true;

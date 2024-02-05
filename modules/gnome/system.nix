@@ -1,7 +1,6 @@
 { inputs, prelude, lib, config, pkgs, ... }: with prelude; let __findFile = prelude.__findFile; in# %%MODULE_HEADER%%
 {
 
-
   home-manager.users.${config._.user}.imports = [
     ./home.nix
   ];
@@ -11,21 +10,16 @@
     ../gnome-services.nix
   ];
 
+  programs.firefox.nativeMessagingHosts.packages = with pkgs; [
+    gnomeExtensions.gsconnect
+  ];
+
   # qt = on // {
   #   platformTheme = "gnome";
   # };
 
-  programs.firefox.enable = true;
-  programs.firefox.nativeMessagingHosts = {
-    browserpass = true;
-    gsconnect = true;
-  };
-
   security.rtkit = on;
 
-  services.xserver.windowManager.i3 = on;
-  services.xserver.displayManager.startx = on;
-  services.xserver.displayManager.sx = on;
   services.xserver.desktopManager.gnome = on // {
     sessionPath = with pkgs.gnomeExtensions; [
 
@@ -42,9 +36,12 @@
       # tailscale-status # Tailscale status
       tailscale-qs # Better tailscale status
       window-calls-extended # For tracking and querying window changes
+      compact-top-bar # Well, since we don't have split top bars...
 
       browser-tabs # maybe it works?
 
+      expandable-notifications # YESS YESS
+      
     ] ++ (with pkgs; [
       wl-clipboard
       easyeffects

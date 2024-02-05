@@ -9,9 +9,6 @@ with prelude; let __findFile = prelude.__findFile; in
 
   # hardware.sensor.iio.enable = true;
 
-  # Well, otherwise it's unbearable
-  services.xserver.libinput.touchpad.tapping = lib.mkForce true;
-
   # OpenCL stuff
   environment.systemPackages = [ pkgs.clinfo ];
   hardware.opengl = on // {
@@ -25,7 +22,7 @@ with prelude; let __findFile = prelude.__findFile; in
     ];
   };
 
-  nix.settings.system-features = [ "gccarch-alderlake" ];
+  nix.settings.system-features = [ "gccarch-alderlake" "kvm" "nixos-test" ];
 
   # For external GPU
   # services.xserver.videoDrivers = [ "nvidia" "amdgpu" ];
@@ -43,17 +40,17 @@ with prelude; let __findFile = prelude.__findFile; in
 
   nixpkgs.config.allowUnfree = true;
 
-  systemd.sleep.extraConfig = ''
-    AllowSuspend=yes
-    AllowHibernation=yes
-    AllowSuspendThenHibernate=yes
-    AllowHybridSleep=yes
+  # systemd.sleep.extraConfig = ''
+  #   AllowSuspend=yes
+  #   AllowHibernation=yes
+  #   AllowSuspendThenHibernate=yes
+  #   AllowHybridSleep=yes
 
-    SuspendState=mem
-    HibernateState=disk
-    HibernateDelaySec=30m
-  '';
-
+  #   SuspendState=mem
+  #   HibernateState=disk
+  #   HibernateDelaySec=30m
+  # '';
+  powerManagement = on;
   # powerManagement = on // { cpuFreqGovernor = "schedutil"; };
 
   # Boot essentials
@@ -64,8 +61,6 @@ with prelude; let __findFile = prelude.__findFile; in
 
   boot.initrd.availableKernelModules = [ "xhci_pci" "thunderbolt" "nvme" "usb_storage" "sd_mod" ];
   boot.kernelModules = [ "kvm-intel" ];
-  # Should fix FN keys dying in after a suspend
-  boot.blacklistedKernelModules = [ "cros_ec_lpcs" ];
 
   boot.kernelParams = [
     "mitigations=off"

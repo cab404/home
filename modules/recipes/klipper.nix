@@ -50,8 +50,10 @@ in
       group = "klipper";
       configFile = conf.printer.configFile;
       mutableConfig = true;
+      mutableConfigFolder = "/var/lib/klipper/config";
       firmwares.printer = {
         enable = true;
+        enableKlipperFlash = true;
         inherit (conf.printer) serial;
         configFile = conf.printer.fwBuildConfig;
       };
@@ -62,9 +64,8 @@ in
       group = "klipper";
       address = "0.0.0.0";
       allowSystemControl = true;
-      configDir = "/var/lib/klipper";
+      stateDir = "/var/lib/klipper";
       settings = {
-        server.enable_debug_logging = true;
         authorization = {
           cors_domains = [
             "http://${config.networking.hostName}"
@@ -86,10 +87,14 @@ in
       nginx.extraConfig = ''
         client_max_body_size 1G;
       '';
+      nginx.locations."/webcam".proxyPass = "http://127.0.0.1:7000/stream";
     };
-    system.activationScripts.klipper-files.text = ''
-      mkdir -p /var/lib/gcodes
-      chown -R klipper /var/lib/gcodes
-    '';
+
+    systemd.services.klippercam = {
+      script = "${pkgs.ustreamer}/bin/ustreamer -f 15 -s 0 -p 7000";
+      enable = true;
+      after = [ "network.target" ];
+    };
+
   };
 }

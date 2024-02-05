@@ -20,7 +20,6 @@
   # (enables all of the unstable features pretty much always)
 
   boot = lib.mkDefault {
-    kernelPackages = pkgs.linuxPackages_testing;
     kernelParams = [ "quiet" ];
   };
 

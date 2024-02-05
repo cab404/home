@@ -37,6 +37,13 @@ with prelude; let __findFile = prelude.__findFile; in
         dns_config = {
           nameservers = [ "1.1.1.1" "1.0.0.1" "2606:4700:4700::1111" "2606:4700:4700::1001" ];
           base_domain = "keter";
+          extra_records = [
+            {
+              name = "nextcloud.cab.moe";
+              type = "A";
+              value = "100.64.0.1";
+            }
+          ];
         };
       };
     };

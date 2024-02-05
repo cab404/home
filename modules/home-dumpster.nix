@@ -5,7 +5,6 @@ with prelude; let __findFile = prelude.__findFile; in {
 
   imports = [
     <modules/home-manager/user-shell.nix>
-    <modules/gnome/home.nix>
   ];
 
   # Docs for lsp-s
@@ -23,20 +22,6 @@ with prelude; let __findFile = prelude.__findFile; in {
 
         (pkgs.callPackage <theme-changer.nix> { })
 
-        # # Blocking emacs.
-        # (writeShellScriptBin "ee" ''
-        #   emacsclient -c $@
-        # '')
-
-        # # Non-blocking emacs
-        # (writeShellScriptBin "ec" ''
-        #   emacsclient -nc $@
-        # '')
-
-        # # Non-blocking emacs
-        # (writeShellScriptBin "ve" ''
-        #   emacsclient -nw $@
-        # '')
     ];
 
     # == Keyboard config

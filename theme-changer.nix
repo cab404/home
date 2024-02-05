@@ -17,7 +17,7 @@ let
   themes = {
 
     dark = rec {
-      alacritty = ./alacritty/monokai.yaml;
+      alacritty = ./alacritty/monokai.toml;
       spacemacs = "spacemacs-dark";
       doom-emacs = "doom-monokai-classic";
       vscodium = "Monokai";
@@ -27,7 +27,7 @@ let
     };
 
     light = rec {
-      alacritty = ./alacritty/gruvbox-light.yaml;
+      alacritty = ./alacritty/gruvbox-light.toml;
       spacemacs = "spacemacs-light";
       doom-emacs = "doom-gruvbox-light";
       vscodium = "Default Light+";
@@ -37,7 +37,7 @@ let
     };
 
     sailor = rec {
-      alacritty = ./alacritty/fairyfloss.yaml;
+      alacritty = ./alacritty/fairyfloss.toml;
       spacemacs = "spacemacs-light";
       doom-emacs = "doom-fairy-floss";
       vscodium = "fairyfloss";
@@ -68,7 +68,7 @@ let
   scripts = {
 
     # alacritty doesn't create it's config folder by default, so yeah.
-    alacritty = (t: ''mkdir -p ~/.config/alacritty; chmod +w ~/.config/alacritty/alacritty.yml; { cat ${t} ${./alacritty/common.yaml}; } > ~/.config/alacritty/alacritty.yml'');
+    alacritty = (t: ''mkdir -p ~/.config/alacritty; chmod +w ~/.config/alacritty/alacritty.toml; { cat ${t} ${./alacritty/common.toml}; } > ~/.config/alacritty/alacritty.toml'');
 
     spacemacs = (t: ''emacsclient -e "(spacemacs/load-theme '${t})"'');
 

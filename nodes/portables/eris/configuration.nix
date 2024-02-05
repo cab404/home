@@ -3,7 +3,8 @@
   imports = [
     <modules/core.nix>
 
-    <modules/gnome/system.nix>
+    <modules/cab/system.nix>
+    <modules/kde/system.nix>
     <modules/home-manager>
     
     # usecase-specific
@@ -34,7 +35,6 @@
 
   networking = {
     networkmanager.dns = "systemd-resolved";
-    networkmanager.wifi.backend = "iwd";
     firewall = on // rec {
       checkReversePath = "loose";
       allowedTCPPortRanges = [ { from = 1714; to = 1764; } ];
@@ -73,11 +73,12 @@
   _.user = "cab";
   i18n.defaultLocale = "C.UTF-8";
   home-manager.users.cab = { imports = [ ./home.nix ]; };
-  users.users.cab.passwordFile = "/secrets/password";
-  users.users.root.passwordFile = "/secrets/password";
+  users.users.cab.hashedPasswordFile = "/secrets/password";
+  users.users.root.hashedPasswordFile = "/secrets/password";
 
   boot.tmp.useTmpfs = true;
   boot.kernelPackages = pkgs.linuxPackages_latest;
+  nix.settings.system-features = [ "gccarch-alderlake" "kvm" "nixos-test"  ];
 
   zramSwap = on;
   
@@ -85,9 +86,8 @@
 
   services.udev.packages = with pkgs; [ qFlipper ];
 
-  # This also opens all the necessary ports
-
   services.usbguard = on // {
+    dbus = on;
     IPCAllowedGroups = [ "wheel" ];
   };
 

@@ -23,7 +23,7 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     snm.url = "gitlab:simple-nixos-mailserver/nixos-mailserver";
-
+    snm.inputs.nixpkgs.follows = "nixpkgs";
     # emacs-overlay.url = "github:nix-community/emacs-overlay";
     # emacs-overlay.follows = "nix-doom-emacs/emacs-overlay";
 
@@ -55,6 +55,7 @@
       patchedPkgs =
         let
           patches = [
+            ./patches/soft-reboot.patch
             # Place your nixpkgs patches here
             # ./patches/v4.patch # Scary one with x86-64-v4 and a _full_ system rebuild
           ];
@@ -78,11 +79,6 @@
       buildConfig = modules: system: { inherit modules system specialArgs; };
       buildSystem = modules: system: lib.nixosSystem (buildConfig modules system);
 
-      hosts = [
-        ./nodes/keter/tiferet
-        ./nodes/keter/c1
-      ];
-      
       hostAttrs = dir: {
         settings = import "${dir}/host-metadata.nix";
         config = import "${dir}/configuration.nix";
@@ -103,25 +99,30 @@
 
       onPkgs = f: builtins.mapAttrs f patchedPkgs.legacyPackages;
      
+      nodes = {
+          # My notebook
+          yuna = ./nodes/portables/yuna;
+
+          # My new notebook
+          eris = ./nodes/portables/eris;
+
+          # First server
+          c1 = ./nodes/keter/c1;
+
+          # Scaleway proxy
+          tiferet = ./nodes/keter/tiferet;
+
+          # My printer
+          fudemonix = ./nodes/fudemonix;
+          
+        };
+
     in
     {
 
       nixosConfigurations =
+        (builtins.mapAttrs (_: node) nodes) // 
         {
-          # My notebook
-          yuna = node ./nodes/portables/yuna;
-
-          # My new notebook
-          eris = node ./nodes/portables/eris;
-
-          # First server
-          c1 = node ./nodes/keter/c1;
-
-          # Scaleway proxy
-          tiferet = node ./nodes/keter/tiferet;
-
-          # My printer
-          fudemonix = node ./nodes/fudemonix;
 
           # Yup, installer
           installer = buildSystem [
@@ -138,6 +139,7 @@
               ];
             })
           ];
+
         }; #// (builtins.mapAttrs (k: v: buildSystem v) (import ./nodes/keter));
 
       devShells = onPkgs (system: pkgs: with pkgs; {
@@ -145,7 +147,10 @@
           buildInputs = [
             nixUnstable
             nixpkgs-fmt
-            rnix-lsp
+            nil
+
+            nushell
+            
             # wg-bond.defaultPackage.${system}
           ];
         };
@@ -155,12 +160,7 @@
         x86_64-linux.vm = (virt-node ./nodes/portables/eris).config.system.build.vm;
       };
 
-      nodeMeta = with builtins; with nixpkgs.lib; listToAttrs (map 
-        (path: let meta = hostAttrs path; in 
-          { name = toString (baseNameOf path); value = meta; }
-        ) 
-        hosts
-      );
+      nodeMeta = builtins.mapAttrs  (_: h: (hostAttrs h)) nodes;
     };
 
 }

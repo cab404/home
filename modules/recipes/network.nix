@@ -1,8 +1,8 @@
 args@{ inputs, prelude, lib, config, pkgs, ... }: with prelude; let __findFile = prelude.__findFile; in {
   networking = {
     networkmanager.dns = "systemd-resolved";
-    networkmanager.wifi.backend = "iwd";
-    networkmanager.wifi.powersave = false;
+    # networkmanager.wifi.backend = "iwd";
+    # networkmanager.wifi.powersave = false;
     firewall = on // {
       checkReversePath = "loose";
     };
