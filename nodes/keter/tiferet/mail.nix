@@ -65,6 +65,14 @@ in {
     keyFile = "/var/lib/caddy/.local/share/caddy/certificates/acme-v02.api.letsencrypt.org-directory/${fqdn}/${fqdn}.key";
     
     enableManageSieve = true;
+    # Eeeh. It's not really that useful, as by default this mailbox is not being subscribed to,
+    # and I can't move them to a subdirectory, so they don't clutter the space.
+    # All it achieves in the end is a total useless fragmentation of mailbox.
+    # I guess I'll need a proper mail proxy.
+    lmtpSaveToDetailMailbox = "no";
+
+    # Well, let's move to a newer hierarchy separator
+    hierarchySeparator = "/";
     
     loginAccounts = {
       "cab@${fqdn}" = {
