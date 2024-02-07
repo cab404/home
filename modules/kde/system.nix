@@ -15,6 +15,8 @@
     wayland-utils
     glxinfo
     vulkan-tools
+    
+    kontact
   ];
 
   # yaaay screensharing
