@@ -16,6 +16,25 @@
     copyq = on;
   };
 
+  systemd.user.targets.plasma = {
+    # Service = {
+      # ExecStart = ["dbus-run-session startplasma-wayland"];
+    # };
+    Unit = {
+      Description = "KDE Plasma in Wayland";
+      BindsTo = ["graphical-session.target"];
+      Wants = [ "graphical-session-pre.target" "xdg-desktop-autostart.target" ];
+      After = ["graphical-session-pre.target"];
+      Before = [ "xdg-desktop-autostart.target" ];
+    };
+  };
+
+  home.packages = [
+    (pkgs.writeShellScriptBin "plasma" ''
+      dbus-run-session startplasma-wayland 2>&1
+    '')
+  ];
+
   systemd.user.services.copyq.Service.Environment = lib.mkForce [ "QT_QPA_PLATFORM=wayland" ];
 
   home.sessionVariables = {
@@ -37,16 +56,5 @@
     _JAVA_AWT_WM_NONREPARENTING = "1";
 
   };
-
-  # Required for some (flameshot, lol) tray services to work
-  # systemd.user.targets = {
-  #   # Copied from <home-manager/modules/xsession.nix>
-  #   tray = {
-  #     Unit = {
-  #       Description = "Home Manager System Tray";
-  #       Requires = [ "graphical-session-pre.target" ];
-  #     };
-  #   };
-  # };
 
 }
