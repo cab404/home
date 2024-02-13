@@ -27,7 +27,8 @@
 
   home.packages = [
     (pkgs.writeShellScriptBin "plasma" ''
-      dbus-run-session startplasma-wayland 2>&1
+      dbus-run-session startplasma-wayland 2>&1 & systemctl start --user plasma.target
+      systemctl stop --user plasma.target
     '')
   ];
 
