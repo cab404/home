@@ -15,7 +15,8 @@
     wayland-utils
     glxinfo
     vulkan-tools
-    
+
+    akonadi
     kontact
   ];
 
