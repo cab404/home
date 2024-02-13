@@ -30,6 +30,7 @@
   # environment.pathsToLink = [];
 
   environment.systemPackages = with pkgs; [ 
+    # plasma5Packages.polonium // is not working properly
     (plasma5Packages.bismuth.overrideAttrs {
       src = pkgs.fetchFromGitHub {
         repo = "bismuth";
@@ -37,7 +38,6 @@
         rev = "ce377a33232b7eac80e7d99cb795962a057643ae";
         sha256 = "VIOgZGyZYU5CSPTc7HSgGTsimY5dJzf1lTSK+e9fmaA=";
       };
-
     })
   ];
 
