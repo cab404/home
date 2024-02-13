@@ -57,7 +57,7 @@ with import ../lib.nix args; {
     };
 
     flatpak = on;
-
+    
     printing = on // { drivers = [ pkgs.gutenprint ]; };
 
     # logind = lib.mkDefault {
@@ -93,6 +93,13 @@ with import ../lib.nix args; {
     #   ];
     # };
 
+  };
+
+  fonts = {
+    enableDefaultPackages = true;
+    enableGhostscriptFonts = true;
+    fontconfig = on;
+    fontDir = on // { decompressFonts = true; };
   };
 
   boot.kernel.sysctl = { "fs.inotify.max_user_watches" = 1000000; };

@@ -40,9 +40,6 @@ with prelude; let __findFile = prelude.__findFile; in {
 
   };
 
-  # don't know where to put it
-  fonts.fontconfig.enable = true;
-
   programs = enableThings [
     "ssh"
     "browserpass"
