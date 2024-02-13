@@ -12,14 +12,10 @@
 
   services = {
     easyeffects = on;
-    kdeconnect = on;
     copyq = on;
   };
 
   systemd.user.targets.plasma = {
-    # Service = {
-      # ExecStart = ["dbus-run-session startplasma-wayland"];
-    # };
     Unit = {
       Description = "KDE Plasma in Wayland";
       BindsTo = ["graphical-session.target"];

@@ -19,6 +19,8 @@
     kontact
   ];
 
+  programs.kdeconnect.enable = true;
+
   # yaaay screensharing
   programs.weylus = on // {
     openFirewall = true;
