@@ -39,9 +39,9 @@
 
   i18n.defaultLocale = "C.UTF-8";
 
-  services.xserver = {
+  services.xserver.xkb = {
     layout = "us,ru";
-    xkbOptions = "ctrl:nocaps,lv3:ralt_switch_multikey,misc:typo,grp:rctrl_switch";
+    options = "ctrl:nocaps,lv3:ralt_switch_multikey,misc:typo,grp:rctrl_switch";
   };
 
 

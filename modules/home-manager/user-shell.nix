@@ -5,9 +5,9 @@ with import ../../lib.nix args;
   home.stateVersion = sysconfig.system.stateVersion;
   home.keyboard =
     {
-      layout = sysconfig.services.xserver.layout;
+      layout = sysconfig.services.xserver.xkb.layout;
       options = with builtins;
-        filter isString (split "," sysconfig.services.xserver.xkbOptions);
+        filter isString (split "," sysconfig.services.xserver.xkb.options);
     };
   systemd.user.startServices = "sd-switch";
 
