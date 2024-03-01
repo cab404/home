@@ -34,7 +34,11 @@
 
   systemd.user.services.copyq.Service.Environment = lib.mkForce [ "QT_QPA_PLATFORM=wayland" ];
 
-  home.sessionVariables = {
+  systemd.user.sessionVariables = {
+
+    # okay, okay, whatever.
+    QT_QPA_PLATFORM = "wayland";
+
     # for some reason it doesn't want to read anything else
     SDL_VIDEODRIVER = "wayland";
 

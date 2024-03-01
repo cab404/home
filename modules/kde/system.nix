@@ -41,9 +41,13 @@
     })
   ];
 
-  services.xserver = {  
+  services.xserver = on // {  
     desktopManager.plasma5 = on;
-    # displayManager.autoLogin = on // { user = config._.user; };
+    displayManager.sddm = on // {
+      wayland = on;
+    };
+    displayManager.autoLogin = on // { user = config._.user; };
+    displayManager.defaultSession = "plasmawayland";
   };
 
 }

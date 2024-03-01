@@ -55,7 +55,7 @@
       patchedPkgs =
         let
           patches = [
-            ./patches/soft-reboot.patch
+            # ./patches/soft-reboot.patch
             # Place your nixpkgs patches here
             # ./patches/v4.patch # Scary one with x86-64-v4 and a _full_ system rebuild
           ];

@@ -1,11 +1,12 @@
 diff --git a/nixos/modules/system/boot/systemd.nix b/nixos/modules/system/boot/systemd.nix
-index 87333999313e..ec3307d32de5 100644
+index 87333999313e..cc60f99bf1e8 100644
 --- a/nixos/modules/system/boot/systemd.nix
 +++ b/nixos/modules/system/boot/systemd.nix
-@@ -115,6 +115,7 @@ let
+@@ -115,6 +115,8 @@ let
        # Reboot stuff.
        "reboot.target"
        "systemd-reboot.service"
++      "soft-reboot.target"
 +      "systemd-soft-reboot.service"
        "poweroff.target"
        "systemd-poweroff.service"

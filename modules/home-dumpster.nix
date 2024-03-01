@@ -26,9 +26,9 @@ with prelude; let __findFile = prelude.__findFile; in {
 
     # == Keyboard config
     keyboard = {
-      layout = sysconfig.services.xserver.layout;
+      layout = sysconfig.services.xserver.xkb.layout;
       options = with builtins;
-        filter isString (split "," sysconfig.services.xserver.xkbOptions);
+        filter isString (split "," sysconfig.services.xserver.xkb.options);
     };
 
     sessionVariables = {
