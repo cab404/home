@@ -3,45 +3,7 @@ args@{ inputs, prelude, lib, config, pkgs, ... }: with prelude; let __findFile =
   # == Sound
   sound.enable = true;
   security.rtkit = on;
-
-  environment.etc."pipewire/pipewire.conf.d/100-user.conf" = {
-    text = builtins.toJSON
-      {
-        "context.modules" = [
-          {
-            name = "libpipewire-module-rt";
-            args = { "nice.level" = -11; };
-            flags = [ "ifexists" "nofail" ];
-          }
-          # { name = "libpipewire-module-protocol-native"; }
-          { name = "libpipewire-module-profiler"; }
-          { name = "libpipewire-module-spa-device-factory"; }
-          { name = "libpipewire-module-spa-node-factory"; }
-          
-          {
-            name = "libpipewire-module-portal";
-            flags = [ "ifexists" "nofail" ];
-          }
-          { name = "libpipewire-module-access";}
-          { name = "libpipewire-module-adapter"; }
-
-          # Config to make pipewire discover stuff around it with zeroconf.
-          { name = "libpipewire-module-link-factory"; }
-          { name = "libpipewire-module-session-manager"; }
-          { name = "libpipewire-module-zeroconf-discover"; }
-          { name = "libpipewire-module-raop-discover"; 
-            raop.latency.ms = 2000;
-            raop.autoreconnect = true;
-            # rules = [
-            #   {
-            #     matches = {};
-
-            #   }
-            # ];
-          }
-        ];
-      };
-  };
+  
   services = {
 
     pipewire = on // {
@@ -50,6 +12,19 @@ args@{ inputs, prelude, lib, config, pkgs, ... }: with prelude; let __findFile =
       alsa = on;
       pulse = on;
       wireplumber.enable = true;
+      extraConfig = {
+        pipewire = {
+          "100-user" = {
+            "context.modules" = [
+              # Config to make pipewire discover stuff around it with zeroconf.
+              { name = "libpipewire-module-zeroconf-discover"; }
+              { name = "libpipewire-module-raop-discover"; 
+                raop.autoreconnect = true;
+              }
+            ];
+          };
+        };
+      };
     };
 
   };
