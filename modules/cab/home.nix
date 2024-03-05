@@ -124,23 +124,6 @@ in
         ytfzf
         yt-dlp
 
-      ]
-
-      # Gnome (turned off)
-      ++ lib.optionals false (with gnome; [
-        nautilus
-        # gnome-calculator
-        # gnome-disk-utility
-        # gnome-power-manager
-        # gnome-sound-recorder
-        # seahorse
-        file-roller
-        # gucharmap
-        baobab
-        evince
-
-      ]) ++ [
-
         # Funny utilities
         aircrack-ng
         netsniff-ng
