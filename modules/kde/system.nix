@@ -10,15 +10,19 @@
 
   environment.homeBinInPath = true; # ..?
 
-  environment.defaultPackages = with pkgs; [
+  environment.defaultPackages = (with pkgs; [
     wl-clipboard # yes, we need it
     wayland-utils
     glxinfo
     vulkan-tools
-
+  ]) ++ (with pkgs.plasma5Packages; [
+    # I have no clue, why akonadi can't find its plugins with a basic packaging,
+    # but merkuro manages to launch it correctly. Something to take a look in nixpkgs.
+    merkuro
+    akonadi-calendar-tools
     akonadi
     kontact
-  ];
+  ]);
 
   programs.kdeconnect.enable = true;
 
