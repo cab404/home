@@ -17,8 +17,8 @@ in
       [
 
         speechd
-        wine
-        winetricks
+        # wine
+        # winetricks
 
         # Interweebs
         transmission-gtk
@@ -118,7 +118,7 @@ in
         mpv
         zathura
         font-manager
-        gthumb
+        # gthumb
         audacious
         # quodlibet
         ytfzf
@@ -148,6 +148,7 @@ in
         gnome3.adwaita-icon-theme
         gnome-themes-extra
 
+        anytype
         # Notes are important!
         (writeShellScriptBin "notes" ''
           # codium ~/data/cab/notes/ ~/data/cab/notes/$(date +%Y-%m-%d).md
@@ -159,6 +160,7 @@ in
       ];
 
   };
+  fonts.fontconfig.enable = false;
 
   home.sessionVariables = {
     # Grrr, no proper way to do that
@@ -191,7 +193,7 @@ in
 
       password-store = {
         package = pkgs.pass.withExtensions
-          (e: with e; [ pass-otp pass-update pass-genphrase pass-audit ]);
+          (e: with e; [ pass-otp pass-update pass-genphrase ]);
       };
 
       # == SSH
@@ -203,7 +205,7 @@ in
           let is = (user: identityFile: { inherit user identityFile; });
           in
           {
-            "cab404.ru" = is "cab" "~/.ssh/id_rsa";
+            # "cab404.ru" = is "cab" "~/.ssh/id_rsa";
           };
       };
 

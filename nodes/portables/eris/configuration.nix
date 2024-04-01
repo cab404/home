@@ -10,7 +10,7 @@
     # usecase-specific
     <modules/recipes/ssh.nix>
     <modules/recipes/ssh-persist.nix>
-    <modules/recipes/streaming.nix>
+    # <modules/recipes/streaming.nix>
     <modules/recipes/audio.nix>
     <modules/recipes/nixld.nix>
     <modules/recipes/hwhack.nix>
@@ -19,6 +19,15 @@
     <modules/recipes/btkill.nix>
   ];
 
+  # programs.virt-manager.enable = true;
+  virtualisation.virtualbox.host.enable = true;
+  # the keyboard got weird
+  services.xserver.xkb = {
+    layout = "us,ru";
+    options = "ctrl:nocaps,misc:typo,altwin:prtsc_rwin,grp:win_space_toggle,lv3:ralt_switch_multikey";
+  };
+  services.hardware.bolt = on;
+  
   # security.audit = on // {};
 
   # Doesn't work with Linux 6
@@ -50,7 +59,7 @@
   };
   services.tailscale.enable = true;
 
-  nixpkgs.overlays = [ inputs.helix.overlays.default ];
+  # nixpkgs.overlays = [ inputs.helix.overlays.default ];
 
   # In the grim dark future there is only NixOS
   # system.stateVersion = lib.mkForce "40000.05";
@@ -67,7 +76,8 @@
   #     RUNTIME_PM_ON_BAT = "auto";
   #   };
   # };
-  powerManagement.powertop.enable = true;
+  # it will ruin you USB devices
+  # powerManagement.powertop.enable = true;
 
   networking.hostName = "eris";
   _.user = "cab";
@@ -75,6 +85,16 @@
   home-manager.users.cab = { imports = [ ./home.nix ]; };
   users.users.cab.hashedPasswordFile = "/secrets/password";
   users.users.root.hashedPasswordFile = "/secrets/password";
+
+  nixpkgs.overlays = [
+    (super: self: {
+      fprintd = self.fprintd.overrideAttrs (_: { 
+        mesonCheckFlags = [ 
+          "--no-suite" "fprintd:TestPamFprintd"
+        ]; 
+      });
+    })
+  ];
 
   boot.tmp.useTmpfs = true;
   boot.kernelPackages = pkgs.linuxPackages_latest;

@@ -11,10 +11,12 @@
   environment.homeBinInPath = true; # ..?
 
   environment.defaultPackages = (with pkgs; [
-    wl-clipboard # yes, we need it
+    wl-clipboard
     wayland-utils
     glxinfo
     vulkan-tools
+
+    maliit-keyboard
   ]) ++ (with pkgs.plasma5Packages; [
     # I have no clue, why akonadi can't find its plugins with a basic packaging,
     # but merkuro manages to launch it correctly. Something to take a look in nixpkgs.
@@ -22,6 +24,8 @@
     akonadi-calendar-tools
     akonadi
     kontact
+
+    polonium
   ]);
 
   programs.kdeconnect.enable = true;
@@ -45,13 +49,33 @@
     })
   ];
 
+  services.samba = on // {
+    openFirewall = true;
+    nsswins = true;
+    extraConfig = ''
+      map to guest = bad user
+      guest account = nobody
+      usershare path = /var/lib/samba/usershares
+      usershare max shares = 100
+      usershare allow guests = yes
+      usershare owner only = yes
+    '';
+  };
+
+  services.samba-wsdd = on // {
+    discovery = true;
+    openFirewall = true;
+  };
+
+  services.desktopManager.plasma6 = on;
   services.xserver = on // {  
-    desktopManager.plasma5 = on;
-    displayManager.sddm = on // {
-      wayland = on;
+    displayManager = {
+      sddm = on // {
+        wayland = on;
+      };
+      autoLogin = on // { user = config._.user; };
+    # defaultSession = "plasmawayland";
     };
-    displayManager.autoLogin = on // { user = config._.user; };
-    displayManager.defaultSession = "plasmawayland";
   };
 
 }

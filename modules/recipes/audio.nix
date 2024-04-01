@@ -7,6 +7,9 @@ args@{ inputs, prelude, lib, config, pkgs, ... }: with prelude; let __findFile =
   # == You won't believe how I found this :D
   networking.firewall.allowedUDPPorts = [ 6001 6002 ];
   # == okay, you would . but it was not obvious!
+  # yeah, these are timer and control sockets which are
+  # required by apple implementation of proto, but
+  # not by shairport-sync
 
   services = {
     pipewire = on // {

@@ -9,5 +9,5 @@ args@{ sysconfig
 with prelude; let __findFile = prelude.__findFile; in
 {
     virtualisation.podman = on;
-    boot.extraModulePackages = with config.boot.kernelPackages; [ rtl8814au ];
+    # boot.extraModulePackages = with config.boot.kernelPackages; [ rtl8814au ];
 }

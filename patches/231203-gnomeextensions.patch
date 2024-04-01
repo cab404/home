@@ -1,5 +1,5 @@
 diff --git a/pkgs/desktops/gnome/extensions/extensions.json b/pkgs/desktops/gnome/extensions/extensions.json
-index af08e170c2fbbe..eae2f796108eab 100644
+index af08e170c2fb..eae2f796108e 100644
 --- a/pkgs/desktops/gnome/extensions/extensions.json
 +++ b/pkgs/desktops/gnome/extensions/extensions.json
 @@ -121,7 +121,7 @@

@@ -15,7 +15,7 @@
 
   inputs = {
 
-    helix.url = "github:helix-editor/helix";
+    # helix.url = "github:helix-editor/helix";
 
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
@@ -40,6 +40,9 @@
 
     gtch.url = "/home/cab/data/cab/ticket-checker";
     gtch.inputs.nixpkgs.follows = "nixpkgs";
+
+    nixos-boot.url = "github:cab404/nixos-boot";
+    nixos-boot.inputs.nixpkgs.follows = "nixpkgs";
 
     swaycwd.url = "sourcehut:~cab/swaycwd";
 

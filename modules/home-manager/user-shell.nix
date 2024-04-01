@@ -42,7 +42,7 @@ with import ../../lib.nix args;
     {
 
       bat = on;
-      eza = on // { enableAliases = true; };
+      eza = onWithShell;
 
       direnv = on // { nix-direnv = on; };
 
@@ -138,7 +138,7 @@ with import ../../lib.nix args;
       zsh = on // {
         enableCompletion = true;
         enableVteIntegration = true;
-        enableAutosuggestions = true;
+        autosuggestion = on;
         syntaxHighlighting = on;
 
         defaultKeymap = "emacs";

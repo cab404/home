@@ -15,47 +15,30 @@
     copyq = on;
   };
 
-  systemd.user.targets.plasma = {
-    Unit = {
-      Description = "KDE Plasma in Wayland";
-      BindsTo = ["graphical-session.target"];
-      Wants = [ "graphical-session-pre.target" "xdg-desktop-autostart.target" ];
-      After = ["graphical-session-pre.target"];
-      Before = [ "xdg-desktop-autostart.target" ];
-    };
-  };
+  # systemd.user.services.copyq.Service.Environment = lib.mkForce [ "QT_QPA_PLATFORM=wayland" ];
 
-  home.packages = [
-    (pkgs.writeShellScriptBin "plasma" ''
-      dbus-run-session startplasma-wayland 2>&1 & systemctl start --user plasma.target
-      systemctl stop --user plasma.target
-    '')
-  ];
+  # systemd.user.sessionVariables = {
 
-  systemd.user.services.copyq.Service.Environment = lib.mkForce [ "QT_QPA_PLATFORM=wayland" ];
+  #   # okay, okay, whatever.
+  #   QT_QPA_PLATFORM = "wayland";
 
-  systemd.user.sessionVariables = {
+  #   # for some reason it doesn't want to read anything else
+  #   SDL_VIDEODRIVER = "wayland";
 
-    # okay, okay, whatever.
-    QT_QPA_PLATFORM = "wayland";
+  #   # self-descriptive
+  #   MOZ_ENABLE_WAYLAND = "1";
 
-    # for some reason it doesn't want to read anything else
-    SDL_VIDEODRIVER = "wayland";
+  #   # actually I'm sure it's set somewhere else too
+  #   GDK_BACKEND = "wayland";
+  #   # DISPLAY = "_";
+  #   # woo wrappers
+  #   NIXOS_OZONE_WL = "1";
 
-    # self-descriptive
-    MOZ_ENABLE_WAYLAND = "1";
+  #   QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
 
-    # actually I'm sure it's set somewhere else too
-    GDK_BACKEND = "wayland";
-    # DISPLAY = "_";
-    # woo wrappers
-    NIXOS_OZONE_WL = "1";
+  #   # Fixing java apps (especially idea)
+  #   _JAVA_AWT_WM_NONREPARENTING = "1";
 
-    QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
-
-    # Fixing java apps (especially idea)
-    _JAVA_AWT_WM_NONREPARENTING = "1";
-
-  };
+  # };
 
 }

@@ -3,43 +3,39 @@ with prelude; let __findFile = prelude.__findFile; in
 {
 
   imports = [
-    inputs.nixos-hw.nixosModules.framework-12th-gen-intel
+    # <modules/recipes/nvidia-tb.nix>
+    <modules/recipes/alvr.nix>
+    # <modules/hw/framework-intel12.nix>
+    <modules/hw/lenovo-thinkpad-l13-yoga-g3.nix>
     ./hibernate.nix
+    inputs.nixos-boot.nixosModules.default
   ];
 
-  # hardware.sensor.iio.enable = true;
+  boot.initrd.systemd.enable = true;
 
+  nixos-boot.enable = true;
   # OpenCL stuff
-  environment.systemPackages = [ pkgs.clinfo ];
+  environment.systemPackages = [ 
+    pkgs.clinfo
+  ];
+
   hardware.opengl = on // {
     driSupport = true;
     driSupport32Bit = true;
     extraPackages = with pkgs; [
-      intel-compute-runtime
       nvidia-vaapi-driver
+      intel-compute-runtime
       intel-media-driver
       vulkan-loader
+      level-zero # oneapi loader
     ];
   };
 
   nix.settings.system-features = [ "gccarch-alderlake" "kvm" "nixos-test" ];
 
-  # For external GPU
-  # services.xserver.videoDrivers = [ "nvidia" "amdgpu" ];
-  
-  # I am using it with external GPU
-  # Video out doesn't work, framerates are worse than integrated
-  # But it can run cuda workloads
-  # hardware.nvidia.open = true;
-
-  # Superhot
-  services.thermald = on // {
-    # debug = true;
-  };
-
-
   nixpkgs.config.allowUnfree = true;
 
+  # TODO: Move to «manual power management» or smth like that
   # systemd.sleep.extraConfig = ''
   #   AllowSuspend=yes
   #   AllowHibernation=yes
@@ -60,23 +56,8 @@ with prelude; let __findFile = prelude.__findFile; in
   hardware.enableRedistributableFirmware = lib.mkDefault true;
 
   boot.initrd.availableKernelModules = [ "xhci_pci" "thunderbolt" "nvme" "usb_storage" "sd_mod" ];
-  boot.kernelModules = [ "kvm-intel" ];
-
-  boot.kernelParams = [
-    "mitigations=off"
-    # "intel_pstate=no_hwp"
-    # "i915.enable_guc=3"
-    "i915.enable_fbc=1"
-    "iwlwifi.amsdu_size=3"
-    "enable_psr2_sel_fetch=1"
-    "i915.enable_psr=2"
-    "i915.fastboot=1"
-    "i915.enable_gvt=1"
-    "mem_sleep_default=s2idle" # faster faster
-  ];
-
-  # services.cpupower-gui = on;
-
+  boot.kernelModules = [ "kvm-intel" "nvidia" ];
+  
   boot.initrd.luks.devices = {
     rootfs = {
       device = "/dev/disk/by-label/eris-enc-root";

@@ -122,6 +122,7 @@ with import ../lib.nix args; {
     polkit_gnome # and polkit guis :\
   ];
 
+  # what a mess
   users.users."${config._.user}".extraGroups =
     [ "containers" "plugdev" "tor" "wireshark" "libvirtd" "sound" ];
 

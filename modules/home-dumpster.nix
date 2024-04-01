@@ -11,33 +11,30 @@ with prelude; let __findFile = prelude.__findFile; in {
   manual.json.enable = true;
 
   home = {
-    pointerCursor = {
-      size = 24;
-      package = pkgs.gnome-themes-extra;
-      name = "Adwaita";
-      gtk = on;
-    };
+    # pointerCursor = {
+    #   size = 24;
+    #   package = pkgs.gnome-themes-extra;
+    #   name = "Adwaita";
+    #   gtk = on;
+    # };
 
     packages = [
-
         (pkgs.callPackage <theme-changer.nix> { })
-
     ];
 
     # == Keyboard config
-    keyboard = {
-      layout = sysconfig.services.xserver.xkb.layout;
-      options = with builtins;
-        filter isString (split "," sysconfig.services.xserver.xkb.options);
-    };
+    # keyboard = {
+    #   layout = sysconfig.services.xserver.xkb.layout;
+    #   options = with builtins;
+    #     filter isString (split "," sysconfig.services.xserver.xkb.options);
+    # };
 
-    sessionVariables = {
-      XCOMPOSEFILE = "${config.xdg.configHome}/XCompose";
-      XKB_DEFAULT_LAYOUT = config.home.keyboard.layout;
-      XKB_DEFAULT_OPTIONS =
-        pkgs.lib.concatStringsSep "," config.home.keyboard.options;
-    };
-
+    # sessionVariables = {
+    #   XCOMPOSEFILE = "${config.xdg.configHome}/XCompose";
+    #   XKB_DEFAULT_LAYOUT = config.home.keyboard.layout;
+    #   XKB_DEFAULT_OPTIONS =
+    #     pkgs.lib.concatStringsSep "," config.home.keyboard.options;
+    # };
   };
 
   programs = enableThings [
