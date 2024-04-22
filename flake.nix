@@ -41,8 +41,8 @@
     gtch.url = "/home/cab/data/cab/ticket-checker";
     gtch.inputs.nixpkgs.follows = "nixpkgs";
 
-    nixos-boot.url = "github:cab404/nixos-boot";
-    nixos-boot.inputs.nixpkgs.follows = "nixpkgs";
+    plymouth-is-underrated.url = "/home/cab/data/cab/plymouth-is-underrated";
+    plymouth-is-underrated.flake = false;
 
     swaycwd.url = "sourcehut:~cab/swaycwd";
 

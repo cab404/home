@@ -8,14 +8,17 @@ with prelude; let __findFile = prelude.__findFile; in
     # <modules/hw/framework-intel12.nix>
     <modules/hw/lenovo-thinkpad-l13-yoga-g3.nix>
     ./hibernate.nix
-    inputs.nixos-boot.nixosModules.default
   ];
 
   boot.initrd.systemd.enable = true;
 
-  nixos-boot.enable = true;
+  boot.plymouth.enable = true;
+  boot.plymouth.theme = "evil-nixos";
+  boot.plymouth.font = "${pkgs.fira-code}/share/fonts/truetype/FiraCode-VF.ttf";
+  boot.plymouth.themePackages = [ (pkgs.callPackage inputs.plymouth-is-underrated.outPath {}) ];
+
   # OpenCL stuff
-  environment.systemPackages = [ 
+  environment.systemPackages = [
     pkgs.clinfo
   ];
 
@@ -57,7 +60,7 @@ with prelude; let __findFile = prelude.__findFile; in
 
   boot.initrd.availableKernelModules = [ "xhci_pci" "thunderbolt" "nvme" "usb_storage" "sd_mod" ];
   boot.kernelModules = [ "kvm-intel" "nvidia" ];
-  
+
   boot.initrd.luks.devices = {
     rootfs = {
       device = "/dev/disk/by-label/eris-enc-root";

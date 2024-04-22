@@ -92,11 +92,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1711133180,
-        "narHash": "sha256-WJOahf+6115+GMl3wUfURu8fszuNeJLv9qAWFQl3Vmo=",
+        "lastModified": 1711915616,
+        "narHash": "sha256-co6LoFA+j6BZEeJNSR8nZ4oOort5qYPskjrDHBaJgmo=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "1c2c5e4cabba4c43504ef0f8cc3f3dfa284e2dbb",
+        "rev": "820be197ccf3adaad9a8856ef255c13b6cc561a6",
         "type": "github"
       },
       "original": {
@@ -106,33 +106,13 @@
         "type": "github"
       }
     },
-    "nixos-boot": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1711247125,
-        "narHash": "sha256-SZHUQOjLEWfteIsCKDQMBVz3tzes/Va163QMf56ST8I=",
-        "owner": "cab404",
-        "repo": "nixos-boot",
-        "rev": "58dc4748d2fa20a6d648d57ca8d28c569bac0019",
-        "type": "github"
-      },
-      "original": {
-        "owner": "cab404",
-        "repo": "nixos-boot",
-        "type": "github"
-      }
-    },
     "nixos-hw": {
       "locked": {
-        "lastModified": 1710783728,
-        "narHash": "sha256-eIsfu3c9JUBgm3cURSKTXLEI9Dlk1azo+MWKZVqrmkc=",
+        "lastModified": 1711352745,
+        "narHash": "sha256-luvqik+i3HTvCbXQZgB6uggvEcxI9uae0nmrgtXJ17U=",
         "owner": "nixos",
         "repo": "nixos-hardware",
-        "rev": "1e679b9a9970780cd5d4dfe755a74a8f96d33388",
+        "rev": "9a763a7acc4cfbb8603bb0231fec3eda864f81c0",
         "type": "github"
       },
       "original": {
@@ -158,11 +138,11 @@
     },
     "nixpkgs_2": {
       "locked": {
-        "lastModified": 1711001935,
-        "narHash": "sha256-URtGpHue7HHZK0mrHnSf8wJ6OmMKYSsoLmJybrOLFSQ=",
+        "lastModified": 1711703276,
+        "narHash": "sha256-iMUFArF0WCatKK6RzfUJknjem0H9m4KgorO/p3Dopkk=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "20f77aa09916374aa3141cbc605c955626762c9a",
+        "rev": "d8fe5e6c92d0d190646fb9f1056741a229980089",
         "type": "github"
       },
       "original": {
@@ -184,6 +164,19 @@
       "original": {
         "id": "nixpkgs",
         "type": "indirect"
+      }
+    },
+    "plymouth-is-underrated": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1713275333,
+        "narHash": "sha256-0BZ6+CoMfVjxA8DgVOir96m/vLsZaS4h0dTRbZonDho=",
+        "path": "/home/cab/data/cab/plymouth-is-underrated",
+        "type": "path"
+      },
+      "original": {
+        "path": "/home/cab/data/cab/plymouth-is-underrated",
+        "type": "path"
       }
     },
     "poetry2nix": {
@@ -209,9 +202,9 @@
       "inputs": {
         "gtch": "gtch",
         "home-manager": "home-manager",
-        "nixos-boot": "nixos-boot",
         "nixos-hw": "nixos-hw",
         "nixpkgs": "nixpkgs_2",
+        "plymouth-is-underrated": "plymouth-is-underrated",
         "snm": "snm",
         "swaycwd": "swaycwd",
         "wg-bond": "wg-bond"
