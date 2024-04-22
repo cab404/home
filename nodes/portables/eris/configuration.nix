@@ -24,7 +24,7 @@
   # the keyboard got weird
   services.xserver.xkb = {
     layout = "us,ru";
-    options = "ctrl:nocaps,misc:typo,altwin:prtsc_rwin,grp:win_space_toggle,lv3:ralt_switch_multikey";
+    options = "ctrl:nocaps,misc:typo,grp:win_space_toggle,lv3:ralt_switch_multikey";
   };
   services.hardware.bolt = on;
   
