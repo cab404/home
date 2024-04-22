@@ -15,6 +15,7 @@
     wayland-utils
     glxinfo
     vulkan-tools
+    kdePackages.kdenetwork-filesharing
 
     maliit-keyboard
   ]) ++ (with pkgs.plasma5Packages; [
@@ -24,8 +25,8 @@
     akonadi-calendar-tools
     akonadi
     kontact
-
-    polonium
+    kclock
+    juk
   ]);
 
   programs.kdeconnect.enable = true;
@@ -37,28 +38,34 @@
   };
   # environment.pathsToLink = [];
 
-  environment.systemPackages = with pkgs; [ 
+  environment.systemPackages = with pkgs; [
     # plasma5Packages.polonium // is not working properly
-    (plasma5Packages.bismuth.overrideAttrs {
+    (plasma5Packages.polonium.overrideAttrs {
       src = pkgs.fetchFromGitHub {
-        repo = "bismuth";
-        owner = "jkcdarunday";
-        rev = "ce377a33232b7eac80e7d99cb795962a057643ae";
-        sha256 = "VIOgZGyZYU5CSPTc7HSgGTsimY5dJzf1lTSK+e9fmaA=";
+        repo = "polonium";
+        owner = "zeroxoneafour";
+        rev = "v1.0rc";
+        sha256 = "sha256-AdMeIUI7ZdctpG/kblGdk1DBy31nDyolPVcTvLEHnNs=";
       };
     })
   ];
 
+  users.groups.sambashare = { };
+  users.users."${config._.user}".extraGroups = [ "sambashare" ];
+
   services.samba = on // {
     openFirewall = true;
     nsswins = true;
+    # Some stuff copied over from KDE Neon just to be sure
     extraConfig = ''
+      server string = %s (Samba, NixOS)
+      passwd chat = *Enter\snew\s*\spassword:* %n\n *Retype\snew\s*\spassword:* %n\n *password\supdated\ssuccessfully* .
+      server role = standalone server
+      security = user
+      encrypt passwords = true
       map to guest = bad user
-      guest account = nobody
-      usershare path = /var/lib/samba/usershares
       usershare max shares = 100
       usershare allow guests = yes
-      usershare owner only = yes
     '';
   };
 
@@ -68,7 +75,7 @@
   };
 
   services.desktopManager.plasma6 = on;
-  services.xserver = on // {  
+  services.xserver = on // {
     displayManager = {
       sddm = on // {
         wayland = on;
