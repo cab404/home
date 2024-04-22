@@ -50,7 +50,6 @@ with import ../lib.nix args; {
     };
 
     avahi = on // {
-      nssmdns4 = true;
       publish = on // {
         userServices = true;
       };
