@@ -6,7 +6,7 @@
     <modules/cab/system.nix>
     <modules/kde/system.nix>
     <modules/home-manager>
-    
+
     # usecase-specific
     <modules/recipes/ssh.nix>
     <modules/recipes/ssh-persist.nix>
@@ -20,14 +20,14 @@
   ];
 
   # programs.virt-manager.enable = true;
-  virtualisation.virtualbox.host.enable = true;
+  # virtualisation.virtualbox.host.enable = true;
   # the keyboard got weird
   services.xserver.xkb = {
     layout = "us,ru";
     options = "ctrl:nocaps,misc:typo,grp:win_space_toggle,lv3:ralt_switch_multikey";
   };
   services.hardware.bolt = on;
-  
+
   # security.audit = on // {};
 
   # Doesn't work with Linux 6
@@ -64,7 +64,7 @@
   # In the grim dark future there is only NixOS
   # system.stateVersion = lib.mkForce "40000.05";
   # (enables all of the unstable features pretty much always)
-  
+
   # services.power-profiles-daemon.enable = false;
   # services.tlp = {
   #   enable = true;
@@ -88,10 +88,10 @@
 
   nixpkgs.overlays = [
     (super: self: {
-      fprintd = self.fprintd.overrideAttrs (_: { 
-        mesonCheckFlags = [ 
+      fprintd = self.fprintd.overrideAttrs (_: {
+        mesonCheckFlags = [
           "--no-suite" "fprintd:TestPamFprintd"
-        ]; 
+        ];
       });
     })
   ];
@@ -101,7 +101,7 @@
   nix.settings.system-features = [ "gccarch-alderlake" "kvm" "nixos-test"  ];
 
   zramSwap = on;
-  
+
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
   services.udev.packages = with pkgs; [ qFlipper ];
