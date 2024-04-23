@@ -99,6 +99,10 @@ with import ../../lib.nix args;
             format = "[$time]($style)";
             time_format = "%H:%M";
           };
+          # too many shells
+          shell = {
+            disabled = false;
+          };
           battery = {
             full_symbol = "";
             charging_symbol = "+";
