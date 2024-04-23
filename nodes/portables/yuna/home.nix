@@ -68,6 +68,7 @@ in {
         fira
         font-awesome
         gohufont
+        monocraft
 
         # Window manager and looks stuff
         helvum
