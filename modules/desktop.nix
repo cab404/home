@@ -57,7 +57,7 @@ with import ../lib.nix args; {
     };
 
     flatpak = on;
-    
+
     printing = on // { drivers = [ pkgs.gutenprint ]; };
 
     # logind = lib.mkDefault {

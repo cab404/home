@@ -45,7 +45,12 @@ with import ../../lib.nix args;
       nushell = on;
 
       bat = on;
-      eza = onWithShell;
+
+      # Nushell doesn't need a better ls
+      eza = on // {
+        enableZshIntegration = true;
+        enableBashIntegration = true;
+      };
 
       direnv = on // { nix-direnv = on; };
 
