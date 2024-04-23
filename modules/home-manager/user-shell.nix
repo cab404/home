@@ -40,6 +40,9 @@ with import ../../lib.nix args;
       };
     in
     {
+      carapace = onWithShell;
+
+      nushell = on;
 
       bat = on;
       eza = onWithShell;
@@ -107,7 +110,6 @@ with import ../../lib.nix args;
           };
         };
       };
-
 
       helix = on // {
         settings = {
@@ -180,7 +182,7 @@ with import ../../lib.nix args;
           }
           starship_precmd_user_func="set_win_title"
           precmd_functions+=(set_win_title)
-          
+
           # add some library to LD_LIBRARY_PATH
           ldnix() {
             # since we already use nix-ld, we can reuse the NIX_LDFLAGS
