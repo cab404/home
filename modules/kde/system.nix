@@ -75,14 +75,12 @@
   };
 
   services.desktopManager.plasma6 = on;
-  services.xserver = on // {
-    displayManager = {
+  services.displayManager = on // {
       sddm = on // {
         wayland = on;
       };
       autoLogin = on // { user = config._.user; };
     # defaultSession = "plasmawayland";
-    };
   };
 
 }
