@@ -76,8 +76,11 @@ in {
     
     loginAccounts = {
       "cab@${fqdn}" = {
-        aliases = [ 
+        aliases = [
           "me"
+          "resume"
+          "webmaster"
+          "admin"
           "cab404@mailbox.org"
           "@cab404.ru"
         ];
