@@ -13,6 +13,10 @@
     ntfsprogs btrfs-progs
   ]);
 
+  documentation.man = {
+    generateCaches = true;
+  };
+
   # ====== NixOS system-level stuff
 
   # In the grim dark future there is only NixOS
