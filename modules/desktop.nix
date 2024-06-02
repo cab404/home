@@ -122,6 +122,15 @@ with import ../lib.nix args; {
     polkit_gnome # and polkit guis :\
   ];
 
+
+  security.pam.loginLimits = [
+    {
+      domain = "@users";
+      item = "rtprio";
+      value = "1000";
+    }
+  ];
+  
   # what a mess
   users.users."${config._.user}".extraGroups =
     [ "containers" "plugdev" "tor" "wireshark" "libvirtd" "sound" ];
