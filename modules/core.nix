@@ -23,11 +23,6 @@
   # system.stateVersion = "40000.00";
   # (enables all of the unstable features pretty much always)
 
-  boot = lib.mkDefault {
-    kernelParams = [ "quiet" ];
-  };
-
-
   # ====== Basic tty and shell look-and-feel configuration and hacks
 
   console = {
