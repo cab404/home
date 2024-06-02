@@ -92,11 +92,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1713789879,
-        "narHash": "sha256-4Wt3Bg6uOnvwZcECBZaFEdzlWRlGLgd8DqLL4ugLdxg=",
+        "lastModified": 1715930644,
+        "narHash": "sha256-W9pyM3/vePxrffHtzlJI6lDS3seANQ+Nqp+i58O46LI=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "46833c3115e8858370880d892748f0927d8193c3",
+        "rev": "e3ad5108f54177e6520535768ddbf1e6af54b59d",
         "type": "github"
       },
       "original": {
@@ -108,11 +108,11 @@
     },
     "nixos-hw": {
       "locked": {
-        "lastModified": 1713521961,
-        "narHash": "sha256-EwR8wW9AqJhSIY+0oxWRybUZ32BVKuZ9bjlRh8SJvQ8=",
+        "lastModified": 1716173274,
+        "narHash": "sha256-FC21Bn4m6ctajMjiUof30awPBH/7WjD0M5yqrWepZbY=",
         "owner": "nixos",
         "repo": "nixos-hardware",
-        "rev": "5d48925b815fd202781bfae8fb6f45c07112fdb2",
+        "rev": "d9e0b26202fd500cf3e79f73653cce7f7d541191",
         "type": "github"
       },
       "original": {
@@ -138,11 +138,11 @@
     },
     "nixpkgs_2": {
       "locked": {
-        "lastModified": 1713714899,
-        "narHash": "sha256-+z/XjO3QJs5rLE5UOf015gdVauVRQd2vZtsFkaXBq2Y=",
+        "lastModified": 1716137900,
+        "narHash": "sha256-sowPU+tLQv8GlqtVtsXioTKeaQvlMz/pefcdwg8MvfM=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "6143fc5eeb9c4f00163267708e26191d1e918932",
+        "rev": "6c0b7a92c30122196a761b440ac0d46d3d9954f1",
         "type": "github"
       },
       "original": {
@@ -169,14 +169,17 @@
     "plymouth-is-underrated": {
       "flake": false,
       "locked": {
-        "lastModified": 1713275333,
-        "narHash": "sha256-0BZ6+CoMfVjxA8DgVOir96m/vLsZaS4h0dTRbZonDho=",
-        "path": "/home/cab/data/cab/plymouth-is-underrated",
-        "type": "path"
+        "lastModified": 1713254695,
+        "narHash": "sha256-5BeomQ8qhAKddUJqC4tTkGMvjW2mObnjvgDtTSb5g6Y=",
+        "owner": "cab404",
+        "repo": "plymouth-is-underrated",
+        "rev": "8f4fa29b5891d1a7c612267ac93b5fb725ac4257",
+        "type": "github"
       },
       "original": {
-        "path": "/home/cab/data/cab/plymouth-is-underrated",
-        "type": "path"
+        "owner": "cab404",
+        "repo": "plymouth-is-underrated",
+        "type": "github"
       }
     },
     "poetry2nix": {
@@ -220,11 +223,11 @@
         "utils": "utils_2"
       },
       "locked": {
-        "lastModified": 1713012165,
-        "narHash": "sha256-z/soXKDnz+w4Nw0LkRaM73YqolhSmIYy6cpg1F2ps8I=",
+        "lastModified": 1714720456,
+        "narHash": "sha256-e0WFe1BHqX23ADpGBc4ZRu38Mg+GICCZCqyS6EWCbHc=",
         "owner": "simple-nixos-mailserver",
         "repo": "nixos-mailserver",
-        "rev": "9f6635a0351c190179dc6904545f950108a23dd8",
+        "rev": "41059fc548088e49e3ddb3a2b4faeb5de018e60f",
         "type": "gitlab"
       },
       "original": {

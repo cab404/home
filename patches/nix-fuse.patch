@@ -1,0 +1,27 @@
+diff --git a/src/libstore/unix/build/local-derivation-goal.cc b/src/libstore/unix/build/local-derivation-goal.cc
+index 16095cf5d..cef564543 100644
+--- a/src/libstore/unix/build/local-derivation-goal.cc
++++ b/src/libstore/unix/build/local-derivation-goal.cc
+@@ -1903,6 +1903,10 @@ void LocalDerivationGoal::runChild()
+                 }
+             }
+ 
++            if (pathExists("/dev/fuse")) {
++                doBind("/dev/fuse", chrootRootDir + "/dev/fuse");
++            }
++
+             /* Make /etc unwritable */
+             if (!parsedDrv->useUidRange())
+                 chmod_(chrootRootDir + "/etc", 0555);
+diff --git a/src/libstore/unix/build/sandbox-defaults.sb b/src/libstore/unix/build/sandbox-defaults.sb
+index 2ad5fb616..7d0134ee0 100644
+--- a/src/libstore/unix/build/sandbox-defaults.sb
++++ b/src/libstore/unix/build/sandbox-defaults.sb
+@@ -74,6 +74,7 @@ R""(
+        (literal "/dev/tty")
+        (literal "/dev/urandom")
+        (literal "/dev/zero")
++       (literal "/dev/fuse")
+        (subpath "/dev/fd"))
+ 
+ ; Allow pseudo-terminals.

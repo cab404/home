@@ -17,6 +17,7 @@
     <modules/recipes/substituters.nix>
     <modules/recipes/oculus.nix>
     <modules/recipes/btkill.nix>
+    <modules/recipes/splash.nix>
   ];
 
   # programs.virt-manager.enable = true;

@@ -41,7 +41,8 @@
     gtch.url = "/home/cab/data/cab/ticket-checker";
     gtch.inputs.nixpkgs.follows = "nixpkgs";
 
-    plymouth-is-underrated.url = "/home/cab/data/cab/plymouth-is-underrated";
+    plymouth-is-underrated.url = "github:cab404/plymouth-is-underrated";
+    # plymouth-is-underrated.url = "/home/cab/data/cab/plymouth-is-underrated";
     plymouth-is-underrated.flake = false;
 
     swaycwd.url = "sourcehut:~cab/swaycwd";
@@ -101,7 +102,7 @@
         settings.system;
 
       onPkgs = f: builtins.mapAttrs f patchedPkgs.legacyPackages;
-     
+
       nodes = {
           # My notebook
           yuna = ./nodes/portables/yuna;
@@ -117,14 +118,16 @@
 
           # My printer
           fudemonix = ./nodes/fudemonix;
-          
+
+          # the other server
+          twob = ./nodes/twob;
         };
 
     in
     {
 
       nixosConfigurations =
-        (builtins.mapAttrs (_: node) nodes) // 
+        (builtins.mapAttrs (_: node) nodes) //
         {
 
           # Yup, installer
@@ -148,12 +151,12 @@
       devShells = onPkgs (system: pkgs: with pkgs; {
         default = mkShell {
           buildInputs = [
-            nixUnstable
+            nixVersions.latest
             nixpkgs-fmt
             nil
 
             nushell
-            
+
             # wg-bond.defaultPackage.${system}
           ];
         };
