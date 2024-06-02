@@ -38,7 +38,7 @@ with import ../lib.nix args; {
   systemd.services.cups-browsed.serviceConfig.TimeoutStopSec=2;
 
   services = {
-    gnunet = on;
+    # gnunet = on;
 
     tor = on // {
       client = on // { dns = on; };
