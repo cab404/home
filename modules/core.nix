@@ -32,9 +32,17 @@
       "888987" "FB001E" "0E712E" "C37033"
       "176CE3" "FB0067" "2D6F6C" "FCFFB8"
     ];
-    font = "Lat2-Terminus16";
+    packages = [ pkgs.kbd ];
+    # Is executed during phase 1 :(
+    # font = "Lat2-Terminus16";
     useXkbConfig = true; # ctrl:nocaps at last
   };
+  # well, i think I need it in the same location I have it inside initrd for
+  # vconsole setup to properly work, and I don't want to make filtered package
+  # with one font for that to reduce initrd closure size. and I am not feeling like
+  # increasing initrd closure size by kbd.out number of megabytes
+  # boot.initrd.extraFiles."/share/consolefonts/Lat2-Terminus16.psfu.gz" = "${pkgs.kbd}/share/consolefonts/Lat2-Terminus16.psfu.gz";
+
 
   i18n.defaultLocale = "C.UTF-8";
 
