@@ -41,7 +41,7 @@ with import ../../lib.nix args;
     in
     {
       man.generateCaches = true;
-      
+
       carapace = onWithShell;
 
       nushell = on;
@@ -142,6 +142,14 @@ with import ../../lib.nix args;
           };
         };
       };
+
+      # eats way too much cpu :\
+      # zellij = on // {
+      #   enableZshIntegration = true;
+      #   enableBashIntegration = true;
+      #   settings = {
+      #   };
+      # };
 
       # Well, I still use it from time to time
       bash = on // {
