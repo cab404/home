@@ -44,7 +44,15 @@ with import ../../lib.nix args;
 
       carapace = onWithShell;
 
-      nushell = on;
+      nushell = on // {
+        configFile.text = ''
+          let $config = {
+            table_mode: rounded
+            use_ls_colors: true
+          };
+        '';
+
+      };
 
       bat = on;
 
