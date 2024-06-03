@@ -20,14 +20,14 @@
     <modules/recipes/splash.nix>
   ];
 
-  # programs.virt-manager.enable = true;
-  # virtualisation.virtualbox.host.enable = true;
   # the keyboard got weird
   services.xserver.xkb = {
     layout = "us,ru";
     options = "ctrl:nocaps,misc:typo,grp:win_space_toggle,lv3:ralt_switch_multikey";
   };
   services.hardware.bolt = on;
+
+  services.guix.enable = true;
 
   # security.audit = on // {};
 
