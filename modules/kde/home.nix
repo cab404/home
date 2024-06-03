@@ -10,6 +10,10 @@
     ];
   };
 
+  programs.zsh.shellAliases = {
+    "reboot" = "qdbus org.kde.Shutdown /Shutdown logoutAndReboot";
+  };
+
   services = {
     easyeffects = on;
     copyq = on;
