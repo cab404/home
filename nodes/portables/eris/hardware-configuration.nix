@@ -12,11 +12,6 @@ with prelude; let __findFile = prelude.__findFile; in
 
   boot.initrd.systemd.enable = true;
 
-  boot.plymouth.enable = true;
-  boot.plymouth.theme = "evil-nixos";
-  boot.plymouth.font = "${pkgs.fira-code}/share/fonts/truetype/FiraCode-VF.ttf";
-  boot.plymouth.themePackages = [ (pkgs.callPackage inputs.plymouth-is-underrated.outPath {}) ];
-
   # OpenCL stuff
   environment.systemPackages = [
     pkgs.clinfo

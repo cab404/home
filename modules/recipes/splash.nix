@@ -3,7 +3,6 @@ with prelude; let __findFile = prelude.__findFile; in
 {
 
   boot = {
-    initrd.systemd = on;
 
     plymouth = on // {
       theme = "evil-nixos";
