@@ -109,6 +109,7 @@ in
         picocom
         scrcpy
         qFlipper
+        headphones-toolbox
         android-tools
         #ledger-live-desktop
 

@@ -22,6 +22,8 @@ with import ../lib.nix args; {
         ATTR{idVendor}=="1781", ATTR{idProduct}=="0c9f", GROUP="dialout"
         # DSO-2090
         ATTR{idVendor}=="04b4", ATTR{idProduct}=="2090", GROUP="dialout"
+        # Ploooooopy
+        SUBSYSTEM=="usb", ATTR{idVendor}=="2e8a", ATTR{idProduct}=="fedd", MODE="666"
 
         SUBSYSTEM=="usb", ACTION=="add", ENV{DEVTYPE}=="usb_device", ATTRS{idVendor}=="04b5", ATTRS{idProduct}=="6021", TAG+="uaccess", TAG+="udev-acl", GROUP="dialout"
       '')
