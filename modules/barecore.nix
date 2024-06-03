@@ -32,7 +32,7 @@
 
   require = [ ./options.nix ];
   nix = {
-    package = pkgs.nixUnstable;
+    package = pkgs.nixVersions.latest;
     settings = {
       trusted-users = [ "root" config._.user ];
       experimental-features = [ "nix-command" "flakes" "ca-derivations" ];
