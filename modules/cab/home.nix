@@ -49,7 +49,7 @@ in
         ffmpeg-full
         # peek # Doesn't support wayland :(
         tenacity
-        openscad
+        openscad-unstable
         solvespace
         blender
         simple-scan
