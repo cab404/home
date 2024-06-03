@@ -1,5 +1,5 @@
-args@{ inputs, prelude, lib, config, pkgs, ... }: with prelude; let __findFile = prelude.__findFile; in 
-let 
+args@{ inputs, prelude, lib, config, pkgs, ... }: with prelude; let __findFile = prelude.__findFile; in
+let
   fqdn = "cab.moe";
 in {
 
@@ -11,7 +11,7 @@ in {
         in concatStrings (flip mapAttrsToList mailAccounts (mail: user:
         ''
           echo -n ${mail}:
-          ${ if user.hashedPasswordFile != null then ''         
+          ${ if user.hashedPasswordFile != null then ''
             cat ${user.hashedPasswordFile}
           '' else ''
             echo ${user.hashedPassword}
@@ -63,7 +63,7 @@ in {
     certificateScheme = "manual";
     certificateFile = "/var/lib/caddy/.local/share/caddy/certificates/acme-v02.api.letsencrypt.org-directory/${fqdn}/${fqdn}.crt";
     keyFile = "/var/lib/caddy/.local/share/caddy/certificates/acme-v02.api.letsencrypt.org-directory/${fqdn}/${fqdn}.key";
-    
+
     enableManageSieve = true;
     # Eeeh. It's not really that useful, as by default this mailbox is not being subscribed to,
     # and I can't move them to a subdirectory, so they don't clutter the space.
@@ -73,7 +73,7 @@ in {
 
     # Well, let's move to a newer hierarchy separator
     hierarchySeparator = "/";
-    
+
     loginAccounts = {
       "cab@${fqdn}" = {
         aliases = [
