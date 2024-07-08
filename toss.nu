@@ -132,9 +132,9 @@ export def "main build" [
     --log-format bar-with-logs
   ]
 
-  log info $'Running ($buildCommand) on ($hostInfo.host)'
-  let builtSystem = run-external ssh root@($hostInfo.host) ...$buildCommand
-
+  log debug $'Running ($buildCommand) on ($hostInfo.host)'
+  let builtSystem = run-external ssh $"root@($hostInfo.host)" ...$buildCommand
+  log debug $"Built: ($builtSystem)"
   # log info $"System built; sending to target host"
   # log debug $"Path: ($builtSystem)"
   # run-external ssh ...[root@($hostInfo.host) nix copy --to $target_host $builtSystem]

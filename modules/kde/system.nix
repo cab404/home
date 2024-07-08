@@ -16,6 +16,7 @@
     glxinfo
     vulkan-tools
     kdePackages.kdenetwork-filesharing
+    kdePackages.kpmcore
 
     maliit-keyboard
   ]) ++ (with pkgs.plasma5Packages; [
@@ -27,6 +28,7 @@
     kontact
     kclock
     juk
+    partitionmanager
   ]);
 
   programs.kdeconnect.enable = true;

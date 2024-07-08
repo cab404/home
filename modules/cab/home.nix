@@ -21,7 +21,7 @@ in
         # winetricks
 
         # Interweebs
-        transmission-gtk
+        transmission_4-qt
         thunderbird
         # jitsi-meet-electron
         # mumble
