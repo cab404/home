@@ -14,10 +14,10 @@
 
     nix-index # woo, search in nix packages files!
 
-    nix-zsh-completions
-    zsh-completions # systemctl ena<TAB>... AAAAGH
-    nix-bash-completions
-    bash-completion
+    # nix-zsh-completions
+    # zsh-completions # systemctl ena<TAB>... AAAAGH
+    # nix-bash-completions
+    # bash-completion
 
     waypipe
   ]);
@@ -89,7 +89,7 @@
     zsh = on // {
       enableCompletion = true;
     };
-    bash.enableCompletion = true;
+    bash.completion.enable = true;
   };
 
   environment.variables = { EDITOR = "hx"; };

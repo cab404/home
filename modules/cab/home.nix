@@ -146,7 +146,7 @@ in
 
         # Themes, all of them
         adwaita-qt
-        gnome3.adwaita-icon-theme
+        adwaita-icon-theme
         gnome-themes-extra
 
         anytype
@@ -228,7 +228,7 @@ in
     };
 
   services = enableThings [
-    "flameshot"
+    # "flameshot"
   ]
     {
 

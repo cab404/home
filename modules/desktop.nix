@@ -105,7 +105,7 @@ with import ../lib.nix args; {
   boot.kernel.sysctl = { "fs.inotify.max_user_watches" = 1000000; };
 
   hardware = {
-    opengl = on;
+    graphics = on;
     bluetooth = on;
     # opentabletdriver = on;
   };
@@ -130,7 +130,7 @@ with import ../lib.nix args; {
       value = "1000";
     }
   ];
-  
+
   # what a mess
   users.users."${config._.user}".extraGroups =
     [ "containers" "plugdev" "tor" "wireshark" "libvirtd" "sound" ];

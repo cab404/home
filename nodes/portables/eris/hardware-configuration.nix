@@ -17,9 +17,9 @@ with prelude; let __findFile = prelude.__findFile; in
     pkgs.clinfo
   ];
 
-  hardware.opengl = on // {
-    driSupport = true;
-    driSupport32Bit = true;
+  hardware.graphics = on // {
+    # driSupport = true;
+    # driSupport32Bit = true;
     extraPackages = with pkgs; [
       nvidia-vaapi-driver
       intel-compute-runtime
