@@ -15,11 +15,12 @@
     wayland-utils
     glxinfo
     vulkan-tools
-    kdePackages.kdenetwork-filesharing
-    kdePackages.kpmcore
 
     maliit-keyboard
-  ]) ++ (with pkgs.plasma5Packages; [
+
+    quodlibet-full
+
+  ]) ++ (with pkgs.kdePackages; [
     # I have no clue, why akonadi can't find its plugins with a basic packaging,
     # but merkuro manages to launch it correctly. Something to take a look in nixpkgs.
     merkuro
@@ -27,8 +28,13 @@
     akonadi
     kontact
     kclock
-    juk
+
+
+    kdenetwork-filesharing
+
     partitionmanager
+    kpmcore
+
   ]);
 
   programs.kdeconnect.enable = true;
