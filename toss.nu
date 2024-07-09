@@ -122,7 +122,7 @@ export def "main build" [
   nix copy --to $build_host $archiveInfo.path
 
   log info $"Evaluating system"
-  let drvPath = nix eval ($archiveInfo.path + "#" + (configAttr $hostname) + ".drvPath") --json | from json
+  let drvPath = (nix eval ($archiveInfo.path + "#" + (configAttr $hostname) + ".drvPath") --offline --json) | from json
   nix copy --to $build_host $drvPath
 
   log info $"Building system on ($build_host)"
