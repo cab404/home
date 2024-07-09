@@ -99,6 +99,14 @@ export def "main local" [] {
   log info "Done!"
 }
 
+export def "main send-secrets" [
+  hostname: string@hosts
+] {
+  let hostSettings = allHostSettings;
+  let hostInfo = $hostSettings | get ($hostname)
+  rsync -avP $"secrets/($hostname)/." $"root@($hostInfo.host):/secrets"
+}
+
 export def "main build" [
   hostname: string@hosts # What host to
   --eval_host: string = "daemon" # Where to copy the closure for evaluation. Build host must be accessible from there.
