@@ -23,8 +23,6 @@ in
         # Interweebs
         transmission_4-qt
         thunderbird
-        # jitsi-meet-electron
-        # mumble
         nheko
 
         # Coding/Netutils
@@ -32,14 +30,12 @@ in
         glab
 
         # Coding
-        # rnix-lsp
         nil
         ghc
         sbcl
-        jdk8
+        jdk17
         nim
-        julia-stable-bin # all julias are generally broken. which strangely coinsides with my life experience
-
+        # julia-stable-bin # all julias are generally broken. which strangely coinsides with my life experience
 
         # Editing
         libreoffice
@@ -57,8 +53,8 @@ in
 
         # at least do backups
         restic
-        # Fonts
 
+        # Fonts
         source-code-pro
         noto-fonts
         fira-code
@@ -77,12 +73,13 @@ in
 
 
         # Command line comfort
-        alacritty
+        # alacritty
+        zellij
         perl
         zsh
 
         pulsemixer
-        silver-searcher
+        silver-searcher # some scripts still use it
         fzf
         file
         bat
@@ -98,18 +95,19 @@ in
         lutris-free
 
         # Development
+        zed-editor
         docker-compose
         # insomnia
         remmina
 
         # Hardware?
-        minicom
         pulseview
+        minicom
         cutecom
         picocom
         scrcpy
-        qFlipper
-        headphones-toolbox
+        # qFlipper
+        # headphones-toolbox
         android-tools
         #ledger-live-desktop
 
@@ -121,7 +119,6 @@ in
         font-manager
         # gthumb
         audacious
-        # quodlibet
         ytfzf
         yt-dlp
 
@@ -140,16 +137,16 @@ in
         # systemd
 
         # Personal data and sync
+        # anytype # too old
         browserpass
         gnupg
-        nextcloud-client
+        nextcloud-client # meh
 
         # Themes, all of them
         adwaita-qt
         adwaita-icon-theme
         gnome-themes-extra
 
-        anytype
         # Notes are important!
         (writeShellScriptBin "notes" ''
           # codium ~/data/cab/notes/ ~/data/cab/notes/$(date +%Y-%m-%d).md
