@@ -99,6 +99,7 @@ in
         docker-compose
         # insomnia
         remmina
+        patchelf
 
         # Hardware?
         pulseview
@@ -107,7 +108,7 @@ in
         picocom
         scrcpy
         # qFlipper
-        # headphones-toolbox
+        headphones-toolbox
         android-tools
         #ledger-live-desktop
 
@@ -121,6 +122,7 @@ in
         audacious
         ytfzf
         yt-dlp
+        unrar-free
 
         # Funny utilities
         aircrack-ng
@@ -151,6 +153,27 @@ in
         (writeShellScriptBin "notes" ''
           # codium ~/data/cab/notes/ ~/data/cab/notes/$(date +%Y-%m-%d).md
           flatpak run --socket=wayland com.logseq.Logseq --enable-features=UseOzonePlatform --ozone-platform=wayland
+        '')
+
+        # Runs something with common libs
+        (writeShellScriptBin "with-libs" ''
+          export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${ lib.makeLibraryPath (with pkgs; [
+            libsecret
+            openssl
+
+            fontconfig
+            gdk-pixbuf
+            glamoroustoolkit
+            gst_all_1.gst-plugins-base
+            gst_all_1.gstreamer
+            qt6.full
+            saw-tools
+
+            webkitgtk
+            xorg.libX11
+            zlib
+          ]) }
+          exec $@
         '')
 
         (pkgs.callPackage <theme-changer.nix> { })
