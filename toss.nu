@@ -22,6 +22,7 @@ module log {
     )
   }
 
+
   export def error [
     text: string
   ] {
@@ -66,7 +67,6 @@ def nixBuildCommand [
   [nix build $"($flake_path)#($attr)" --no-link --print-out-paths ...$additional_params]
 }
 
-
 def configAttr [machine: string] nothing -> string { $"nixosConfigurations.($machine).config.system.build.toplevel" }
 
 # Get all host settings from flake
@@ -99,58 +99,190 @@ export def "main local" [] {
   log info "Done!"
 }
 
+# Mainly used to set control socket for Nix
+
+# Runs command on a host.
+# You can change it for your purposes (e.g to `tailscale ssh` if you are using tailscale), or use another switch user
+def remoteExecute [
+  --timeout: int
+  --reconnect
+  hostInfo: any
+  cmdWithArgs: list<string>
+] {
+  log debug $'Running ($cmdWithArgs) on ($hostInfo.host)'
+
+  mkdir .toss
+  let port = $hostInfo.port? | default 22
+  run-external ssh ...[
+    -p $port
+
+    # It is quite nice to have your own hostkeys if you are using multiple tailnets
+  ...(if $timeout != null {[-o ConnectTimeout=($timeout)]} else {[]})
+    # If we don't need to reconnect, use socket for connection
+    ...(if not $reconnect {[
+      -o $"ControlPath=(pwd)/.toss/ssh-toss-($hostInfo.name)"
+      -o ControlMaster=auto
+      -o ControlPersist=2m
+      ]} else {[
+      -o ControlMaster=no
+      ]})
+
+    -o ServerAliveCountMax=10
+    -o ServerAliveInterval=1
+    -o Compression=yes
+    -o $"UserKnownHostsFile=(pwd)/.toss/hostkeys"
+    $"root@($hostInfo.host)"
+    ...$cmdWithArgs
+  ]
+}
+
+def getHostInfo [hostname] nothing -> any {
+  allHostSettings | get ($hostname) | merge {name: $hostname}
+}
+
+export def "main get-secrets" [
+  hostname: string@hosts
+] {
+  let hostSettings = allHostSettings;
+  let hostInfo = getHostInfo $hostname
+  rsync -avP $"root@($hostInfo.host):/secrets/." $"secrets/($hostname)/."
+}
+
 export def "main send-secrets" [
   hostname: string@hosts
 ] {
   let hostSettings = allHostSettings;
-  let hostInfo = $hostSettings | get ($hostname)
-  rsync -avP $"secrets/($hostname)/." $"root@($hostInfo.host):/secrets"
+  let hostInfo = getHostInfo $hostname
+  rsync -avP $"secrets/($hostname)/." $"root@($hostInfo.host):/secrets/."
 }
 
 export def "main build" [
-  hostname: string@hosts # What host to
-  --eval_host: string = "daemon" # Where to copy the closure for evaluation. Build host must be accessible from there.
-  --build_host: string = "daemon" # Where to build the closure. Target host must be accessible from there.
-  --target_host: string = "daemon" # Where to copy the final system.
+  hostname: string@hosts
+  # --eval_host: string = "daemon" # Where to copy the closure for evaluation. Build host must be accessible from there.
+
+  # Where to build the closure. Target host must be accessible from there.
+  --build_host: string
+  # Where to copy the final system.
+  --target_host: string
+  # Whether to check the connectivity to the host after switching configurations. Helps with locking yourself out.
+  --rollback-if-stuck
 ] {
   let hostSettings = allHostSettings;
+  let hostInfo = getHostInfo $hostname
+
+  # We can technically have implcit parameters...
+  # set-env hostInfo $hostInfo
+
+  # TODO: Add user selection for profile switching
+  # TODO: Add custom profile switching
+  let eBuildHost = $build_host | default $"ssh-ng://root@($hostInfo.host)"
+  let eTargetHost = $target_host | default $"ssh-ng://root@($hostInfo.host)"
+
+  log debug $"Build host: ($eBuildHost)"
+  log debug $"Target host: ($eTargetHost)"
 
   if ($hostname not-in $hostSettings) {
     log error "Can't build for local system, hostname not found in the settings"
     exit 1
   }
 
-  let hostInfo = $hostSettings | get ($hostname)
 
   # We won't be messing around with copying stuff ourselves.
   # nix archive → nix copy → nix build → nix copy
   # 1. Eval
-  log info $"Sending source to build host ($build_host)"
-  let archiveInfo = nix flake archive --json | from json
-  nix copy --to $build_host $archiveInfo.path
+  # log info $"Sending source to build host ($eBuildHost)"
+  # let archiveInfo = nix flake archive --json | from json
+  # nix copy --to $eBuildHost $archiveInfo.path
 
-  log info $"Evaluating system"
-  let drvPath = (nix eval ($archiveInfo.path + "#" + (configAttr $hostname) + ".drvPath") --offline --json) | from json
-  nix copy --to $build_host $drvPath
 
-  log info $"Building system on ($build_host)"
+  let drvPath = try {
+    log info $"Evaluating system"
+    ^nix eval (".#" + (configAttr $hostname) + ".drvPath") --json | from json
+  } catch {
+    log error $"Eval failed: exited with ($env.LAST_EXIT_CODE)"
+    exit $env.LAST_EXIT_CODE
+  }
+  if (($drvPath | length) == 0) {
+    log error "Eval produced no output path!"
+    exit 1
+  }
+  log info $"Done eval: ($drvPath) ($drvPath | length)"
+
+  try {
+    log info $"Sending derivation to destination system. Expect ridiculously huge sizes."
+    ^nix copy --derivation --to $eBuildHost $drvPath
+  } catch {
+    log error $"Couldn't send derivation: exited with ($env.LAST_EXIT_CODE)"
+    exit $env.LAST_EXIT_CODE
+  }
+
+
   let buildCommand = [
     nix-build $drvPath
     --no-out-link
     --log-format bar-with-logs
   ]
 
-  log debug $'Running ($buildCommand) on ($hostInfo.host)'
-  let builtSystem = run-external ssh $"root@($hostInfo.host)" ...$buildCommand
+  let builtSystem = try {
+    log info $"Building system on ($eBuildHost)"
+    remoteExecute $hostInfo $buildCommand
+  } catch {
+    log error $"Build failed: exited with ($env.LAST_EXIT_CODE | into string)"
+    exit $env.LAST_EXIT_CODE
+  }
+
+  if ($builtSystem == "") {
+    log error $"Built produced no output path!"
+    exit 1
+  }
   log debug $"Built: ($builtSystem)"
-  # log info $"System built; sending to target host"
-  # log debug $"Path: ($builtSystem)"
-  # run-external ssh ...[root@($hostInfo.host) nix copy --to $target_host $builtSystem]
 
-  log debug $"Activating via SSH on target host"
-  ssh $"root@($hostInfo.host)" $"($builtSystem)/bin/switch-to-configuration" switch
-  # now for connection part
+  if ($eTargetHost != $eBuildHost) {
+    log info $"System built; sending to target host"
+    log debug $"Path: ($builtSystem)"
+    remoteExecute $hostInfo [ nix copy --to $eTargetHost $builtSystem ]
+  }
 
+  log info $"Priming un-stucking stepbrotherscript, 30 second timer should be enough..."
+
+  # Escapes string into something SH understands.
+  # We need several layers of escaping, so mistakes will be made if done by hand.
+  # We also can emulate this behavior in code, but
+  def shescape [] list<string> -> string { ^sh ...[ -c 'read -sr A; printf %q "$A"' ] }
+
+  # Our timeout will be 30 seconds.
+  let unstuckScript = "/nix/var/nix/profiles/system/bin/switch-to-configuration switch";
+
+  let unstuckPid = remoteExecute $hostInfo [
+    sh -c ([
+
+      # Sleep, and then launch the script
+      sh -c ([
+        "sleep 30;" $unstuckScript
+      ] | str join " " | shescape)
+
+      # Redirect to /dev/null, unhook from SSH session and print its PID for us to remember.
+      ">/dev/null 2>&1 & { disown -ha; echo $!; }"
+    ] | str join " "| shescape)
+  ] | into int
+
+  log info $"Activating via SSH on target host"
+  try {
+    remoteExecute $hostInfo [ $"($builtSystem)/bin/switch-to-configuration" switch ]
+  } catch {
+    log error $"Exited with ($env.LAST_EXIT_CODE)"
+    log error "sus"
+  }
+
+  try {
+    log info $"Trying to deactivate un-stucking brotherscript..."
+    remoteExecute --reconnect $hostInfo [ kill ($unstuckPid | into string) ]
+  } catch {
+    log error $"Failed to disarm, brother will help us get unstuck in several seconds."
+  }
+
+  log info $"Activation successful, updating system profile"
+  remoteExecute $hostInfo [ nix-env -p /nix/var/nix/profiles/system --set $builtSystem ]
 }
 
 export def "main" [] {
