@@ -6,12 +6,13 @@
 with builtins;
 let
   enabled_modules = [
-    "alacritty"
-    "doom-emacs"
+    # "alacritty"
+    # "doom-emacs"
     "vscodium"
     "vscode"
     "gtk3"
-    "sway"
+    # "sway"
+    "lookandfeeltool"
   ];
 
   themes = {
@@ -24,6 +25,7 @@ let
       vscode = vscodium;
       gtk3 = "Adwaita-dark";
       sway = "";
+      lookandfeeltool = "org.kde.breezedark.desktop";
     };
 
     light = rec {
@@ -34,6 +36,7 @@ let
       vscode = vscodium;
       gtk3 = "Adwaita";
       sway = "";
+      lookandfeeltool = "org.kde.breeze.desktop";
     };
 
     sailor = rec {
@@ -42,6 +45,7 @@ let
       doom-emacs = "doom-fairy-floss";
       vscodium = "fairyfloss";
       vscode = vscodium;
+      lookandfeeltool = "kde.breeze.desktop";
       gtk3 = "Adwaita-dark";
       sway = ''
         sway font pango:FiraSansCondensed 8
@@ -79,6 +83,8 @@ let
     vscode = t: inlineJq "~/.config/Code/User/settings.json" ''.["workbench.colorTheme"]=${builtins.toJSON t}'';
 
     gtk3 = t: ''${pkgs.dconf}/bin/dconf write /org/gnome/desktop/interface/gtk-theme \"${t}\"'';
+
+    lookandfeeltool = t: ''${pkgs.libsForQt5.plasma-workspace}/bin/lookandfeeltool -a ${t}'';
 
     sway = t: t;
   };
