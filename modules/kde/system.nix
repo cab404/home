@@ -43,11 +43,10 @@
   programs.kdeconnect.enable = true;
 
   # yaaay screensharing
-  programs.weylus = on // {
-    openFirewall = true;
-    users = [ config._.user ];
-  };
-  # environment.pathsToLink = [];
+  # programs.weylus = on // {
+  #   openFirewall = true;
+  #   users = [ config._.user ];
+  # };
 
   environment.systemPackages = with pkgs; [
     # plasma5Packages.polonium // is not working properly
