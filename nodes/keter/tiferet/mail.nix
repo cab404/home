@@ -83,6 +83,8 @@ in {
           "admin"
           "cab404@mailbox.org"
           "@cab404.ru"
+          # eeh
+          "@cab.moe"
         ];
         hashedPasswordFile = "/secrets/cab-mail-pw";
       };
