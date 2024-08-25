@@ -16,6 +16,8 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  systemd.services."NetworkManager-wait-online".wantedBy = lib.mkForce [];
+
   networking.hostName = "c1";
   _.user = "cab";
 
