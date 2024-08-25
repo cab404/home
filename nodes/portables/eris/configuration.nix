@@ -10,7 +10,7 @@
     # usecase-specific
     <modules/recipes/ssh.nix>
     <modules/recipes/ssh-persist.nix>
-    # <modules/recipes/streaming.nix>
+    <modules/recipes/streaming.nix>
     <modules/recipes/audio.nix>
     <modules/recipes/nixld.nix>
     <modules/recipes/hwhack.nix>
