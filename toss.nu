@@ -243,14 +243,15 @@ export def "main build" [
     remoteExecute $hostInfo [ nix copy --to $eTargetHost $builtSystem ]
   }
 
-  log info $"Priming un-stucking stepbrotherscript, 30 second timer should be enough..."
+
+  let time = 60;
+  log info $"Priming un-stucking stepbrotherscript, ($time) second timer should be enough..."
 
   # Escapes string into something SH understands.
   # We need several layers of escaping, so mistakes will be made if done by hand.
   # We also can emulate this behavior in code, but
-  def shescape [] list<string> -> string { ^sh ...[ -c 'read -sr A; printf %q "$A"' ] }
+  def shescape [] string -> string { ^sh ...[ -c 'read -sr A; printf %q "$A"' ] }
 
-  # Our timeout will be 30 seconds.
   let unstuckScript = "/nix/var/nix/profiles/system/bin/switch-to-configuration switch";
 
   let unstuckPid = remoteExecute $hostInfo [
@@ -258,7 +259,7 @@ export def "main build" [
 
       # Sleep, and then launch the script
       sh -c ([
-        "sleep 30;" $unstuckScript
+        $"sleep ($time);" $unstuckScript
       ] | str join " " | shescape)
 
       # Redirect to /dev/null, unhook from SSH session and print its PID for us to remember.
