@@ -27,7 +27,7 @@
   };
   services.hardware.bolt = on;
 
-  services.guix.enable = true;
+  # services.guix.enable = true;
 
   # security.audit = on // {};
 
