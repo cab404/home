@@ -49,15 +49,15 @@
   # };
 
   environment.systemPackages = with pkgs; [
-    # plasma5Packages.polonium // is not working properly
-    (plasma5Packages.polonium.overrideAttrs {
-      src = pkgs.fetchFromGitHub {
-        repo = "polonium";
-        owner = "zeroxoneafour";
-        rev = "v1.0rc";
-        sha256 = "sha256-AdMeIUI7ZdctpG/kblGdk1DBy31nDyolPVcTvLEHnNs=";
-      };
-    })
+    # polonium # is not working properly
+    # (plasma5Packages.polonium.overrideAttrs {
+    #   src = pkgs.fetchFromGitHub {
+    #     repo = "polonium";
+    #     owner = "zeroxoneafour";
+    #     rev = "v1.0rc";
+    #     sha256 = "sha256-AdMeIUI7ZdctpG/kblGdk1DBy31nDyolPVcTvLEHnNs=";
+    #   };
+    # })
   ];
 
   users.groups.sambashare = { };
