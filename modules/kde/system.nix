@@ -18,7 +18,8 @@
 
     maliit-keyboard
 
-    quodlibet-full
+    # ffffffffucking nix!
+    # quodlibet-full
 
   ]) ++ (with pkgs.kdePackages; [
     # I have no clue, why akonadi can't find its plugins with a basic packaging,
