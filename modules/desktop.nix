@@ -20,9 +20,6 @@ with import ../lib.nix args; {
   networking.networkmanager.enable = true;
   systemd.services."NetworkManager-wait-online".wantedBy = lib.mkForce [];
 
-  # This one is cursed
-  systemd.network.wait-online.enable = false;
-
   # Can't enable flatpak without this
   xdg.portal = on // {
     xdgOpenUsePortal = true;
