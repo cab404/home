@@ -63,6 +63,12 @@ with prelude; let __findFile = prelude.__findFile; in
           reverse_proxy 100.64.0.7:6006
         '';
       };
+      "static.cab.moe" = {
+        extraConfig = ''
+          root * /var/lib/moe
+          file_server browse
+        '';
+      };
       "ocapn.cab.moe" = {
         extraConfig = ''
           reverse_proxy http://100.64.0.9:7000
