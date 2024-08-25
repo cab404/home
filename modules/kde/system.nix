@@ -29,6 +29,8 @@
     kontact
     kclock
 
+    filelight
+    kcharselect
 
     kdenetwork-filesharing
 
