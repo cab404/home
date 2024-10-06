@@ -154,7 +154,7 @@
             nixVersions.latest
             nixpkgs-fmt
             nil
-
+            nix-output-monitor
             nushell
 
             # wg-bond.defaultPackage.${system}
