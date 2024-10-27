@@ -23,6 +23,7 @@ with import ../lib.nix args; {
   # Can't enable flatpak without this
   xdg.portal = on // {
     xdgOpenUsePortal = true;
+    extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
   };
 
   # HACKS: Enabling experimental features on bluetooth daemon

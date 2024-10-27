@@ -14,40 +14,40 @@
   #   # ../desktop.nix
   # ];
 
-  users.users.${config._.user}.extraGroups = [ "input" ];
+  # users.users.${config._.user}.extraGroups = [ "input" ];
 
-  fonts = {
-    enableDefaultFonts = true;
+  # fonts = {
+  #   enableDefaultFonts = true;
 
-    fontconfig = on // {
-      defaultFonts = {
-        monospace = ["Fira Mono"];
-      };
-    };
+  #   # fontconfig = on // {
+  #   #   defaultFonts = {
+  #   #     monospace = ["Fira Mono"];
+  #   #   };
+  #   # };
 
-    fonts = with pkgs; [
-      source-code-pro noto-fonts
-      roboto fira-code fira
-      font-awesome
-      orbitron
-    ];
+  #   fonts = with pkgs; [
+  #     source-code-pro noto-fonts
+  #     roboto fira-code fira
+  #     font-awesome
+  #     orbitron
+  #   ];
 
-  };
+  # };
 
   services = {
-    gvfs = on;
-    gnome = {
-      glib-networking = on;
-      gnome-online-accounts = on;
-      gnome-online-miners = on;
-      sushi = on;
-    };
+    # gvfs = on;
+    # gnome = {
+    #   glib-networking = on;
+    #   gnome-online-accounts = on;
+    #   gnome-online-miners = on;
+    #   sushi = on;
+    # };
 
     greetd = {
       enable = true;
       settings = {
         default_session = {
-          command = "${pkgs.greetd.greetd}/bin/agreety --cmd 'zsh -ic sway'";
+          command = "${pkgs.greetd.greetd}/bin/agreety --cmd 'dbus-launch sway'";
         };
       };
     };
@@ -69,6 +69,7 @@
        settings.screencast = {
          chooser_type = "dmenu";
          chooser_cmd = "${pkgs.rofi-wayland}/bin/rofi -dmenu";
+         max_fps = 30;
        };
      };
     };

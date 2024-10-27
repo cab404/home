@@ -53,7 +53,7 @@ with prelude; let __findFile = prelude.__findFile; in {
   programs.alacritty = on;
 
   # Notifications and stuff
-  programs.mako = on // {
+  services.mako = on // {
     borderSize = 0;
     borderRadius = 5;
     backgroundColor = "#125522aa";
