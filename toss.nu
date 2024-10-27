@@ -22,11 +22,16 @@ module log {
     )
   }
 
-
   export def error [
     text: string
   ] {
     colorprint "toss/error" $text '0xff0000' '0xff2200' {fg: 'white', bg: 'red', attr: b}
+  }
+
+  export def warn [
+    text: string
+  ] {
+    colorprint "toss/warn" $text '0xcc5500' '0xcc3322' { attr: i }
   }
 
   export def info [
@@ -51,26 +56,32 @@ def eval [
   nix eval --json $".#($code)" | from json
 }
 
-def nixBuild [
-  attr: string
-  --flake_path: string = "."
-  ...additional_params: string
-] nothing -> string {
-  nix build $"($flake_path)#($attr)" --no-link --print-out-paths ...$additional_params
+def --env preloadHosts [] {
+  if not ("tossHosts" in $env) {
+    $env.tossHosts = (allHostSettings)
+  }
 }
 
-def nixBuildCommand [
+def --wrapped nixBuild [
   attr: string
   --flake_path: string = "."
-  ...additional_params: string
+  ...rest: string
+] nothing -> string {
+  nix build $"($flake_path)#($attr)" --no-link --print-out-paths ...$rest
+}
+
+def --wrapped nixBuildCommand [
+  attr: string
+  --flake_path: string = "."
+  ...rest: string
 ] nothing -> list<string> {
-  [nix build $"($flake_path)#($attr)" --no-link --print-out-paths ...$additional_params]
+  [nix build $"($flake_path)#($attr)" --no-link --print-out-paths ...$rest]
 }
 
 def configAttr [machine: string] nothing -> string { $"nixosConfigurations.($machine).config.system.build.toplevel" }
 
 # Get all host settings from flake
-def allHostSettings [] nothing -> string {
+def allHostSettings [] nothing -> any {
   nix eval --quiet --quiet --json ".#nodeMeta" --apply "builtins.mapAttrs (k: v: v.settings)" | from json
 }
 
@@ -113,6 +124,7 @@ def remoteExecute [
 
   mkdir .toss
   let port = $hostInfo.port? | default 22
+  let user = $hostInfo.user? | default "root"
   run-external ssh ...[
     -p $port
 
@@ -136,15 +148,20 @@ def remoteExecute [
   ]
 }
 
-def getHostInfo [hostname] nothing -> any {
-  allHostSettings | get ($hostname) | merge {name: $hostname}
+def getHostInfo [hostname] any -> any {
+  preloadHosts
+  {name: $hostname} | merge ($env.tossHosts
+  | get $hostname
+  | default root user
+  )
 }
 
 export def "main get-secrets" [
   hostname: string@hosts
 ] {
+  preloadHosts
   let hostSettings = allHostSettings;
-  let hostInfo = getHostInfo $hostname
+  let hostInfo = $hostSettings | getHostInfo $hostname
   rsync -avP $"root@($hostInfo.host):/secrets/." $"secrets/($hostname)/."
 }
 
@@ -152,8 +169,24 @@ export def "main send-secrets" [
   hostname: string@hosts
 ] {
   let hostSettings = allHostSettings;
-  let hostInfo = getHostInfo $hostname
+  let hostInfo = $hostSettings | getHostInfo $hostname
   rsync -avP $"secrets/($hostname)/." $"root@($hostInfo.host):/secrets/."
+}
+
+export def "main establish-socket" [
+  hostname: string@hosts
+] {
+  preloadHosts
+
+  let hostSettings = $env.tossHosts;
+  let hostInfo = getHostInfo $hostname
+
+  (
+    ssh $"($hostInfo.user)@($hostInfo.host)"
+      -L ./nix-socket-tiferet:/nix/var/nix/daemon-socket/socket
+      nix-daemon
+
+  )
 }
 
 export def "main build" [
@@ -167,7 +200,9 @@ export def "main build" [
   # Whether to check the connectivity to the host after switching configurations. Helps with locking yourself out.
   --rollback-if-stuck
 ] {
-  let hostSettings = allHostSettings;
+  preloadHosts
+
+  let hostSettings = $env.tossHosts;
   let hostInfo = getHostInfo $hostname
 
   # We can technically have implcit parameters...
@@ -186,14 +221,12 @@ export def "main build" [
     exit 1
   }
 
-
   # We won't be messing around with copying stuff ourselves.
   # nix archive → nix copy → nix build → nix copy
   # 1. Eval
   # log info $"Sending source to build host ($eBuildHost)"
   # let archiveInfo = nix flake archive --json | from json
   # nix copy --to $eBuildHost $archiveInfo.path
-
 
   let drvPath = try {
     log info $"Evaluating system"
@@ -210,7 +243,7 @@ export def "main build" [
 
   try {
     log info $"Sending derivation to destination system. Expect ridiculously huge sizes."
-    ^nix copy --derivation --to $eBuildHost $drvPath
+    ^nix copy --log-format internal-json --derivation --to $eBuildHost $drvPath o+e>| nom --json
   } catch {
     log error $"Couldn't send derivation: exited with ($env.LAST_EXIT_CODE)"
     exit $env.LAST_EXIT_CODE
@@ -218,14 +251,14 @@ export def "main build" [
 
 
   let buildCommand = [
-    nix-build $drvPath
-    --no-out-link
-    --log-format bar-with-logs
+    nix build $"'($drvPath)^*'"
+    --print-out-paths
+    # --log-format internal-json
   ]
 
   let builtSystem = try {
     log info $"Building system on ($eBuildHost)"
-    remoteExecute $hostInfo $buildCommand
+    (remoteExecute $hostInfo $buildCommand) # o+e>| nom --json
   } catch {
     log error $"Build failed: exited with ($env.LAST_EXIT_CODE | into string)"
     exit $env.LAST_EXIT_CODE
@@ -266,6 +299,8 @@ export def "main build" [
       ">/dev/null 2>&1 & { disown -ha; echo $!; }"
     ] | str join " "| shescape)
   ] | into int
+  log info $"Un-stuck stepbrotherscript primed at PID ($unstuckPid)"
+
 
   log info $"Activating via SSH on target host"
   try {
@@ -287,9 +322,11 @@ export def "main build" [
 }
 
 export def "main" [] {
-  log error "doin' it wrongly, run with --help"
-  log info "you have some nodes 'ere"
-  for node in (allHostSettings) {
-    log info ($node | to json)
-  }
+  log warn "Run with --help if you need it"
+  log info "List of available nodes"
+
+  preloadHosts
+
+  print (hosts | each { |name| getHostInfo $name})
+
 }
