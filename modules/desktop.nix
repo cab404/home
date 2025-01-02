@@ -35,6 +35,15 @@ with import ../lib.nix args; {
   # HACKS: remove if cups-browsed.service learns to shut itself down
   systemd.services.cups-browsed.serviceConfig.TimeoutStopSec=2;
 
+  systemd.services.flatpak-repo = {
+    wantedBy = [ "multi-user.target" ];
+    path = [ pkgs.flatpak ];
+    script = ''
+      flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+      flatpak remote-add --if-not-exists flathub-beta https://flathub.org/beta-repo/flathub-beta.flatpakrepo
+    '';
+  };
+  
   services = {
     # gnunet = on;
 

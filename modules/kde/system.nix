@@ -49,6 +49,7 @@
   # };
 
   environment.systemPackages = with pkgs; [
+    kdePackages.krohnkite
     # polonium # is not working properly
     # (plasma5Packages.polonium.overrideAttrs {
     #   src = pkgs.fetchFromGitHub {
@@ -67,16 +68,16 @@
     openFirewall = true;
     nsswins = true;
     # Some stuff copied over from KDE Neon just to be sure
-    extraConfig = ''
-      server string = %s (Samba, NixOS)
-      passwd chat = *Enter\snew\s*\spassword:* %n\n *Retype\snew\s*\spassword:* %n\n *password\supdated\ssuccessfully* .
-      server role = standalone server
-      security = user
-      encrypt passwords = true
-      map to guest = bad user
-      usershare max shares = 100
-      usershare allow guests = yes
-    '';
+#     extraConfig = ''
+#       server string = %s (Samba, NixOS)
+#       passwd chat = *Enter\snew\s*\spassword:* %n\n *Retype\snew\s*\spassword:* %n\n *password\supdated\ssuccessfully* .
+#       server role = standalone server
+#       security = user
+#       encrypt passwords = true
+#       map to guest = bad user
+#       usershare max shares = 100
+#       usershare allow guests = yes
+#     '';
   };
 
   services.samba-wsdd = on // {

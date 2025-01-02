@@ -38,9 +38,8 @@
     # nix-doom-emacs.url = "github:thiagokokada/nix-doom-emacs";
     # nix-doom-emacs.inputs.nixpkgs.follows = "nixpkgs";
 
-    gtch.url = "/home/cab/data/cab/ticket-checker";
-    gtch.inputs.nixpkgs.follows = "nixpkgs";
-
+#     gtch.url = "/home/cab/data/cab/ticket-checker";
+#     gtch.inputs.nixpkgs.follows = "nixpkgs";
     plymouth-is-underrated.url = "github:cab404/plymouth-is-underrated";
     # plymouth-is-underrated.url = "/home/cab/data/cab/plymouth-is-underrated";
     plymouth-is-underrated.flake = false;
@@ -110,6 +109,9 @@
           # My new notebook
           eris = ./nodes/portables/eris;
 
+          # My temporary machine (jews stole my laptop)
+          baba = ./nodes/portables/baba;
+
           # First server
           c1 = ./nodes/keter/c1;
 
@@ -134,17 +136,25 @@
           installer = buildSystem [
             (nixpkgs + (toString /nixos/modules/installer/cd-dvd/installation-cd-base.nix))
             ./modules/home-manager
-            ./modules/sway/system.nix
+            # ./modules/sway/system.nix
             ./modules/core.nix
             ({ config, lib, pkgs, ... }: {
               _.user = "nixos";
+              networking.networkmanager.enable = true;
+
               boot.kernelPackages = lib.mkForce pkgs.linuxPackages;
               networking.wireless.enable = false;
+              environment.systemPackages = [
+                  config.boot.kernelPackages.chipsec
+              ];
+              boot.extraModulePackages = with config.boot.kernelPackages; [ 
+                chipsec 
+              ];
               home-manager.users.${config._.user}.imports = [
-                ./modules/sway/core.nix
+                # ./modules/sway/core.nix
               ];
             })
-          ];
+          ] "x86_64-linux";
 
         }; #// (builtins.mapAttrs (k: v: buildSystem v) (import ./nodes/keter));
 

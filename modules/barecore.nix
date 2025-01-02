@@ -45,10 +45,10 @@
         lock = (with builtins; fromJSON (readFile ../flake.lock));
       in
       {
-        nixpkgs = with lock.nodes.${lock.nodes.${lock.root}.inputs.nixpkgs}; {
+        nixpkgs =  lib.mkForce (with lock.nodes.${lock.nodes.${lock.root}.inputs.nixpkgs}; {
           from = { id = "nixpkgs"; type = "indirect"; };
           to = locked;
-        };
+        });
       };
   };
 

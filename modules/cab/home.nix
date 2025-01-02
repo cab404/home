@@ -23,7 +23,7 @@ in
         # Interweebs
         transmission_4-qt
         thunderbird
-        nheko
+#         nheko
 
         # Coding/Netutils
         gh
@@ -47,7 +47,7 @@ in
         tenacity
         openscad-unstable
         solvespace
-        blender
+#         blender
         simple-scan
         # lmms
 
@@ -254,6 +254,9 @@ in
 
       gpg-agent = on // {
         enableSshSupport = true;
+        pinentryPackage = sysconfig.programs.gnupg.agent.pinentryPackage;
+        
+        # pinentryPackage = pkgs.pinentry-qt;
         sshKeys = [
           "28D5BB057E5E743B9917335CDA8F71D89506FF7F"
           "AB76EEA25B5E957595B61C28F5A81F597C44A711"
