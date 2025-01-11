@@ -67,6 +67,18 @@
   services.samba = on // {
     openFirewall = true;
     nsswins = true;
+    usershares = on // {
+      group = "sambashare";
+    };
+    settings = {
+      global = {
+        "server string" = "%s (Samba, NixOS)";
+        "map to guest" = "bad user";
+        "server role" = "standalone server";
+        "usershare max shares" = 10000;
+        "usershare allow guests" = "yes";
+      };
+    };
     # Some stuff copied over from KDE Neon just to be sure
 #     extraConfig = ''
 #       server string = %s (Samba, NixOS)
