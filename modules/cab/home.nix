@@ -39,13 +39,13 @@ in
 
         # Editing
         libreoffice
-        inkscape
-        gimp
-        krita
+        # inkscape
+        # gimp
+        # krita
         ffmpeg-full
         # peek # Doesn't support wayland :(
-        tenacity
-        openscad-unstable
+        # tenacity
+        # openscad-unstable
         solvespace
 #         blender
         simple-scan
@@ -53,6 +53,7 @@ in
 
         # at least do backups
         restic
+        xournalpp
 
         # Fonts
         source-code-pro
@@ -148,12 +149,6 @@ in
         adwaita-qt
         adwaita-icon-theme
         gnome-themes-extra
-
-        # Notes are important!
-        (writeShellScriptBin "notes" ''
-          # codium ~/data/cab/notes/ ~/data/cab/notes/$(date +%Y-%m-%d).md
-          flatpak run --socket=wayland com.logseq.Logseq --enable-features=UseOzonePlatform --ozone-platform=wayland
-        '')
 
         # Runs something with common libs
         (writeShellScriptBin "with-libs" ''
@@ -255,7 +250,7 @@ in
       gpg-agent = on // {
         enableSshSupport = true;
         pinentryPackage = sysconfig.programs.gnupg.agent.pinentryPackage;
-        
+
         # pinentryPackage = pkgs.pinentry-qt;
         sshKeys = [
           "28D5BB057E5E743B9917335CDA8F71D89506FF7F"
