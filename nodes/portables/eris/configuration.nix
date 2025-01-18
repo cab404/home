@@ -5,7 +5,7 @@
 
     <modules/cab/system.nix>
     <modules/kde/system.nix>
-    <modules/sway/system.nix>
+    # <modules/sway/system.nix>
     <modules/home-manager>
 
     # usecase-specific
