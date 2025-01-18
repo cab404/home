@@ -66,10 +66,10 @@
         "dialout"
         "video"
       ];
-      shell = pkgs.zsh;
+      shell = pkgs.nushell;
     };
-    users.root.shell = pkgs.zsh;
-    defaultUserShell = pkgs.zsh;
+    users.root.shell = pkgs.nushell;
+    defaultUserShell = pkgs.nushell;
   };
 
   # ====== Kernel
@@ -93,6 +93,8 @@
   };
 
   environment.variables = { EDITOR = "hx"; };
+
+  programs.mosh.enable = true;
 
   # ====== Core services
   services = {
