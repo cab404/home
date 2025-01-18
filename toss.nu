@@ -189,7 +189,7 @@ export def "main establish-socket" [
   )
 }
 
-export def "main build" [
+export def "main deploy" [
   hostname: string@hosts
   # --eval_host: string = "daemon" # Where to copy the closure for evaluation. Build host must be accessible from there.
 
