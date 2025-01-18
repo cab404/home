@@ -125,7 +125,7 @@ def remoteExecute [
   mkdir .toss
   let port = $hostInfo.port? | default 22
   let user = $hostInfo.user? | default "root"
-  run-external ssh ...[
+  $in | run-external ssh ...[
     -p $port
 
     # It is quite nice to have your own hostkeys if you are using multiple tailnets
@@ -286,19 +286,16 @@ export def "main build" [
   def shescape [] string -> string { ^sh ...[ -c 'read -sr A; printf %q "$A"' ] }
 
   let unstuckScript = "/nix/var/nix/profiles/system/bin/switch-to-configuration switch";
+  let unstuckScriptStrapped = ([
+    # Sleep, and then launch the script
+    /bin/sh -c ($"sleep ($time);($unstuckScript)" | shescape)
 
-  let unstuckPid = remoteExecute $hostInfo [
-    sh -c ([
+    # Redirect to /dev/null, unhook from SSH session and print its PID for us to remember.
+    ">/dev/null 2>&1 & { disown -ha; echo $!; }"
+  ] | str join " ")
 
-      # Sleep, and then launch the script
-      sh -c ([
-        $"sleep ($time);" $unstuckScript
-      ] | str join " " | shescape)
-
-      # Redirect to /dev/null, unhook from SSH session and print its PID for us to remember.
-      ">/dev/null 2>&1 & { disown -ha; echo $!; }"
-    ] | str join " "| shescape)
-  ] | into int
+  let unstuckPid = $unstuckScriptStrapped | remoteExecute $hostInfo [ /bin/sh ] | into int
+  log info $"Unstucksbrotherscript: ($unstuckScriptStrapped)"
   log info $"Un-stuck stepbrotherscript primed at PID ($unstuckPid)"
 
 
