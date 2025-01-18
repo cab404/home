@@ -147,8 +147,8 @@
               environment.systemPackages = [
                   config.boot.kernelPackages.chipsec
               ];
-              boot.extraModulePackages = with config.boot.kernelPackages; [ 
-                chipsec 
+              boot.extraModulePackages = with config.boot.kernelPackages; [
+                chipsec
               ];
               home-manager.users.${config._.user}.imports = [
                 # ./modules/sway/core.nix
