@@ -98,7 +98,7 @@
     })
   ];
 
-  boot.tmp.useTmpfs = true;
+  # boot.tmp.useTmpfs = true;
   boot.kernelPackages = pkgs.linuxPackages_latest;
   nix.settings.system-features = [ "gccarch-alderlake" "kvm" "nixos-test"  ];
 
