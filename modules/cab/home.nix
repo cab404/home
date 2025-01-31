@@ -78,6 +78,7 @@ in
         zellij
         perl
         zsh
+        gitu
 
         pulsemixer
         silver-searcher # some scripts still use it
