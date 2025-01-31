@@ -18,6 +18,7 @@
     # zsh-completions # systemctl ena<TAB>... AAAAGH
     # nix-bash-completions
     # bash-completion
+    mosh
 
     waypipe
   ]);
@@ -94,9 +95,9 @@
 
   environment.variables = { EDITOR = "hx"; };
 
-  programs.mosh.enable = true;
 
   # ====== Core services
+  programs.mosh.enable = true;
   services = {
 
     openssh = on // {
