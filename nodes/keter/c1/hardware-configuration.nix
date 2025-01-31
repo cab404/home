@@ -13,9 +13,10 @@
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-amd" ];
   boot.kernelParams = [
-    "initcall_blacklist=acpi_cpufreq_init"
-    "amd_pstate=passive"
-    "amd_prefcore=enable"
+    "processor.max_cstate=1"
+    # "initcall_blacklist=acpi_cpufreq_init"
+    # "amd_pstate=passive"
+    # "amd_prefcore=enable"
   ];
   boot.extraModulePackages = [ ];
 
