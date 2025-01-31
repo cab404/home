@@ -46,11 +46,13 @@ with import ../../lib.nix args;
 
       nushell = on // {
         configFile.text = ''
-          let $config = {
-            table_mode: rounded
-            use_ls_colors: true
-          };
+          $env.config.show_banner = false
         '';
+        shellAliases = {
+          nix-search = "nix search --offline nixpkgs";
+          ag = "rg"; # on the home row!
+        };
+
 
       };
 
