@@ -48,6 +48,43 @@
         "type": "github"
       }
     },
+    "flake-utils": {
+      "locked": {
+        "lastModified": 1678901627,
+        "narHash": "sha256-U02riOqrKKzwjsxc/400XnElV+UtPUQWpANPlyazjH0=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "93a2b84fc4b70d9e089d029deacc3583435c2ed6",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "type": "github"
+      }
+    },
+    "gtch": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "poetry2nix": "poetry2nix",
+        "utils": "utils"
+      },
+      "locked": {
+        "lastModified": 1706624250,
+        "narHash": "sha256-K/XV61GUmnpDoBFfrLGvvLksYTlpWeGKzoUEW25TMwc=",
+        "ref": "refs/heads/master",
+        "rev": "137b43f3f678ece096c3912374caf6df33169b51",
+        "revCount": 44,
+        "type": "git",
+        "url": "file:///home/cab/data/cab/ticket-checker"
+      },
+      "original": {
+        "type": "git",
+        "url": "file:///home/cab/data/cab/ticket-checker"
+      }
+    },
     "home-manager": {
       "inputs": {
         "nixpkgs": [
@@ -86,16 +123,15 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1734424634,
-        "narHash": "sha256-cHar1vqHOOyC7f1+tVycPoWTfKIaqkoe1Q6TnKzuti4=",
-        "owner": "nixos",
+        "lastModified": 1680062809,
+        "narHash": "sha256-NX17syWo4mlSih3msRmKyacAj+tEuoysTZN8WVeBI+M=",
+        "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "d3c42f187194c26d9f0309a8ecc469d6c878ce33",
+        "rev": "777a7125e8463950d202d6162d26016bcd43f81c",
         "type": "github"
       },
       "original": {
-        "owner": "nixos",
-        "ref": "nixos-unstable",
+        "owner": "NixOS",
         "repo": "nixpkgs",
         "type": "github"
       }
@@ -116,6 +152,22 @@
       }
     },
     "nixpkgs_2": {
+      "locked": {
+        "lastModified": 1734424634,
+        "narHash": "sha256-cHar1vqHOOyC7f1+tVycPoWTfKIaqkoe1Q6TnKzuti4=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "d3c42f187194c26d9f0309a8ecc469d6c878ce33",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "ref": "nixos-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs_3": {
       "locked": {
         "lastModified": 1660396586,
         "narHash": "sha256-ePuWn7z/J5p2lO7YokOG1o01M0pDDVL3VrStaPpS5Ig=",
@@ -145,11 +197,31 @@
         "type": "github"
       }
     },
+    "poetry2nix": {
+      "inputs": {
+        "flake-utils": "flake-utils",
+        "nixpkgs": "nixpkgs"
+      },
+      "locked": {
+        "lastModified": 1680048991,
+        "narHash": "sha256-BnLDJiYQhf3wf1MjYHcINKbUY021rJaXQ0c5d9+1Neo=",
+        "owner": "nix-community",
+        "repo": "poetry2nix",
+        "rev": "f46c57b3296d4b639e67f0c2c0cc5d3ca8cab58d",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "poetry2nix",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
+        "gtch": "gtch",
         "home-manager": "home-manager",
         "nixos-hw": "nixos-hw",
-        "nixpkgs": "nixpkgs",
+        "nixpkgs": "nixpkgs_2",
         "plymouth-is-underrated": "plymouth-is-underrated",
         "snm": "snm",
         "swaycwd": "swaycwd",
@@ -181,7 +253,7 @@
     },
     "swaycwd": {
       "inputs": {
-        "nixpkgs": "nixpkgs_2"
+        "nixpkgs": "nixpkgs_3"
       },
       "locked": {
         "lastModified": 1662438026,
@@ -195,6 +267,21 @@
         "owner": "~cab",
         "repo": "swaycwd",
         "type": "sourcehut"
+      }
+    },
+    "utils": {
+      "locked": {
+        "lastModified": 1678901627,
+        "narHash": "sha256-U02riOqrKKzwjsxc/400XnElV+UtPUQWpANPlyazjH0=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "93a2b84fc4b70d9e089d029deacc3583435c2ed6",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "type": "github"
       }
     },
     "wg-bond": {
