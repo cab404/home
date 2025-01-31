@@ -1,13 +1,15 @@
-# Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running ‘nixos-help’).
-
-{ config, lib, pkgs, inputs, ... }:
-
-{
+{ inputs, prelude, lib, config, pkgs, ... }: with prelude; let __findFile = prelude.__findFile; in { # %%MODULE_HEADER%%
   imports = [ # Include the results of the hardware scan.
     ./hardware-configuration.nix
     ./builder.nix
+
+    <modules/recipes/ssh.nix>
+    <modules/recipes/ssh-persist.nix>
+    <modules/recipes/substituters.nix>
+    <modules/recipes/tailscale.nix>
+    <modules/core.nix>
+    <modules/home-manager>
+
     # ./jukebox.nix
     # ./pipewire.nix
     # ./router.nix
@@ -54,7 +56,6 @@
       extraGroups = [ "wheel" "pipewire" "dialout" "usb" "plugdev" "docker" ];
       openssh.authorizedKeys.keys = [
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIKIABDEIeccdbZwTgxhkVUIyZa8fx9uyiE0I2S9t4x1 cab404@meow2"
-        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMXU0K0o7IeRo1wtUQFoGDMwnbV2zHjSzTi1d+QpUmXr new_gitkey@flipper.hax"
       ];
     };
     users.cab = {
@@ -80,7 +81,5 @@
     stress
     cpufrequtils
   ];
-
-  system.stateVersion = "22.11";
 
 }
