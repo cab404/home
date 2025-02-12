@@ -23,7 +23,7 @@ in
         # Interweebs
         transmission_4-qt
         thunderbird
-#         nheko
+        # nheko
 
         # Coding/Netutils
         gh
@@ -47,7 +47,7 @@ in
         # tenacity
         # openscad-unstable
         solvespace
-#         blender
+        # blender
         simple-scan
         # lmms
 
@@ -79,6 +79,7 @@ in
         perl
         zsh
         gitu
+        cyme
 
         pulsemixer
         silver-searcher # some scripts still use it
