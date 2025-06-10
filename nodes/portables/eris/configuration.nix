@@ -26,7 +26,9 @@
     layout = "us,ru";
     options = "ctrl:nocaps,misc:typo,grp:win_space_toggle,lv3:ralt_switch_multikey";
   };
+
   services.hardware.bolt = on;
+  hardware.spacenavd = on;
 
   # services.guix.enable = true;
 
