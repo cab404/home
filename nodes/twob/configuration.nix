@@ -10,18 +10,15 @@
     <modules/core.nix>
     <modules/home-manager>
 
-    # ./jukebox.nix
-    # ./pipewire.nix
-    # ./router.nix
-    # ./extproxy.nix
   ];
 
+  _.user = "cab";
   networking.hostName = "twob";
   networking.networkmanager.enable = true;
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  boot.loader.timeout = 1;
+  boot.loader.timeout = 0;
 
   time.timeZone = "Europe/Moscow";
   boot.kernelPackages = pkgs.linuxPackages_latest;
@@ -31,14 +28,16 @@
   services.fwupd.enable = true;
   networking.firewall.enable = false;
 
-  services.minecraft-server.enable = true;
-  services.minecraft-server.eula = true;
-  services.minecraft-server.openFirewall = true;
-  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
-             "minecraft-server"
-  ];
+  virtualisation.podman = {
+    enable = true;
+    dockerCompat = false;
+    dockerSocket.enable = false;
+    defaultNetwork.settings.dns_enabled = true;
+  };
 
-  nix.extraOptions = "experimental-features = nix-command flakes";
+  nix.settings.system-features = [ "gccarch-alderlake" "benchmark" "big-parallel" "ca-derivations" "kvm" "nixos-test" ];
+  nix.extraOptions = "experimental-features = nix-command flakes ca-derivations";
+
   services.openssh = {
     enable = true;
     settings = {
@@ -46,28 +45,9 @@
       PasswordAuthentication = false;
     };
     banner = ''
-      I wanna be your build bitch, top me, use me!
+      I wanna be your build bitch  (,,>﹏<,,)
+      (≧ヮ≦) h-top me, f-use me!
     '';
-  };
-
-  users = {
-    users.root = {
-      # password = "12345";
-      extraGroups = [ "wheel" "pipewire" "dialout" "usb" "plugdev" "docker" ];
-      openssh.authorizedKeys.keys = [
-        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIKIABDEIeccdbZwTgxhkVUIyZa8fx9uyiE0I2S9t4x1 cab404@meow2"
-      ];
-    };
-    users.cab = {
-      isNormalUser = true;
-      # password = "12345";
-      extraGroups =
-        [ "wheel" "pipewire" "audio" "dialout" "usb" "plugdev" "docker" ];
-      openssh.authorizedKeys.keys = [
-        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIKIABDEIeccdbZwTgxhkVUIyZa8fx9uyiE0I2S9t4x1 cab404@meow2"
-      ];
-    };
-    mutableUsers = false;
   };
 
   environment.systemPackages = with pkgs; [
@@ -80,6 +60,7 @@
     bash-completion
     stress
     cpufrequtils
+    podman-compose
   ];
 
 }

@@ -4,8 +4,16 @@
 { config, lib, pkgs, modulesPath, ... }:
 
 {
+
+  services.logind.powerKey = "ignore";
+  services.logind.powerKeyLongPress = "reboot";
+  systemd.watchdog.rebootTime = "15s";
+  systemd.watchdog.runtimeTime = "5s";
+  systemd.watchdog.device = "/dev/watchdog0";
+
   imports =
-    [ (modulesPath + "/installer/scan/not-detected.nix")
+    [
+      (modulesPath + "/installer/scan/not-detected.nix")
     ];
   # powerManagement.enable = true;
   # powerManagement.cpuFreqGovernor = "schedutil";
@@ -17,6 +25,7 @@
     "initcall_blacklist=acpi_cpufreq_init"
     "amd_pstate=passive"
     "amd_prefcore=enable"
+    "kernel.panic=0"
   ];
   hardware.cpu.amd.updateMicrocode = true;
 
@@ -25,21 +34,26 @@
 
   # services.osquery.enable = true;
   # services.xserver.videoDrivers = [ "nvidia" ];
-  # hardware.nvidia.open = true
+  # hardware.nvidia.open = false; # 1060
   boot.loader.systemd-boot.memtest86.enable = true;
   # hardware.nvidia = {
   #   modesetting.enable = true;
   #   powerManagement.enable = true;
   # };
-  
+
+  swapDevices = [{
+    device = "/var/swapfile";
+    size = 8 * 1024;
+  }];
+
   # fick mich
   # nixpkgs.config.allowUnfree = true;
 
   fileSystems."/" =
-    { device = "/dev/disk/by-uuid/538df4f3-5d7a-4b3a-86e8-48324c0106aa";
+    {
+      device = "/dev/disk/by-uuid/538df4f3-5d7a-4b3a-86e8-48324c0106aa";
       fsType = "ext4";
     };
 
-  swapDevices = [ ];
 
 }
