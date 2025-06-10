@@ -50,6 +50,7 @@ in
         # blender
         simple-scan
         # lmms
+        imagemagick
 
         # at least do backups
         restic
@@ -196,7 +197,6 @@ in
       };
 
       vscode = on // { package = pkgs.vscodium; };
-
 
       password-store = {
         package = pkgs.pass.withExtensions
