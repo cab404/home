@@ -10,6 +10,7 @@ with prelude; let __findFile = prelude.__findFile; in
       <modules/recipes/tailscale.nix>
       <modules/barecore.nix>
       <modules/home-manager>
+      <modules/podman.nix>
 
       ./mail.nix
       ./heisenbridge.nix

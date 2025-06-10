@@ -9,6 +9,7 @@
     <modules/recipes/tailscale.nix>
     <modules/core.nix>
     <modules/home-manager>
+    <modules/podman.nix>
 
   ];
 
@@ -27,13 +28,6 @@
 
   services.fwupd.enable = true;
   networking.firewall.enable = false;
-
-  virtualisation.podman = {
-    enable = true;
-    dockerCompat = false;
-    dockerSocket.enable = false;
-    defaultNetwork.settings.dns_enabled = true;
-  };
 
   nix.settings.system-features = [ "gccarch-alderlake" "benchmark" "big-parallel" "ca-derivations" "kvm" "nixos-test" ];
   nix.extraOptions = "experimental-features = nix-command flakes ca-derivations";

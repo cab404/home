@@ -7,6 +7,7 @@
       <modules/recipes/tailscale.nix>
       <modules/core.nix>
       <modules/home-manager>
+      <modules/podman.nix>
 
       (import <nodes/keter/wgbond.nix>).defaults
       (import <nodes/keter/wgbond.nix>).c1
@@ -42,8 +43,6 @@
   ];
 
   services.cron.enable = true;
-
-  virtualisation.docker.enable = true;
 
   networking = {
     firewall = on // {
