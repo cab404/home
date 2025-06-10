@@ -52,7 +52,7 @@ use log
 
 def eval [
   code: string
-] nothing -> string {
+]: nothing -> string {
   nix eval --json $".#($code)" | from json
 }
 
@@ -66,7 +66,7 @@ def --wrapped nixBuild [
   attr: string
   --flake_path: string = "."
   ...rest: string
-] nothing -> string {
+]: nothing -> string {
   nix build $"($flake_path)#($attr)" --no-link --print-out-paths ...$rest
 }
 
@@ -74,19 +74,19 @@ def --wrapped nixBuildCommand [
   attr: string
   --flake_path: string = "."
   ...rest: string
-] nothing -> list<string> {
+]: nothing -> list<string> {
   [nix build $"($flake_path)#($attr)" --no-link --print-out-paths ...$rest]
 }
 
-def configAttr [machine: string] nothing -> string { $"nixosConfigurations.($machine).config.system.build.toplevel" }
+def configAttr [machine: string]: nothing -> string { $"nixosConfigurations.($machine).config.system.build.toplevel" }
 
 # Get all host settings from flake
-def allHostSettings [] nothing -> any {
+def allHostSettings []: nothing -> any {
   nix eval --quiet --quiet --json ".#nodeMeta" --apply "builtins.mapAttrs (k: v: v.settings)" | from json
 }
 
 # i guess with `yeet` out of question, `toss` is somewhat okay name for that tool
-export def hosts [] nothing -> list<string> {
+export def hosts []: nothing -> list<string> {
   allHostSettings | columns
 }
 
@@ -105,7 +105,20 @@ export def "main local" [] {
   log debug $"Path: ($configPath)"
 
   log info "Activating..."
-  run-external sudo $"($configPath)/bin/switch-to-configuration" switch
+  (
+    systemd-run
+        -E LOCALE_ARCHIVE
+        -E NIXOS_INSTALL_BOOTLOADER=1
+        --collect
+        --no-ask-password
+        --pipe
+        --quiet
+        --service-type=exec
+        --unit=nixos-rebuild-switch-to-configuration
+        --wait
+        sudo $"($configPath)/bin/switch-to-configuration" switch
+    )
+
 
   log info "Done!"
 }
@@ -148,7 +161,7 @@ def remoteExecute [
   ]
 }
 
-def getHostInfo [hostname] any -> any {
+def getHostInfo [hostname]: any -> any {
   preloadHosts
   {name: $hostname} | merge ($env.tossHosts
   | get $hostname
@@ -230,16 +243,17 @@ export def "main deploy" [
 
   let drvPath = try {
     log info $"Evaluating system"
-    ^nix eval (".#" + (configAttr $hostname) + ".drvPath") --json | from json
+    (^nix eval (".#" + (configAttr $hostname) + ".drvPath") --json | from json)
   } catch {
     log error $"Eval failed: exited with ($env.LAST_EXIT_CODE)"
-    exit $env.LAST_EXIT_CODE
+    # exit $env.LAST_EXIT_CODE
+    ""
   }
-  if (($drvPath | length) == 0) {
+  if (($drvPath | str length) == 0) {
     log error "Eval produced no output path!"
     exit 1
   }
-  log info $"Done eval: ($drvPath) ($drvPath | length)"
+  log info $"Done eval: ($drvPath) ($drvPath | str length)"
 
   try {
     log info $"Sending derivation to destination system. Expect ridiculously huge sizes."
@@ -277,13 +291,13 @@ export def "main deploy" [
   }
 
 
-  let time = 60;
+  let time = 300;
   log info $"Priming un-stucking stepbrotherscript, ($time) second timer should be enough..."
 
   # Escapes string into something SH understands.
   # We need several layers of escaping, so mistakes will be made if done by hand.
   # We also can emulate this behavior in code, but
-  def shescape [] string -> string { ^sh ...[ -c 'read -sr A; printf %q "$A"' ] }
+  def shescape []: string -> string { ^sh ...[ -c 'read -sr A; printf %q "$A"' ] }
 
   let unstuckScript = "/nix/var/nix/profiles/system/bin/switch-to-configuration switch";
   let unstuckScriptStrapped = ([
@@ -301,7 +315,20 @@ export def "main deploy" [
 
   log info $"Activating via SSH on target host"
   try {
-    remoteExecute $hostInfo [ $"($builtSystem)/bin/switch-to-configuration" switch ]
+    remoteExecute $hostInfo [
+        systemd-run
+        -E LOCALE_ARCHIVE
+        -E NIXOS_INSTALL_BOOTLOADER=1
+        --collect
+        --no-ask-password
+        --pipe
+        --quiet
+        --service-type=exec
+        --unit=nixos-rebuild-switch-to-configuration
+        --wait
+        $"($builtSystem)/bin/switch-to-configuration"
+        switch
+    ]
   } catch {
     log error $"Exited with ($env.LAST_EXIT_CODE)"
     log error "sus"
