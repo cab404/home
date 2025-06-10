@@ -19,7 +19,7 @@ in {
           echo
         ''
       ))}
-      } >> /run/radicale-htpasswd
+      } > /run/radicale-htpasswd
     '';
     serviceConfig.Type = "oneshot";
     wantedBy = [
@@ -58,6 +58,8 @@ in {
   };
 
   mailserver = on // {
+
+    stateVersion = 1;
     inherit fqdn;
     domains = [ fqdn "cab404.ru" ];
     certificateScheme = "manual";
@@ -99,15 +101,15 @@ in {
 
   services.dovecot2.sieve.extensions = [ "fileinto" ];
 
-  services.postfix.config = {
-    smtpd_recipient_restrictions = [
-      "check_recipient_access hash:/var/lib/postfix/conf/denied_recipients"
-      "check_recipient_access hash:/var/lib/postfix/conf/reject_recipients"
-      "check_client_access hash:/var/lib/postfix/var/rbl_override"
-      "check_sender_access hash:/var/lib/postfix/var/rbl_override"
-      "check_policy_service inet:localhost:12340"
-      "check_policy_service unix:private/policy-spf"
-    ];
-  };
+  # services.postfix.config = {
+  #   smtpd_recipient_restrictions = [
+  #     "check_recipient_access hash:/var/lib/postfix/conf/denied_recipients"
+  #     "check_recipient_access hash:/var/lib/postfix/conf/reject_recipients"
+  #     "check_client_access hash:/var/lib/postfix/var/rbl_override"
+  #     "check_sender_access hash:/var/lib/postfix/var/rbl_override"
+  #     "check_policy_service inet:localhost:12340"
+  #     "check_policy_service unix:private/policy-spf"
+  #   ];
+  # };
 
 }

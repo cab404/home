@@ -28,20 +28,19 @@ with prelude; let __findFile = prelude.__findFile; in
     on // {
       settings = {
         server_url = "https://hs.cab.moe";
-        # ip_prefixes = [ 
-        #   "100.64.0.0/10" 
-        #   "fd80:b4b4:c4b4::/48"
-        # ];
-        acl_policy_path = aclFile;
-        log.level = "debug";
-        dns_config = {
-          nameservers = [ "1.1.1.1" "1.0.0.1" "2606:4700:4700::1111" "2606:4700:4700::1001" ];
+        prefixes = {
+          v4 = "100.113.0.0/16";
+        };
+        policy.path = aclFile;
+        # log.level = "debug";
+        dns = {
+          nameservers.global = [ "8.8.8.8" "8.8.4.4" "1.1.1.1" "1.0.0.1" "2606:4700:4700::1111" "2606:4700:4700::1001" ];
           base_domain = "keter";
           extra_records = [
             {
               name = "nextcloud.cab.moe";
               type = "A";
-              value = "100.64.0.1";
+              value = "100.113.0.1";
             }
           ];
         };

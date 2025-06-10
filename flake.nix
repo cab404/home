@@ -38,8 +38,8 @@
     # nix-doom-emacs.url = "github:thiagokokada/nix-doom-emacs";
     # nix-doom-emacs.inputs.nixpkgs.follows = "nixpkgs";
 
-    gtch.url = "/home/cab/data/cab/ticket-checker";
-    gtch.inputs.nixpkgs.follows = "nixpkgs";
+    # gtch.url = "/home/cab/data/cab/ticket-checker";
+    # gtch.inputs.nixpkgs.follows = "nixpkgs";
     plymouth-is-underrated.url = "github:cab404/plymouth-is-underrated";
     # plymouth-is-underrated.url = "/home/cab/data/cab/plymouth-is-underrated";
     plymouth-is-underrated.flake = false;
@@ -48,11 +48,13 @@
 
   };
 
-  outputs = inputs @ {  self
-                      , nixpkgs
-                      , home-manager
-                      , wg-bond
-                      , ... }:
+  outputs =
+    inputs @ { self
+    , nixpkgs
+    , home-manager
+    , wg-bond
+    , ...
+    }:
     let
       system = "x86_64-linux";
       patchedPkgs =
@@ -103,27 +105,27 @@
       onPkgs = f: builtins.mapAttrs f patchedPkgs.legacyPackages;
 
       nodes = {
-          # My notebook
-          yuna = ./nodes/portables/yuna;
+        # My notebook
+        yuna = ./nodes/portables/yuna;
 
-          # My new notebook
-          eris = ./nodes/portables/eris;
+        # My new notebook
+        eris = ./nodes/portables/eris;
 
-          # My temporary machine (jews stole my laptop)
-          baba = ./nodes/portables/baba;
+        # My temporary machine (jews stole my laptop)
+        baba = ./nodes/portables/baba;
 
-          # First server
-          c1 = ./nodes/keter/c1;
+        # First server
+        c1 = ./nodes/keter/c1;
 
-          # Scaleway proxy
-          tiferet = ./nodes/keter/tiferet;
+        # Scaleway proxy
+        tiferet = ./nodes/keter/tiferet;
 
-          # My printer
-          fudemonix = ./nodes/fudemonix;
+        # My printer
+        fudemonix = ./nodes/fudemonix;
 
-          # the other server
-          twob = ./nodes/twob;
-        };
+        # the other server
+        twob = ./nodes/twob;
+      };
 
     in
     {
@@ -145,7 +147,7 @@
               boot.kernelPackages = lib.mkForce pkgs.linuxPackages;
               networking.wireless.enable = false;
               environment.systemPackages = [
-                  config.boot.kernelPackages.chipsec
+                config.boot.kernelPackages.chipsec
               ];
               boot.extraModulePackages = with config.boot.kernelPackages; [
                 chipsec
@@ -176,7 +178,7 @@
         x86_64-linux.vm = (virt-node ./nodes/portables/eris).config.system.build.vm;
       };
 
-      nodeMeta = builtins.mapAttrs  (_: h: (hostAttrs h)) nodes;
+      nodeMeta = builtins.mapAttrs (_: h: (hostAttrs h)) nodes;
     };
 
 }

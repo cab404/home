@@ -54,7 +54,6 @@ with import ../lib.nix args; {
 
     locate = on // {
       package = pkgs.plocate;
-      localuser = null;
     };
 
     avahi = on // {

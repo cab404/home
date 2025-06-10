@@ -173,7 +173,7 @@ with import ../../lib.nix args;
         syntaxHighlighting = on;
 
         defaultKeymap = "emacs";
-        initExtra = ''
+        initContent = ''
           zstyle ':completion:*' menu select
           export PATH=$PATH:~/.cargo/bin
 

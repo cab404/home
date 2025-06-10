@@ -17,17 +17,17 @@ with prelude; let __findFile = prelude.__findFile; in
 
       (import <nodes/keter/wgbond.nix>).defaults
       (import <nodes/keter/wgbond.nix>).tiferet
-      inputs.gtch.nixosModules.default
+      # inputs.gtch.nixosModules.default
     ];
 
   services.journald.extraConfig = ''
     SystemMaxUse=500M
   '';
 
-  services.gtch = on // {
-    listenAddress = "10.0.10.1";
-    webSettingsFile = "/secrets/gtch_settings.json";
-  };
+  # services.gtch = on // {
+  #   listenAddress = "10.0.10.1";
+  #   webSettingsFile = "/secrets/gtch_settings.json";
+  # };
 
   services.resolved = {
     enable = true;
@@ -49,18 +49,23 @@ with prelude; let __findFile = prelude.__findFile; in
 
   services.caddy = on // {
     virtualHosts = {
-      "gtch.cab.moe" = {
-        extraConfig = ''
-          handle_path /static/* {
-            root * ${inputs.gtch.packages.x86_64-linux.static}
-            file_server
-          }
-          reverse_proxy 10.0.10.1:8000
-        '';
-      };
+      # "gtch.cab.moe" = {
+      #   extraConfig = ''
+      #     handle_path /static/* {
+      #       root * ${inputs.gtch.packages.x86_64-linux.static}
+      #       file_server
+      #     }
+      #     reverse_proxy 10.0.10.1:8000
+      #   '';
+      # };
       "eris.cab.moe" = {
         extraConfig = ''
-          reverse_proxy 100.64.0.7:6006
+          reverse_proxy eris.keter:6006
+        '';
+      };
+      "immich.cab.moe" = {
+        extraConfig = ''
+          reverse_proxy c1.keter:2283
         '';
       };
       "static.cab.moe" = {
@@ -71,7 +76,7 @@ with prelude; let __findFile = prelude.__findFile; in
       };
       "ocapn.cab.moe" = {
         extraConfig = ''
-          reverse_proxy http://100.64.0.9:7000
+          reverse_proxy http://c1.keter:7000
         '';
       };
       "nextcloud.cab.moe" = {
@@ -80,7 +85,7 @@ with prelude; let __findFile = prelude.__findFile; in
             path_regexp N /.well-known/(card|cal)dav
           }
           rewrite @webdav /remote.php/dav/
-          reverse_proxy http://100.64.0.9:80
+          reverse_proxy http://c1.keter:80
         '';
       };
       "nextcloud.cab404.ru" = {
@@ -89,7 +94,7 @@ with prelude; let __findFile = prelude.__findFile; in
             path_regexp N /.well-known/(card|cal)dav
           }
           rewrite @webdav /remote.php/dav/
-          reverse_proxy http://100.64.0.9:80
+          reverse_proxy http://c1.keter:80
         '';
       };
       "hs.cab.moe" = {
@@ -115,7 +120,7 @@ with prelude; let __findFile = prelude.__findFile; in
         "100.64.0.0/10"
       ];
       internalIPv6s = [
-        "fd80:c4b4::/48"
+        "fd7a:115c:a1e0::/48"
       ];
     };
     networkmanager = off;

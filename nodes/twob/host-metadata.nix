@@ -1,4 +1,4 @@
 {
-  host = "twob-dni1eppg.undefspace.keter";
+  host = "twob.keter";
   system = "x86_64-linux";
 }
