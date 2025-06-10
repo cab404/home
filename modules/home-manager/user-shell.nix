@@ -64,6 +64,7 @@ with import ../../lib.nix args;
       eza = on // {
         enableZshIntegration = true;
         enableBashIntegration = true;
+        enableNushellIntegration = false;
       };
 
       direnv = on // { nix-direnv = on; };
