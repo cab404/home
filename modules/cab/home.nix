@@ -22,7 +22,7 @@ in
 
         # Interweebs
         transmission_4-qt
-        thunderbird
+        thunderbird-bin
         # nheko
 
         # Coding/Netutils
