@@ -3,22 +3,28 @@
   services.logind.powerKey = "ignore";
   services.logind.powerKeyLongPress = "reboot";
 
+  systemd.watchdog.rebootTime = "30s";
+  systemd.watchdog.runtimeTime = "5s";
+  systemd.watchdog.device = "/dev/watchdog0";
+
   hardware.enableRedistributableFirmware = true;
   hardware.cpu.amd.updateMicrocode = true;
 
   # too old!
   # services.xserver.videoDrivers = [ "amdgpu" ];
 
-  boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "ahci" "usb_storage" "usbhid" "sd_mod" ];
+  environment.systemPackages = [ pkgs.zfs ];
+  boot.initrd.availableKernelModules = [ "zfs" "nvme" "xhci_pci" "ahci" "usb_storage" "usbhid" "sd_mod" ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-amd" ];
   boot.kernelParams = [
-    "processor.max_cstate=1"
-    # "initcall_blacklist=acpi_cpufreq_init"
-    # "amd_pstate=passive"
-    # "amd_prefcore=enable"
+    "kernel.panic=0"
+    "idle=nomwait"
+    "initcall_blacklist=acpi_cpufreq_init"
+    "amd_pstate=passive"
+    "amd_prefcore=enable"
   ];
-  boot.extraModulePackages = [ ];
+  boot.extraModulePackages = with config.boot.kernelPackages; [ zfs_2_3 ];
 
   fileSystems."/" =
     {
@@ -32,12 +38,9 @@
       fsType = "vfat";
     };
 
-  # fileSystems."/var/lib/nextcloud" =
-  #   {
-  #     device = "/dev/disk/by-uuid/f05d3fa0-9b83-4c15-a742-fbe0100c004a";
-  #     options = [ "nofail" ];
-  #   };
-
-  swapDevices = [ ];
+  swapDevices = [{
+    device = "/var/swapfile";
+    size = 8 * 1024;
+  }];
 
 }

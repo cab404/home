@@ -40,6 +40,7 @@
     hexedit
     git
     screen
+    zellij
   ];
 
   services.cron.enable = true;
