@@ -29,6 +29,8 @@ with import ../../lib.nix args;
     "nfl" = "nix flake lock --update-input";
     "ns" = "nix search --offline nixpkgs";
     "nm" = "nmcli";
+    "z" = "zeditor";
+    "vi" = "hx";
   };
 
   programs =
