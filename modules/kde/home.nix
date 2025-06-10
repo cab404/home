@@ -16,7 +16,7 @@
 
   services = {
     easyeffects = on;
-    copyq = on;
+    # copyq = on;
   };
 
   # systemd.user.services.copyq.Service.Environment = lib.mkForce [ "QT_QPA_PLATFORM=wayland" ];
