@@ -1,6 +1,6 @@
 { config, pkgs, lib, prelude, ... }: with prelude; let __findFile = prelude.__findFile; in {
 
-   home-manager.users.${config._.user}.imports = [
+  home-manager.users.${config._.user}.imports = [
     ./home.nix
   ];
 
@@ -50,6 +50,12 @@
 
   environment.systemPackages = with pkgs; [
     kdePackages.krohnkite
+    kdePackages.plasma-disks
+    kdePackages.krfb
+    kdePackages.krdc
+    kdePackages.krdp
+    kdePackages.krecorder
+
     # polonium # is not working properly
     # (plasma5Packages.polonium.overrideAttrs {
     #   src = pkgs.fetchFromGitHub {
@@ -88,10 +94,10 @@
 
   services.desktopManager.plasma6 = on;
   services.displayManager = on // {
-      sddm = on // {
-        wayland = on;
-      };
-      autoLogin = on // { user = config._.user; };
+    sddm = on // {
+      wayland = on;
+    };
+    autoLogin = on // { user = config._.user; };
     # defaultSession = "plasmawayland";
   };
 
