@@ -55,17 +55,6 @@ in
         restic
         xournalpp
 
-        # Fonts
-        source-code-pro
-        noto-fonts
-        fira-code
-        fira
-        font-awesome
-        gohufont
-        source-code-pro
-        source-sans
-        ubuntu_font_family
-
         # Window manager and looks stuff
         # helvum
         qpwgraph
