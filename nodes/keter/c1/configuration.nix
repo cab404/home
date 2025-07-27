@@ -23,7 +23,7 @@
   _.user = "cab";
 
   boot.loader.timeout = 0;
-  boot.kernelPackages = lib.mkForce pkgs.linuxPackages_latest;
+  boot.kernelPackages = pkgs.linuxPackages;
 
   powerManagement.enable = true;
   powerManagement.cpuFreqGovernor = "schedutil";
@@ -58,23 +58,24 @@
   };
 
 
-  nix.settings.system-features = [ "gccarch-alderlake" "benchmark" "big-parallel" "ca-derivations" "kvm" "nixos-test"  ];
+  nix.settings.system-features = [ "gccarch-alderlake" "benchmark" "big-parallel" "ca-derivations" "kvm" "nixos-test" ];
 
+  services.tor = {
+    # enable = true;
+    relay = {
+      enable = true;
+      role = "relay";
+    };
+    settings = {
+      BandwidthBurst = 800 * 1024;
+      BandwidthRate = 500 * 1024;
+      Nickname = "mnfrdmcx";
+      Address = "cab404.ru";
+      ORPort = 143;
+    };
+  };
 
-  # services.tor = {
-  #   enable = true;
-  #   relay = {
-  #     enable = true;
-  #     role = "relay";
-  #   };
-  #   settings = {
-  #     BandwidthBurst = 800 * 1024;
-  #     BandwidthRate = 500 * 1024;
-  #     Nickname = "mnfrdmcx";
-  #     # Address = "cab404.ru";
-  #     # ORPort = 143;
-  #   };
-  # };
+  services.fail2ban.enable = true;
 
   users.users = {
     "${config._.user}" = {

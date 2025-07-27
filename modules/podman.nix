@@ -1,10 +1,12 @@
-{config, lib, ...}: ({
+{pkgs, config, lib, ...}: {
   virtualisation.podman = {
     enable = true;
     dockerCompat = true;
     dockerSocket.enable = true;
     defaultNetwork.settings.dns_enabled = true;
+    enableNvidia = lib.modules.mkDefault (builtins.elem "nvidia" config.boot.kernelModules);
   };
-} // lib.ifAttrs config.hardware.nvidia.enabled {
-  virtualisation.podman.enableNvidia = true;
-})
+  environment.systemPackages = with pkgs; [
+    docker-compose
+  ];
+}

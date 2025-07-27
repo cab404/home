@@ -71,7 +71,6 @@ with import ../../lib.nix args;
 
       keychain = onWithShell // {
         keys = [ ];
-        agents = [ "gpg" "ssh" ];
       };
 
       # Too damn verbose!

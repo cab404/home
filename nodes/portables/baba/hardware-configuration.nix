@@ -4,9 +4,9 @@ with prelude; let __findFile = prelude.__findFile; in
 
   imports = [
     # <modules/recipes/nvidia-tb.nix>
-#     <modules/recipes/alvr.nix>
+    #     <modules/recipes/alvr.nix>
     # <modules/hw/framework-intel12.nix>
-#     <modules/hw/lenovo-thinkpad-l13-yoga-g3.nix>
+    #     <modules/hw/lenovo-thinkpad-l13-yoga-g3.nix>
     inputs.nixos-hw.nixosModules.dell-xps-15-9560-nvidia
     ./hibernate.nix
   ];
@@ -17,7 +17,7 @@ with prelude; let __findFile = prelude.__findFile; in
   environment.systemPackages = [
     pkgs.clinfo
   ];
-  
+
   hardware.graphics = on // {
     # driSupport = true;
     # driSupport32Bit = true;
@@ -31,8 +31,8 @@ with prelude; let __findFile = prelude.__findFile; in
   };
 
   security.tpm2.enable = true;
-  security.tpm2.pkcs11.enable = true;  # expose /run/current-system/sw/lib/libtpm2_pkcs11.so
-  security.tpm2.tctiEnvironment.enable = true;  # TPM2TOOLS_TCTI and TPM2_PKCS11_TCTI env variables
+  security.tpm2.pkcs11.enable = true; # expose /run/current-system/sw/lib/libtpm2_pkcs11.so
+  security.tpm2.tctiEnvironment.enable = true; # TPM2TOOLS_TCTI and TPM2_PKCS11_TCTI env variables
   users.users.${config._.user}.extraGroups = [ "tss" ];
 
   nix.settings.system-features = [ "gccarch-alderlake" "kvm" "nixos-test" ];
@@ -47,8 +47,7 @@ with prelude; let __findFile = prelude.__findFile; in
 
     "i915.enable_fbc=1"
     "i915.enable_psr=2"
-    "i915.fastboot=1"
-    "i915.enable_gvt=1"
+    # "i915.enable_gvt=1"
     "mem_sleep_default=s2idle" # faster faster
   ];
   # TODO: Move to «manual power management» or smth like that
@@ -82,12 +81,14 @@ with prelude; let __findFile = prelude.__findFile; in
   };
 
   fileSystems."/" =
-    { device = "/dev/disk/by-label/baba-root";
+    {
+      device = "/dev/disk/by-label/baba-root";
       fsType = "btrfs";
     };
 
   fileSystems."/boot" =
-    { device = "/dev/disk/by-label/baba-boot";
+    {
+      device = "/dev/disk/by-label/baba-boot";
       fsType = "vfat";
       options = [ "fmask=0077" "dmask=0077" ];
     };

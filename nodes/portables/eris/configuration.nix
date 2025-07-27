@@ -50,7 +50,7 @@
     networkmanager.dns = "systemd-resolved";
     firewall = on // rec {
       checkReversePath = "loose";
-      allowedTCPPortRanges = [ { from = 1714; to = 1764; } ];
+      allowedTCPPortRanges = [{ from = 1714; to = 1764; }];
       allowedUDPPortRanges = allowedTCPPortRanges;
     };
   };
@@ -58,7 +58,11 @@
   services.resolved = {
     enable = true;
     fallbackDns = [
-      "8.8.8.8" "1.1.1.1" "1.0.0.1" "2606:4700:4700::1111" "2606:4700:4700::1001"
+      "8.8.8.8"
+      "1.1.1.1"
+      "1.0.0.1"
+      "2606:4700:4700::1111"
+      "2606:4700:4700::1001"
     ];
   };
   services.tailscale.enable = true;
@@ -90,19 +94,9 @@
   users.users.cab.hashedPasswordFile = "/secrets/password";
   users.users.root.hashedPasswordFile = "/secrets/password";
 
-  nixpkgs.overlays = [
-    (super: self: {
-      fprintd = self.fprintd.overrideAttrs (_: {
-        mesonCheckFlags = [
-          "--no-suite" "fprintd:TestPamFprintd"
-        ];
-      });
-    })
-  ];
-
   # boot.tmp.useTmpfs = true;
-  boot.kernelPackages = pkgs.linuxPackages_latest;
-  nix.settings.system-features = [ "gccarch-alderlake" "kvm" "nixos-test"  ];
+  boot.kernelPackages = pkgs.linuxPackages;
+  nix.settings.system-features = [ "gccarch-alderlake" "kvm" "nixos-test" ];
 
   zramSwap = on;
 

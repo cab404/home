@@ -2,9 +2,9 @@ args@{ config, lib, pkgs, ... }:
 with import ../lib.nix args; {
 
   users.groups = {
-    dialout = {};
-    plugdev = {};
-    adbusers = {};
+    dialout = { };
+    plugdev = { };
+    adbusers = { };
   };
 
   services = {
@@ -18,10 +18,13 @@ with import ../lib.nix args; {
       (writeTextDir "/etc/udev/rules.d/42-user-devices.rules" ''
         # Saleae Logic thing
         ATTR{idVendor}=="0925", ATTR{idProduct}=="3881", GROUP="dialout"
+
         # USBTiny
         ATTR{idVendor}=="1781", ATTR{idProduct}=="0c9f", GROUP="dialout"
-        # DSO-2090
-        ATTR{idVendor}=="04b4", ATTR{idProduct}=="2090", GROUP="dialout"
+
+        # DSO-2090 for openhantek
+        ATTR{idVendor}=="04b4", ATTR{idProduct}=="2090", TAG+="uaccess", TAG+="udev-acl", MODE="660", GROUP="plugdev"
+
         # Ploooooopy
         SUBSYSTEM=="usb", ATTR{idVendor}=="2e8a", ATTR{idProduct}=="fedd", MODE="666"
 

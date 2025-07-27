@@ -1,11 +1,13 @@
-{ config, lib, pkgs, ... }: {
+{ config, lib, pkgs, prelude, inputs, ... }@args:
+with prelude; let __findFile = prelude.__findFile; in
+{
+
+  imports = [
+    <modules/recipes/watchdog.nix>
+  ];
 
   services.logind.powerKey = "ignore";
   services.logind.powerKeyLongPress = "reboot";
-
-  systemd.watchdog.rebootTime = "30s";
-  systemd.watchdog.runtimeTime = "5s";
-  systemd.watchdog.device = "/dev/watchdog0";
 
   hardware.enableRedistributableFirmware = true;
   hardware.cpu.amd.updateMicrocode = true;

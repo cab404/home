@@ -18,8 +18,9 @@ boot.kernelParams = [
 
     "i915.enable_fbc=1"
     "i915.enable_psr=2"
-    "i915.fastboot=1"
     "i915.enable_gvt=1"
+    "i915.mitigations=off"
+
     "mem_sleep_default=s2idle" # faster faster
   ];
 

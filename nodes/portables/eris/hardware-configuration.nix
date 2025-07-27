@@ -4,6 +4,8 @@ with prelude; let __findFile = prelude.__findFile; in
 
   imports = [
     # <modules/recipes/nvidia-tb.nix>
+    # <modules/recipes/amdgpu-tb.nix>
+    <modules/recipes/watchdog.nix>
     <modules/recipes/alvr.nix>
     # <modules/hw/framework-intel12.nix>
     <modules/hw/lenovo-thinkpad-l13-yoga-g3.nix>
@@ -54,7 +56,13 @@ with prelude; let __findFile = prelude.__findFile; in
   hardware.enableRedistributableFirmware = lib.mkDefault true;
 
   boot.initrd.availableKernelModules = [ "xhci_pci" "thunderbolt" "nvme" "usb_storage" "sd_mod" ];
-  boot.kernelModules = [ "kvm-intel" "nvidia" ];
+  boot.kernelModules = [ "kvm-intel" ];
+
+  # For testing purposes, obvs
+  boot.kernelParams = [
+    "cfg80211.ieee80211_regdom=00"
+    "cfg80211.ieee80211_regulatory_ignore=1"
+  ];
 
   boot.initrd.luks.devices = {
     rootfs = {

@@ -156,7 +156,7 @@ in
             qt6.full
             saw-tools
 
-            webkitgtk
+            webkitgtk_6_0
             xorg.libX11
             zlib
           ]) }
@@ -240,9 +240,9 @@ in
 
       gpg-agent = on // {
         enableSshSupport = true;
-        pinentryPackage = sysconfig.programs.gnupg.agent.pinentryPackage;
+        pinentry.package = sysconfig.programs.gnupg.agent.pinentryPackage;
 
-        # pinentryPackage = pkgs.pinentry-qt;
+        # pinentry.package = pkgs.pinentry-qt;
         sshKeys = [
           "28D5BB057E5E743B9917335CDA8F71D89506FF7F"
           "AB76EEA25B5E957595B61C28F5A81F597C44A711"

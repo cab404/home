@@ -25,6 +25,14 @@ with prelude; let __findFile = prelude.__findFile; in
     SystemMaxUse=500M
   '';
 
+  services.iodine.server = {
+    enable = true;
+    domain = "tuna.cab.moe";
+    extraConfig = "-4";
+    passwordFile = "/secrets/iodine-password";
+    ip = "10.234.44.1/24";
+  };
+
   # services.gtch = on // {
   #   listenAddress = "10.0.10.1";
   #   webSettingsFile = "/secrets/gtch_settings.json";
@@ -69,6 +77,11 @@ with prelude; let __findFile = prelude.__findFile; in
           reverse_proxy c1.keter:2283
         '';
       };
+      "paperless.cab.moe" = {
+        extraConfig = ''
+          reverse_proxy c1.keter:8000
+        '';
+      };
       "static.cab.moe" = {
         extraConfig = ''
           root * /var/lib/moe
@@ -109,7 +122,7 @@ with prelude; let __findFile = prelude.__findFile; in
   networking = {
     firewall = on // {
       allowedTCPPorts = [ 80 443 ];
-      allowedUDPPorts = [ 41641 42232 61111 ];
+      allowedUDPPorts = [ 53 41641 42232 61111 ];
       trustedInterfaces = [ "tailscale0" "keter" ];
     };
     nat = {
