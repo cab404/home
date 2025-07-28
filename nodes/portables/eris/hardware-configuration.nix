@@ -79,6 +79,7 @@ with prelude; let __findFile = prelude.__findFile; in
   fileSystems."/boot" = {
     device = "/dev/disk/by-label/eris-boot";
     fsType = "vfat";
+    options = [ "fmask=0077" "dmask=0077" "defaults" ];
   };
 
 }
