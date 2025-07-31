@@ -249,11 +249,11 @@ export def "main deploy" [
     # exit $env.LAST_EXIT_CODE
     ""
   }
-  if (($drvPath | str length) == 0) {
+  if ($drvPath == "") {
     log error "Eval produced no output path!"
     exit 1
   }
-  log info $"Done eval: ($drvPath) ($drvPath | str length)"
+  log info $"Done eval: ($drvPath)"
 
   try {
     log info $"Sending derivation to destination system. Expect ridiculously huge sizes."
