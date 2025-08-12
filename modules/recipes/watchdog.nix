@@ -1,5 +1,5 @@
 {
-  systemd.watchdog.rebootTime = "30s";
-  systemd.watchdog.runtimeTime = "5s";
-  systemd.watchdog.device = "/dev/watchdog0";
+  systemd.settings.Manager.WatchdogDevice = "/dev/watchdog0";
+  systemd.settings.Manager.RuntimeWatchdogSec = "5s";
+  systemd.settings.Manager.RebootWatchdogSec = "30s";
 }
