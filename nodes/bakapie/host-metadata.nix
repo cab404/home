@@ -1,5 +1,5 @@
 {
   system = "aarch64-linux";
-  host = "nixos-installer";
+  host = "bakapie";
   mode = "rpi";
 }

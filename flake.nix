@@ -2,14 +2,16 @@
   description = "cab's system config";
   nixConfig = {
     extra-substituters = [
-      "https://nix-community.cachix.org"
-      "https://helix.cachix.org"
       "https://cache.nixos.org"
+      "https://helix.cachix.org"
+      "https://nix-community.cachix.org"
+      "https://nixos-raspberrypi.cachix.org"
     ];
     trusted-public-keys = [
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
       "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
       "helix.cachix.org-1:ejp9KQpR1FBI2onstMQ34yogDm4OgU2ru6lIwPvuCVs="
+      "nixos-raspberrypi.cachix.org-1:4iMO9LXa8BqhU+Rpg6LQKiGa2lsNh/j2oiYLNOQ5sPI="
     ];
   };
 
@@ -18,6 +20,8 @@
     # helix.url = "github:helix-editor/helix";
 
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+
+    nixos-raspberrypi.url = "github:nvmd/nixos-raspberrypi/main";
 
     home-manager.url = "github:nix-community/home-manager/master";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
@@ -78,11 +82,14 @@
       prelude = import ./modules/prelude.nix { lib = nixpkgs.lib; };
 
       specialArgs = {
-        inherit inputs prelude;
+        inherit inputs prelude; inherit (inputs) nixos-raspberrypi;
       };
 
-      buildConfig = modules: system: { inherit modules system specialArgs; };
-      buildSystem = modules: system: lib.nixosSystem (buildConfig modules system);
+      buildSystem = mode: system: modules: {
+          # Mode list. You can add your custom pkgs and stuff here
+          default = lib.nixosSystem;
+          rpi = inputs.nixos-raspberrypi.lib.nixosSystem;
+        }.${mode} { inherit modules system specialArgs; };
 
       hostAttrs = dir: {
         settings = import "${dir}/host-metadata.nix";
@@ -90,17 +97,15 @@
         hw-config = import "${dir}/hardware-configuration.nix";
       };
 
-      node = dir: with hostAttrs dir; buildSystem [
+      node = dir: with hostAttrs dir; buildSystem (settings.mode or "default") settings.system [
         config
         hw-config
-      ]
-        settings.system;
+      ];
 
-      virt-node = dir: with hostAttrs dir; buildSystem [
+      virt-node = dir: with hostAttrs dir; buildSystem "default" settings.system [
         config
         "${nixpkgs}/nixos/modules/virtualisation/build-vm.nix"
-      ]
-        settings.system;
+      ];
 
       onPkgs = f: builtins.mapAttrs f patchedPkgs.legacyPackages;
 
@@ -125,6 +130,9 @@
 
         # the other server
         twob = ./nodes/twob;
+
+        # rpi
+        bakapie = ./nodes/bakapie;
       };
 
     in
@@ -135,7 +143,7 @@
         {
 
           # Yup, installer
-          installer = buildSystem [
+          installer = buildSystem "default" "x86_64-linux" [
             (nixpkgs + (toString /nixos/modules/installer/cd-dvd/installation-cd-base.nix))
             ./modules/home-manager
             # ./modules/sway/system.nix
@@ -156,7 +164,7 @@
                 # ./modules/sway/core.nix
               ];
             })
-          ] "x86_64-linux";
+          ];
 
         }; #// (builtins.mapAttrs (k: v: buildSystem v) (import ./nodes/keter));
 
@@ -169,7 +177,6 @@
             nix-output-monitor
             nushell
 
-            # wg-bond.defaultPackage.${system}
           ];
         };
       });
