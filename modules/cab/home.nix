@@ -80,6 +80,8 @@ in
         jless
         ranger
         btop
+        xkcdpass
+        nixfmt-rfc-style
 
         nix-prefetch-github
 
