@@ -28,7 +28,6 @@ with prelude; let __findFile = prelude.__findFile; in
   services.iodine.server = {
     enable = true;
     domain = "tuna.cab.moe";
-    extraConfig = "-4";
     passwordFile = "/secrets/iodine-password";
     ip = "10.234.44.1/24";
   };
@@ -102,15 +101,15 @@ with prelude; let __findFile = prelude.__findFile; in
           reverse_proxy http://c1.keter:80
         '';
       };
-      "nextcloud.cab404.ru" = {
-        extraConfig = ''
-          @webdav {
-            path_regexp N /.well-known/(card|cal)dav
-          }
-          rewrite @webdav /remote.php/dav/
-          reverse_proxy http://c1.keter:80
-        '';
-      };
+      # "nextcloud.cab404.ru" = {
+      #   extraConfig = ''
+      #     @webdav {
+      #       path_regexp N /.well-known/(card|cal)dav
+      #     }
+      #     rewrite @webdav /remote.php/dav/
+      #     reverse_proxy http://c1.keter:80
+      #   '';
+      # };
       "hs.cab.moe" = {
         extraConfig = ''
           reverse_proxy 127.0.0.1:8080
@@ -130,8 +129,9 @@ with prelude; let __findFile = prelude.__findFile; in
       enableIPv6 = true;
       externalInterface = "ens2";
       internalIPs = [
-        "10.0.10.0/24"
-        "100.64.0.0/10"
+        "10.0.10.0/24" # wireguard
+        "100.64.0.0/10" # tailscale
+        "10.234.44.0/24" # iodine
       ];
       internalIPv6s = [
         "fd7a:115c:a1e0::/48"
