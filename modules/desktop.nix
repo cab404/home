@@ -18,7 +18,11 @@ with import ../lib.nix args; {
 
   # Yeah, desktop needs one
   networking.networkmanager.enable = true;
-  # networking.networkmanager.enableStrongSwan = true;
+  networking.networkmanager.plugins = with pkgs; [
+    networkmanager-iodine
+    networkmanager-l2tp
+    networkmanager-strongswan
+  ];
   systemd.services."NetworkManager-wait-online".wantedBy = lib.mkForce [];
 
   # Can't enable flatpak without this
