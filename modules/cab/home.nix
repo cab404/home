@@ -217,7 +217,7 @@ in
       };
 
       # == Pass and stuff
-      browserpass.browsers = [ "firefox" ];
+      browserpass.browsers = [ "firefox" "chromium" ];
 
       git = {
         userName = "Cabia Rangris";
