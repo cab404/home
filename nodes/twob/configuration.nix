@@ -24,10 +24,11 @@
   time.timeZone = "Europe/Moscow";
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
-  services.tailscale.enable = true;
-
   services.fwupd.enable = true;
-  networking.firewall.enable = false;
+  networking.firewall.allowedTCPPorts = [ 8345 5001 25565 ];
+  networking.firewall.allowedUDPPorts = [ 25565 ];
+
+  services.resolved.enable = true;
 
   nix.settings.system-features = [ "gccarch-alderlake" "benchmark" "big-parallel" "ca-derivations" "kvm" "nixos-test" ];
   nix.extraOptions = "experimental-features = nix-command flakes ca-derivations";
@@ -54,7 +55,6 @@
     bash-completion
     stress
     cpufrequtils
-    podman-compose
   ];
 
 }
