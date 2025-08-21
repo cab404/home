@@ -24,6 +24,7 @@
     {
       device = "/dev/disk/by-uuid/8A75-01E5";
       fsType = "vfat";
+      options = [ "fmask=0077" "dmask=0077" "defaults" ];
     };
 
   swapDevices = [ ];

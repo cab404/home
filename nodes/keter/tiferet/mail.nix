@@ -59,7 +59,7 @@ in {
 
   mailserver = on // {
 
-    stateVersion = 1;
+    stateVersion = 3;
     inherit fqdn;
     domains = [ fqdn "cab404.ru" ];
     certificateScheme = "manual";
