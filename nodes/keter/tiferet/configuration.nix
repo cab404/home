@@ -71,6 +71,11 @@ with prelude; let __findFile = prelude.__findFile; in
           reverse_proxy eris.keter:6006
         '';
       };
+      "pretix.cab.moe" = {
+        extraConfig = ''
+          reverse_proxy twob.keter:8345
+        '';
+      };
       "immich.cab.moe" = {
         extraConfig = ''
           reverse_proxy c1.keter:2283
