@@ -21,6 +21,8 @@
     <modules/recipes/splash.nix>
   ];
 
+  environment.enableDebugInfo = true;
+
   # the keyboard got weird
   services.xserver.xkb = {
     layout = "us,ru";
