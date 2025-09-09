@@ -22,6 +22,7 @@ with import ../lib.nix args; {
     networkmanager-iodine
     networkmanager-l2tp
     networkmanager-strongswan
+    networkmanager-openvpn
   ];
   systemd.services."NetworkManager-wait-online".wantedBy = lib.mkForce [];
 
