@@ -84,7 +84,7 @@ let
 
     gtk3 = t: ''${pkgs.dconf}/bin/dconf write /org/gnome/desktop/interface/gtk-theme \"${t}\"'';
 
-    lookandfeeltool = t: ''${pkgs.libsForQt5.plasma-workspace}/bin/lookandfeeltool -a ${t}'';
+    lookandfeeltool = t: ''${pkgs.kdePackages.plasma-workspace}/bin/lookandfeeltool -a ${t}'';
 
     sway = t: t;
   };

@@ -5,7 +5,7 @@
 {
 
   home = {
-    packages = with pkgs; [ qt5.qtwayland libsForQt5.qtstyleplugins ];
+    packages = with pkgs; [ qt5.qtwayland kdePackages.qtstyleplugins ];
 
     pointerCursor = {
       package = pkgs.gnome-themes-extra;

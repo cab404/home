@@ -50,6 +50,8 @@
 
   environment.systemPackages = with pkgs; [
     kdePackages.krohnkite
+    kdePackages.kcontacts
+    kdePackages.merkuro
     kdePackages.plasma-disks
     kdePackages.krfb
     kdePackages.krdc

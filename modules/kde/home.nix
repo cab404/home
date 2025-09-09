@@ -5,7 +5,7 @@
 
   programs.firefox.package = pkgs.firefox-wayland.override {
     nativeMessagingHosts = with pkgs; [
-      libsForQt5.plasma-browser-integration
+      kdePackages.plasma-browser-integration
       # Patch browserpass to use my version of it
       (
         runCommand "patched-browserpass" { } ''
