@@ -207,13 +207,15 @@ in
 
       # == SSH
       ssh = {
-        compression = true;
-        controlMaster = "auto";
-        controlPersist = "2m";
         matchBlocks =
           let is = (user: identityFile: { inherit user identityFile; });
           in
           {
+            "*" = {
+              compression = true;
+              controlMaster = "auto";
+              controlPersist = "2m";
+            };
             # "cab404.ru" = is "cab" "~/.ssh/id_rsa";
           };
       };
