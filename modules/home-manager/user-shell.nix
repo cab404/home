@@ -30,6 +30,7 @@ with import ../../lib.nix args;
     "ns" = "nix search --offline nixpkgs";
     "nm" = "nmcli";
     "z" = "zeditor";
+    "z." = "zeditor .";
     "vi" = "hx";
   };
 
