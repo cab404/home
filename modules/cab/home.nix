@@ -212,6 +212,7 @@ in
           in
           {
             "*" = {
+              serverAliveInterval = 2;
               compression = true;
               controlMaster = "auto";
               controlPersist = "2m";
