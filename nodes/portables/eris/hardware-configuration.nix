@@ -6,7 +6,7 @@ with prelude; let __findFile = prelude.__findFile; in
     # <modules/recipes/nvidia-tb.nix>
     # <modules/recipes/amdgpu-tb.nix>
     <modules/recipes/watchdog.nix>
-    <modules/recipes/alvr.nix>
+    # <modules/recipes/alvr.nix>
     # <modules/hw/framework-intel12.nix>
     <modules/hw/lenovo-thinkpad-l13-yoga-g3.nix>
     ./hibernate.nix
