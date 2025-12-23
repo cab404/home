@@ -5,9 +5,9 @@ with prelude; let __findFile = prelude.__findFile; in
   imports = [
     # <modules/recipes/nvidia-tb.nix>
     #     <modules/recipes/alvr.nix>
-    # <modules/hw/framework-intel12.nix>
+    <modules/hw/framework-intel12.nix>
     #     <modules/hw/lenovo-thinkpad-l13-yoga-g3.nix>
-    inputs.nixos-hw.nixosModules.dell-xps-15-9560-nvidia
+    # inputs.nixos-hw.nixosModules.dell-xps-15-9560-nvidia
     ./hibernate.nix
   ];
 

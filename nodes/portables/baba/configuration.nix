@@ -82,6 +82,15 @@
   # powerManagement.powertop.enable = true;
 
   networking.hostName = "baba";
+  # boot.kernelPackages = (import inputs.nixpkgs.outPath {
+  #   localSystem = {
+  #     gcc.arch = "alderlake";
+  #     gcc.tune = "alderlake";
+  #     system = "x86_64-linux";
+  #   };
+  # } ).linuxPackages_latest;
+  boot.kernelPackages = pkgs.linuxPackages_latest;
+
   _.user = "cab";
   i18n.defaultLocale = "C.UTF-8";
   home-manager.users.cab = { imports = [ ./home.nix ]; };
@@ -99,7 +108,6 @@
   ];
 
   boot.tmp.useTmpfs = true;
-  boot.kernelPackages = pkgs.linuxPackages_latest;
   nix.settings.system-features = [ "gccarch-alderlake" "kvm" "nixos-test"  ];
 
   zramSwap = on;
