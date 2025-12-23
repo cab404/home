@@ -13,7 +13,7 @@
   environment.defaultPackages = (with pkgs; [
     wl-clipboard
     wayland-utils
-    glxinfo
+    mesa-demos
     vulkan-tools
 
     maliit-keyboard

@@ -20,6 +20,8 @@
 
   # };
 
-  users.users.${config._.user}.extraGroups = [ "input" ];
+  users.users.${config._.user}.extraGroups = [ "input" "uinput" ];
+  users.groups.uinput = { };
+  users.groups.input = { };
 
 }

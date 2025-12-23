@@ -99,7 +99,7 @@ in
         # Hardware?
         pulseview
         minicom
-        cutecom
+        # cutecom
         picocom
         scrcpy
         # qFlipper
@@ -128,6 +128,7 @@ in
         mtr
         strace
         hcxdumptool
+        hcxtools
         sshfs
 
         # KDE Connect only passes thru user profile
@@ -155,7 +156,7 @@ in
             glamoroustoolkit
             gst_all_1.gst-plugins-base
             gst_all_1.gstreamer
-            qt6.full
+            qt6.qtbase
             saw-tools
 
             webkitgtk_6_0
@@ -196,6 +197,9 @@ in
         commandLineArgs = [
           "--enable-logging=stderr"
         ];
+        nativeMessagingHosts = with pkgs; [
+          kdePackages.plasma-browser-integration
+        ];
       };
 
       vscode = on // { package = pkgs.vscodium; };
@@ -225,9 +229,11 @@ in
       browserpass.browsers = [ "firefox" "chromium" ];
 
       git = {
-        userName = "Cabia Rangris";
-        userEmail = "cab@cab.moe";
-        extraConfig = {
+        settings = {
+          user = {
+            name = "Cabia Rangris";
+            email = "cab@cab.moe";
+          };
           pull.ff = "only";
           init = { defaultBranch = "master"; };
         };

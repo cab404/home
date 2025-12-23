@@ -3,7 +3,7 @@
 
   xdg = on;
 
-  programs.firefox.package = pkgs.firefox-wayland.override {
+  programs.firefox.package = pkgs.firefox.override {
     nativeMessagingHosts = with pkgs; [
       kdePackages.plasma-browser-integration
       # Patch browserpass to use my version of it

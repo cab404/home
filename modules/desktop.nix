@@ -147,6 +147,6 @@ with import ../lib.nix args; {
 
   # what a mess
   users.users."${config._.user}".extraGroups =
-    [ "containers" "plugdev" "tor" "wireshark" "libvirtd" "sound" ];
+    [ "containers" "plugdev" "tor" "wireshark" "libvirtd" "sound" "podman" "docker" ];
 
 }

@@ -9,7 +9,7 @@
 
   # systemd.user.services.dbus.environment.PATH = "/run/wrappers/bin:/home/cab/.local/share/flatpak/exports/bin:/var/lib/flatpak/exports/bin:/home/cab/.nix-profile/bin:/etc/profiles/per-user/cab/bin:/nix/var/nix/profiles/default/bin:/run/current-system/sw/bin";
 
-  programs.firefox.package = pkgs.firefox-wayland.override { 
+  programs.firefox.package = pkgs.firefox.override {
     cfg.enableGnomeExtensions = true;
   };
   services = {

@@ -10,7 +10,6 @@ with import ../lib.nix args; {
   services = {
 
     udev.packages = with pkgs; [
-      android-udev-rules
       stlink
       libsigrok
       platformio-core.udev

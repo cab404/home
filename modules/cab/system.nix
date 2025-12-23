@@ -8,7 +8,6 @@ args@{ sysconfig
 }:
 with prelude; let __findFile = prelude.__findFile; in
 {
-    virtualisation.podman = on;
     services.ollama.enable = true;
 
     fonts.packages = with pkgs; [
@@ -22,7 +21,7 @@ with prelude; let __findFile = prelude.__findFile; in
       monaspace
       source-code-pro
       source-sans
-      ubuntu_font_family
+      ubuntu-classic
     ];
     # boot.extraModulePackages = with config.boot.kernelPackages; [ rtl8814au ];
 }
