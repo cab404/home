@@ -49,6 +49,7 @@
     networkmanager.dns = "systemd-resolved";
     firewall = on // rec {
       checkReversePath = "loose";
+      allowedTCPPorts = [ 24800 ];
       allowedTCPPortRanges = [ { from = 1714; to = 1764; } ];
       allowedUDPPortRanges = allowedTCPPortRanges;
     };
