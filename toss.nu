@@ -138,7 +138,7 @@ def remoteExecute [
   mkdir .toss
   let port = $hostInfo.port? | default 22
   let user = $hostInfo.user? | default "root"
-  $in | run-external ssh ...[
+  [ ssh ...[
     -p $port
 
     # It is quite nice to have your own hostkeys if you are using multiple tailnets
@@ -158,7 +158,11 @@ def remoteExecute [
     -o $"UserKnownHostsFile=(pwd)/.toss/hostkeys"
     $"root@($hostInfo.host)"
     ...$cmdWithArgs
-  ]
+  ] ]
+}
+
+def nomSmth []: list<string> -> list<string> {
+    ^sh -c $"($in | str join ' ')"
 }
 
 def getHostInfo [hostname]: any -> any {
@@ -257,7 +261,7 @@ export def "main deploy" [
 
   try {
     log info $"Sending derivation to destination system. Expect ridiculously huge sizes."
-    ^nix copy --log-format internal-json --derivation --to $eBuildHost $drvPath o+e>| nom --json
+    ^nix copy --derivation --substitute-on-destination --to ($eBuildHost) ($drvPath)
   } catch {
     log error $"Couldn't send derivation: exited with ($env.LAST_EXIT_CODE)"
     exit $env.LAST_EXIT_CODE
@@ -272,7 +276,7 @@ export def "main deploy" [
 
   let builtSystem = try {
     log info $"Building system on ($eBuildHost)"
-    (remoteExecute $hostInfo $buildCommand) # o+e>| nom --json
+    run-external ...(remoteExecute $hostInfo $buildCommand) # o+e>| nom --json
   } catch {
     log error $"Build failed: exited with ($env.LAST_EXIT_CODE | into string)"
     exit $env.LAST_EXIT_CODE
@@ -287,9 +291,8 @@ export def "main deploy" [
   if ($eTargetHost != $eBuildHost) {
     log info $"System built; sending to target host"
     log debug $"Path: ($builtSystem)"
-    remoteExecute $hostInfo [ nix copy --to $eTargetHost $builtSystem ]
+    run-external ...(remoteExecute $hostInfo [ nix copy --to $eTargetHost $builtSystem ] )
   }
-
 
   let time = 300;
   log info $"Priming un-stucking stepbrotherscript, ($time) second timer should be enough..."
@@ -308,14 +311,14 @@ export def "main deploy" [
     ">/dev/null 2>&1 & { disown -ha; echo $!; }"
   ] | str join " ")
 
-  let unstuckPid = $unstuckScriptStrapped | remoteExecute $hostInfo [ /bin/sh ] | into int
+  let unstuckPid = $unstuckScriptStrapped | run-external ...(remoteExecute $hostInfo [ /bin/sh ]) | into int
   log info $"Unstucksbrotherscript: ($unstuckScriptStrapped)"
   log info $"Un-stuck stepbrotherscript primed at PID ($unstuckPid)"
 
 
   log info $"Activating via SSH on target host"
   try {
-    remoteExecute $hostInfo [
+    run-external ...(remoteExecute $hostInfo [
         systemd-run
         -E LOCALE_ARCHIVE
         -E NIXOS_INSTALL_BOOTLOADER=1
@@ -328,21 +331,21 @@ export def "main deploy" [
         --wait
         $"($builtSystem)/bin/switch-to-configuration"
         switch
-    ]
+    ])
   } catch {
     log error $"Exited with ($env.LAST_EXIT_CODE)"
     log error "sus"
   }
 
-  try {
-    log info $"Trying to deactivate un-stucking brotherscript..."
-    remoteExecute --reconnect $hostInfo [ kill ($unstuckPid | into string) ]
-  } catch {
-    log error $"Failed to disarm, brother will help us get unstuck in several seconds."
-  }
+  # try {
+  #   log info $"Trying to deactivate un-stucking brotherscript..."
+  #   remoteExecute --reconnect $hostInfo [ kill ($unstuckPid | into string) ]
+  # } catch {
+  #   log error $"Failed to disarm, brother will help us get unstuck in several seconds."
+  # }
 
   log info $"Activation successful, updating system profile"
-  remoteExecute $hostInfo [ nix-env -p /nix/var/nix/profiles/system --set $builtSystem ]
+  run-external ...(remoteExecute $hostInfo [ "nix-env" "-p" "/nix/var/nix/profiles/system" "--set" $"($builtSystem)" ])
 }
 
 export def "main" [] {

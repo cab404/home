@@ -65,6 +65,9 @@ in
 
         # Command line comfort
         # alacritty
+        nh
+        nix-top
+        nixd
         zellij
         perl
         zsh

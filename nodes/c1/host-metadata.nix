@@ -1,4 +1,4 @@
 {
   system = "x86_64-linux";
-  host = "c1.keter";
+  host = "a.ru.cab.moe";
 }

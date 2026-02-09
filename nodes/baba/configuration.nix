@@ -19,6 +19,7 @@
     <modules/recipes/oculus.nix>
     <modules/recipes/btkill.nix>
     <modules/recipes/splash.nix>
+    # <modules/recipes/sunshine.nix>
   ];
 
   # the keyboard got weird
@@ -82,14 +83,26 @@
   # powerManagement.powertop.enable = true;
 
   networking.hostName = "baba";
-  # boot.kernelPackages = (import inputs.nixpkgs.outPath {
-  #   localSystem = {
-  #     gcc.arch = "alderlake";
-  #     gcc.tune = "alderlake";
-  #     system = "x86_64-linux";
-  #   };
-  # } ).linuxPackages_latest;
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+
+  boot.kernelPackages = with pkgs; let tune = "alderlake"; in (linuxKernel.packagesFor (linux_latest.override ({
+    stdenv = stdenvAdapters.addAttrsToDerivation {
+      env.KCPPFLAGS = "-march=${tune} -O3";
+      env.KCFLAGS = "-march=${tune} -O3";
+    } stdenv;
+  })));
+  # boot.kernelPackages = with pkgs; let tune = "alderlake"; in (linuxKernel.packagesFor (linux_latest.override ({
+  #   stdenv = stdenvAdapters.addAttrsToDerivation {
+  #     env.KCPPFLAGS = "-march=${tune} -O2";
+  #     env.KCFLAGS = "-march=${tune} -O2";
+  #   } stdenv;
+  # })));
+  # boot.kernelPackages = with pkgs; let tune = "alderlake"; in (linuxKernel.packagesFor (linux_latest.override ({
+  #   stdenv = stdenvAdapters.addAttrsToDerivation {
+  #     env.KCPPFLAGS = "-march=${tune} -mtune=${tune}";
+  #     env.KCFLAGS = "-march=${tune} -mtune=${tune}";
+  #   } stdenv;
+  # })));
+  # boot.kernelPackages = pkgs.linuxPackages_latest;
 
   _.user = "cab";
   i18n.defaultLocale = "C.UTF-8";
@@ -122,6 +135,9 @@
   };
 
   services.ratbagd = on;
+  virtualisation.docker = {
+    enable = true;
+  };
 
   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
     "steam"

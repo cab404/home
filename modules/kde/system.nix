@@ -42,12 +42,6 @@
 
   programs.kdeconnect.enable = true;
 
-  # yaaay screensharing
-  # programs.weylus = on // {
-  #   openFirewall = true;
-  #   users = [ config._.user ];
-  # };
-
   environment.systemPackages = with pkgs; [
     kdePackages.krohnkite
     kdePackages.kcontacts
@@ -58,15 +52,6 @@
     kdePackages.krdp
     kdePackages.krecorder
 
-    # polonium # is not working properly
-    # (plasma5Packages.polonium.overrideAttrs {
-    #   src = pkgs.fetchFromGitHub {
-    #     repo = "polonium";
-    #     owner = "zeroxoneafour";
-    #     rev = "v1.0rc";
-    #     sha256 = "sha256-AdMeIUI7ZdctpG/kblGdk1DBy31nDyolPVcTvLEHnNs=";
-    #   };
-    # })
   ];
 
   users.groups.sambashare = { };

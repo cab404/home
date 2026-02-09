@@ -16,8 +16,7 @@ with prelude; let __findFile = prelude.__findFile; in
       ./heisenbridge.nix
       ./tailscale.nix
 
-      (import <nodes/keter/wgbond.nix>).defaults
-      (import <nodes/keter/wgbond.nix>).tiferet
+      <modules/keter/wg.nix>
       # inputs.gtch.nixosModules.default
     ];
 

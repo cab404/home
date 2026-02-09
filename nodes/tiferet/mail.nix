@@ -62,9 +62,10 @@ in {
     stateVersion = 3;
     inherit fqdn;
     domains = [ fqdn "cab404.ru" ];
-    certificateScheme = "manual";
-    certificateFile = "/var/lib/caddy/.local/share/caddy/certificates/acme-v02.api.letsencrypt.org-directory/${fqdn}/${fqdn}.crt";
-    keyFile = "/var/lib/caddy/.local/share/caddy/certificates/acme-v02.api.letsencrypt.org-directory/${fqdn}/${fqdn}.key";
+    x509 = {
+      certificateFile = "/var/lib/caddy/.local/share/caddy/certificates/acme-v02.api.letsencrypt.org-directory/${fqdn}/${fqdn}.crt";
+      privateKeyFile = "/var/lib/caddy/.local/share/caddy/certificates/acme-v02.api.letsencrypt.org-directory/${fqdn}/${fqdn}.key";
+    };
 
     enableManageSieve = true;
     # Eeeh. It's not really that useful, as by default this mailbox is not being subscribed to,

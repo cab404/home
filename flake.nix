@@ -111,19 +111,19 @@
 
       nodes = {
         # My notebook
-        yuna = ./nodes/portables/yuna;
+        yuna = ./nodes/yuna;
 
         # My new notebook
-        eris = ./nodes/portables/eris;
+        eris = ./nodes/eris;
 
         # My temporary machine (jews stole my laptop)
-        baba = ./nodes/portables/baba;
+        baba = ./nodes/baba;
 
         # First server
-        c1 = ./nodes/keter/c1;
+        c1 = ./nodes/c1;
 
         # Scaleway proxy
-        tiferet = ./nodes/keter/tiferet;
+        tiferet = ./nodes/tiferet;
 
         # My printer
         fudemonix = ./nodes/fudemonix;

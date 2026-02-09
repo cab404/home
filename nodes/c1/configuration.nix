@@ -9,8 +9,7 @@
       <modules/home-manager>
       <modules/podman.nix>
 
-      (import <nodes/keter/wgbond.nix>).defaults
-      (import <nodes/keter/wgbond.nix>).c1
+      <nodes/keter/wg.nix>
     ];
 
   # Use the systemd-boot EFI boot loader.
@@ -59,6 +58,15 @@
 
 
   nix.settings.system-features = [ "gccarch-alderlake" "benchmark" "big-parallel" "ca-derivations" "kvm" "nixos-test" ];
+  services.caddy = on // {
+    virtualHosts = {
+      "gtch.ru.cab.moe" = {
+        extraConfig = ''
+          reverse_proxy 127.0.0.1:8011
+        '';
+      };
+    };
+  };
 
   services.tor = {
     # enable = true;

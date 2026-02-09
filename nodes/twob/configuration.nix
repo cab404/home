@@ -2,7 +2,6 @@
   imports = [ # Include the results of the hardware scan.
     ./hardware-configuration.nix
     ./builder.nix
-
     <modules/recipes/ssh.nix>
     <modules/recipes/ssh-persist.nix>
     <modules/recipes/substituters.nix>
@@ -10,13 +9,12 @@
     <modules/core.nix>
     <modules/home-manager>
     <modules/podman.nix>
-
+    (import <nodes/keter/wgbond.nix>).twob
   ];
 
   _.user = "cab";
   networking.hostName = "twob";
   networking.networkmanager.enable = true;
-
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.timeout = 0;
