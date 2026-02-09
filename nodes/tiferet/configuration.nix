@@ -4,6 +4,8 @@ with prelude; let __findFile = prelude.__findFile; in
 
   imports =
     [
+      (import <modules/keter/wgbond.nix>).defaults
+      (import <modules/keter/wgbond.nix>).tiferet
       <modules/recipes/ssh.nix>
       <modules/recipes/ssh-persist.nix>
       <modules/recipes/substituters.nix>
@@ -16,7 +18,6 @@ with prelude; let __findFile = prelude.__findFile; in
       ./heisenbridge.nix
       ./tailscale.nix
 
-      <modules/keter/wg.nix>
       # inputs.gtch.nixosModules.default
     ];
 
