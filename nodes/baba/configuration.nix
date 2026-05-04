@@ -19,6 +19,8 @@
     <modules/recipes/oculus.nix>
     <modules/recipes/btkill.nix>
     <modules/recipes/splash.nix>
+    <modules/awg>
+    <modules/recipes/tailscale.nix>
     # <modules/recipes/sunshine.nix>
   ];
 
@@ -28,22 +30,6 @@
     options = "ctrl:nocaps,misc:typo,grp:win_space_toggle,lv3:ralt_switch_multikey";
   };
   services.hardware.bolt = on;
-
-  # services.guix.enable = true;
-
-  # security.audit = on // {};
-
-  # Doesn't work with Linux 6
-  # virtualisation.anbox = on // {
-  #   ipv4.container = {
-  #     address = "10.120.0.2";
-  #     prefixLength = 16;
-  #   };
-  #   ipv4.gateway = {
-  #     address = "10.120.0.1";
-  #     prefixLength = 16;
-  #   };
-  # };
 
   networking = {
     networkmanager.dns = "systemd-resolved";
@@ -63,34 +49,14 @@
   };
   services.tailscale.enable = true;
 
-  # nixpkgs.overlays = [ inputs.helix.overlays.default ];
-
-  # In the grim dark future there is only NixOS
-  # system.stateVersion = lib.mkForce "40000.05";
-  # (enables all of the unstable features pretty much always)
-
-  # services.power-profiles-daemon.enable = false;
-  # services.tlp = {
-  #   enable = true;
-  #   settings = {
-  #     CPU_BOOST_ON_BAT = 0;
-  #     CPU_SCALING_GOVERNOR_ON_BATTERY = "schedutil";
-  #     START_CHARGE_THRESH_BAT0 = 90;
-  #     STOP_CHARGE_THRESH_BAT0 = 97;
-  #     RUNTIME_PM_ON_BAT = "auto";
-  #   };
-  # };
-  # it will ruin you USB devices
-  # powerManagement.powertop.enable = true;
-
   networking.hostName = "baba";
 
-  boot.kernelPackages = with pkgs; let tune = "alderlake"; in (linuxKernel.packagesFor (linux_latest.override ({
-    stdenv = stdenvAdapters.addAttrsToDerivation {
-      env.KCPPFLAGS = "-march=${tune} -O3";
-      env.KCFLAGS = "-march=${tune} -O3";
-    } stdenv;
-  })));
+  # boot.kernelPackages = with pkgs; let tune = "alderlake"; in (linuxKernel.packagesFor (linux_latest.override ({
+  #   stdenv = stdenvAdapters.addAttrsToDerivation {
+  #     env.KCPPFLAGS = "-march=${tune} -O3";
+  #     env.KCFLAGS = "-march=${tune} -O3";
+  #   } stdenv;
+  # })));
   # boot.kernelPackages = with pkgs; let tune = "alderlake"; in (linuxKernel.packagesFor (linux_latest.override ({
   #   stdenv = stdenvAdapters.addAttrsToDerivation {
   #     env.KCPPFLAGS = "-march=${tune} -O2";
@@ -103,7 +69,7 @@
   #     env.KCFLAGS = "-march=${tune} -mtune=${tune}";
   #   } stdenv;
   # })));
-  # boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelPackages = pkgs.linuxPackages_6_18;
 
   _.user = "cab";
   i18n.defaultLocale = "C.UTF-8";
@@ -130,21 +96,16 @@
 
   services.udev.packages = with pkgs; [ qFlipper ];
 
-  services.usbguard = on // {
-    dbus = on;
-    IPCAllowedGroups = [ "wheel" ];
-  };
+  # services.usbguard = on // {
+  #   dbus = on;
+  #   IPCAllowedGroups = [ "wheel" ];
+  # };
 
   services.ratbagd = on;
   virtualisation.docker = {
     enable = true;
   };
 
-  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
-    "steam"
-    "steam-run"
-    "steam-original"
-  ];
-
+  system.stateVersion = "26.05";
 
 }

@@ -1,0 +1,25 @@
+{
+  "$schema": "./config.schema.json",
+  "network": {
+    "interface_name": "keter",
+    "awg":{"Jc":6,"Jmin":50,"Jmax":1000,"S1":73,"S2":88,"H1":2099619305,"H2":427935959,"H3":534486389,"H4":1932456955}
+  },
+  "hosts": {
+    "tiferet":        { "id": 1, "endpoint": "51.15.83.8",    "port": 63333, "tags": [ "out", "_nix" ] },
+    "c1":             { "id": 2, "endpoint": "91.77.168.186", "port": 63333, "tags": [ "_nix" ] },
+    "twob":           { "id": 3, "tags": [ "_nix" ] },
+    "baba":           { "id": 4, "tags": [ "_nix" ] },
+    "eris":           { "id": 5, "tags": [ "_nix" ] }
+  },
+  "properties": [
+    { "action": "masquerade", "target": "out" },
+    { "action": "assign-ip",  "target": "*", "cidr": "10.0.10.0/24" },
+    { "action": "assign-ip",  "target": "*", "cidr": "fe80:c4b4::/48" }
+  ],
+  "relations": [
+    { "from": "//out", "to": "proxied", "action": "proxy", "cidr": "0.0.0.0/0" },
+    { "from": "//out", "to": "proxied", "action": "proxy", "cidr": "::0/0" },
+
+    { "from": "*", "to": "*", "action": "keepalive", "time": 60 }
+  ]
+}

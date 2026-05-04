@@ -12,6 +12,7 @@
     <modules/recipes/ssh.nix>
     <modules/recipes/ssh-persist.nix>
     <modules/recipes/streaming.nix>
+    <modules/recipes/tailscale.nix>
     <modules/recipes/audio.nix>
     <modules/recipes/nixld.nix>
     <modules/recipes/hwhack.nix>
@@ -30,23 +31,9 @@
   };
 
   services.hardware.bolt = on;
+
+  # spacemouse!
   hardware.spacenavd = on;
-
-  # services.guix.enable = true;
-
-  # security.audit = on // {};
-
-  # Doesn't work with Linux 6
-  # virtualisation.anbox = on // {
-  #   ipv4.container = {
-  #     address = "10.120.0.2";
-  #     prefixLength = 16;
-  #   };
-  #   ipv4.gateway = {
-  #     address = "10.120.0.1";
-  #     prefixLength = 16;
-  #   };
-  # };
 
   networking = {
     networkmanager.dns = "systemd-resolved";
@@ -67,27 +54,6 @@
       "2606:4700:4700::1001"
     ];
   };
-  services.tailscale.enable = true;
-
-  # nixpkgs.overlays = [ inputs.helix.overlays.default ];
-
-  # In the grim dark future there is only NixOS
-  # system.stateVersion = lib.mkForce "40000.05";
-  # (enables all of the unstable features pretty much always)
-
-  # services.power-profiles-daemon.enable = false;
-  # services.tlp = {
-  #   enable = true;
-  #   settings = {
-  #     CPU_BOOST_ON_BAT = 0;
-  #     CPU_SCALING_GOVERNOR_ON_BATTERY = "schedutil";
-  #     START_CHARGE_THRESH_BAT0 = 90;
-  #     STOP_CHARGE_THRESH_BAT0 = 97;
-  #     RUNTIME_PM_ON_BAT = "auto";
-  #   };
-  # };
-  # it will ruin you USB devices
-  # powerManagement.powertop.enable = true;
 
   networking.hostName = "eris";
   _.user = "cab";
@@ -100,24 +66,16 @@
   boot.kernelPackages = pkgs.linuxPackages;
   nix.settings.system-features = [ "gccarch-alderlake" "kvm" "nixos-test" ];
 
-  zramSwap = on;
-
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
   services.udev.packages = with pkgs; [ qFlipper ];
 
-  services.usbguard = on // {
-    dbus = on;
-    IPCAllowedGroups = [ "wheel" ];
-  };
+  # services.usbguard = on // {
+  #   dbus = on;
+  #   IPCAllowedGroups = [ "wheel" ];
+  # };
 
   services.ratbagd = on;
 
-  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
-    "steam"
-    "steam-run"
-    "steam-original"
-  ];
-
-
+  system.stateVersion = "26.05";
 }

@@ -9,8 +9,8 @@ with prelude; let __findFile = prelude.__findFile; in
   networking.interfaces.ens2.ipv6.routes = [
     { address = "::"; via = "2001:bc8:1820:1943::"; prefixLength = 0; }
   ];
-  
+
   imports = [
-    <nodes/scaleway>
+    <modules/scaleway>
   ];
 }

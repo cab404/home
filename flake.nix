@@ -13,11 +13,10 @@
       "helix.cachix.org-1:ejp9KQpR1FBI2onstMQ34yogDm4OgU2ru6lIwPvuCVs="
       "nixos-raspberrypi.cachix.org-1:4iMO9LXa8BqhU+Rpg6LQKiGa2lsNh/j2oiYLNOQ5sPI="
     ];
+    experimental-features = [ "nix-command" "flakes" "pipe-operator" "ca-derivations" ];
   };
 
   inputs = {
-
-    # helix.url = "github:helix-editor/helix";
 
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
@@ -28,22 +27,12 @@
 
     snm.url = "gitlab:simple-nixos-mailserver/nixos-mailserver";
     snm.inputs.nixpkgs.follows = "nixpkgs";
-    # emacs-overlay.url = "github:nix-community/emacs-overlay";
-    # emacs-overlay.follows = "nix-doom-emacs/emacs-overlay";
-
-    # deploy-rs.url = "github:serokell/deploy-rs";
-    # deploy-rs.inputs.nixpkgs.follows = "nixpkgs";
 
     nixos-hw.url = "github:nixos/nixos-hardware";
-
-    wg-bond.url = "github:cab404/wg-bond";
-    wg-bond.inputs.nixpkgs.follows = "nixpkgs";
 
     # nix-doom-emacs.url = "github:thiagokokada/nix-doom-emacs";
     # nix-doom-emacs.inputs.nixpkgs.follows = "nixpkgs";
 
-    # gtch.url = "/home/cab/data/cab/ticket-checker";
-    # gtch.inputs.nixpkgs.follows = "nixpkgs";
     plymouth-is-underrated.url = "github:cab404/plymouth-is-underrated";
     # plymouth-is-underrated.url = "/home/cab/data/cab/plymouth-is-underrated";
     plymouth-is-underrated.flake = false;
@@ -56,7 +45,6 @@
     inputs @ { self
     , nixpkgs
     , home-manager
-    , wg-bond
     , ...
     }:
     let
@@ -67,6 +55,7 @@
             # ./patches/soft-reboot.patch
             # Place your nixpkgs patches here
             # ./patches/v4.patch # Scary one with x86-64-v4 and a _full_ system rebuild
+            # ./patches/361716.patch
           ];
           patched = import "${nixpkgs.legacyPackages.${system}.applyPatches {
               inherit patches;
@@ -82,7 +71,7 @@
       prelude = import ./modules/prelude.nix { lib = nixpkgs.lib; };
 
       specialArgs = {
-        inherit inputs prelude; inherit (inputs) nixos-raspberrypi;
+        inherit inputs prelude; inherit (inputs) nixos-raspberrypi; P = ./.;
       };
 
       buildSystem = mode: system: modules: {
@@ -109,31 +98,9 @@
 
       onPkgs = f: builtins.mapAttrs f patchedPkgs.legacyPackages;
 
-      nodes = {
-        # My notebook
-        yuna = ./nodes/yuna;
-
-        # My new notebook
-        eris = ./nodes/eris;
-
-        # My temporary machine (jews stole my laptop)
-        baba = ./nodes/baba;
-
-        # First server
-        c1 = ./nodes/c1;
-
-        # Scaleway proxy
-        tiferet = ./nodes/tiferet;
-
-        # My printer
-        fudemonix = ./nodes/fudemonix;
-
-        # the other server
-        twob = ./nodes/twob;
-
-        # rpi
-        bakapie = ./nodes/bakapie;
-      };
+      # Maps over ./nodes directory, reading all of the configs there.
+      hosts = with builtins; attrNames (readDir ./nodes);
+      nodes = with builtins; listToAttrs (map (a: {name = a; value = ./nodes/${a}; }) hosts);
 
     in
     {
@@ -171,7 +138,7 @@
       devShells = onPkgs (system: pkgs: with pkgs; {
         default = mkShell {
           buildInputs = [
-            nixVersions.latest
+            lixPackageSets.latest.lix
             nixpkgs-fmt
             nil
             nix-output-monitor

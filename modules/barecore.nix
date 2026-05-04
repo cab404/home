@@ -3,7 +3,7 @@
 { config, pkgs, lib, prelude, ... }: with prelude; let __findFile = prelude.__findFile; in {
 
   # ====== NixOS system-level stuff
-  system.stateVersion = "23.11";
+  # system.stateVersion = "23.11";
   require = [ ./options.nix ];
 
   i18n.defaultLocale = "C.UTF-8";
@@ -66,10 +66,10 @@
     # ====== Nix config stuff
     {
       nix = {
-        package = pkgs.nixVersions.latest;
+        package = pkgs.lixPackageSets.stable.lix;
         settings = {
           trusted-users = [ "root" config._.user ];
-          experimental-features = [ "nix-command" "flakes" "ca-derivations" ];
+          experimental-features = [ "nix-command" "flakes" "pipe-operator" ];
         };
       };
     }

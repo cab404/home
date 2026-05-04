@@ -14,6 +14,7 @@ with prelude; let __findFile = prelude.__findFile; in
       # Fonts
       source-code-pro
       noto-fonts
+      noto-fonts-color-emoji
       fira-code
       fira
       font-awesome

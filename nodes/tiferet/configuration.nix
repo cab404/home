@@ -13,6 +13,7 @@ with prelude; let __findFile = prelude.__findFile; in
       <modules/barecore.nix>
       <modules/home-manager>
       <modules/podman.nix>
+      <modules/awg>
 
       ./mail.nix
       ./heisenbridge.nix
@@ -52,14 +53,14 @@ with prelude; let __findFile = prelude.__findFile; in
   time.timeZone = "Europe/Amsterdam";
   networking.hostName = "tiferet";
 
-  boot.kernel.sysctl."net.ipv4.ip_forward" = 1;
-  boot.kernel.sysctl."net.ipv6.conf.all.forwarding" = 1;
+  # boot.kernel.sysctl."net.ipv4.ip_forward" = 1;
+  # boot.kernel.sysctl."net.ipv6.conf.all.forwarding" = 1;
 
   services.caddy = on // {
     virtualHosts = {
       "gtch.cab.moe" = {
         extraConfig = ''
-          reverse_proxy c1:8011
+          reverse_proxy 10.0.10.2:8011
         '';
       };
       "eris.cab.moe" = {
@@ -74,12 +75,12 @@ with prelude; let __findFile = prelude.__findFile; in
       };
       "immich.cab.moe" = {
         extraConfig = ''
-          reverse_proxy c1:2283
+          reverse_proxy 10.0.10.2:2283
         '';
       };
       "paperless.cab.moe" = {
         extraConfig = ''
-          reverse_proxy c1:8000
+          reverse_proxy 10.0.10.2:8000
         '';
       };
       "static.cab.moe" = {
@@ -113,7 +114,7 @@ with prelude; let __findFile = prelude.__findFile; in
       # };
       "hs.cab.moe" = {
         extraConfig = ''
-          reverse_proxy 127.0.0.1:8080
+          reverse_proxy 10.0.10.1:8080
         '';
       };
     };

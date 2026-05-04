@@ -38,6 +38,9 @@
     partitionmanager
     kpmcore
 
+    krdc
+    krdp
+
   ]);
 
   programs.kdeconnect.enable = true;

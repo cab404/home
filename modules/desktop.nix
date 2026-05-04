@@ -132,7 +132,7 @@ with import ../lib.nix args; {
 
   environment.systemPackages = with pkgs; [
     dconf
-    xfce.xfconf # programs <3 configs
+    pkgs.xfconf # programs <3 configs
     polkit_gnome # and polkit guis :\
   ];
 

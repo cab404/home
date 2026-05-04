@@ -13,6 +13,7 @@ with prelude; let __findFile = prelude.__findFile; in
     on // {
       settings = {
         server_url = "https://hs.cab.moe";
+        listen_addr = "10.0.10.1:8080";
         prefixes = {
           v4 = "100.113.0.0/16";
           v6 = "fd7a:115c:a1e0::/48";
@@ -36,11 +37,11 @@ with prelude; let __findFile = prelude.__findFile; in
           base_domain = "keter";
           extra_records = [
             # if tailscale works, tailscale the heck out of coordination server
-            {
-              name = "hs.cab.moe";
-              type = "A";
-              value = "100.113.0.1";
-            }
+            # {
+            #   name = "hs.cab.moe";
+            #   type = "A";
+            #   value = "100.113.0.1";
+            # }
           ];
         };
 

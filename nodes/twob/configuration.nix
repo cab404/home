@@ -9,7 +9,7 @@
     <modules/core.nix>
     <modules/home-manager>
     <modules/podman.nix>
-    (import <nodes/keter/wgbond.nix>).twob
+    <modules/awg>
   ];
 
   _.user = "cab";
@@ -28,8 +28,8 @@
 
   services.resolved.enable = true;
 
-  nix.settings.system-features = [ "gccarch-alderlake" "benchmark" "big-parallel" "ca-derivations" "kvm" "nixos-test" ];
-  nix.extraOptions = "experimental-features = nix-command flakes ca-derivations";
+  nix.settings.system-features = [ "gccarch-alderlake" "benchmark" "big-parallel" "kvm" "nixos-test" ];
+  nix.extraOptions = "experimental-features = nix-command flakes";
 
   services.openssh = {
     enable = true;

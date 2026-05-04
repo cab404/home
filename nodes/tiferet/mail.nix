@@ -51,7 +51,14 @@ in {
         redir @calcard //cal.${fqdn}
 
         handle {
-          respond "o hai!"
+          respond <<EOF
+          hoi!
+          i am cab
+          me and my stuff can be found at:
+          - https://github.com/cab404
+          - https://t.me/cabiarangris
+          best of luck <3
+          EOF 200
         }
       '';
     };

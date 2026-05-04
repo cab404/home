@@ -4,14 +4,13 @@ args@{ sysconfig
 , lib # inputs.nixpkgs.lib
 , inputs
 , prelude
+, P
 , ...
 }:
-with prelude; let __findFile = prelude.__findFile; in
-let isWL = true;
-in
-{
+let inherit (prelude) on enableThings; in {
 
   home = {
+
 
     packages = with pkgs;
       [
@@ -22,7 +21,7 @@ in
 
         # Interweebs
         transmission_4-qt
-        thunderbird-bin
+        # thunderbird-bin
         # nheko
 
         # Coding/Netutils
@@ -66,12 +65,13 @@ in
         # Command line comfort
         # alacritty
         nh
+        lsof
         nix-top
         nixd
         zellij
         perl
         zsh
-        gitu
+        # gitu
         cyme
 
         pulsemixer
@@ -84,13 +84,13 @@ in
         ranger
         btop
         xkcdpass
-        nixfmt-rfc-style
+        nixfmt
 
         nix-prefetch-github
 
         # Runners
         appimage-run
-        lutris-free
+        # lutris-free
 
         # Development
         zed-editor
@@ -100,7 +100,7 @@ in
         patchelf
 
         # Hardware?
-        pulseview
+        # pulseview
         minicom
         # cutecom
         picocom
@@ -163,13 +163,13 @@ in
             saw-tools
 
             webkitgtk_6_0
-            xorg.libX11
+            libx11
             zlib
           ]) }
           exec $@
         '')
 
-        (pkgs.callPackage <theme-changer.nix> { })
+        (pkgs.callPackage /${P}/theme-changer.nix { })
 
       ];
 
@@ -179,13 +179,14 @@ in
   home.sessionVariables = {
     # Grrr, no proper way to do that
     GNUPGHOME = config.programs.gpg.homedir;
+    PASSWORD_STORE_DIR = "/home/${sysconfig._.user}/.local/share/password-store";
   };
 
   programs = enableThings [
     "git"
     "ssh"
     "browserpass"
-    "firefox"
+    # "firefox"
     "password-store"
     "alacritty"
     "chromium"
@@ -214,6 +215,7 @@ in
 
       # == SSH
       ssh = {
+        enableDefaultConfig = false;
         matchBlocks =
           let is = (user: identityFile: { inherit user identityFile; });
           in
@@ -266,8 +268,9 @@ in
       git-sync = on // {
         repositories = {
           pass = {
-            path = config.programs.password-store.settings.PASSWORD_STORE_DIR;
+            path = "/home/cab/.local/share/password-store";
             uri = "git@git.sr.ht:~cab/pwds";
+            interval = 120;
           };
           notes = {
             path = "/home/cab/data/cab/notes";

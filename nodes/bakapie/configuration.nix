@@ -6,13 +6,12 @@
   _.user = "cab";
   boot.loader.timeout = 0;
   networking.networkmanager.enable = true;
+  hardware.bluetooth.enable = true;
 
   imports = [
     <modules/barecore.nix>
     <modules/podman.nix>
     <modules/recipes/tailscale.nix>
   ];
-
-
 
 }

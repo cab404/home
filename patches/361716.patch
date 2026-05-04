@@ -1,0 +1,29 @@
+From e723844d6c34b8c2936a1393babe451daf0b505a Mon Sep 17 00:00:00 2001
+From: "R. Ryantm" <ryantm-bot@ryantm.com>
+Date: Tue, 10 Feb 2026 16:37:49 +0000
+Subject: [PATCH] linuxPackages.amneziawg: 1.0.20251009 -> 1.0.20260210
+
+---
+ pkgs/os-specific/linux/amneziawg/default.nix | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/pkgs/os-specific/linux/amneziawg/default.nix b/pkgs/os-specific/linux/amneziawg/default.nix
+index cb64a8bc77724..bd17139fe8ca4 100644
+--- a/pkgs/os-specific/linux/amneziawg/default.nix
++++ b/pkgs/os-specific/linux/amneziawg/default.nix
+@@ -10,13 +10,13 @@
+ 
+ stdenv.mkDerivation (finalAttrs: {
+   pname = "amneziawg";
+-  version = "1.0.20251009";
++  version = "1.0.20260210";
+ 
+   src = fetchFromGitHub {
+     owner = "amnezia-vpn";
+     repo = "amneziawg-linux-kernel-module";
+     tag = "v${finalAttrs.version}";
+-    hash = "sha256-OcMlwXOwjxLqHkAQHSwDigK6wuOFCSzoE5spVwybN1M=";
++    hash = "sha256-w2TK0dE4fhEAgfaMKwaadVgle4cGEigQNHmXLkpxERA=";
+   };
+ 
+   sourceRoot = "${finalAttrs.src.name}/src";

@@ -25,7 +25,7 @@ in {
 
         # Interweebs
         transmission-gtk
-        thunderbird
+        # thunderbird
         # jitsi-meet-electron
         tdesktop
         mumble
@@ -100,7 +100,7 @@ in {
         android-tools
         scrcpy
         qFlipper
-        pulseview
+        # pulseview
         #ledger-live-desktop
 
         # Viewers
@@ -211,7 +211,7 @@ in {
   xdg = on // {
     configFile = let
       composeConfig = ''
-        include "${pkgs.xorg.libX11}/share/X11/locale/en_US.UTF-8/Compose"
+        include "${pkgs.libx11}/share/X11/locale/en_US.UTF-8/Compose"
         <Multi_key> <period> <backslash>           : "λ"   U03BB  # GREEK SMALL LETTER LAMBDA
       '';
     in {

@@ -39,17 +39,6 @@ with prelude; let __findFile = prelude.__findFile; in
 
   nixpkgs.config.allowUnfree = true;
 
-  boot.kernelParams = [
-    "quiet"
-    "splash"
-
-    "mitigations=off"
-
-    "i915.enable_fbc=1"
-    "i915.enable_psr=2"
-    # "i915.enable_gvt=1"
-    "mem_sleep_default=s2idle" # faster faster
-  ];
   # TODO: Move to «manual power management» or smth like that
   # systemd.sleep.extraConfig = ''
   #   AllowSuspend=yes
