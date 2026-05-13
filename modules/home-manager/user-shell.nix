@@ -61,10 +61,10 @@ with import ../../lib.nix args;
         flags = [
           "--disable-up-arrow"
         ];
-        # daemon.enable = true;
+        daemon.enable = true;
         settings = {
-          # search_mode = "daemon-fuzzy";
-          search_mode = "fuzzy";
+          search_mode = "daemon-fuzzy";
+          # search_mode = "fuzzy";
           inline_height = 20;
           sync.records = true;
           style = "compact";
