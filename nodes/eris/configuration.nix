@@ -76,6 +76,7 @@
   # };
 
   services.ratbagd = on;
+  environment.systemPackages = with pkgs; [ piper ];
 
   system.stateVersion = "26.05";
 }
