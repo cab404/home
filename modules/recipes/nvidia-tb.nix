@@ -1,6 +1,6 @@
 { config, lib, pkgs, prelude, inputs, ... }@args:
 with prelude; let __findFile = prelude.__findFile;
-  modulePackage = config.boot.kernelPackages.nvidiaPackages.latest;
+  modulePackage = config.boot.kernelPackages.nvidiaPackages.legacy_580;
 in
 {
 
@@ -9,7 +9,7 @@ in
   hardware.nvidia.package = modulePackage;
   hardware.nvidia.nvidiaPersistenced = true;
   hardware.nvidia.nvidiaSettings = true;
-  hardware.nvidia.open = true;
+  hardware.nvidia.open = false;
 
   nixpkgs.config.allowUnfree = true;
   nixpkgs.config.nvidia.acceptLicense = true;
