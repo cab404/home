@@ -5,9 +5,9 @@
       <modules/recipes/ssh-persist.nix>
       <modules/recipes/substituters.nix>
       <modules/recipes/tailscale.nix>
+      <modules/recipes/podman.nix>
       <modules/core.nix>
       <modules/home-manager>
-      <modules/podman.nix>
       <modules/awg>
     ];
 

@@ -8,7 +8,7 @@
     <modules/recipes/tailscale.nix>
     <modules/core.nix>
     <modules/home-manager>
-    <modules/podman.nix>
+    <modules/recipes/podman.nix>
     <modules/awg>
   ];
 

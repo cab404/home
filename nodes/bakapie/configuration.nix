@@ -10,7 +10,7 @@
 
   imports = [
     <modules/barecore.nix>
-    <modules/podman.nix>
+    <modules/recipes/podman.nix>
     <modules/recipes/tailscale.nix>
   ];
 

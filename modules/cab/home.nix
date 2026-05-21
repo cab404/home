@@ -179,6 +179,7 @@ let inherit (prelude) on enableThings; in {
   home.sessionVariables = {
     # Grrr, no proper way to do that
     GNUPGHOME = config.programs.gpg.homedir;
+    GOPATH = "/home/${sysconfig._.user}/.local/share/go-path";
     PASSWORD_STORE_DIR = "/home/${sysconfig._.user}/.local/share/password-store";
   };
 
