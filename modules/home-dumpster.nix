@@ -49,6 +49,7 @@ with prelude; let __findFile = prelude.__findFile; in {
     configFile = let
       composeConfig = ''
         include "${pkgs.libx11}/share/X11/locale/en_US.UTF-8/Compose"
+        <Multi_key> <bracketright> <bracketright>  : "́"   U0301  # ACUTE ACCENT
         <Multi_key> <period> <backslash>           : "λ"  U03BB  # GREEK SMALL LETTER LAMBDA
         <Multi_key> <l> <a>                        : "λ"  U03BB  # GREEK SMALL LETTER LAMBDA
         <Multi_key> <L> <a>                        : "Λ"  U039B  # GREEK CAPITAL LETTER LAMBDA
