@@ -6,14 +6,6 @@
   programs.firefox.package = pkgs.firefox.override {
     nativeMessagingHosts = with pkgs; [
       kdePackages.plasma-browser-integration
-      # Patch browserpass to use my version of it
-      (
-        runCommand "patched-browserpass" { } ''
-          cp -r ${pkgs.browserpass} $out
-          chmod -R +w $out
-          sed -i 's|"browserpass@maximbaz.com"|"browserpass@cab.moe"|g' $out/lib/mozilla/native-messaging-hosts/com.github.browserpass.native.json
-        ''
-      )
     ];
   };
 

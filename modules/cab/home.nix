@@ -139,7 +139,6 @@ let inherit (prelude) on enableThings; in {
 
         # Personal data and sync
         # anytype # too old
-        browserpass
         gnupg
         nextcloud-client # meh
 
@@ -232,6 +231,12 @@ let inherit (prelude) on enableThings; in {
       };
 
       # == Pass and stuff
+      browserpass.package = pkgs.runCommand "patched-browserpass" { } ''
+        cp -r ${pkgs.browserpass} $out
+        chmod -R +w $out
+        cat $out/lib/browserpass/hosts/firefox/com.github.browserpass.native.json
+        sed -i 's|"browserpass@maximbaz.com"|"browserpass@cab.moe"|g' $out/lib/browserpass/hosts/firefox/com.github.browserpass.native.json
+      '';
       browserpass.browsers = [ "firefox" "chromium" ];
 
       git = {

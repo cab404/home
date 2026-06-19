@@ -35,7 +35,6 @@ with prelude; let __findFile = prelude.__findFile; in {
 
   programs = enableThings [
     "ssh"
-    "browserpass"
     # "firefox"
     "password-store"
     "alacritty"

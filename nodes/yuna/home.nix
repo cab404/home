@@ -145,7 +145,6 @@ in {
         systemd
 
         # Personal data and sync
-        browserpass
         gnupg
         nextcloud-client
 
@@ -229,7 +228,6 @@ in {
 
   programs = enableThings [
     "ssh"
-    "browserpass"
     "firefox"
     "password-store"
     "alacritty"
@@ -280,9 +278,6 @@ in {
           "cab404.ru" = is "cab" "~/.ssh/id_rsa";
         };
     };
-
-    # == Pass and stuff
-    browserpass.browsers = [ "firefox" ];
 
     git = {
       userName = "Vladimir Serov";
