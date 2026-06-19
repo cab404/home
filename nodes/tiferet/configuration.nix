@@ -57,6 +57,18 @@ with prelude; let __findFile = prelude.__findFile; in
   # boot.kernel.sysctl."net.ipv6.conf.all.forwarding" = 1;
 
   services.caddy = on // {
+    package = pkgs.caddy.withPlugins {
+      plugins = [ "github.com/caddy-dns/porkbun@v0.3.1" ];
+      hash = "sha256-pt4jyNcfacZKxzRH7zW7l2/+YfmVKWxGD4JTyWpvD1E=";
+    };
+    environmentFile = "/secrets/caddy.env";
+    globalConfig = ''
+      email acme+c1@cab.moe
+      acme_dns porkbun {
+        api_key {$PB_API_KEY}
+        api_secret_key {$PB_API_SECRET}
+      }
+    '';
     virtualHosts = {
       "gtch.cab.moe" = {
         extraConfig = ''
