@@ -42,10 +42,9 @@ with import ../../lib.nix args;
   programs = {
       man.generateCaches = true;
 
-      # carapace = on;
-
       # digits digits digits numbers
       numbat = on;
+
       carapace = on;
 
       direnv = on // { nix-direnv = on; };

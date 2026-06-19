@@ -24,6 +24,15 @@ in
 
       $env.config.show_banner = false
       $env.config.completions.algorithm = "fuzzy"
+      $env.config.table.mode = 'markdown'
+      $env.PROMPT_COMMAND_RIGHT = {$"(ansi light_green_italic)($env.USER)@(sys host | get hostname) (date now | format date '%H:%M:%S')"}
+      $env.PROMPT_INDICATOR = 'δ '
+      $env.config.history = {
+        file_format: sqlite
+        max_size: 1_000_000
+        sync_on_enter: true
+        isolation: true
+      }
 
       ${ with builtins;
         [ "man" ]#[ "pass" "ssh" "make" "nix" "gh" "curl" "cargo" "claude" "rg" "adb" "man" "yarn" ]
@@ -35,7 +44,8 @@ in
         mkdir -v $p; cd $p;
       }
 
-      def what (cmd: string) {
+      def _what_complete [] { which | get command }
+      def what (cmd: string@_what_complete) {
         which $cmd | get path | path expand
       }
 
