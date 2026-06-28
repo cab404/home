@@ -7,6 +7,7 @@ with prelude; let __findFile = prelude.__findFile; in
 
 {
 
+  system.stateVersion = "25.05"; # Did you read the comment?
   imports =
     [
       # Include the results of the hardware scan.
@@ -60,5 +61,4 @@ with prelude; let __findFile = prelude.__findFile; in
 
   users.users.root.hashedPassword = "$y$j9T$q4c/.wjNYg7nzUL4/38Ef0$P0nfnjRF/GZRxcLfeDkHupcoZWnr7fP.KvzpB1TiqY.";
 
-  system.stateVersion = "25.05"; # Did you read the comment?
 }

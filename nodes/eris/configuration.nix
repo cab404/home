@@ -1,5 +1,6 @@
 { inputs, prelude, lib, config, pkgs, ... }: with prelude; let __findFile = prelude.__findFile; in { # %%MODULE_HEADER%%
 
+  system.stateVersion = "26.05";
   imports = [
     <modules/core.nix>
 
@@ -82,5 +83,4 @@
   services.ratbagd = on;
   environment.systemPackages = with pkgs; [ piper ];
 
-  system.stateVersion = "26.05";
 }

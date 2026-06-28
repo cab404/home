@@ -3,7 +3,6 @@
 { config, pkgs, lib, prelude, ... }: with prelude; let __findFile = prelude.__findFile; in {
 
   # ====== NixOS system-level stuff
-  # system.stateVersion = "23.11";
   require = [ ./options.nix ];
 
   i18n.defaultLocale = "C.UTF-8";
