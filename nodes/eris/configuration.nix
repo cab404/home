@@ -23,7 +23,10 @@
     <modules/recipes/splash.nix>
     <modules/recipes/docker.nix>
 
-    <modules/recipes/nvidia-tb.nix>
+    # <modules/recipes/nvidia-tb.nix>
+    <modules/recipes/alvr.nix>
+    <modules/recipes/amdgpu-tb.nix>
+    <modules/recipes/gamescope.nix>
 
   ];
 
@@ -68,7 +71,7 @@
   users.users.root.hashedPasswordFile = "/secrets/password";
 
   # boot.tmp.useTmpfs = true;
-  boot.kernelPackages = pkgs.linuxPackages;
+  boot.kernelPackages = pkgs.linuxPackages_latest;
   nix.settings.system-features = [ "gccarch-alderlake" "kvm" "nixos-test" ];
 
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];

@@ -2,7 +2,7 @@
 with prelude; let __findFile = prelude.__findFile;
 in
 {
-  programs.alvr = on // {
+  programs.alvr = {
     openFirewall = true;
   };
 }

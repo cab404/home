@@ -4,7 +4,12 @@ let
     exec ${pkgs.gamescope}/bin/gamescope \
       --prefer-vk-device 1002:73bf \
       --steam \
-      -- flatpak run com.valvesoftware.Steam -gamepadui
+      --rt \
+      --force-grab-cursor \
+      --expose-wayland \
+      --adaptive-sync \
+      -R \
+      -- flatpak run com.valvesoftware.Steam -- -gamepadui $@
   '';
 
   steam-gamescope-session =
@@ -18,7 +23,11 @@ let
     '') // { providedSessions = [ "steam-gamescope" ]; };
 in
 {
-  programs.gamescope.enable = true; # host gamescope + CAP_SYS_NICE
+  programs.gamescope = {
+    enable = true;
+    enableWsi = true;
+    capSysNice = true;
+  };
 
   environment.systemPackages = [ steam-gamescope ];
   services.displayManager.sessionPackages = [ steam-gamescope-session ];
