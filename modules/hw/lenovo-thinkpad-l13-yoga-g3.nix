@@ -10,7 +10,8 @@ with prelude; let __findFile = prelude.__findFile; in
   services.fprintd = on;
   services.acpid.enable = true;
 
-boot.kernelParams = [
+
+  boot.kernelParams = [
     "quiet"
     "splash"
     "mitigations=off"
@@ -27,10 +28,8 @@ boot.kernelParams = [
     "i915.disable_power_well=0"    # let the driver aggressively gate unused power wells
     "i915.enable_dpcd_backlight=1" # DPCD backlight control – more efficient on eDP panels
 
-#    "thunderbolt.power_saving=1"
     "vm.swappiness=5"
 
-    "mem_sleep_default=s2idle" # faster faster
   ];
 
 }
