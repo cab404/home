@@ -120,7 +120,7 @@
               networking.networkmanager.enable = true;
 
               boot.kernelPackages = lib.mkForce pkgs.linuxPackages;
-              networking.wireless.enable = false;
+
               environment.systemPackages = [
                 config.boot.kernelPackages.chipsec
               ];
@@ -151,6 +151,7 @@
 
       packages = {
         x86_64-linux.vm = (virt-node ./nodes/portables/eris).config.system.build.vm;
+        x86_64-linux.installer = self.nixosConfigurations.installer.config.system.build.isoImage;
       };
 
       nodeMeta = builtins.mapAttrs (_: h: (hostAttrs h)) nodes;
