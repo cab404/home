@@ -46,7 +46,7 @@ let inherit (prelude) on enableThings; in {
         # openscad-unstable
         solvespace
         # blender
-        simple-scan
+        # simple-scan
         # lmms
         imagemagick
 

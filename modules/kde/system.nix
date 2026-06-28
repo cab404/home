@@ -45,16 +45,16 @@
 
   programs.kdeconnect.enable = true;
 
-  environment.systemPackages = with pkgs; [
-    kdePackages.krohnkite
-    kdePackages.kcontacts
-    kdePackages.merkuro
-    kdePackages.plasma-disks
-    kdePackages.krfb
-    kdePackages.krdc
-    kdePackages.krdp
-    kdePackages.krecorder
-
+  environment.systemPackages = with pkgs.kdePackages; [
+    krohnkite
+    kcontacts
+    merkuro
+    plasma-disks
+    krfb
+    krdc
+    krdp
+    krecorder
+    skanpage
   ];
 
   users.groups.sambashare = { };
