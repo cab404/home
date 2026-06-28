@@ -1,15 +1,17 @@
 { config, lib, pkgs, prelude, inputs, ... }@args:
 with prelude; let __findFile = prelude.__findFile;
+  # 1080ti over tb requires a legacy driver and open=false.
   modulePackage = config.boot.kernelPackages.nvidiaPackages.legacy_580;
 in
 {
+  #
+  hardware.nvidia.open = false;
 
   # hardware.nvidia.enabled = true;
   services.xserver.videoDrivers = [ "nvidia" ];
   hardware.nvidia.package = modulePackage;
   hardware.nvidia.nvidiaPersistenced = true;
   hardware.nvidia.nvidiaSettings = true;
-  hardware.nvidia.open = false;
 
   nixpkgs.config.allowUnfree = true;
   nixpkgs.config.nvidia.acceptLicense = true;
