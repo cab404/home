@@ -1,8 +1,9 @@
 { config, lib, pkgs, prelude, inputs, ... }@args:
 {
 
-  environment.systemPackages = [
-    pkgs.amdgpu_top
+  environment.systemPackages = with pkgs; [
+    amdgpu_top
+    memtest_vulkan
   ];
 
   nixpkgs.config.rocmSupport = true;
@@ -10,16 +11,13 @@
   services.lact.enable = true;
 
   hardware.amdgpu = {
+    initrd.enable = true;
 
-    amdvlk = {
-      enable = true;
-      support32Bit.enable = true;
-      supportExperimental.enable = true;
-    };
+    # For whatever reason it breaks all vulkan
+    # zluda.enable = true;
     opencl.enable = true;
+
     overdrive.enable = true;
   };
-
-
 
 }
