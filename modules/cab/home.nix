@@ -21,8 +21,7 @@ let inherit (prelude) on enableThings; in {
 
         # Interweebs
         transmission_4-qt
-        # thunderbird-bin
-        # nheko
+        thunderbird-bin
 
         # Coding/Netutils
         gh
@@ -186,7 +185,7 @@ let inherit (prelude) on enableThings; in {
     "git"
     "ssh"
     "browserpass"
-    # "firefox"
+    "firefox"
     "password-store"
     "alacritty"
     "chromium"
@@ -206,7 +205,7 @@ let inherit (prelude) on enableThings; in {
         ];
       };
 
-      vscode = on // { package = pkgs.vscodium; };
+      vscodium = on;
 
       password-store = {
         package = pkgs.pass.withExtensions
