@@ -74,7 +74,6 @@ let inherit (prelude) on enableThings; in {
         cyme
 
         pulsemixer
-        silver-searcher # some scripts still use it
         fzf
         file
         bat

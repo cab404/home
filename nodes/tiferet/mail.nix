@@ -79,7 +79,7 @@ in {
     # and I can't move them to a subdirectory, so they don't clutter the space.
     # All it achieves in the end is a total useless fragmentation of mailbox.
     # I guess I'll need a proper mail proxy.
-    lmtpSaveToDetailMailbox = "no";
+    lmtpSaveToDetailMailbox = false;
 
     # Well, let's move to a newer hierarchy separator
     hierarchySeparator = "/";
@@ -103,11 +103,10 @@ in {
     indexDir = "/var/lib/dovecot/indices";
     fullTextSearch = on // {
       autoIndex = true;
-      enforced = "body";
     };
   };
 
-  services.dovecot2.sieve.extensions = [ "fileinto" ];
+  services.dovecot2.settings.sieve_extensions."fileinto" = true;
 
   # services.postfix.config = {
   #   smtpd_recipient_restrictions = [

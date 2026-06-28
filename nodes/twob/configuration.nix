@@ -34,13 +34,14 @@
   services.openssh = {
     enable = true;
     settings = {
+      Banner = builtins.toFile "banner" ''
+        I wanna be your build bitch  (,,>﹏<,,)
+        (≧ヮ≦) h-top me, f-use me!
+      '';
       PermitRootLogin = "yes";
       PasswordAuthentication = false;
     };
-    banner = ''
-      I wanna be your build bitch  (,,>﹏<,,)
-      (≧ヮ≦) h-top me, f-use me!
-    '';
+
   };
 
   environment.systemPackages = with pkgs; [
