@@ -65,10 +65,11 @@
     # ====== Nix config stuff
     {
       nix = {
-        package = pkgs.lixPackageSets.stable.lix;
+        package = pkgs.nixVersions.latest;
+        # package = pkgs.lixPackageSets.stable.lix;
         settings = {
           trusted-users = [ "root" config._.user ];
-          experimental-features = [ "nix-command" "flakes" "pipe-operator" ];
+          experimental-features = [ "nix-command" "flakes" "pipe-operators" ];
         };
       };
     }
