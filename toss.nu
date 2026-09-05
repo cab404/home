@@ -208,8 +208,6 @@ export def "main establish-socket" [
 
 export def "main deploy" [
   hostname: string@hosts
-  # --eval_host: string = "daemon" # Where to copy the closure for evaluation. Build host must be accessible from there.
-
   # Where to build the closure. Target host must be accessible from there.
   --build_host: string
   # Where to copy the final system.
@@ -225,6 +223,10 @@ export def "main deploy" [
   # We can technically have implcit parameters...
   # set-env hostInfo $hostInfo
 
+  # Presumptions:
+  # Local system can build flakes
+  # Remote system has nix
+
   # TODO: Add user selection for profile switching
   # TODO: Add custom profile switching
   let eBuildHost = $build_host | default $"ssh-ng://root@($hostInfo.host)"
@@ -238,40 +240,42 @@ export def "main deploy" [
     exit 1
   }
 
-  # We won't be messing around with copying stuff ourselves.
-  # nix archive → nix copy → nix build → nix copy
-  # 1. Eval
-  # log info $"Sending source to build host ($eBuildHost)"
-  # let archiveInfo = nix flake archive --json | from json
-  # nix copy --to $eBuildHost $archiveInfo.path
-
-  let drvPath = try {
-    log info $"Evaluating system"
-    (^nix eval (".#" + (configAttr $hostname) + ".drvPath") --json | from json)
+  let sourcePath = try {
+    log info $"Copying source to store"
+    (^nix build (".#source") --json | from json | first)
   } catch {
-    log error $"Eval failed: exited with ($env.LAST_EXIT_CODE)"
-    # exit $env.LAST_EXIT_CODE
+    log error $"Copy failed: ($env.LAST_EXIT_CODE)"
+    log error $in
     ""
   }
-  if ($drvPath == "") {
-    log error "Eval produced no output path!"
+
+  if ($sourcePath == "") {
+    log error "Source failed to build..?"
     exit 1
   }
-  log info $"Done eval: ($drvPath)"
+  log info $"Copied source: ($sourcePath)"
 
   try {
-    log info $"Sending derivation to destination system. Expect ridiculously huge sizes."
-    ^nix copy --derivation --substitute-on-destination --to ($eBuildHost) ($drvPath)
+    log info $"Sending source to destination system."
+    ^nix copy --to ($eBuildHost) ($sourcePath)
   } catch {
     log error $"Couldn't send derivation: exited with ($env.LAST_EXIT_CODE)"
+    log error $in
     exit $env.LAST_EXIT_CODE
   }
 
+  log info $"Preparing nix on destination system."
+
+  let nixExec = nix eval $"($sourcePath)#packages.($hostInfo.system).nix" --json | from json
+  log info $"Nix to be copied over: ($nixExec)"
+  nix copy --to $eBuildHost $nixExec --substitute-on-destination
 
   let buildCommand = [
-    nix build $"'($drvPath)^*'"
-    --print-out-paths
-    # --log-format internal-json
+      $"($nixExec)/bin/nix" build
+        $"'($sourcePath)#nixosConfigurations.($hostname).config.system.build.toplevel'"
+        --print-out-paths
+        --accept-flake-config
+        # --log-format internal-json
   ]
 
   let builtSystem = try {
@@ -283,7 +287,7 @@ export def "main deploy" [
   }
 
   if ($builtSystem == "") {
-    log error $"Built produced no output path!"
+    log error $"Build produced no output path!"
     exit 1
   }
   log debug $"Built: ($builtSystem)"
@@ -300,7 +304,7 @@ export def "main deploy" [
   # Escapes string into something SH understands.
   # We need several layers of escaping, so mistakes will be made if done by hand.
   # We also can emulate this behavior in code, but
-  def shescape []: string -> string { ^sh ...[ -c 'read -sr A; printf %q "$A"' ] }
+  def shescape []: string -> string { printf "%q" $in ] }
 
   let unstuckScript = "/nix/var/nix/profiles/system/bin/switch-to-configuration switch";
   let unstuckScriptStrapped = ([
@@ -337,12 +341,12 @@ export def "main deploy" [
     log error "sus"
   }
 
-  # try {
-  #   log info $"Trying to deactivate un-stucking brotherscript..."
-  #   remoteExecute --reconnect $hostInfo [ kill ($unstuckPid | into string) ]
-  # } catch {
-  #   log error $"Failed to disarm, brother will help us get unstuck in several seconds."
-  # }
+  try {
+    log info $"Trying to deactivate un-stucking brotherscript..."
+    remoteExecute --reconnect $hostInfo [ kill ($unstuckPid | into string) ]
+  } catch {
+    log error $"Failed to disarm, brother will help us get unstuck in several seconds."
+  }
 
   log info $"Activation successful, updating system profile"
   run-external ...(remoteExecute $hostInfo [ "nix-env" "-p" "/nix/var/nix/profiles/system" "--set" $"($builtSystem)" ])
