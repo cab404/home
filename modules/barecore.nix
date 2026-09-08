@@ -96,7 +96,7 @@
 
       environment.defaultPackages = (with pkgs; [
         # this section is a tribute to my PEP-8 hatred
-        curl htop git tmux  # why aren't those there by default?
+        busybox curl htop git tmux  # why aren't those there by default?
         killall usbutils pciutils zip unzip # WHY AREN'T THOSE THERE BY DEFAULT?
         nmap arp-scan rsync
         waypipe # way to ssh -X, but wayland
