@@ -1,16 +1,8 @@
-args@{ pkgs, config, inputs, prelude, ... }:
-with prelude; let __findFile = prelude.__findFile; in
+{ modulesPath, ... }:
 {
-
-  networking.interfaces.ens2.ipv6.addresses = [
-    { address = "2001:bc8:1820:1943::1"; prefixLength = 64; }
-  ];
-
-  networking.interfaces.ens2.ipv6.routes = [
-    { address = "::"; via = "2001:bc8:1820:1943::"; prefixLength = 0; }
-  ];
-
-  imports = [
-    <modules/scaleway>
-  ];
+  imports = [ (modulesPath + "/profiles/qemu-guest.nix") ./networking.nix ];
+  boot.loader.grub.device = "/dev/sda";
+  boot.initrd.availableKernelModules = [ "ata_piix" "uhci_hcd" "xen_blkfront" "vmw_pvscsi" ];
+  boot.initrd.kernelModules = [ "nvme" ];
+  fileSystems."/" = { device = "/dev/sda1"; fsType = "ext4"; };
 }
