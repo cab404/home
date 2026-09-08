@@ -73,7 +73,7 @@ with prelude; let __findFile = prelude.__findFile; in
     virtualHosts = {
       "gtch.cab.moe" = {
         extraConfig = ''
-          reverse_proxy 10.0.10.2:8011
+          reverse_proxy c1:8011
         '';
       };
       "eris.cab.moe" = {
@@ -88,12 +88,12 @@ with prelude; let __findFile = prelude.__findFile; in
       };
       "immich.cab.moe" = {
         extraConfig = ''
-          reverse_proxy 10.0.10.2:2283
+          reverse_proxy c1:2283
         '';
       };
       "paperless.cab.moe" = {
         extraConfig = ''
-          reverse_proxy 10.0.10.2:8000
+          reverse_proxy c1:8000
         '';
       };
       "static.cab.moe" = {
