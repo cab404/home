@@ -59,6 +59,8 @@ let inherit (prelude) on enableThings; in {
         qpwgraph
         pavucontrol
         qrencode
+        zbar
+        gptfdisk
 
 
         # Command line comfort
