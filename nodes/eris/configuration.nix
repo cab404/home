@@ -27,10 +27,11 @@
     <modules/recipes/alvr.nix>
     <modules/recipes/amdgpu-tb.nix>
     <modules/recipes/gamescope.nix>
-
+    ./nfs.nix
   ];
 
   environment.enableDebugInfo = true;
+  boot.initrd.systemd.emergencyAccess = true;
 
   # the keyboard got weird
   services.xserver.xkb = {
