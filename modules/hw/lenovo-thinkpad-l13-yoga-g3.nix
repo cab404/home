@@ -110,6 +110,13 @@ with prelude; let __findFile = prelude.__findFile; in
     inputs.nixos-hw.nixosModules.lenovo-thinkpad-l13-yoga
   ];
 
+  # Disable the fucking clitoris
+  environment.etc."libinput/local-overrides.quirks".text = ''
+    [Disable TrackPoint motion]
+    MatchUdevType=pointingstick
+    AttrEventCode=-REL_X;-REL_Y
+  '';
+
   hardware.sensor.iio.enable = true;
   services.fprintd = on;
   services.acpid.enable = true;
