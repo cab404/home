@@ -4,9 +4,9 @@ with prelude; let __findFile = prelude.__findFile; in
 
   imports = [
     # <modules/recipes/nvidia-tb.nix>
-    #     <modules/recipes/alvr.nix>
-    <modules/hw/framework-intel12.nix>
-    #     <modules/hw/lenovo-thinkpad-l13-yoga-g3.nix>
+    # <modules/recipes/alvr.nix>
+    # <modules/hw/framework-intel12.nix>
+    # <modules/hw/lenovo-thinkpad-l13-yoga-g3.nix>
     # inputs.nixos-hw.nixosModules.dell-xps-15-9560-nvidia
     ./hibernate.nix
   ];
@@ -17,6 +17,10 @@ with prelude; let __findFile = prelude.__findFile; in
   environment.systemPackages = [
     pkgs.clinfo
   ];
+
+  services.hardware.openrgb.enable = true;
+  hardware.cpu.intel.updateMicrocode = false;
+  hardware.cpu.amd.updateMicrocode = true;
 
   hardware.graphics = on // {
     # driSupport = true;
