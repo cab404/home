@@ -129,6 +129,7 @@ with prelude; let __findFile = prelude.__findFile; in
     "splash"
     "mitigations=off"
 
+    # Enable when doing injections
     "iwlwifi.amsdu_size=3"
 
     # --- i915 power saving (Tiger Lake / i5-1145G7) ---
