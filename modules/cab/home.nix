@@ -29,7 +29,7 @@ let inherit (prelude) on enableThings; in {
 
         # Coding
         nil
-        ghc
+        # ghc
         sbcl
         jdk17
         nim
