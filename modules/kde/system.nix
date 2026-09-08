@@ -83,6 +83,7 @@
   };
 
   services.desktopManager.plasma6 = on;
+  environment.plasma6.excludePackages = [ pkgs.kdePackages.kwin-x11 ];
   services.displayManager = on // {
     sddm = on // {
       wayland = on;
