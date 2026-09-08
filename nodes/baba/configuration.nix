@@ -51,26 +51,6 @@
 
   networking.hostName = "baba";
 
-  # boot.kernelPackages = with pkgs; let tune = "alderlake"; in (linuxKernel.packagesFor (linux_latest.override ({
-  #   stdenv = stdenvAdapters.addAttrsToDerivation {
-  #     env.KCPPFLAGS = "-march=${tune} -O3";
-  #     env.KCFLAGS = "-march=${tune} -O3";
-  #   } stdenv;
-  # })));
-  # boot.kernelPackages = with pkgs; let tune = "alderlake"; in (linuxKernel.packagesFor (linux_latest.override ({
-  #   stdenv = stdenvAdapters.addAttrsToDerivation {
-  #     env.KCPPFLAGS = "-march=${tune} -O2";
-  #     env.KCFLAGS = "-march=${tune} -O2";
-  #   } stdenv;
-  # })));
-  # boot.kernelPackages = with pkgs; let tune = "alderlake"; in (linuxKernel.packagesFor (linux_latest.override ({
-  #   stdenv = stdenvAdapters.addAttrsToDerivation {
-  #     env.KCPPFLAGS = "-march=${tune} -mtune=${tune}";
-  #     env.KCFLAGS = "-march=${tune} -mtune=${tune}";
-  #   } stdenv;
-  # })));
-  boot.kernelPackages = pkgs.linuxPackages_6_18;
-
   _.user = "cab";
   i18n.defaultLocale = "C.UTF-8";
   home-manager.users.cab = { imports = [ ./home.nix ]; };
