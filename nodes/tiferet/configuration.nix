@@ -2,7 +2,6 @@ args@{ pkgs, config, inputs, prelude, ... }:
 with prelude; let __findFile = prelude.__findFile; in
 {
 
-  system.stateVersion = "26.05";
   imports =
     [
       <modules/recipes/ssh.nix>

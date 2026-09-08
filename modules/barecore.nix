@@ -2,6 +2,8 @@
 
 { config, pkgs, lib, prelude, ... }: with prelude; let __findFile = prelude.__findFile; in {
 
+  system.stateVersion = "26.05";
+
   # ====== NixOS system-level stuff
   require = [ ./options.nix ];
 

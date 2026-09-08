@@ -1,6 +1,5 @@
 { inputs, prelude, lib, config, pkgs, ... }: with prelude; let __findFile = prelude.__findFile; in { # %%MODULE_HEADER%%
 
-  system.stateVersion = "26.05";
   imports =
     [
       <modules/recipes/ssh.nix>

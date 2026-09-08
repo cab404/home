@@ -7,7 +7,6 @@ with prelude; let __findFile = prelude.__findFile; in
 
 {
 
-  system.stateVersion = "25.05"; # Did you read the comment?
   imports =
     [
       # Include the results of the hardware scan.
