@@ -70,22 +70,6 @@ with import ../../lib.nix args;
         };
       };
 
-      # Fuzzy file search (Ctrl-T for files; Alt-C for dirs)
-      fzf =
-        let
-          # locate doesn't search at home, and that would be insecure.
-          # so yeah
-          ultimacate = pkgs.writeScript "l" ''
-            #!/usr/bin/env bash
-            locate $PWD
-          '';
-        in
-        {
-          enableZshIntegration = true;
-          enableBashIntegration = true;
-          fileWidgetCommand = toString ultimacate;
-        };
-
       helix = on // {
         settings = {
           theme = "base16-transparent";
