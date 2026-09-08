@@ -4,6 +4,6 @@
     configFile = "/secrets/keter.conf";
   };
   boot.kernelModules = [ "amneziawg" ];
-  networking.firewall.allowedUDPPorts = [ 63333 ];
+  networking.firewall.allowedUDPPorts = [ 63333 444 ];
   environment.defaultPackages = [ pkgs.amneziawg-tools ];
 }
