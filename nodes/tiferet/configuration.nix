@@ -64,7 +64,7 @@ with prelude; let __findFile = prelude.__findFile; in
     };
     environmentFile = "/secrets/caddy.env";
     globalConfig = ''
-      email acme+c1@cab.moe
+      email acme+tiferet@cab.moe
       acme_dns porkbun {
         api_key {$PB_API_KEY}
         api_secret_key {$PB_API_SECRET}
