@@ -90,7 +90,14 @@
     # constant disconnects and weird internets are the reason i use nm.
     # it's really versatile, and aims to just get the client to the internet no matter what
     # and that's what I want with this machine
-    networkmanager = on;
+    networkmanager = on // {
+      plugins = with pkgs; [
+        networkmanager-iodine
+        # networkmanager-l2tp
+        # networkmanager-strongswan
+        # networkmanager-openvpn
+      ];
+    };
   };
 
   nix.settings.system-features = [ "gccarch-alderlake" "benchmark" "big-parallel" "kvm" "nixos-test" ];
