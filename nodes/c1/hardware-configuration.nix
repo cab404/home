@@ -6,11 +6,13 @@ with prelude; let __findFile = prelude.__findFile; in
     <modules/recipes/watchdog.nix>
   ];
 
-  services.logind.powerKey = "ignore";
-  services.logind.powerKeyLongPress = "reboot";
+  services.logind.settings.Login.HandlePowerKey = "ignore";
+  services.logind.settings.Login.HandlePowerKeyLongPress = "reboot";
 
   hardware.enableRedistributableFirmware = true;
   hardware.cpu.amd.updateMicrocode = true;
+
+  nixpkgs.config.rocmSupport = true;
 
   # too old!
   # services.xserver.videoDrivers = [ "amdgpu" ];
@@ -20,9 +22,8 @@ with prelude; let __findFile = prelude.__findFile; in
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-amd" ];
   boot.kernelParams = [
-    "kernel.panic=0"
+    "kernel.panic=1"
     "idle=nomwait"
-    "initcall_blacklist=acpi_cpufreq_init"
     "amd_pstate=passive"
     "amd_prefcore=enable"
   ];
@@ -38,6 +39,7 @@ with prelude; let __findFile = prelude.__findFile; in
     {
       device = "/dev/disk/by-uuid/F9BA-2B68";
       fsType = "vfat";
+      options = [ "fmask=0077" "dmask=0077" "defaults" ];
     };
 
   swapDevices = [{
