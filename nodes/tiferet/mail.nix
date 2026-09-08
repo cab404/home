@@ -7,7 +7,7 @@ in {
     script = ''
       {
       ${with lib; let
-          mailAccounts = config.mailserver.loginAccounts;
+          mailAccounts = config.mailserver.accounts;
         in concatStrings (flip mapAttrsToList mailAccounts (mail: user:
         ''
           echo -n ${mail}:
@@ -38,7 +38,7 @@ in {
 
 
   imports = [
-    inputs.snm.nixosModule
+    inputs.snm.nixosModules.default
   ];
 
   services.caddy = on // {
@@ -66,7 +66,7 @@ in {
 
   mailserver = on // {
 
-    stateVersion = 3;
+    stateVersion = 5;
     inherit fqdn;
     domains = [ fqdn "cab404.ru" ];
     x509 = {
@@ -84,7 +84,7 @@ in {
     # Well, let's move to a newer hierarchy separator
     hierarchySeparator = "/";
 
-    loginAccounts = {
+    accounts = {
       "cab@${fqdn}" = {
         aliases = [
           "me"
