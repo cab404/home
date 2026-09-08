@@ -8,7 +8,7 @@
   config = {
     home-manager.useUserPackages = true;
     home-manager.useGlobalPkgs = true;
-    # home-manager.backupFileExtension = "bck";
+    home-manager.backupFileExtension = "bck";
     home-manager.extraSpecialArgs = {
       inherit inputs prelude P;
       sysconfig = config;
