@@ -4,19 +4,18 @@ with prelude; let __findFile = prelude.__findFile; in
 
   imports =
     [
+      <modules/barecore.nix>
+      <modules/home-manager>
+
       <modules/recipes/ssh.nix>
       <modules/recipes/ssh-persist.nix>
       <modules/recipes/substituters.nix>
       <modules/recipes/tailscale.nix>
-      <modules/barecore.nix>
-      <modules/home-manager>
       <modules/recipes/podman.nix>
+      <modules/recipes/caddy.nix>
 
       ./mail.nix
-      ./heisenbridge.nix
       ./tailscale.nix
-
-      # inputs.gtch.nixosModules.default
     ];
 
   services.journald.extraConfig = ''
@@ -53,11 +52,7 @@ with prelude; let __findFile = prelude.__findFile; in
   # boot.kernel.sysctl."net.ipv4.ip_forward" = 1;
   # boot.kernel.sysctl."net.ipv6.conf.all.forwarding" = 1;
 
-  services.caddy = on // {
-    package = pkgs.caddy.withPlugins {
-      plugins = [ "github.com/caddy-dns/porkbun@v0.3.1" ];
-      hash = "sha256-pt4jyNcfacZKxzRH7zW7l2/+YfmVKWxGD4JTyWpvD1E=";
-    };
+  services.caddy = {
     environmentFile = "/secrets/caddy.env";
     globalConfig = ''
       email acme+tiferet@cab.moe
