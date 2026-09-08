@@ -28,6 +28,10 @@ with import ../lib.nix args; {
         SUBSYSTEM=="usb", ATTR{idVendor}=="2e8a", ATTR{idProduct}=="fedd", MODE="666"
 
         SUBSYSTEM=="usb", ACTION=="add", ENV{DEVTYPE}=="usb_device", ATTRS{idVendor}=="04b5", ATTRS{idProduct}=="6021", TAG+="uaccess", TAG+="udev-acl", GROUP="dialout"
+
+        # Goldleaf
+        SUBSYSTEM=="usb", ATTRS{idVendor}=="057e", ATTRS{idProduct}=="3000", MODE="0666"
+
       '')
       ledger-udev-rules
     ];
