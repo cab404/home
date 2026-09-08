@@ -13,7 +13,9 @@
       "helix.cachix.org-1:ejp9KQpR1FBI2onstMQ34yogDm4OgU2ru6lIwPvuCVs="
       "nixos-raspberrypi.cachix.org-1:4iMO9LXa8BqhU+Rpg6LQKiGa2lsNh/j2oiYLNOQ5sPI="
     ];
-    experimental-features = [ "nix-command" "flakes" "pipe-operators" "ca-derivations" ];
+    # ca-derivations crash nix for whatever reason on most systems I have.
+    # IG something-something db needs migration?
+    experimental-features = [ "nix-command" "flakes" "pipe-operators" ];
   };
 
   inputs = {
