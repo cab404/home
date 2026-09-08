@@ -104,6 +104,7 @@
 
     in
     {
+      source = ./.;
 
       nixosConfigurations =
         (builtins.mapAttrs (_: node) nodes) //
