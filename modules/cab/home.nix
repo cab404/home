@@ -133,6 +133,7 @@ let inherit (prelude) on enableThings; in {
         hcxdumptool
         hcxtools
         sshfs
+        bintools
 
         # KDE Connect only passes thru user profile
         # systemd
