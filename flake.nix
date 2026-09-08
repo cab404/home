@@ -39,7 +39,7 @@
     # plymouth-is-underrated.url = "/home/cab/data/cab/plymouth-is-underrated";
     plymouth-is-underrated.flake = false;
 
-    swaycwd.url = "sourcehut:~cab/swaycwd";
+    # swaycwd.url = "sourcehut:~cab/swaycwd";
 
   };
 
