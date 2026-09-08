@@ -2,7 +2,18 @@
 
   require = [ ./desktop.nix ];
 
-  fonts.fontconfig.enable = true;
+  # pretty much all screens I have are 200DPI+
+  fonts.fontconfig = {
+    enable = true;
+    subpixel = {
+      rgba = "none";
+      lcdfilter = "none";
+    };
+    hinting = {
+      enable = false;
+    };
+    antialias = false;
+  };
   # services = {
 
   #   xserver = {
