@@ -10,7 +10,6 @@
       <modules/recipes/podman.nix>
       <modules/core.nix>
       <modules/home-manager>
-      <modules/awg>
     ];
 
   # Use the systemd-boot EFI boot loader.
@@ -20,9 +19,9 @@
   systemd.services."NetworkManager-wait-online".wantedBy = lib.mkForce [];
 
   # redirect tailscale server traffic through localhost
-  networking.hosts = {
-    "10.0.10.1" = [ "hs.cab.moe" ];
-  };
+  # networking.hosts = {
+  #   "10.0.10.1" = [ "hs.cab.moe" ];
+  # };
 
   services.resolved = {
     enable = true;
@@ -47,8 +46,8 @@
                            IN     NS    localhost.
 
         localhost       A   127.0.0.1
-        hs.cab.moe      A   192.168.1.76
       '';
+        # hs.cab.moe      A   192.168.1.76
     };
     extraOptions = ''
       response-policy { zone "rpz"; };
@@ -85,7 +84,7 @@
     firewall = on // {
       allowedTCPPorts = [ 80 443 7000 ];
       allowedUDPPorts = [ 53 41641 42232 61111 ];
-      trustedInterfaces = [ "tailscale0" "keter" ];
+      trustedInterfaces = [ "tailscale0" ];
     };
     # constant disconnects and weird internets are the reason i use nm.
     # it's really versatile, and aims to just get the client to the internet no matter what
@@ -121,12 +120,13 @@
         '';
       };
       # Retranslation from main instance through AWG.
-      "hs.cab.moe" = {
-        extraConfig = ''
-          reverse_proxy 10.0.10.1:8080
-        '';
-      };
+      # "hs.cab.moe" = {
+      #   extraConfig = ''
+      #     reverse_proxy 10.0.10.1:8080
+      #   '';
+      # };
     };
+
   };
 
   services.tor = {

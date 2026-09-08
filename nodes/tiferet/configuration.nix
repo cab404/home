@@ -5,8 +5,6 @@ with prelude; let __findFile = prelude.__findFile; in
   system.stateVersion = "26.05";
   imports =
     [
-      (import <modules/keter/wgbond.nix>).defaults
-      (import <modules/keter/wgbond.nix>).tiferet
       <modules/recipes/ssh.nix>
       <modules/recipes/ssh-persist.nix>
       <modules/recipes/substituters.nix>
@@ -14,7 +12,6 @@ with prelude; let __findFile = prelude.__findFile; in
       <modules/barecore.nix>
       <modules/home-manager>
       <modules/recipes/podman.nix>
-      <modules/awg>
 
       ./mail.nix
       ./heisenbridge.nix
@@ -137,7 +134,7 @@ with prelude; let __findFile = prelude.__findFile; in
     firewall = on // {
       allowedTCPPorts = [ 80 443 ];
       allowedUDPPorts = [ 53 41641 42232 61111 ];
-      trustedInterfaces = [ "tailscale0" "keter" ];
+      trustedInterfaces = [ "tailscale0" ];
     };
     nat = {
       enable = true;

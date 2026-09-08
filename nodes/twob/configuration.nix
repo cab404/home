@@ -9,7 +9,6 @@
     <modules/core.nix>
     <modules/home-manager>
     <modules/recipes/podman.nix>
-    <modules/awg>
   ];
 
   _.user = "cab";

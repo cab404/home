@@ -20,7 +20,6 @@
     <modules/recipes/oculus.nix>
     <modules/recipes/btkill.nix>
     <modules/recipes/splash.nix>
-    <modules/awg>
     <modules/recipes/tailscale.nix>
     # <modules/recipes/sunshine.nix>
   ];
