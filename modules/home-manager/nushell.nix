@@ -40,7 +40,7 @@ in
         |> concatStringsSep "\n"
       }
 
-      def mcd ( p: path = ./. ) {
+      def mcd --env ( p: path = ./. ) {
         mkdir -v $p; cd $p;
       }
 
