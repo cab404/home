@@ -52,6 +52,8 @@
     };
   };
 
+  services.inputplumber.enable = true;
+
   services.resolved = {
     enable = true;
     settings.Resolve.FallbackDNS = [
