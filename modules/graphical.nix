@@ -4,6 +4,8 @@
 
   # pretty much all screens I have are 200DPI+
   fonts.fontconfig = {
+    allowBitmaps = false;
+
     enable = true;
     subpixel = {
       rgba = "none";
