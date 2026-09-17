@@ -11,6 +11,9 @@
   environment.homeBinInPath = true; # ..?
 
   environment.defaultPackages = (with pkgs; [
+
+    libsForQt5.qtstyleplugins
+
     wl-clipboard
     wayland-utils
     mesa-demos
