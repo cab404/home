@@ -116,22 +116,23 @@
           installer = buildSystem "default" "x86_64-linux" [
             (nixpkgs + (toString /nixos/modules/installer/cd-dvd/installation-cd-base.nix))
             ./modules/home-manager
-            # ./modules/sway/system.nix
+            ./modules/sway/system.nix
             ./modules/core.nix
             ({ config, lib, pkgs, ... }: {
               _.user = "nixos";
+
               networking.networkmanager.enable = true;
 
-              boot.kernelPackages = lib.mkForce pkgs.linuxPackages;
+              boot.kernelPackages = lib.mkForce pkgs.linuxPackages_latest;
 
               environment.systemPackages = [
-                config.boot.kernelPackages.chipsec
+                # config.boot.kernelPackages.chipsec
               ];
               boot.extraModulePackages = with config.boot.kernelPackages; [
-                chipsec
+                # chipsec
               ];
               home-manager.users.${config._.user}.imports = [
-                # ./modules/sway/core.nix
+                ./modules/sway/core.nix
               ];
             })
           ];
