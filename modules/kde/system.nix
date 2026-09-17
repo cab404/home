@@ -82,6 +82,16 @@
     openFirewall = true;
   };
 
+  xdg.portal.enable = true;
+  xdg.portal.config = {
+      common = {
+          default = [
+              "kde"
+          ];
+          "org.freedesktop.impl.portal.Settings" = "kde;gnome";
+      };
+  };
+
   services.desktopManager.plasma6 = on;
   environment.plasma6.excludePackages = [ pkgs.kdePackages.kwin-x11 ];
   services.displayManager = on // {
