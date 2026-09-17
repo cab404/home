@@ -7,47 +7,33 @@
 
   imports = [
     ../graphical.nix
-    ../gnome-services.nix
   ];
 
-  # require = [
-  #   # ../desktop.nix
-  # ];
+  fonts = {
+    enableDefaultFonts = true;
 
-  # users.users.${config._.user}.extraGroups = [ "input" ];
+    fontconfig = on // {
+      defaultFonts = {
+        monospace = ["Fira Mono"];
+      };
+    };
 
-  # fonts = {
-  #   enableDefaultFonts = true;
+    fonts = with pkgs; [
+      source-code-pro noto-fonts
+      roboto fira-code fira
+      font-awesome
+      orbitron
+    ];
 
-  #   # fontconfig = on // {
-  #   #   defaultFonts = {
-  #   #     monospace = ["Fira Mono"];
-  #   #   };
-  #   # };
-
-  #   fonts = with pkgs; [
-  #     source-code-pro noto-fonts
-  #     roboto fira-code fira
-  #     font-awesome
-  #     orbitron
-  #   ];
-
-  # };
+  };
 
   services = {
-    # gvfs = on;
-    # gnome = {
-    #   glib-networking = on;
-    #   gnome-online-accounts = on;
-    #   gnome-online-miners = on;
-    #   sushi = on;
-    # };
 
     greetd = {
       enable = true;
       settings = {
         default_session = {
-          command = "${pkgs.greetd.greetd}/bin/agreety --cmd 'dbus-launch sway'";
+          command = "${pkgs.greetd}/bin/agreety --cmd 'dbus-launch sway'";
         };
       };
     };
@@ -68,7 +54,7 @@
      wlr = on // {
        settings.screencast = {
          chooser_type = "dmenu";
-         chooser_cmd = "${pkgs.rofi-wayland}/bin/rofi -dmenu";
+         chooser_cmd = "${pkgs.rofi}/bin/rofi -dmenu";
          max_fps = 30;
        };
      };

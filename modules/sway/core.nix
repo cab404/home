@@ -10,9 +10,9 @@ with prelude; let __findFile = prelude.__findFile; in {
 
     packages = with pkgs; [
       wl-clipboard
-      rofi-wayland
+      rofi
       flameshot
-      inputs.swaycwd.packages.${pkgs.system}.default
+      swaycwd
       ydotool
       copyq
       xdg-utils
