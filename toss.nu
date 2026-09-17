@@ -304,7 +304,7 @@ export def "main deploy" [
   # Escapes string into something SH understands.
   # We need several layers of escaping, so mistakes will be made if done by hand.
   # We also can emulate this behavior in code, but
-  def shescape []: string -> string { printf "%q" $in ] }
+  def shescape []: string -> string { printf "%q" $in }
 
   let unstuckScript = "/nix/var/nix/profiles/system/bin/switch-to-configuration switch";
   let unstuckScriptStrapped = ([
