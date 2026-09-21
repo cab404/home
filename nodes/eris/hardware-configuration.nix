@@ -17,15 +17,6 @@ with prelude; let __findFile = prelude.__findFile; in
   # --- Suspend / Hibernate fixes ---
 
   # Let systemd know which sleep states to use
-  systemd.sleep.settings.Sleep = {
-    AllowSuspend="yes";
-    AllowHibernation="yes";
-    AllowSuspendThenHibernate="yes";
-    AllowHybridSleep="yes";
-    SuspendState="mem";
-    HibernateState="disk";
-    HibernateMode="shutdown";
-  };
 
   # OpenCL stuff
   environment.systemPackages = [
@@ -64,7 +55,7 @@ with prelude; let __findFile = prelude.__findFile; in
     "vm.dirty_background_ratio" = 5;
     "vm.dirty_writeback_centisecs" = 6000;
     "vm.dirty_expire_centisecs" = 6000;
-    "vm.swappiness" = 5;
+    "vm.swappiness" = 0;
   };
 
   boot.initrd.availableKernelModules = [ "xhci_pci" "thunderbolt" "nvme" "usb_storage" "sd_mod" ];
@@ -86,6 +77,7 @@ with prelude; let __findFile = prelude.__findFile; in
   fileSystems."/" = {
     device = "/dev/disk/by-label/eris-root";
     fsType = "btrfs";
+    options = [ "noatime" "ssd" "discard=async" ];
   };
 
   fileSystems."/boot" = {

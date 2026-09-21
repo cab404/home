@@ -2,7 +2,7 @@
 
 { config, pkgs, lib, prelude, ... }: with prelude; let __findFile = prelude.__findFile; in {
 
-  system.stateVersion = "26.05";
+  system.stateVersion = "26.11";
 
   # ====== NixOS system-level stuff
   require = [ ./options.nix ];
@@ -57,7 +57,8 @@
     {
       services.xserver.xkb = {
         layout = "us,ru";
-        options = "ctrl:nocaps,lv3:ralt_switch_multikey,misc:typo,grp:rctrl_switch";
+        options = "ctrl:nocaps,misc:typo,grp:win_space_toggle,lv3:ralt_switch_multikey";
+        # options = "ctrl:nocaps,lv3:ralt_switch_multikey,misc:typo,grp:rctrl_switch";
       };
       console = {
         packages = [ pkgs.kbd ];

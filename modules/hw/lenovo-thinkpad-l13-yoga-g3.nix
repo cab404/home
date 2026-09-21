@@ -141,8 +141,7 @@ with prelude; let __findFile = prelude.__findFile; in
     "i915.enable_guc=3"            # GuC submission (1) + HuC auth (2) – offloads scheduling & enables power features
     "i915.disable_power_well=0"    # let the driver aggressively gate unused power wells
     "i915.enable_dpcd_backlight=1" # DPCD backlight control – more efficient on eDP panels
-
-    "vm.swappiness=5"
+    "vm.swappiness=1"
 
   ];
 

@@ -96,7 +96,6 @@ let inherit (prelude) on enableThings; in {
         zed-editor
         docker-compose
         # insomnia
-        remmina
         patchelf
 
         # Hardware?

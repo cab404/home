@@ -31,7 +31,7 @@ with prelude; let __findFile = prelude.__findFile; in
         "vm.dirty_background_ratio" = 5;
         "vm.dirty_writeback_centisecs" = 6000;
         "vm.dirty_expire_centisecs" = 6000;
-        "vm.swappiness" = 5;
+        "vm.swappiness" = 1;
     };
 
 }

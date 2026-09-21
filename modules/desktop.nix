@@ -112,7 +112,8 @@ with import ../lib.nix args; {
   fonts = {
     enableDefaultPackages = true;
     enableGhostscriptFonts = true;
-    fontconfig = on;
+
+    fontconfig = on // { allowBitmaps = false; };
     fontDir = on // { decompressFonts = true; };
   };
 
