@@ -36,13 +36,9 @@ with prelude; let __findFile = prelude.__findFile; in
   hardware.cpu.amd.updateMicrocode = true;
 
   hardware.graphics = on // {
-    # driSupport = true;
-    # driSupport32Bit = true;
     extraPackages = with pkgs; [
       rocmPackages.clr.icd
       amf
-      # nvidia-vaapi-driver
-      # intel-compute-runtime
       intel-media-driver
       vulkan-loader
       level-zero # oneapi loader
@@ -73,7 +69,7 @@ with prelude; let __findFile = prelude.__findFile; in
     "vm.dirty_background_ratio" = 5;
     "vm.dirty_writeback_centisecs" = 6000;
     "vm.dirty_expire_centisecs" = 6000;
-    "vm.swappiness" = 0;
+    "vm.swappiness" = 1;
   };
 
   boot.initrd.luks.devices = {
