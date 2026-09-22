@@ -10,6 +10,8 @@ with prelude; let __findFile = prelude.__findFile; in
     # <modules/hw/framework-intel12.nix>
     # <modules/hw/lenovo-thinkpad-l13-yoga-g3.nix>
     ./hibernate.nix
+    # ./wifi-suspend-fix.nix
+    # ./tb-suspend-fix.nix
   ];
 
   boot.initrd.systemd.enable = true;
@@ -17,18 +19,30 @@ with prelude; let __findFile = prelude.__findFile; in
   # --- Suspend / Hibernate fixes ---
 
   # OpenCL stuff
-  environment.systemPackages = [
-    pkgs.clinfo
+  environment.systemPackages = with pkgs; [
+    clinfo
+    amdgpu_top
+    memtest_vulkan
   ];
 
+  hardware.sensor.iio.enable = true;
+    services.fprintd = on;
+  # services.hardware.bolt = on;
   hardware.graphics = on // {
     extraPackages = with pkgs; [
-      # nvidia-vaapi-driver
+      amf
+      rocmPackages.clr.icd
       intel-compute-runtime
       intel-media-driver
       vulkan-loader
       level-zero # oneapi loader
     ];
+  };
+
+  nixpkgs.config.rocmSupport = true;
+  hardware.amdgpu = {
+    initrd.enable = true;
+    opencl.enable = true;
   };
 
   security.tpm2.enable = true;
@@ -53,7 +67,7 @@ with prelude; let __findFile = prelude.__findFile; in
     "vm.dirty_background_ratio" = 5;
     "vm.dirty_writeback_centisecs" = 6000;
     "vm.dirty_expire_centisecs" = 6000;
-    "vm.swappiness" = 0;
+    "vm.swappiness" = 1;
   };
 
   boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "thunderbolt" "usb_storage" "sd_mod" ];

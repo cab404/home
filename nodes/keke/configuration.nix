@@ -5,7 +5,6 @@
 
     <modules/cab/system.nix>
     <modules/kde/system.nix>
-    # <modules/sway/system.nix>
     <modules/home-manager>
 
     # usecase-specific
@@ -17,15 +16,10 @@
     <modules/recipes/nixld.nix>
     <modules/recipes/hwhack.nix>
     <modules/recipes/substituters.nix>
-    # <modules/recipes/oculus.nix>
-    <modules/recipes/btkill.nix>
+
+    # <modules/recipes/btkill.nix>
     <modules/recipes/splash.nix>
     <modules/recipes/docker.nix>
-
-    # <modules/recipes/nvidia-tb.nix>
-    <modules/recipes/alvr.nix>
-    <modules/recipes/amdgpu-tb.nix>
-    <modules/recipes/gamescope.nix>
   ];
 
   environment.enableDebugInfo = true;
@@ -37,7 +31,7 @@
     options = "ctrl:nocaps,misc:typo,grp:win_space_toggle,lv3:ralt_switch_multikey";
   };
 
-  services.hardware.bolt = on;
+  security.sudo.wheelNeedsPassword = false;
 
   # spacemouse!
   hardware.spacenavd = on;
